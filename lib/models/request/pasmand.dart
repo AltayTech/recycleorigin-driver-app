@@ -2,7 +2,7 @@ class Pasmand {
   final int id;
   final String post_title;
 
-  Pasmand({this.id, this.post_title});
+  Pasmand({required this.id, required this.post_title});
 
   factory Pasmand.fromJson(Map<String, dynamic> parsedJson) {
 

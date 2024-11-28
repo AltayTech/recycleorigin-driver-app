@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -17,7 +16,6 @@ import '../provider/auth.dart';
 import '../widgets/buton_bottom.dart';
 import '../widgets/custom_dialog_enter.dart';
 import '../widgets/custom_dialog_profile.dart';
-import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/main_drawer.dart';
 import 'navigation_bottom_screen.dart';
 
@@ -38,7 +36,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
   double totalWeight = 0.0;
   List<Collect> loadedCollect = [];
 
-  RequestWaste requestWaste;
+  late RequestWaste requestWaste;
 
   void _showLogindialog() {
     showDialog(
@@ -47,6 +45,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         title: 'ورود',
         buttonText: 'صفحه ورود ',
         description: 'برای ادامه باید وارد شوید',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -58,6 +58,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         title: 'اطلاعات کاربری',
         buttonText: 'صفحه پروفایل ',
         description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -69,6 +71,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         title: '',
         buttonText: 'خب',
         description: 'درخواست شما با موفقیت ثبت شد',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -151,8 +155,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //    return price;
 //  }
 
-  AnimationController _totalPriceController;
-  Animation<double> _totalPriceAnimation;
+  late AnimationController _totalPriceController;
+  late Animation<double> _totalPriceAnimation;
 
   @override
   initState() {
@@ -299,14 +303,12 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                     child: Column(
                       children: <Widget>[
                         HeaderTotal(
-                          totalNumber: loadedCollect
-                              .length,
+                          totalNumber: loadedCollect.length,
                           totalPrice: totalPrice,
                           totalWeight: totalWeight,
                           totalPriceController: _totalPriceController,
                           totalPriceAnimation: _totalPriceAnimation,
                         ),
-                        
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Consumer<Deliveries>(
@@ -393,7 +395,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                 : Container(
                                     height: deviceHeight * 0.5,
                                     child: Center(
-                                      child: Text('پسماندی برای تحویل وجود ندارد'),
+                                      child:
+                                          Text('پسماندی برای تحویل وجود ندارد'),
                                     ),
                                   ),
                           ),
@@ -439,7 +442,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                 ),
                               );
                               if (loadedCollect.isEmpty) {
-                                Scaffold.of(context)
+                                ScaffoldMessenger.of(context)
                                     .showSnackBar(addToCartSnackBar);
                               } else if (!isLogin) {
                                 _showLogindialog();
@@ -459,7 +462,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //                                  ),
 //                                );
 //                                _showSenddialog();
-
                               }
                             },
                             child: ButtonBottom(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -38,7 +37,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
   int totalPricePure = 0;
   List<Collect> loadedCollect = [];
 
-  RequestWaste requestWaste;
+  late RequestWaste requestWaste;
 
   void _showLogindialog() {
     showDialog(
@@ -47,6 +46,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
         title: 'ورود',
         buttonText: 'صفحه ورود ',
         description: 'برای ادامه باید وارد شوید',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -58,6 +59,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
         title: 'اطلاعات کاربری',
         buttonText: 'صفحه پروفایل ',
         description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -69,6 +72,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
         title: '',
         buttonText: 'خب',
         description: 'درخواست شما با موفقیت ثبت شد',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -150,8 +155,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 //    return price;
 //  }
 
-  AnimationController _totalPriceController;
-  Animation<double> _totalPriceAnimation;
+  late AnimationController _totalPriceController;
+  late Animation<double> _totalPriceAnimation;
 
   @override
   initState() {
@@ -353,8 +358,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                       ),
                                       AnimatedBuilder(
                                         animation: _totalPriceAnimation,
-                                        builder: (BuildContext context,
-                                            Widget child) {
+                                        builder: ( context,
+                                             child) {
                                           return new Text(
                                             totalPrice.toString().isNotEmpty
                                                 ? EnArConvertor()
@@ -556,7 +561,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                 ),
                               );
                               if (loadedCollect.isEmpty) {
-                                Scaffold.of(context)
+                                ScaffoldMessenger.of(context)
                                     .showSnackBar(addToCartSnackBar);
                               } else if (!isLogin) {
                                 _showLogindialog();
@@ -576,7 +581,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 //                                  ),
 //                                );
 //                                _showSenddialog();
-
                               }
                             },
                             child: ButtonBottom(

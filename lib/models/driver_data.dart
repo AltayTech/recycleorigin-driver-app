@@ -13,16 +13,16 @@ class DriverData with ChangeNotifier {
   final String email;
 
   DriverData({
-    this.driver_image,
-    this.phone,
-    this.fname,
-    this.lname,
-    this.email,
-    this.ostan,
-    this.city,
-    this.mobile,
-    this.address,
-    this.postcode,
+    required this.driver_image,
+    required this.phone,
+    required this.fname,
+    required this.lname,
+    required this.email,
+    required this.ostan,
+    required this.city,
+    required this.mobile,
+    required this.address,
+    required this.postcode,
   });
 
   factory DriverData.fromJson(Map<String, dynamic> parsedJson) {

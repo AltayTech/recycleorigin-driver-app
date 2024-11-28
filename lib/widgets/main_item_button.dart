@@ -3,14 +3,13 @@ import 'package:tamizshahrdriver/provider/app_theme.dart';
 
 class MainItemButton extends StatelessWidget {
   const MainItemButton({
-    Key key,
-    @required this.title,
-    @required this.itemPaddingF,
+    required this.title,
+    required this.itemPaddingF,
     this.imageSizeFactor = 0.35,
     this.isMonoColor = true,
-    this.selectedItem,
-    this.icon,
-  }) : super(key: key);
+    required this.selectedItem,
+    required this.icon,
+  }) ;
 
   final String title;
   final double itemPaddingF;

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -12,7 +11,7 @@ class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;
 
   CollectDetailsCollectItem({
-    this.collectItem,
+    required this.collectItem,
   });
 
   @override
@@ -106,8 +105,9 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               ),
                               Text(
                                 EnArConvertor()
-                                    .replaceArNumber(
-                                        widget.collectItem.estimated_weight.toString())
+                                    .replaceArNumber(widget
+                                        .collectItem.estimated_weight
+                                        .toString())
                                     .toString(),
                                 style: TextStyle(
                                   color: AppTheme.black,
@@ -144,8 +144,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           Text(
                             widget.collectItem.estimated_price.length != null
                                 ? EnArConvertor().replaceArNumber(currencyFormat
-                                    .format(
-                                        double.parse(widget.collectItem.estimated_price))
+                                    .format(double.parse(
+                                        widget.collectItem.estimated_price))
                                     .toString())
                                 : EnArConvertor().replaceArNumber('0'),
                             style: TextStyle(
@@ -174,8 +174,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           Text(
                             widget.collectItem.estimated_price != null
                                 ? EnArConvertor().replaceArNumber(
-                                    currencyFormat.format(
-                                        double.parse(widget.collectItem.estimated_price)))
+                                    currencyFormat.format(double.parse(
+                                        widget.collectItem.estimated_price)))
                                 : EnArConvertor().replaceArNumber('0'),
                             style: TextStyle(
                               color: AppTheme.black,

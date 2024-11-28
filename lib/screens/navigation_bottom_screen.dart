@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import '../classes/strings.dart';
@@ -17,7 +15,7 @@ class NavigationBottomScreen extends StatefulWidget {
 
 class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     with SingleTickerProviderStateMixin {
-  bool isLogin;
+  late bool isLogin;
   int _selectedPageIndex = 0;
 
   void selectBNBItem(int index) {
@@ -60,8 +58,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     );
   }
 
-  Future<bool> _onBackPressed() {
-    return showDialog(
+  Future<bool> _onBackPressed() async{
+    return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
             contentTextStyle: TextStyle(
@@ -146,7 +144,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             ),
             child: MainDrawer(),
           ),
-          body: _pages[_selectedPageIndex]['page'],
+          body: _pages[_selectedPageIndex]['page'] as Widget,
 //          bottomNavigationBar: BottomNavigationBar(
 //            elevation: 8,
 //            selectedLabelStyle: TextStyle(

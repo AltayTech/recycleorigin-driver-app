@@ -12,8 +12,8 @@ class CustomDialogSendDelivery extends StatefulWidget {
   final Function function;
 
   CustomDialogSendDelivery({
-    @required this.totalWallet,
-    @required this.function,
+    required this.totalWallet,
+    required this.function,
   });
 
   @override
@@ -25,7 +25,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
   var storeValue;
   List<String> storeValueList = [];
   List<Pasmand> storeList = [];
-  Pasmand selectedStore;
+  late Pasmand selectedStore;
 
   @override
   void didChangeDependencies() {
@@ -139,7 +139,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                             setState(() {
                               storeValue = newValue;
                               selectedStore = storeList[
-                                  storeValueList.lastIndexOf(newValue)];
+                                  storeValueList.lastIndexOf(newValue!)];
                             });
                           },
                           items: storeValueList
@@ -176,16 +176,14 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                       borderRadius: BorderRadius.circular(10),
                       child: InkWell(
                         onTap: () {
-                          if (selectedStore!=null) {
-                            widget.function(selectedStore.id);
-                            Navigator.pop(context);
-                          }
+                          widget.function(selectedStore.id);
+                          Navigator.pop(context);
                         },
                         child: Container(
                           height: constraints.maxHeight * 0.06,
                           width: constraints.maxWidth * 0.8,
                           decoration: BoxDecoration(
-                            color: selectedStore!=null
+                            color: selectedStore != null
                                 ? AppTheme.primary
                                 : Colors.grey,
                           ),

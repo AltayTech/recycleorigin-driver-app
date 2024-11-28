@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tamizshahrdriver/models/personal_data.dart';
+import 'package:tamizshahrdriver/models/status.dart';
 
 import '../../provider/app_theme.dart';
 import '../../models/customer.dart';
@@ -8,9 +9,8 @@ import '../../widgets/main_drawer.dart';
 
 class CustomerUserInfoScreen extends StatefulWidget {
   static const routeName = '/customer_user_info_screen';
-  final Customer customer;
 
-  CustomerUserInfoScreen({this.customer});
+  CustomerUserInfoScreen();
 
   @override
   _CustomerUserInfoScreenState createState() => _CustomerUserInfoScreenState();
@@ -35,7 +35,23 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         child: MainDrawer(),
       ), // resizeToAvoidBottomInset: false,
       body: Directionality(
-          textDirection: TextDirection.rtl, child: CustomerDetailInfoScreen()),
+          textDirection: TextDirection.rtl,
+          child: CustomerDetailInfoScreen(
+            customer: Customer(
+                id: 0,
+                status: Status(
+                  term_id: 0,
+                  slug: '',
+                  name: '',
+                ),
+                type: Status(
+                  term_id: 0,
+                  slug: '',
+                  name: '',
+                ),
+                personalData: PersonalData(
+                    phone: '', first_name: '', last_name: '', addresses: [])),
+          )),
     );
   }
 }

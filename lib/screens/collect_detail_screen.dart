@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:tamizshahrdriver/models/region.dart';
 import 'package:tamizshahrdriver/models/request/collect.dart';
+import 'package:tamizshahrdriver/models/request/collect_time.dart';
 import 'package:tamizshahrdriver/models/request/pasmand.dart';
+import 'package:tamizshahrdriver/models/request/request_address.dart';
 import 'package:tamizshahrdriver/models/request/request_waste.dart';
 import 'package:tamizshahrdriver/models/request/request_waste_item.dart';
 import 'package:tamizshahrdriver/models/request/wasteCart.dart';
@@ -19,7 +20,6 @@ import '../provider/wastes.dart';
 import '../widgets/buton_bottom.dart';
 import '../widgets/custom_dialog_enter.dart';
 import '../widgets/custom_dialog_profile.dart';
-import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/main_drawer.dart';
 import 'navigation_bottom_screen.dart';
 
@@ -38,9 +38,9 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
   var _isLoading = true;
   double totalPrice = 0;
   double totalWeight = 0;
-  RequestWasteItem loadedCollect;
+  late RequestWasteItem loadedCollect;
 
-  RequestWaste requestWaste;
+  late RequestWaste requestWaste;
 
   void _showLogindialog() {
     showDialog(
@@ -49,6 +49,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
         title: 'ورود',
         buttonText: 'صفحه ورود ',
         description: 'برای ادامه باید وارد شوید',
+        image: Image.asset(''),
       ),
     );
   }
@@ -60,6 +61,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
         title: 'اطلاعات کاربری',
         buttonText: 'صفحه پروفایل ',
         description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        image: Image.asset(''),
       ),
     );
   }
@@ -71,6 +73,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
         title: '',
         buttonText: 'خب',
         description: 'درخواست شما با موفقیت ثبت شد',
+        image: Image.asset(''),
       ),
     );
   }
@@ -98,7 +101,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     setState(() {
       _isLoading = true;
     });
-    final productId = ModalRoute.of(context).settings.arguments as int;
+    final productId = ModalRoute.of(context)?.settings.arguments as int;
     await Provider.of<Wastes>(context, listen: false)
         .retrieveCollectItem(productId);
     loadedCollect =
@@ -151,8 +154,8 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 //    return price;
 //  }
 
-  AnimationController _totalPriceController;
-  Animation<double> _totalPriceAnimation;
+  late AnimationController _totalPriceController;
+  late Animation<double> _totalPriceAnimation;
 
   @override
   initState() {
@@ -220,6 +223,14 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     requestWaste = RequestWaste(
       collect_list: collectList,
       collected: collected,
+      collect_date: CollectTime(day: '', collect_done_time: '', time: ''),
+      address_data: RequestAddress(
+        name: '',
+        address: '',
+        region: '',
+        latitude: '',
+        longitude: '',
+      ),
     );
 
     setState(() {
@@ -276,15 +287,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                     child: Column(
                       children: <Widget>[
                         HeaderTotal(
-                          totalNumber: wasteCartItems
-                              .length,
+                          totalNumber: wasteCartItems.length,
                           totalPrice: totalPrice,
                           totalWeight: totalWeight,
                           totalPriceController: _totalPriceController,
-                            totalPriceAnimation: _totalPriceAnimation,
+                          totalPriceAnimation: _totalPriceAnimation,
                         ),
-
-
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Consumer<Wastes>(
@@ -366,13 +374,15 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                                 value.wasteCartItems.length,
                                             itemBuilder: (ctx, i) =>
                                                 CollectDetailItem(
-                                              wasteItem:
-                                                  value.wasteCartItems[i],
-                                              function: getWasteItems,
-                                                  isNotActive:(loadedCollect.status.slug == 'cancel' ||
-                                                      loadedCollect.status.slug ==
-                                                          'collected')
-                                            ),
+                                                    wasteItem:
+                                                        value.wasteCartItems[i],
+                                                    function: getWasteItems,
+                                                    isNotActive: (loadedCollect
+                                                                .status.slug ==
+                                                            'cancel' ||
+                                                        loadedCollect
+                                                                .status.slug ==
+                                                            'collected')),
                                           ),
                                         ),
                                       ],
@@ -431,7 +441,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                   if (loadedCollect.status.slug == 'cancel' ||
                                       loadedCollect.status.slug ==
                                           'collected') {
-                                    Scaffold.of(context)
+                                    ScaffoldMessenger.of(context)
                                         .showSnackBar(addToCartSnackBar);
                                   } else if (!isLogin) {
                                     _showLogindialog();
@@ -486,7 +496,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                   if (loadedCollect.status.slug == 'cancel' ||
                                       loadedCollect.status.slug ==
                                           'collected') {
-                                    Scaffold.of(context)
+                                    ScaffoldMessenger.of(context)
                                         .showSnackBar(addToCartSnackBar);
                                   } else if (!isLogin) {
                                     _showLogindialog();

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -7,12 +6,11 @@ import 'package:tamizshahrdriver/models/driver.dart';
 import '../../models/customer.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/customer_info.dart';
-import 'customer_detail_info_edit_screen.dart';
 
 class CustomerDetailInfoScreen extends StatefulWidget {
   final Customer customer;
 
-  CustomerDetailInfoScreen({this.customer});
+  CustomerDetailInfoScreen({required this.customer});
 
   @override
   _CustomerDetailInfoScreenState createState() =>
@@ -20,7 +18,7 @@ class CustomerDetailInfoScreen extends StatefulWidget {
 }
 
 class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
-  Driver customer;
+  late Driver customer;
   var _isLoading = false;
   bool _isInit = true;
 
@@ -173,7 +171,6 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                         Divider(
                           color: Colors.white,
                         ),
-
                         Container(
                           child: ListView(
                             physics: NeverScrollableScrollPhysics(),
@@ -215,7 +212,6 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                         Divider(
                           color: Colors.white,
                         ),
-
                         Container(
                           child: ListView(
                             physics: NeverScrollableScrollPhysics(),
@@ -229,7 +225,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                               ),
                               InfoItem(
                                 title: 'رنگ خودرو',
-                                text: customer.car_color.name ,
+                                text: customer.car_color.name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),
@@ -239,7 +235,6 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),
-
                             ],
                           ),
                         ),
@@ -258,12 +253,11 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
 class InfoItem extends StatelessWidget {
   const InfoItem({
-    Key key,
-    @required this.title,
-    @required this.text,
-    @required this.bgColor,
-    @required this.iconColor,
-  }) : super(key: key);
+    required this.title,
+    required this.text,
+    required this.bgColor,
+    required this.iconColor,
+  }) ;
 
   final String title;
   final String text;

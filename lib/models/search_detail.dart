@@ -3,8 +3,8 @@ class SearchDetail {
   final int max_page;
 
   SearchDetail({
-    this.total,
-    this.max_page,
+    required this.total,
+    required this.max_page,
   });
 
   factory SearchDetail.fromJson(Map<String, dynamic> parsedJson) {

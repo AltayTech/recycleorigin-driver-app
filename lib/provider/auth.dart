@@ -13,19 +13,19 @@ import '../models/request/address_main.dart';
 import 'urls.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  bool _isLoggedin;
+  late String _token;
+  late bool _isLoggedin;
 
   bool _isFirstLogin = false;
   bool _isFirstLogout = false;
 
   List<Address> _addressItems = [];
 
-  Address _selectedAddress;
+  late Address _selectedAddress;
 
   List<Region> _regionItems = [];
 
-  Region _regionData;
+  late Region _regionData;
 
   bool _isCompleted = false;
 
@@ -43,7 +43,7 @@ class Auth with ChangeNotifier {
 
   bool get isAuth {
     getToken();
-    return _token != null && _token != '';
+    return _token != '';
   }
 
   String get token => _token;
@@ -51,13 +51,13 @@ class Auth with ChangeNotifier {
 
   Future<LoginError> _authenticate(String urlSegment) async {
     print('_authenticate');
-    LoginError message;
+    LoginError message= LoginError(code: '', message: '');
 
     final url = Urls.rootUrl + Urls.loginEndPoint + urlSegment;
     print(url);
 
     try {
-      final response = await http.post(url, headers: headers);
+      final response = await http.post(Uri(path:url ), headers: headers);
       updateCookie(response);
 
       final responseData = json.decode(response.body);
@@ -123,19 +123,18 @@ class Auth with ChangeNotifier {
   }
 
   void updateCookie(http.Response response) {
-    String rawCookie = response.headers['set-cookie'];
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
+    String rawCookie = response.headers['set-cookie']!;
+    int index = rawCookie.indexOf(';');
+    headers['cookie'] =
+        (index == -1) ? rawCookie : rawCookie.substring(0, index);
   }
 
-  Future<void> login(String phoneNumber) async {
+  Future<Future<LoginError>> login(String phoneNumber) async {
     return _authenticate('/send_sms?mobile=$phoneNumber');
   }
 
-  Future<LoginError> getVerCode(String verificationCode, String phoneNumber) async {
+  Future<LoginError> getVerCode(
+      String verificationCode, String phoneNumber) async {
     return _authenticate(
         '/verify?type=driver&mobile=$phoneNumber&sms=$verificationCode');
   }
@@ -143,7 +142,7 @@ class Auth with ChangeNotifier {
   Future<void> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token');
+    _token = prefs.getString('token')!;
 
     notifyListeners();
   }
@@ -152,12 +151,12 @@ class Auth with ChangeNotifier {
     try {
       if (isAuth) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token');
+        _token = prefs.getString('token')!;
 
         final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
 
         final response = await get(
-          url,
+          Uri(path: url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -205,12 +204,12 @@ class Auth with ChangeNotifier {
     try {
       if (isAuth) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token');
+        _token = prefs.getString('token')!;
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
 
         final response = await get(
-          url,
+          Uri(path: url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -243,7 +242,7 @@ class Auth with ChangeNotifier {
     try {
       if (isAuth) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token');
+        _token = prefs.getString('token')!;
         print('tooookkkkeeennnn    $_token');
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
@@ -252,7 +251,7 @@ class Auth with ChangeNotifier {
           addressData: addressList,
         )));
 
-        final response = await post(url,
+        final response = await post(Uri(path: url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -290,10 +289,10 @@ class Auth with ChangeNotifier {
     try {
       if (isAuth) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token');
+        _token = prefs.getString('token')!;
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
-        final response = await post(url,
+        final response = await post(Uri(path: url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -338,7 +337,7 @@ class Auth with ChangeNotifier {
     final url = Urls.rootUrl + Urls.regionEndPoint;
 
     try {
-      final response = await get(url, headers: {
+      final response = await get(Uri(path: url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -346,7 +345,7 @@ class Auth with ChangeNotifier {
       final extractedData = json.decode(response.body) as List;
       print(extractedData);
 
-      List<Region> regionList = new List<Region>();
+      List<Region> regionList =[];
 
       regionList = extractedData.map((i) => Region.fromJson(i)).toList();
       print(regionList.length);
@@ -369,7 +368,7 @@ class Auth with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url, headers: {
+      final response = await get(Uri(path: url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });

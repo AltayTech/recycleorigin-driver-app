@@ -2,7 +2,7 @@ class CollectStatus {
   final String estimated;
   final String exact;
 
-  CollectStatus({this.estimated, this.exact});
+  CollectStatus({required this.estimated,required  this.exact});
 
   factory CollectStatus.fromJson(Map<String, dynamic> parsedJson) {
 

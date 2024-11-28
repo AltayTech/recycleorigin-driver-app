@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tamizshahrdriver/screens/customer_info/customer_user_info_screen.dart';
@@ -28,7 +27,7 @@ class MainDrawer extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onTap: tapHandler,
+      onTap: tapHandler(),
     );
   }
 

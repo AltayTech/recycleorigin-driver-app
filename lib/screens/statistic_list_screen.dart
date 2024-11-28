@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -10,7 +9,6 @@ import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/wastes.dart';
-import '../widgets/collect_item_collect_screen.dart';
 import '../widgets/main_drawer.dart';
 import 'customer_info/login_screen.dart';
 
@@ -32,7 +30,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
   var scaffoldKey;
   int page = 1;
 
-  SearchDetail productsDetail;
+  late SearchDetail productsDetail;
 
   var sortValue = 'جدیدترین';
   List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
@@ -222,11 +220,11 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                                           ChangeNotifierProvider.value(
                                         value: loadedProductstolist[i],
                                         child: StatisticItemStatisticsScreen(
-headColor: Colors.blue,
+                                          headColor: Colors.blue,
                                           title: 'امروز',
                                           price: '65000',
                                           weight: '10',
-                                          number:'6',
+                                          number: '6',
                                         ),
                                       ),
                                     ),

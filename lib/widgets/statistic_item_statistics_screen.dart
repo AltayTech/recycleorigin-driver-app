@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -15,11 +14,11 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
   final String number;
 
   StatisticItemStatisticsScreen({
-    this.headColor,
-    this.title,
-    this.price,
-    this.weight,
-    this.number,
+    required this.headColor,
+    required this.title,
+    required this.price,
+    required this.weight,
+    required this.number,
   });
 
   @override

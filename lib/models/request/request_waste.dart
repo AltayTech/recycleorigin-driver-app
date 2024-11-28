@@ -11,10 +11,10 @@ class RequestWaste with ChangeNotifier {
   final bool collected;
 
   RequestWaste({
-    this.collect_date,
-    this.address_data,
-    this.collect_list,
-    this.collected,
+    required this.collect_date,
+    required this.address_data,
+    required this.collect_list,
+    required this.collected,
   });
 
   factory RequestWaste.fromJson(Map<String, dynamic> parsedJson) {
@@ -23,20 +23,17 @@ class RequestWaste with ChangeNotifier {
         collectList.map((i) => Collect.fromJson(i)).toList();
 
     return RequestWaste(
-      address_data: RequestAddress.fromJson(parsedJson['address_data']),
-      collect_list: collectRaw,
-    );
+        address_data: RequestAddress.fromJson(parsedJson['address_data']),
+        collect_list: collectRaw,
+        collect_date: CollectTime(collect_done_time: '', day: '', time: ''),
+        collected: false);
   }
 
   Map<String, dynamic> toJson() {
-    Map address_data =
-        this.address_data != null ? this.address_data.toJson() : null;
-    Map collect_date =
-        this.collect_date != null ? this.collect_date.toJson() : null;
+    Map address_data = this.address_data.toJson();
+    Map collect_date = this.collect_date.toJson();
 
-    List<Map> collect_list = this.collect_list != null
-        ? this.collect_list.map((i) => i.toJson()).toList()
-        : null;
+    List<Map> collect_list = this.collect_list.map((i) => i.toJson()).toList();
 
     return {
       'collect_date': collect_date,

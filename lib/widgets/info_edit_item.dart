@@ -4,17 +4,20 @@ import '../provider/app_theme.dart';
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem(
-      {Key key,
-      @required this.title,
-      @required this.controller,
-      @required this.keybordType,
-      @required this.bgColor,
-      @required this.iconColor,
-      this.thisFocusNode,
-      this.newFocusNode,
+
+      {
+        required this.title,
+      required this.controller,
+      required this.keybordType,
+      required this.bgColor,
+      required this.iconColor,
+      required this.thisFocusNode,
+      required this.newFocusNode,
       this.maxLine = 1,
-      @required this.fieldHeight})
-      : super(key: key);
+      required this.fieldHeight,}
+
+
+      );
 
   final String title;
   final TextEditingController controller;
@@ -65,7 +68,7 @@ class InfoEditItem extends StatelessWidget {
                     keyboardType: keybordType,
                     onEditingComplete: () {},
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'لطفا مقداری را وارد نمایید';
                       }
                       return null;

@@ -72,6 +72,8 @@ class _SplashScreensState extends State<SplashScreens> {
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: MediaQuery.of(context).size.width * 0.7,
       onClick: () => print("Flutter Egypt"),
+      loaderColor: Colors.white,
+      imageBackground: AssetImage('assets/image.png'),
     );
   }
 }

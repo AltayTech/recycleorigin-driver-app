@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -30,9 +29,9 @@ class _WalletScreenState extends State<WalletScreen>
   ScrollController _scrollController = new ScrollController();
   var _isLoading;
   int page = 1;
-  SearchDetail productsDetail;
+  late SearchDetail productsDetail;
 
-  Customer customer;
+  late Customer customer;
 
   @override
   void initState() {
@@ -285,25 +284,22 @@ class _WalletScreenState extends State<WalletScreen>
                                                 builder: (_, Wastes, ch) {
                                               return Container(
                                                 child: Padding(
-                                                  padding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical:
-                                                              deviceHeight *
-                                                                  0.0,
-                                                          horizontal: 3),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                          deviceHeight * 0.0,
+                                                      horizontal: 3),
                                                   child: Wrap(
                                                     alignment:
                                                         WrapAlignment.start,
                                                     crossAxisAlignment:
                                                         WrapCrossAlignment
                                                             .center,
-                                                    direction:
-                                                        Axis.horizontal,
+                                                    direction: Axis.horizontal,
                                                     children: <Widget>[
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 3,
                                                                 vertical: 5),
                                                         child: Text(
@@ -320,12 +316,11 @@ class _WalletScreenState extends State<WalletScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 4.0,
                                                                 left: 6),
                                                         child: Text(
-                                                          productsDetail !=
-                                                                  null
+                                                          productsDetail != null
                                                               ? EnArConvertor()
                                                                   .replaceArNumber(
                                                                       loadedProductstolist
@@ -346,7 +341,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 3,
                                                                 vertical: 5),
                                                         child: Text(
@@ -363,12 +358,11 @@ class _WalletScreenState extends State<WalletScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 4.0,
                                                                 left: 6),
                                                         child: Text(
-                                                          productsDetail !=
-                                                                  null
+                                                          productsDetail != null
                                                               ? EnArConvertor()
                                                                   .replaceArNumber(
                                                                       productsDetail
@@ -411,8 +405,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            15.0,
+                                                        textScaleFactor * 15.0,
                                                   ),
                                                 ),
                                               ),
@@ -428,8 +421,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            15.0,
+                                                        textScaleFactor * 15.0,
                                                   ),
                                                 ),
                                               ),
@@ -445,8 +437,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            15.0,
+                                                        textScaleFactor * 15.0,
                                                   ),
                                                 ),
                                               ),

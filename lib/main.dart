@@ -54,17 +54,17 @@ class MyApp extends StatelessWidget {
         title: Strings.appTitle,
         theme: ThemeData(
           primarySwatch: Colors.green,
-          accentColor: Colors.amber,
+          hintColor: Colors.amber,
           textTheme: ThemeData.light().textTheme.copyWith(
-                bodyText1: TextStyle(
+                bodyLarge: TextStyle(
                   fontFamily: 'Iransans',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
-                bodyText2: TextStyle(
+                bodyMedium: TextStyle(
                   fontFamily: 'Iransans',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
-                headline1: TextStyle(
+                displayLarge: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Iransans',
                   fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         routes: {
           NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          // ProfileScreen.routeName: (ctx) => ProfileScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
           ContactWithUs.routeName: (ctx) => ContactWithUs(),

@@ -7,12 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tamizshahrdriver/models/clearing.dart';
 import 'package:tamizshahrdriver/models/clearing_main.dart';
 import 'package:tamizshahrdriver/models/request/collect.dart';
-import 'package:tamizshahrdriver/models/request/delivery_main.dart';
 import 'package:tamizshahrdriver/models/request/delivery_waste_item.dart';
 
-import '../models/request/collect_main.dart';
-import '../models/request/request_waste.dart';
-import '../models/request/request_waste_item.dart';
 import '../models/request/wasteCart.dart';
 import '../models/search_detail.dart';
 import 'urls.dart';
@@ -20,15 +16,15 @@ import 'urls.dart';
 class Clearings with ChangeNotifier {
   List<WasteCart> _wasteCartItems = [];
 
-  String _token;
+  late String _token;
 
   List<Clearing> _deliveriesItems = [];
 
-  SearchDetail _searchDetails;
+  late SearchDetail _searchDetails;
 
-  DeliveryWasteItem _requestWasteItem;
+  late DeliveryWasteItem _requestWasteItem;
 
-  List<Collect> _toDeliveryCollectItems=[];
+  List<Collect> _toDeliveryCollectItems = [];
 
   Future<void> addWasteCart(WasteCart wasteCart, bool isAdded) async {
     print('addWasteCart');
@@ -103,24 +99,29 @@ class Clearings with ChangeNotifier {
     _wasteCartItems = value;
   }
 
-  Future<void> sendRequest(int storeId, bool isLogin,) async {
+  Future<void> sendRequest(
+    int storeId,
+    bool isLogin,
+  ) async {
     print('sendRequest');
     try {
       if (isLogin) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token');
+        _token = prefs.getString('token')!;
         print('tooookkkeeennnnnn  $_token');
 
-        final url = Urls.rootUrl + Urls.deliveriesEndPoint + '?store_id=$storeId';
+        final url =
+            Urls.rootUrl + Urls.deliveriesEndPoint + '?store_id=$storeId';
         print('url  $url');
 
-        final response = await post(url,
-            headers: {
-              'Authorization': 'Bearer $_token',
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-           );
+        final response = await post(
+          Uri(path: url),
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+        );
 
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -162,8 +163,8 @@ class Clearings with ChangeNotifier {
 //    }
 //  }
 
-  String _selectedHours;
-  Jalali _selectedDay;
+  late String _selectedHours;
+  late Jalali _selectedDay;
 
   String get selectedHours => _selectedHours;
 
@@ -217,10 +218,10 @@ class Clearings with ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token');
+      _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(url, headers: {
+      final response = await get(Uri(path: url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -253,10 +254,10 @@ class Clearings with ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token');
+      _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(url, headers: {
+      final response = await get(Uri(path: url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -265,7 +266,7 @@ class Clearings with ChangeNotifier {
       print(extractedData);
 
       DeliveryWasteItem deliveryWasteItem =
-      DeliveryWasteItem.fromJson(extractedData);
+          DeliveryWasteItem.fromJson(extractedData);
       print(deliveryWasteItem.id.toString());
 
       _requestWasteItem = deliveryWasteItem;
@@ -312,20 +313,18 @@ class Clearings with ChangeNotifier {
     _sPage = value;
   }
 
-
-
   Future<void> getCollectedItemsToDeliver() async {
     print('getCollectedItemsToDeliver');
 
-    final url = Urls.rootUrl + Urls.deliveriesEndPoint +'/stat';
+    final url = Urls.rootUrl + Urls.deliveriesEndPoint + '/stat';
     print(url);
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token');
+      _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(url, headers: {
+      final response = await get(Uri(path: url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -335,7 +334,8 @@ class Clearings with ChangeNotifier {
         final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
 
-        List<Collect> collects =   extractedData.map((i) => Collect.fromJson(i)).toList();
+        List<Collect> collects =
+            extractedData.map((i) => Collect.fromJson(i)).toList();
         _toDeliveryCollectItems.clear();
         _toDeliveryCollectItems = collects;
         print('number of itme: ${_toDeliveryCollectItems.length}');
