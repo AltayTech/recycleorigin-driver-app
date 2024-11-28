@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -15,9 +14,9 @@ class CollectDetailItem extends StatefulWidget {
   final bool isNotActive;
 
   CollectDetailItem({
-    this.wasteItem,
-    this.function,
-    this.isNotActive,
+    required this.wasteItem,
+    required this.function,
+    required this.isNotActive,
   });
 
   @override
@@ -38,7 +37,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     if (_isInit) {
       _isLoading = false;
 
-      productWeight = int.parse(double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0));
+      productWeight = int.parse(
+          double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0));
 //      setState(() {
 //
 //      });
@@ -79,7 +79,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
 
   String getWeight(int kilogram, int gram) {
     String totalWeight = '0';
-print(totalWeight);
+    print(totalWeight);
     double weight = double.parse(kilogram.toString()) +
         double.parse(gram.toString()) / 1000;
     print(weight.toString());
@@ -147,12 +147,13 @@ print(totalWeight);
                   child: Checkbox(
                     value: widget.wasteItem.isAdded,
                     onChanged: (value) {
-                      if(!widget.isNotActive){
-                      if (widget.wasteItem.isAdded) {
-                        updateItem(widget.wasteItem.exact_weight, false);
-                      } else {
-                        updateItem((widget.wasteItem.exact_weight), true);
-                      }}
+                      if (!widget.isNotActive) {
+                        if (widget.wasteItem.isAdded) {
+                          updateItem(widget.wasteItem.exact_weight, false);
+                        } else {
+                          updateItem((widget.wasteItem.exact_weight), true);
+                        }
+                      }
                     },
                   ),
                 ),
@@ -207,21 +208,20 @@ print(totalWeight);
                             Expanded(
                                 child: InkWell(
                               onTap: () async {
-    if(!widget.isNotActive){
-
-    productWeightFraction =
-                                    productWeightFraction + 50;
-                                if (productWeightFraction >= 1000) {
+                                if (!widget.isNotActive) {
                                   productWeightFraction =
-                                      productWeightFraction - 1000;
-                                }
-                                await Provider.of<Wastes>(context,
-                                        listen: false)
-                                    .updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
+                                      productWeightFraction + 50;
+                                  if (productWeightFraction >= 1000) {
+                                    productWeightFraction =
+                                        productWeightFraction - 1000;
+                                  }
+                                  await Provider.of<Wastes>(context,
+                                          listen: false)
+                                      .updateWasteCart(
+                                          widget.wasteItem,
+                                          getWeight(productWeight,
+                                              productWeightFraction),
+                                          widget.wasteItem.isAdded);
 //                                                    changeNumberAnimation(
 //                                                        double.parse(getPrice(
 //                                                                widget.wasteItem
@@ -230,23 +230,24 @@ print(totalWeight);
 //                                                                    .weight)) *
 //                                                            widget.wasteItem
 //                                                                .weight);
-                                widget.function();}
+                                  widget.function();
+                                }
                               },
                               onDoubleTap: () async {
-    if(!widget.isNotActive){
-    productWeightFraction =
-                                    productWeightFraction + 200;
-                                if (productWeightFraction >= 1000) {
+                                if (!widget.isNotActive) {
                                   productWeightFraction =
-                                      productWeightFraction - 1000;
-                                }
-                                await Provider.of<Wastes>(context,
-                                        listen: false)
-                                    .updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
+                                      productWeightFraction + 200;
+                                  if (productWeightFraction >= 1000) {
+                                    productWeightFraction =
+                                        productWeightFraction - 1000;
+                                  }
+                                  await Provider.of<Wastes>(context,
+                                          listen: false)
+                                      .updateWasteCart(
+                                          widget.wasteItem,
+                                          getWeight(productWeight,
+                                              productWeightFraction),
+                                          widget.wasteItem.isAdded);
 //                                                    changeNumberAnimation(
 //                                                        double.parse(getPrice(
 //                                                                widget.wasteItem
@@ -255,12 +256,15 @@ print(totalWeight);
 //                                                                    .weight)) *
 //                                                            widget.wasteItem
 //                                                                .weight);
-                                widget.function();}
+                                  widget.function();
+                                }
                               },
                               child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color:!widget.isNotActive? AppTheme.accent.withOpacity(0.7):AppTheme.grey,
+                                    color: !widget.isNotActive
+                                        ? AppTheme.accent.withOpacity(0.7)
+                                        : AppTheme.grey,
                                   ),
                                   child: Icon(
                                     Icons.add,
@@ -290,19 +294,19 @@ print(totalWeight);
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-    if(!widget.isNotActive){
-    productWeightFraction =
-                                      productWeightFraction - 50;
-                                  if (productWeightFraction < 0) {
-                                    productWeightFraction = 0;
-                                  }
+                                  if (!widget.isNotActive) {
+                                    productWeightFraction =
+                                        productWeightFraction - 50;
+                                    if (productWeightFraction < 0) {
+                                      productWeightFraction = 0;
+                                    }
 
-                                  Provider.of<Wastes>(context, listen: false)
-                                      .updateWasteCart(
-                                          widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
+                                    Provider.of<Wastes>(context, listen: false)
+                                        .updateWasteCart(
+                                            widget.wasteItem,
+                                            getWeight(productWeight,
+                                                productWeightFraction),
+                                            widget.wasteItem.isAdded);
 //                                                        changeNumberAnimation(
 //                                                            double.parse(getPrice(
 //                                                                    widget
@@ -314,22 +318,23 @@ print(totalWeight);
 //                                                                widget.wasteItem
 //                                                                    .weight);
 
-                                  widget.function();}
+                                    widget.function();
+                                  }
                                 },
                                 onDoubleTap: () async {
-    if(!widget.isNotActive){
-    productWeightFraction =
-                                      productWeightFraction - 20;
-                                  if (productWeightFraction < 0) {
-                                    productWeightFraction = 0;
-                                  }
+                                  if (!widget.isNotActive) {
+                                    productWeightFraction =
+                                        productWeightFraction - 20;
+                                    if (productWeightFraction < 0) {
+                                      productWeightFraction = 0;
+                                    }
 
-                                  Provider.of<Wastes>(context, listen: false)
-                                      .updateWasteCart(
-                                          widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
+                                    Provider.of<Wastes>(context, listen: false)
+                                        .updateWasteCart(
+                                            widget.wasteItem,
+                                            getWeight(productWeight,
+                                                productWeightFraction),
+                                            widget.wasteItem.isAdded);
 //                                                        changeNumberAnimation(
 //                                                            double.parse(getPrice(
 //                                                                    widget
@@ -341,12 +346,15 @@ print(totalWeight);
 //                                                                widget.wasteItem
 //                                                                    .weight);
 
-                                  widget.function();}
+                                    widget.function();
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color:!widget.isNotActive? AppTheme.accent.withOpacity(0.7):AppTheme.grey,
+                                    color: !widget.isNotActive
+                                        ? AppTheme.accent.withOpacity(0.7)
+                                        : AppTheme.grey,
                                   ),
                                   child: Icon(
                                     Icons.remove,
@@ -367,17 +375,17 @@ print(totalWeight);
                           children: <Widget>[
                             Expanded(
                                 child: InkWell(
-                              onTap: () async {                      if(!widget.isNotActive){
+                              onTap: () async {
+                                if (!widget.isNotActive) {
+                                  productWeight = productWeight + 1;
 
-    productWeight = productWeight + 1;
-
-                                await Provider.of<Wastes>(context,
-                                        listen: false)
-                                    .updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
+                                  await Provider.of<Wastes>(context,
+                                          listen: false)
+                                      .updateWasteCart(
+                                          widget.wasteItem,
+                                          getWeight(productWeight,
+                                              productWeightFraction),
+                                          widget.wasteItem.isAdded);
 //                                                    changeNumberAnimation(
 //                                                        double.parse(getPrice(
 //                                                                widget.wasteItem
@@ -386,19 +394,20 @@ print(totalWeight);
 //                                                                    .weight)) *
 //                                                            widget.wasteItem
 //                                                                .weight);
-                                widget.function();}
+                                  widget.function();
+                                }
                               },
                               onDoubleTap: () async {
-    if(!widget.isNotActive){
-    productWeight = productWeight + 10;
+                                if (!widget.isNotActive) {
+                                  productWeight = productWeight + 10;
 
-                                await Provider.of<Wastes>(context,
-                                        listen: false)
-                                    .updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
+                                  await Provider.of<Wastes>(context,
+                                          listen: false)
+                                      .updateWasteCart(
+                                          widget.wasteItem,
+                                          getWeight(productWeight,
+                                              productWeightFraction),
+                                          widget.wasteItem.isAdded);
 //                                                    changeNumberAnimation(
 //                                                        double.parse(getPrice(
 //                                                                widget.wasteItem
@@ -407,12 +416,15 @@ print(totalWeight);
 //                                                                    .weight)) *
 //                                                            widget.wasteItem
 //                                                                .weight);
-                                widget.function();}
+                                  widget.function();
+                                }
                               },
                               child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color:!widget.isNotActive? AppTheme.accent:AppTheme.grey,
+                                    color: !widget.isNotActive
+                                        ? AppTheme.accent
+                                        : AppTheme.grey,
                                   ),
                                   child: Icon(
                                     Icons.add,
@@ -441,18 +453,19 @@ print(totalWeight);
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-    if(!widget.isNotActive){
-    if (productWeight > 1) {
-                                    productWeight = productWeight - 1;
-                                    print('productCount' +
-                                        productWeight.toString());
+                                  if (!widget.isNotActive) {
+                                    if (productWeight > 1) {
+                                      productWeight = productWeight - 1;
+                                      print('productCount' +
+                                          productWeight.toString());
 
-                                    Provider.of<Wastes>(context, listen: false)
-                                        .updateWasteCart(
-                                            widget.wasteItem,
-                                            getWeight(productWeight,
-                                                productWeightFraction),
-                                            widget.wasteItem.isAdded);
+                                      Provider.of<Wastes>(context,
+                                              listen: false)
+                                          .updateWasteCart(
+                                              widget.wasteItem,
+                                              getWeight(productWeight,
+                                                  productWeightFraction),
+                                              widget.wasteItem.isAdded);
 //                                                        changeNumberAnimation(
 //                                                            double.parse(getPrice(
 //                                                                    widget
@@ -463,22 +476,24 @@ print(totalWeight);
 //                                                                        .weight)) *
 //                                                                widget.wasteItem
 //                                                                    .weight);
+                                    }
+                                    widget.function();
                                   }
-                                  widget.function();}
                                 },
                                 onDoubleTap: () async {
-    if(!widget.isNotActive){
-    if (productWeight > 10) {
-                                    productWeight = productWeight - 10;
-                                    print('productCount' +
-                                        productWeight.toString());
+                                  if (!widget.isNotActive) {
+                                    if (productWeight > 10) {
+                                      productWeight = productWeight - 10;
+                                      print('productCount' +
+                                          productWeight.toString());
 
-                                    Provider.of<Wastes>(context, listen: false)
-                                        .updateWasteCart(
-                                            widget.wasteItem,
-                                            getWeight(productWeight,
-                                                productWeightFraction),
-                                            widget.wasteItem.isAdded);
+                                      Provider.of<Wastes>(context,
+                                              listen: false)
+                                          .updateWasteCart(
+                                              widget.wasteItem,
+                                              getWeight(productWeight,
+                                                  productWeightFraction),
+                                              widget.wasteItem.isAdded);
 //                                                        changeNumberAnimation(
 //                                                            double.parse(getPrice(
 //                                                                    widget
@@ -489,13 +504,16 @@ print(totalWeight);
 //                                                                        .weight)) *
 //                                                                widget.wasteItem
 //                                                                    .weight);
+                                    }
+                                    widget.function();
                                   }
-                                  widget.function();}
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color:!widget.isNotActive? AppTheme.accent:AppTheme.grey,
+                                    color: !widget.isNotActive
+                                        ? AppTheme.accent
+                                        : AppTheme.grey,
                                   ),
                                   child: Icon(
                                     Icons.remove,

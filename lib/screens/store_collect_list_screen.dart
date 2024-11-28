@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -36,7 +35,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
   var scaffoldKey;
   int page = 1;
 
-  SearchDetail productsDetail;
+  late SearchDetail productsDetail;
 
   @override
   void initState() {
@@ -133,6 +132,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
         title: 'ورود',
         buttonText: 'صفحه ورود ',
         description: 'برای ادامه باید وارد شوید',
+        image: Image.asset(''),
       ),
     );
   }
@@ -144,6 +144,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
         title: 'اطلاعات کاربری',
         buttonText: 'صفحه پروفایل ',
         description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        image: Image.asset(''),
       ),
     );
   }
@@ -248,7 +249,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                   children: <Widget>[
                                                     Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
@@ -288,7 +289,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                     ),
                                                     Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
@@ -378,7 +379,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                               ),
                             );
                             if (loadedProducts.isEmpty) {
-                              Scaffold.of(context)
+                              ScaffoldMessenger.of(context)
                                   .showSnackBar(addToCartSnackBar);
                             } else if (!isLogin) {
                               _showLogindialog();

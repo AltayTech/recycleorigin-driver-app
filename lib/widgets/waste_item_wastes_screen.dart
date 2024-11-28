@@ -8,7 +8,7 @@ class WasteItemWastesScreen extends StatelessWidget {
   final Waste waste;
   final bool isSelected;
 
-  WasteItemWastesScreen({this.waste, this.isSelected = false});
+  WasteItemWastesScreen({required this.waste, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {

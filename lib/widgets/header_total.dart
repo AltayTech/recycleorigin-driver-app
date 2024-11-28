@@ -6,14 +6,13 @@ import 'package:intl/intl.dart' as intl;
 
 class HeaderTotal extends StatelessWidget {
   HeaderTotal({
-    Key key,
-    @required this.totalWeight,
-    @required this.totalPrice,
-    @required this.totalNumber,
-    @required this.totalPriceController,
-    @required this.totalPriceAnimation,
+    required this.totalWeight,
+    required this.totalPrice,
+    required this.totalNumber,
+    required this.totalPriceController,
+    required this.totalPriceAnimation,
 
-  }) : super(key: key);
+  }) ;
 
   final double totalWeight;
   final double totalPrice;
@@ -98,10 +97,10 @@ class HeaderTotal extends StatelessWidget {
                           ),
                           AnimatedBuilder(
                             animation: totalPriceAnimation,
-                            builder: (BuildContext context,
-                                Widget child) {
+                            builder: (context,
+                                child) {
                               return Padding(
-                                padding: const EdgeInsets.only(
+                                padding:  EdgeInsets.only(
                                     top: 4, bottom: 4),
                                 child: Text(
                                   totalPrice

@@ -14,18 +14,18 @@ class Driver with ChangeNotifier {
   final String money;
 
   Driver({
-    this.status,
-    this.car,
-    this.car_color,
-    this.car_number,
-    this.driver_data,
-    this.stores,
-    this.money,
+    required this.status,
+    required this.car,
+    required this.car_color,
+    required this.car_number,
+    required this.driver_data,
+    required this.stores,
+    required this.money,
   });
 
   factory Driver.fromJson(Map<String, dynamic> parsedJson) {
     var storeList = parsedJson['stores'] as List;
-    List<Pasmand> storeRaw = new List<Pasmand>();
+    List<Pasmand> storeRaw = [];
 
     storeRaw =
         storeList.map((i) => Pasmand.fromJson(i)).toList();

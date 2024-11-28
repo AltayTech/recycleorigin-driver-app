@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -57,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           buttonText: 'تایید',
           description:
               'برای دریافت اطلاعات کاربری به قسمت پروفایل مراجعه فرمایید',
+          image: Image.asset(''),
+
         ),
       );
     });
@@ -70,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: 'کاربر گرامی',
           buttonText: 'تایید',
           description: 'شما با موفقیت از اکانت کاربری خارج شدید',
+          image: Image.asset(''),
+
         ),
       );
     });
@@ -266,7 +269,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(
-
                                     bottom: 5,
                                   ),
                                   child: Container(
@@ -343,13 +345,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     left: 30,
                                     right: 30,
                                     bottom: 5,
-
                                   ),
                                   child: Container(
                                     height: constraint.maxHeight * 0.45,
                                     child: Align(
                                       alignment: Alignment.bottomCenter,
-
                                       child: Icon(
                                         Icons.local_shipping,
                                         size: constraint.maxWidth * 0.4,
@@ -419,13 +419,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     left: 30,
                                     right: 30,
                                     bottom: 5,
-
                                   ),
                                   child: Container(
                                     height: constraint.maxHeight * 0.45,
                                     child: Align(
                                       alignment: Alignment.bottomCenter,
-
                                       child: Icon(
                                         Icons.account_balance_wallet,
                                         size: constraint.maxWidth * 0.4,
@@ -436,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                               FittedBox(
+                                FittedBox(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10, bottom: 0, top: 3),

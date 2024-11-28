@@ -2,7 +2,7 @@ class Province {
   final int id;
   final String name;
 
-  Province({this.id, this.name});
+  Province({required this.id, required this.name});
 
   factory Province.fromJson(Map<String, dynamic> parsedJson) {
 

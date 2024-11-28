@@ -19,16 +19,16 @@ class DeliveryWasteItem with ChangeNotifier {
   final List<Collect> collect_list;
 
   DeliveryWasteItem({
-    this.id,
-    this.status,
-    this.total_collects_price,
-    this.total_collects_weight,
-    this.total_collects_number,
-    this.store,
-    this.driver,
-    this.operator,
-    this.delivery_date,
-    this.collect_list,
+    required this.id,
+    required this.status,
+    required this.total_collects_price,
+    required this.total_collects_weight,
+    required this.total_collects_number,
+    required this.store,
+    required this.driver,
+    required this.operator,
+    required this.delivery_date,
+    required this.collect_list,
   });
 
   factory DeliveryWasteItem.fromJson(Map<String, dynamic> parsedJson) {
@@ -68,22 +68,13 @@ class DeliveryWasteItem with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map status = this.status != null ? this.status.toJson() : null;
-    Map driver = this.driver != null ? this.driver.toJson() : null;
-    Map total_price = this.total_collects_price != null
-        ? this.total_collects_price.toJson()
-        : null;
-    Map total_weight = this.total_collects_weight != null
-        ? this.total_collects_weight.toJson()
-        : null;
-    Map total_number = this.total_collects_number != null
-        ? this.total_collects_number.toJson()
-        : null;
+    Map<String, dynamic>? status = this.status.toJson();
+    Map driver = this.driver.toJson();
+    Map total_price = this.total_collects_price.toJson();
+    Map total_weight = this.total_collects_weight.toJson();
+    Map total_number = this.total_collects_number.toJson();
 
-
-    List<Map> collect_list = this.collect_list != null
-        ? this.collect_list.map((i) => i.toJson()).toList()
-        : null;
+    List<Map> collect_list = this.collect_list.map((i) => i.toJson()).toList();
 
     return {
       'id': id,

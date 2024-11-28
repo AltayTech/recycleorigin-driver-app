@@ -5,7 +5,7 @@ class TypePost with ChangeNotifier {
   final String name;
   final String slug;
 
-  TypePost({this.term_id, this.name, this.slug});
+  TypePost({required this.term_id, required this.name, required this.slug});
 
   factory TypePost.fromJson(Map<String, dynamic> parsedJson) {
     return TypePost(

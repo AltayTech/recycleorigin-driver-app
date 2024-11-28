@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tamizshahrdriver/models/driver.dart';
@@ -35,14 +34,13 @@ class _CustomerDetailInfoEditScreenState
 
   List<String> typeValueList = [];
 
-  String typeValue;
+  late String typeValue;
 
-  Status selectedType;
+  late Status selectedType;
 
   @override
   void initState() {
-    Driver customer =
-        Provider.of<CustomerInfo>(context, listen: false).driver;
+    Driver customer = Provider.of<CustomerInfo>(context, listen: false).driver;
     nameController.text = customer.driver_data.fname;
     familyController.text = customer.driver_data.lname;
 
@@ -147,6 +145,9 @@ class _CustomerDetailInfoEditScreenState
                                   iconColor: Color(0xffA67FEC),
                                   keybordType: TextInputType.text,
                                   fieldHeight: deviceHeight * 0.05,
+                                  thisFocusNode: FocusNode(),
+                                  newFocusNode: FocusNode(),
+                                  maxLine: 1,
                                 ),
                                 InfoEditItem(
                                   title: 'نام خانوادگی',
@@ -155,6 +156,9 @@ class _CustomerDetailInfoEditScreenState
                                   iconColor: Color(0xffA67FEC),
                                   keybordType: TextInputType.text,
                                   fieldHeight: deviceHeight * 0.05,
+                                  thisFocusNode: FocusNode(),
+                                  newFocusNode: FocusNode(),
+                                  maxLine: 1,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
@@ -212,7 +216,7 @@ class _CustomerDetailInfoEditScreenState
                                           isDense: true,
                                           onChanged: (newValue) {
                                             setState(() {
-                                              typeValue = newValue;
+                                              typeValue = newValue!;
                                               selectedType = typesList[
                                                   typeValueList
                                                       .lastIndexOf(newValue)];
@@ -262,6 +266,9 @@ class _CustomerDetailInfoEditScreenState
                                   iconColor: Color(0xff4392F1),
                                   keybordType: TextInputType.text,
                                   fieldHeight: deviceHeight * 0.05,
+                                  thisFocusNode: FocusNode(),
+                                  newFocusNode: FocusNode(),
+                                  maxLine: 1,
                                 ),
                                 InfoEditItem(
                                   title: 'شهر',
@@ -270,6 +277,9 @@ class _CustomerDetailInfoEditScreenState
                                   iconColor: Color(0xff4392F1),
                                   keybordType: TextInputType.text,
                                   fieldHeight: deviceHeight * 0.05,
+                                  thisFocusNode: FocusNode(),
+                                  newFocusNode: FocusNode(),
+                                  maxLine: 1,
                                 ),
                                 InfoEditItem(
                                   title: 'کدپستی',
@@ -278,6 +288,9 @@ class _CustomerDetailInfoEditScreenState
                                   iconColor: Color(0xff4392F1),
                                   keybordType: TextInputType.number,
                                   fieldHeight: deviceHeight * 0.05,
+                                  thisFocusNode: FocusNode(),
+                                  newFocusNode: FocusNode(),
+                                  maxLine: 1,
                                 ),
                               ],
                             ),
@@ -314,19 +327,24 @@ class _CustomerDetailInfoEditScreenState
               );
 
               Customer customerSend = Customer(
-                  type: selectedType,
-                  personalData: PersonalData(
-                    first_name: nameController.text,
-                    last_name: familyController.text,
-                    city: cityController.text,
-                    ostan: ostanController.text,
-                    postcode: postCodeController.text,
-                  ));
+                type: selectedType,
+                personalData: PersonalData(
+                  first_name: nameController.text,
+                  last_name: familyController.text,
+                  city: cityController.text,
+                  ostan: ostanController.text,
+                  postcode: postCodeController.text,
+                  addresses: [],
+                  phone: '',
+                ),
+                id: 0,
+                status: Status(term_id: 0, name: '', slug: ''),
+              );
 
               Provider.of<CustomerInfo>(context, listen: false)
                   .sendCustomer(customerSend)
                   .then((v) {
-                Scaffold.of(context).showSnackBar(addToCartSnackBar);
+                ScaffoldMessenger.of(context).showSnackBar(addToCartSnackBar);
                 Navigator.of(context)
                     .popAndPushNamed(CustomerUserInfoScreen.routeName);
               });

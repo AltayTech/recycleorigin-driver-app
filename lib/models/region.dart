@@ -8,9 +8,9 @@ class Region with ChangeNotifier {
   final List<CollectHour> collect_hour;
 
   Region({
-    this.term_id,
-    this.name,
-    this.collect_hour,
+    required this.term_id,
+    required this.name,
+    required this.collect_hour,
   });
 
   factory Region.fromJson(Map<String, dynamic> parsedJson) {
@@ -29,7 +29,7 @@ class Region with ChangeNotifier {
   Map<String, dynamic> toJson() {
 
     List<Map> collect_hour =
-    this.collect_hour != null ? this.collect_hour.map((i) => i.toJson()).toList() : null;
+    this.collect_hour.map((i) => i.toJson()).toList();
 
     return {
       'term_id' : term_id,

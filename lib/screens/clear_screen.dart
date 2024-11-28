@@ -33,10 +33,10 @@ class _ClearScreenState extends State<ClearScreen>
   bool _isInit = true;
   var _isLoading = false;
   int page = 1;
-  SearchDetail productsDetail;
+  late SearchDetail productsDetail;
   ScrollController _scrollController = new ScrollController();
 
-  Customer customer;
+  late Customer customer;
 
   final shabaController = TextEditingController();
   final donationController = TextEditingController();
@@ -96,6 +96,8 @@ class _ClearScreenState extends State<ClearScreen>
         title: '',
         buttonText: 'خب',
         description: 'درخواست شما با موفقیت ثبت شد',
+        image: Image.asset(''),
+
       ),
     );
   }
@@ -395,8 +397,9 @@ class _ClearScreenState extends State<ClearScreen>
                                           ),
                                         ),
                                         inputFormatters: [
-                                          WhitelistingTextInputFormatter
-                                              .digitsOnly,
+
+                                          // WhitelistingTextInputFormatter
+                                          //     .digitsOnly,
                                           new CurrencyInputFormatter(),
                                         ],
                                       ),
@@ -452,10 +455,13 @@ class _ClearScreenState extends State<ClearScreen>
                                                               Axis.horizontal,
                                                           children: <Widget>[
                                                             Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal: 3,
-                                                                  vertical: 5),
+                                                                      horizontal:
+                                                                          3,
+                                                                      vertical:
+                                                                          5),
                                                               child: Text(
                                                                 'تعداد:',
                                                                 style:
@@ -471,7 +477,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                             Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       right:
                                                                           4.0,
                                                                       left: 6),
@@ -496,10 +502,13 @@ class _ClearScreenState extends State<ClearScreen>
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal: 3,
-                                                                  vertical: 5),
+                                                                      horizontal:
+                                                                          3,
+                                                                      vertical:
+                                                                          5),
                                                               child: Text(
                                                                 'از',
                                                                 style:
@@ -515,7 +524,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                             Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       right:
                                                                           4.0,
                                                                       left: 6),
@@ -646,9 +655,8 @@ class _ClearScreenState extends State<ClearScreen>
                                         },
                                       ),
                                     );
-                                    if (shabaController.text == null ||
-                                        shabaController.text == 'IR') {
-                                      Scaffold.of(context)
+                                    if (shabaController.text == 'IR') {
+                                      ScaffoldMessenger.of(context)
                                           .showSnackBar(addToCartSnackBar);
                                     } else {
                                       Provider.of<CustomerInfo>(context,

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -32,7 +31,7 @@ class _CollectListScreenState extends State<CollectListScreen>
   var scaffoldKey;
   int page = 1;
 
-  SearchDetail productsDetail;
+  late SearchDetail productsDetail;
 
   var sortValue = 'جدیدترین';
   List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
@@ -231,7 +230,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                 children: <Widget>[
                                                   Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 3,
                                                         vertical: 5),
                                                     child: Text(
@@ -269,7 +268,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 3,
                                                         vertical: 5),
                                                     child: Text(

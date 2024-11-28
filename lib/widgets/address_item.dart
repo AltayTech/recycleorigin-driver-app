@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -13,8 +12,8 @@ class AddressItem extends StatefulWidget {
   final bool isSelected;
 
   AddressItem({
-    this.addressItem,
-    this.isSelected,
+    required this.addressItem,
+    required this.isSelected,
   });
 
   @override
@@ -26,7 +25,7 @@ class _AddressItemState extends State<AddressItem> {
 
   var _isLoading = true;
 
-  bool isLogin;
+  late bool isLogin;
 
   List<Address> addressList = [];
 
@@ -69,22 +68,24 @@ class _AddressItemState extends State<AddressItem> {
           height: deviceWidth * 0.24,
           width: deviceWidth,
           decoration: BoxDecoration(
-            color: widget.isSelected ? AppTheme.primary.withOpacity(0.1) : AppTheme.white,
-              border: Border.all(color: AppTheme.grey, width: 0.3),
+            color: widget.isSelected
+                ? AppTheme.primary.withOpacity(0.1)
+                : AppTheme.white,
+            border: Border.all(color: AppTheme.grey, width: 0.3),
             borderRadius: BorderRadius.circular(5),
           ),
           child: LayoutBuilder(
             builder: (_, constraints) => Stack(
               children: <Widget>[
                 Padding(
-                  padding:  EdgeInsets.only(top:deviceWidth * 0.05),
+                  padding: EdgeInsets.only(top: deviceWidth * 0.05),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
                           flex: 1,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.place,
                               color: Colors.indigo,
@@ -98,7 +99,6 @@ class _AddressItemState extends State<AddressItem> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-
                               Expanded(
                                 flex: 3,
                                 child: Align(
@@ -146,7 +146,7 @@ class _AddressItemState extends State<AddressItem> {
                     width: deviceWidth * 0.1,
                     child: InkWell(
                       onTap: () {
-                        return removeItem();
+                         removeItem();
                       },
                       child: Icon(
                         Icons.close,

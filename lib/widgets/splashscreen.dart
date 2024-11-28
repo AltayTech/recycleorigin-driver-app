@@ -19,19 +19,19 @@ class SplashScreen extends StatefulWidget {
   final Gradient gradientBackground;
 
   SplashScreen(
-      {this.loaderColor,
-      @required this.seconds,
-      this.photoSize,
+      {required this.loaderColor,
+      required this.seconds,
+      required this.photoSize,
       this.onClick,
       this.navigateAfterSeconds,
       this.title = const Text(''),
       this.backgroundColor = Colors.white,
       this.styleTextUnderTheLoader = const TextStyle(
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-      this.image,
+      required this.image,
       this.loadingText = const Text(""),
-      this.imageBackground,
-      this.gradientBackground});
+      required this.imageBackground,
+      required this.gradientBackground});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

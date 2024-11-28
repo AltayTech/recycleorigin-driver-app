@@ -9,7 +9,12 @@ class Address with ChangeNotifier {
   final String latitude;
   final String longitude;
 
-  Address({this.name, this.address,this.region, this.latitude, this.longitude});
+  Address(
+      {required this.name,
+      required this.address,
+      required this.region,
+       this.latitude='',
+       this.longitude=''});
 
   factory Address.fromJson(Map<String, dynamic> parsedJson) {
     return Address(
@@ -21,16 +26,15 @@ class Address with ChangeNotifier {
     );
   }
 
-
   Map<String, dynamic> toJson() {
-    Map region =
-    this.region != null ? this.region.toJson() : null;
+    Map<String, dynamic>? region = this.region.toJson();
 
     return {
-      'name' : name,
-      'address' : address,
-      'region':region,
-      'latitude' : latitude,
-      'longitude' : longitude    };
+      'name': name,
+      'address': address,
+      'region': region,
+      'latitude': latitude,
+      'longitude': longitude
+    };
   }
 }

@@ -11,12 +11,12 @@ class WasteCart with ChangeNotifier {
   bool isAdded;
 
   WasteCart({
-    this.pasmand,
-    this.estimated_weight,
-    this.exact_weight,
-    this.estimated_price,
-    this.exact_price,
-    this.isAdded,
+    required this.pasmand,
+    required this.estimated_weight,
+    required this.exact_weight,
+    required this.estimated_price,
+    required this.exact_price,
+    required this.isAdded,
   });
 
   factory WasteCart.fromJson(Map<String, dynamic> parsedJson) {
@@ -37,12 +37,12 @@ class WasteCart with ChangeNotifier {
               parsedJson['exact_price'] != ''
           ? parsedJson['exact_price']
           : '0',
-      pasmand: Pasmand.fromJson(parsedJson['pasmand']),
+      pasmand: Pasmand.fromJson(parsedJson['pasmand']), isAdded: false,
     );
   }
 
   Map<String, dynamic> toJson() {
-    Map pasmand = this.pasmand != null ? this.pasmand.toJson() : null;
+    Map pasmand =  this.pasmand.toJson();
 
     return {
       'pasmand': pasmand,

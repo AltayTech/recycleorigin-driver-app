@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:tamizshahrdriver/models/request/collect.dart';
 import 'package:tamizshahrdriver/provider/app_theme.dart';
 
-import '../models/request/wasteCart.dart';
-import '../provider/wastes.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class CollectDeliveryDetailItem extends StatefulWidget {
@@ -15,15 +11,17 @@ class CollectDeliveryDetailItem extends StatefulWidget {
   final Function function;
 
   CollectDeliveryDetailItem({
-    this.wasteItem,
-    this.function,
+    required this.wasteItem,
+    required this.function,
   });
 
   @override
-  _CollectDeliveryDetailItemState createState() => _CollectDeliveryDetailItemState();
+  _CollectDeliveryDetailItemState createState() =>
+      _CollectDeliveryDetailItemState();
 }
 
-class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>with TickerProviderStateMixin  {
+class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
+    with TickerProviderStateMixin {
   bool _isInit = true;
 
   var _isLoading = true;
@@ -85,8 +83,8 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>wi
 //    return price;
 //  }
 
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   initState() {
@@ -181,8 +179,9 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>wi
                           padding: const EdgeInsets.only(top: 3.0),
                           child: Text(
                             EnArConvertor()
-                                .replaceArNumber(
-                                    widget.wasteItem.estimated_weight.toString())
+                                .replaceArNumber(widget
+                                    .wasteItem.estimated_weight
+                                    .toString())
                                 .toString(),
                             style: TextStyle(
                               color: AppTheme.black,
@@ -196,26 +195,22 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>wi
                       Expanded(
                         child: AnimatedBuilder(
                           animation: _animation,
-                          builder:
-                              (BuildContext context, Widget child) {
+                          builder: ( context, child) {
                             return new Text(
                               widget.wasteItem.estimated_price.length != 0
                                   ? EnArConvertor()
-                                  .replaceArNumber(currencyFormat
-                                  .format(double.parse(
-                                _animation.value
-                                    .toStringAsFixed(0),
-                              ))
-                                  .toString())
-                                  : EnArConvertor()
-                                  .replaceArNumber('0'),
+                                      .replaceArNumber(currencyFormat
+                                          .format(double.parse(
+                                            _animation.value.toStringAsFixed(0),
+                                          ))
+                                          .toString())
+                                  : EnArConvertor().replaceArNumber('0'),
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18,
                               ),
                               textAlign: TextAlign.center,
-
                             );
                           },
                         ),
@@ -500,8 +495,9 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>wi
 //                          ],
 //                        ),
 //                      ),
-                      SizedBox(width: constraints.maxWidth*0.01,)
-
+                      SizedBox(
+                        width: constraints.maxWidth * 0.01,
+                      )
                     ],
                   ),
                 ),

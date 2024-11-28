@@ -11,11 +11,11 @@ class Customer with ChangeNotifier {
   final String money;
 
   Customer({
-    this.id,
-    this.status,
-    this.type,
-    this.personalData,
-    this.money,
+    required this.id,
+    required this.status,
+    required this.type,
+    required this.personalData,
+     this.money='',
   });
 
   factory Customer.fromJson(Map<String, dynamic> parsedJson) {
@@ -34,8 +34,8 @@ class Customer with ChangeNotifier {
 
   Map<String, dynamic> toJson() {
     Map personalData =
-        this.personalData != null ? this.personalData.toJson() : null;
-    Map type = this.type != null ? this.type.toJson() : null;
+         this.personalData.toJson() ;
+    Map type =  this.type.toJson() ;
 
     return {
       'customer_data': personalData,

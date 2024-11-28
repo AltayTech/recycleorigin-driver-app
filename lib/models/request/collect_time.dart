@@ -1,12 +1,12 @@
-class CollectTime {
+ class CollectTime {
   final String time;
   final String day;
   final String collect_done_time;
 
   CollectTime({
-    this.time,
-    this.day,
-    this.collect_done_time,
+    required this.time,
+    required this.day,
+    required this.collect_done_time,
   });
 
   factory CollectTime.fromJson(Map<String, dynamic> parsedJson) {
