@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/provider/app_theme.dart';
+import 'package:recycleorigindriver/provider/app_theme.dart';
 
 import '../models/request/wasteCart.dart';
 import '../provider/wastes.dart';

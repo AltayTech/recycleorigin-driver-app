@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:tamizshahrdriver/models/request/collect.dart';
-import 'package:tamizshahrdriver/provider/app_theme.dart';
+import 'package:recycleorigindriver/models/request/collect.dart';
+import 'package:recycleorigindriver/provider/app_theme.dart';
 
 import 'en_to_ar_number_convertor.dart';
 

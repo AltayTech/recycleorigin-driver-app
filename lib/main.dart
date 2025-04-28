@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/provider/clearings.dart';
-import 'package:tamizshahrdriver/screens/delivery_detail_screen.dart';
-import 'package:tamizshahrdriver/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/provider/clearings.dart';
+import 'package:recycleorigindriver/screens/delivery_detail_screen.dart';
+import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
 import './provider/auth.dart';
 import './provider/wastes.dart';

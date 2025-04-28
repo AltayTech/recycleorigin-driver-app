@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/models/clearing.dart';
+import 'package:recycleorigindriver/models/clearing.dart';
 
 import '../provider/app_theme.dart';
 import 'en_to_ar_number_convertor.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/models/driver.dart';
+import 'package:recycleorigindriver/models/driver.dart';
 
 import '../../models/customer.dart';
 import '../../provider/app_theme.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahrdriver/models/personal_data.dart';
-import 'package:tamizshahrdriver/models/status.dart';
+import 'package:recycleorigindriver/models/personal_data.dart';
+import 'package:recycleorigindriver/models/status.dart';
 
 import '../../provider/app_theme.dart';
 import '../../models/customer.dart';

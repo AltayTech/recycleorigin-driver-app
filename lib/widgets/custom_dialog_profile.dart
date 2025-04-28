@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahrdriver/screens/customer_info/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/screens/customer_info/customer_user_info_screen.dart';
 
 import '../provider/app_theme.dart';
 

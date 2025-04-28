@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tamizshahrdriver/models/request/collect.dart';
-import 'package:tamizshahrdriver/models/request/delivery_main.dart';
-import 'package:tamizshahrdriver/models/request/delivery_waste_item.dart';
+import 'package:recycleorigindriver/models/request/collect.dart';
+import 'package:recycleorigindriver/models/request/delivery_main.dart';
+import 'package:recycleorigindriver/models/request/delivery_waste_item.dart';
 
 import '../models/request/wasteCart.dart';
 import '../models/search_detail.dart';

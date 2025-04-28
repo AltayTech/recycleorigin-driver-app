@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/screens/customer_info/customer_user_info_screen.dart';
-import 'package:tamizshahrdriver/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/screens/customer_info/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';

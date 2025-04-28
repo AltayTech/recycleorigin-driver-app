@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/models/error.dart';
-import 'package:tamizshahrdriver/widgets/custom_dialog_login_error.dart';
+import 'package:recycleorigindriver/models/error.dart';
+import 'package:recycleorigindriver/widgets/custom_dialog_login_error.dart';
 
 import '../../classes/http_exception.dart';
 import '../../provider/app_theme.dart';
