@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/models/request/pasmand.dart';
-import 'package:tamizshahrdriver/provider/customer_info.dart';
+import 'package:recycleorigindriver/models/request/pasmand.dart';
+import 'package:recycleorigindriver/provider/customer_info.dart';
 
 import '../provider/app_theme.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tamizshahrdriver/models/request/collect.dart';
+import 'package:recycleorigindriver/models/request/collect.dart';
 
 import '../models/request/collect_main.dart';
 import '../models/request/request_waste.dart';

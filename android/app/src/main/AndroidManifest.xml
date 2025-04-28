@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ir.tabrizapps.tamizshahrdriver">
+    package="com.recycleorigin.recycleorigindriver">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name="${applicationName}"
-        android:label="تمیزشهر راننده"
+        android:label="Recycle Origin Driver"
         android:icon="@drawable/tamizshahr_ic">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCRlaVGOEihxi7V69rWNNF_37i6z4wRZDM"/>

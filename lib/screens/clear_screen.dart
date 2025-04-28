@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahrdriver/models/clearing.dart';
-import 'package:tamizshahrdriver/provider/clearings.dart';
-import 'package:tamizshahrdriver/widgets/clearing_item_clear_screen.dart';
+import 'package:recycleorigindriver/models/clearing.dart';
+import 'package:recycleorigindriver/provider/clearings.dart';
+import 'package:recycleorigindriver/widgets/clearing_item_clear_screen.dart';
 
 import '../models/customer.dart';
 import '../models/search_detail.dart';

@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "ir.tabrizapps.tamizshahrdriver"
+    namespace "com.recycleorigin.recycleorigindriver"
 
     compileSdkVersion flutter.compileSdkVersion
     ext.kotlin_version = '1.8.22'
@@ -34,7 +34,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "ir.tabrizapps.tamizshahrdriver"
+        applicationId "com.recycleorigin.recycleorigindriver"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
