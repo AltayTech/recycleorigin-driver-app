@@ -1,5 +1,5 @@
 class Urls {
-  static const rootUrl = 'http://pasmand.ealda.com/rest/pasmands/v1';
+  static const rootUrl = 'http://recycleorigin.com/rest/pasmands/v1';
   static const pasmandsEndPoint = '/pasmands';
 
   static const addressEndPoint = '/customer/address';
