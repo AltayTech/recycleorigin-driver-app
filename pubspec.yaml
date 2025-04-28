@@ -15,7 +15,7 @@ dependencies:
   http: ^1.2.2
   intl: ^0.20.0
   flutter_widget_from_html_core: ^0.15.2
-  share: ^2.0.4
+#  share: ^2.0.4
   image_picker: ^1.1.2
   url_launcher: ^6.3.1
   html: ^0.15.5
@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/splash_main.png
+    - assets/images/
     - assets/images/main_page_header.png
     - assets/images/main_page_request_ic.png
     - assets/images/main_page_article_ic.png

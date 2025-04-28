@@ -13,7 +13,7 @@ import '../models/request/address_main.dart';
 import 'urls.dart';
 
 class Auth with ChangeNotifier {
-  late String _token;
+  late String _token= '';
   late bool _isLoggedin;
 
   bool _isFirstLogin = false;
