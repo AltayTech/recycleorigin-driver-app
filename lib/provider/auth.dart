@@ -1,389 +1,289 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:recycleorigindriver/models/error.dart';
+import 'package:recycleorigindriver/core/storage/secure_storage.dart';
+import 'package:recycleorigindriver/models/token_response_model.dart';
+import 'package:recycleorigindriver/models/region.dart';
+import 'package:recycleorigindriver/models/request/address.dart';
+import 'package:recycleorigindriver/models/request/address_main.dart';
+import 'package:recycleorigindriver/provider/urls.dart';
 
-import '../models/region.dart';
-import '../models/request/address.dart';
-import '../models/request/address_main.dart';
-import 'urls.dart';
-
+/// Authentication state. Uses same JWT email+password login as main Recycle Origin app.
 class Auth with ChangeNotifier {
-  late String _token= '';
-  late bool _isLoggedin;
-
+  String _token = '';
+  bool _isLoggedin = false;
   bool _isFirstLogin = false;
   bool _isFirstLogout = false;
-
-  List<Address> _addressItems = [];
-
-  late Address _selectedAddress;
-
-  List<Region> _regionItems = [];
-
-  late Region _regionData;
-
   bool _isCompleted = false;
 
+  List<Address> _addressItems = [];
+  Address _selectedAddress = Address(
+    name: '',
+    address: '',
+    region: Region(
+      term_id: 0,
+      name: '',
+      collect_hour: [],
+    ),
+  );
+  List<Region> _regionItems = [];
+  Region _regionData = Region(term_id: 0, name: '', collect_hour: []);
+
+  TokenResponseModel tokenResponseModel = TokenResponseModel();
+
   bool get isLoggedin => _isLoggedin;
-
   bool get isFirstLogout => _isFirstLogout;
-
-  set isFirstLogout(bool value) {
-    _isFirstLogout = value;
-  }
-
-  set isLoggedin(bool value) {
-    _isLoggedin = value;
-  }
-
-  bool get isAuth {
-    getToken();
-    return _token != '';
-  }
-
+  bool get isFirstLogin => _isFirstLogin;
+  bool get isCompleted => _isCompleted;
   String get token => _token;
-  Map<String, String> headers = {};
+  List<Address> get addressItems => _addressItems;
+  Address get selectedAddress => _selectedAddress;
+  List<Region> get regionItems => _regionItems;
+  Region get regionData => _regionData;
 
-  Future<LoginError> _authenticate(String urlSegment) async {
-    print('_authenticate');
-    LoginError message= LoginError(code: '', message: '');
+  set isFirstLogout(bool value) => _isFirstLogout = value;
+  set isFirstLogin(bool value) => _isFirstLogin = value;
 
-    final url = Urls.rootUrl + Urls.loginEndPoint + urlSegment;
-    print(url);
+  /// True if we have a stored token. Call [loadStoredToken] to refresh from storage.
+  bool get isAuth => _token.isNotEmpty;
+
+  /// Load token from secure storage (e.g. on app start or when checking auth).
+  Future<void> loadStoredToken() async {
+    try {
+      _token = await SecureStorage.getToken() ?? '';
+      _isLoggedin = await SecureStorage.getLoginStatus() && _token.isNotEmpty;
+      notifyListeners();
+    } catch (e) {
+      _token = '';
+      _isLoggedin = false;
+      notifyListeners();
+    }
+  }
+
+  /// Login with email and password. Same API as main Recycle Origin app (JWT).
+  /// Returns true if login succeeded, false otherwise.
+  Future<bool> login(String email, String password) async {
+    final uri = Uri.parse(Urls.apiBaseUrl + Urls.loginPath).replace(
+      queryParameters: {'username': email, 'password': password},
+    );
 
     try {
-      final response = await http.post(Uri.parse(url), headers: headers);
-      updateCookie(response);
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
 
-      final responseData = json.decode(response.body);
-      print(responseData);
       if (response.statusCode == 200) {
-        if (responseData != 'false') {
-          try {
-            _token = responseData['token'];
-            _isFirstLogin = true;
-
-            final prefs = await SharedPreferences.getInstance();
-            final userData = json.encode(
-              {
-                'token': _token,
-              },
-            );
-            prefs.setString('userData', userData);
-            prefs.setString('token', _token);
-            print(_token);
-            prefs.setString('isLogin', 'true');
-            _isLoggedin = true;
-
-            message = LoginError(code: 'true', message: '');
-          } catch (error) {
-            _isLoggedin = false;
-            message = LoginError(code: 'false', message: '');
-
-            _token = '';
-          }
-        } else {
-          final prefs = await SharedPreferences.getInstance();
-          _isLoggedin = false;
-          message = LoginError(code: 'false', message: '');
-
-          _token = '';
-          prefs.setString('token', _token);
-          print(_token);
-          print('noooo token');
-          prefs.setString('isLogin', 'false');
+        final data = json.decode(response.body) as Map<String, dynamic>?;
+        if (data == null) {
+          _setLoggedOut();
+          notifyListeners();
+          return false;
         }
-      } else {
-        try {
-          final prefs = await SharedPreferences.getInstance();
-          _isLoggedin = false;
-          message = LoginError(
-              code: responseData['code'], message: responseData['message']);
-
-          _token = '';
-          prefs.setString('token', _token);
-          prefs.setString('isLogin', 'false');
-        } catch (error) {
-          _isLoggedin = false;
-
-          _token = '';
+        final tokenStr = data['token']?.toString();
+        if (tokenStr == null || tokenStr.isEmpty) {
+          _setLoggedOut();
+          notifyListeners();
+          return false;
         }
+        _token = tokenStr;
+        _isFirstLogin = true;
+        _isLoggedin = true;
+        tokenResponseModel = TokenResponseModel.fromJson(data);
+        final userData = jsonEncode({'token': _token});
+        await SecureStorage.saveUserData(userData);
+        await SecureStorage.saveToken(_token);
+        await SecureStorage.saveLoginStatus(true);
+        notifyListeners();
+        return true;
       }
+
+      if (response.statusCode == 401) {
+        _setLoggedOut();
+        notifyListeners();
+        return false;
+      }
+
+      _setLoggedOut();
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw error;
+      return false;
+    } catch (e) {
+      _setLoggedOut();
+      notifyListeners();
+      rethrow;
     }
-    return message;
   }
 
-  void updateCookie(http.Response response) {
-    String rawCookie = response.headers['set-cookie']!;
-    int index = rawCookie.indexOf(';');
-    headers['cookie'] =
-        (index == -1) ? rawCookie : rawCookie.substring(0, index);
+  void _setLoggedOut() {
+    _token = '';
+    _isLoggedin = false;
+    tokenResponseModel = TokenResponseModel();
   }
 
-  Future<Future<LoginError>> login(String phoneNumber) async {
-    return _authenticate('/send_sms?mobile=$phoneNumber');
-  }
-
-  Future<LoginError> getVerCode(
-      String verificationCode, String phoneNumber) async {
-    return _authenticate(
-        '/verify?type=driver&mobile=$phoneNumber&sms=$verificationCode');
+  Future<void> removeToken() async {
+    await SecureStorage.deleteToken();
+    await SecureStorage.saveLoginStatus(false);
+    _token = '';
+    _isLoggedin = false;
+    tokenResponseModel = TokenResponseModel();
+    notifyListeners();
   }
 
   Future<void> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    _token = prefs.getString('token')!;
-
-    notifyListeners();
+    await loadStoredToken();
   }
 
   Future<void> checkCompleted() async {
     try {
-      if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-
-        final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
-
-        final response = await get(
-          Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-        );
-
+      final t = await SecureStorage.getToken();
+      if (t == null || t.isEmpty) {
+        _isCompleted = false;
+        notifyListeners();
+        return;
+      }
+      final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $t',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as dynamic;
-
-        print(extractedData.toString());
-        bool isCompleted = extractedData['complete'];
-
-        _isCompleted = isCompleted;
+        _isCompleted = extractedData['complete'] == true;
       } else {
         _isCompleted = false;
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
+    } catch (e) {
+      _isCompleted = false;
+      notifyListeners();
     }
-
-    notifyListeners();
-  }
-
-  Future<void> removeToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    _token = '';
-    print('toookeeen');
-    print(prefs.getString('token'));
-    notifyListeners();
-  }
-
-  bool get isCompleted => _isCompleted;
-
-  bool get isFirstLogin => _isFirstLogin;
-
-  set isFirstLogin(bool value) {
-    _isFirstLogin = value;
   }
 
   Future<void> getAddresses() async {
-    print('getAddresses');
     try {
-      if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-
-        final url = Urls.rootUrl + Urls.addressEndPoint;
-
-        final response = await get(
-          Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-        );
-
-        final extractedData = json.decode(response.body);
-
-        print(extractedData.toString());
-        AddressMain addressMain = AddressMain.fromJson(extractedData);
-        print(extractedData.toString());
-
-        List<Address> addresseList = addressMain.addressData;
-        print('sssssssssssssssssssssssssss ${addresseList.length}');
-
-        _addressItems = addresseList;
-      } else {
+      final t = await SecureStorage.getToken();
+      if (t == null || t.isEmpty) {
         _addressItems = [];
+        notifyListeners();
+        return;
       }
+      final url = Urls.rootUrl + Urls.addressEndPoint;
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $t',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      final extractedData = json.decode(response.body);
+      final addressMain = AddressMain.fromJson(extractedData);
+      _addressItems = addressMain.addressData;
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
+    } catch (e) {
+      _addressItems = [];
+      notifyListeners();
     }
   }
 
   Future<void> updateAddress(List<Address> addressList) async {
-    print('addAddress');
     try {
-      if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-        print('tooookkkkeeennnn    $_token');
-
-        final url = Urls.rootUrl + Urls.addressEndPoint;
-        print('url  $url');
-        print(jsonEncode(AddressMain(
-          addressData: addressList,
-        )));
-
-        final response = await post(Uri.parse(url),
-            headers: {
-              'Authorization': 'Bearer $_token',
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: jsonEncode(AddressMain(
-              addressData: addressList,
-            )));
-
-        final extractedData = json.decode(response.body);
-
-        AddressMain addressMain = AddressMain.fromJson(extractedData);
-        print(extractedData.toString());
-
-        List<Address> addresses = addressMain.addressData;
-        print('ییییییییییییییییییی  ${addresses.length}');
-
-        _addressItems = addresses;
-      } else {
-        print('qqqqqqqqqqqqqqggggggggq');
-
+      final t = await SecureStorage.getToken();
+      if (t == null || t.isEmpty) {
         _addressItems = addressList;
+        notifyListeners();
+        return;
       }
+      final url = Urls.rootUrl + Urls.addressEndPoint;
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $t',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(AddressMain(addressData: addressList)),
+      );
+      final extractedData = json.decode(response.body);
+      final addressMain = AddressMain.fromJson(extractedData);
+      _addressItems = addressMain.addressData;
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
+    } catch (e) {
+      notifyListeners();
+      rethrow;
     }
   }
 
-  List<Address> get addressItems => _addressItems;
-
   Future<void> getOrder(List<Address> addressList) async {
-    print('addAddress');
     try {
-      if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-
-        final url = Urls.rootUrl + Urls.addressEndPoint;
-        final response = await post(Uri.parse(url),
-            headers: {
-              'Authorization': 'Bearer $_token',
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: json.encode(AddressMain(
-              addressData: addressList,
-            )));
-
-        final extractedData = json.decode(response.body);
-
-        print(extractedData.toString());
-
+      final t = await SecureStorage.getToken();
+      if (t == null || t.isEmpty) {
         _addressItems = addressList;
-      } else {
-        _addressItems = addressList;
+        notifyListeners();
+        return;
       }
+      final url = Urls.rootUrl + Urls.addressEndPoint;
+      await http.post(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $t',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode(AddressMain(addressData: addressList)),
+      );
+      _addressItems = addressList;
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
+    } catch (e) {
+      _addressItems = addressList;
+      notifyListeners();
     }
   }
 
   Future<void> selectAddress(Address address) async {
-    print('selectAddress');
-    try {
-      _selectedAddress = address;
-
-      notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
-    }
+    _selectedAddress = address;
+    notifyListeners();
   }
-
-  Address get selectedAddress => _selectedAddress;
 
   Future<void> retrieveRegionList() async {
-    print('retrieveRegionList');
-
-    final url = Urls.rootUrl + Urls.regionEndPoint;
-
     try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
+      final url = Urls.rootUrl + Urls.regionEndPoint;
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
       final extractedData = json.decode(response.body) as List;
-      print(extractedData);
-
-      List<Region> regionList =[];
-
-      regionList = extractedData.map((i) => Region.fromJson(i)).toList();
-      print(regionList.length);
-
-      _regionItems = regionList;
-
+      _regionItems =
+          extractedData.map((i) => Region.fromJson(i as Map<String, dynamic>)).toList();
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
+    } catch (e) {
+      notifyListeners();
+      rethrow;
     }
   }
-
-  List<Region> get regionItems => _regionItems;
 
   Future<void> retrieveRegion(int regionId) async {
-    print('retrieveRegion');
-
     final url = Urls.rootUrl + Urls.regionEndPoint + '/$regionId';
-    print(url);
-
-    try {
-      final response = await get(Uri.parse(url), headers: {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
-      final extractedData = json.decode(response.body);
-      print(extractedData);
-
-      _regionData = Region.fromJson(extractedData);
-
-      notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
-    }
+        'Accept': 'application/json',
+      },
+    );
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    _regionData = Region.fromJson(extractedData);
+    notifyListeners();
   }
-
-  Region get regionData => _regionData;
 }

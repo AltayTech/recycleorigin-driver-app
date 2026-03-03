@@ -4,7 +4,7 @@ import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/splashscreen.dart';
-import 'navigation_bottom_screen.dart';
+import 'auth_gate_screen.dart';
 
 class SplashScreens extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _SplashScreensState extends State<SplashScreens> {
   Widget build(BuildContext context) {
     return new SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: new NavigationBottomScreen(),
+      navigateAfterSeconds: const AuthGateScreen(),
       title: new Text(
         context.l10n.splashTitle,
         textAlign: TextAlign.center,

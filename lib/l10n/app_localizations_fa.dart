@@ -315,6 +315,22 @@ class AppLocalizationsFa extends AppLocalizations {
   String get emailLabel => 'ایمیل';
 
   @override
+  String get emailHint => 'ایمیل';
+
+  @override
+  String get passwordHint => 'رمز عبور';
+
+  @override
+  String get invalidCredentialsMessage =>
+      'ایمیل یا رمز عبور اشتباه است. دوباره تلاش کنید.';
+
+  @override
+  String get enterEmailValidationMessage => 'لطفا ایمیل را وارد کنید.';
+
+  @override
+  String get enterPasswordValidationMessage => 'لطفا رمز عبور را وارد کنید.';
+
+  @override
   String get vehicleTypeLabel => 'نوع خودرو';
 
   @override

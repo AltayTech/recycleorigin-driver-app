@@ -707,6 +707,16 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get emailLabel;
 
+  String get emailHint;
+
+  String get passwordHint;
+
+  String get invalidCredentialsMessage;
+
+  String get enterEmailValidationMessage;
+
+  String get enterPasswordValidationMessage;
+
   /// No description provided for @vehicleTypeLabel.
   ///
   /// In en, this message translates to:

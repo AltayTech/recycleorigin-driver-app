@@ -1,49 +1,42 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigindriver/models/error.dart';
-import 'package:recycleorigindriver/widgets/custom_dialog_login_error.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
+import 'package:recycleorigindriver/provider/app_theme.dart';
+import 'package:recycleorigindriver/provider/auth.dart';
+import 'package:recycleorigindriver/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/screens/navigation_bottom_screen.dart';
 
-import '../../classes/http_exception.dart';
-import '../../l10n/l10n.dart';
-import '../../provider/app_theme.dart';
-import '../../provider/auth.dart';
-import '../../widgets/main_drawer.dart';
-import '../navigation_bottom_screen.dart';
-
-enum AuthMode { VerificationCode, Login }
-
+/// Login screen: email + password, same flow and API as main Recycle Origin app.
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
+  const LoginScreen({super.key});
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: const Color(0xffF9F9F9),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors.transparent,
         ),
         child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: deviceSize.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/login_bg.png"),
+              image: AssetImage('assets/images/login_bg.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -51,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Positioned(
                 top: deviceSize.height * 0.1,
-                child: Container(
+                child: SizedBox(
                   height: deviceSize.height * 0.99,
                   width: deviceSize.width,
                   child: Column(
@@ -59,22 +52,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Flexible(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0, vertical: 30),
-                        child: Text(
-                          context.l10n.wasteManagementSystemTitle,
-                          style: TextStyle(
-                            fontFamily: 'BFarnaz',
-                            fontWeight: FontWeight.w900,
-                            color: Colors.green,
-                            fontSize: textScaleFactor * 28.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18.0,
+                            vertical: 30,
+                          ),
+                          child: Text(
+                            context.l10n.wasteManagementSystemTitle,
+                            style: TextStyle(
+                              fontFamily: 'BFarnaz',
+                              fontWeight: FontWeight.w900,
+                              color: Colors.green,
+                              fontSize: textScaleFactor * 28.0,
+                            ),
                           ),
                         ),
-                      )),
+                      ),
                       Flexible(
                         flex: deviceSize.width > 600 ? 2 : 1,
-                        child: AuthCard(),
+                        child: const _AuthCard(),
                       ),
                     ],
                   ),
@@ -88,456 +84,201 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class AuthCard extends StatefulWidget {
+class _AuthCard extends StatefulWidget {
+  const _AuthCard();
+
   @override
-  _AuthCardState createState() => _AuthCardState();
+  State<_AuthCard> createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard>
-    with SingleTickerProviderStateMixin {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.VerificationCode;
-  Map<String, String> _authData = {
-    'phoneNumber': '',
-    'verificationCode': '',
-  };
-
-  var _isLoading = false;
-  late AnimationController _controller;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _opacityAnimation;
-  late Animation<Offset> _slideAnimation1;
-  late Animation<double> _opacityAnimation1;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(
-        milliseconds: 600,
-      ),
-    );
-
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(3, 0),
-      end: Offset(0, 0),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-      ),
-    );
-    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeIn,
-      ),
-    );
-    _slideAnimation1 = Tween<Offset>(
-      begin: Offset(0, 0),
-      end: Offset(-3, 0),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-      ),
-    );
-    _opacityAnimation1 = Tween(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeIn,
-      ),
-    );
-  }
+class _AuthCardState extends State<_AuthCard> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
-    _controller.dispose();
   }
 
   void _showErrorDialog(String message) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(context.l10n.loginErrorTitle),
         content: Text(message),
         actions: <Widget>[
           FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(),
             child: Text(context.l10n.confirmLabel),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
+          ),
         ],
       ),
     );
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) {
-      // Invalid!
-      return;
-    }
-    _formKey.currentState!.save();
-    setState(() {
-      _isLoading = true;
-    });
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
+
     try {
-      if (_authMode == AuthMode.VerificationCode) {
-        // Log user in
-        await Provider.of<Auth>(context, listen: false).login(
-          _authData['phoneNumber']!,
+      final success = await context.read<Auth>().login(
+            _emailController.text.trim(),
+            _passwordController.text,
+          );
+      if (!mounted) return;
+      if (success) {
+        Navigator.of(context).pushReplacementNamed(
+          NavigationBottomScreen.routeName,
         );
-
-        _switchAuthMode();
       } else {
-        var response =
-            await Provider.of<Auth>(context, listen: false).getVerCode(
-          _authData['verificationCode']!,
-          _authData['phoneNumber']!,
-        );
-        print(response);
-        if (response.code == 'true') {
-          Navigator.of(context)
-              .pushReplacementNamed(NavigationBottomScreen.routeName);
-        } else {
-          _showLogindialog(response);
-        }
+        _showErrorDialog(context.l10n.invalidCredentialsMessage);
       }
-    } on HttpException catch (error) {
-      var errorMessage = context.l10n.connectionFailedMessage;
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid password.';
+    } catch (_) {
+      if (mounted) {
+        _showErrorDialog(context.l10n.connectionRetryMessage);
       }
-      _showErrorDialog(errorMessage);
-    } catch (error) {
-      final errorMessage = context.l10n.connectionRetryMessage;
-      _showErrorDialog(errorMessage);
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  void _switchAuthMode() {
-    print('swotchMode');
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.VerificationCode;
-//        _controller.reverse();
-      });
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-        _controller.forward();
-      });
-    }
-  }
-
-  void _switchPhoneCorrectMode() {
-    print('swotchMode');
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.VerificationCode;
-        _controller.reverse();
-      });
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-        _controller.forward();
-      });
-    }
-  }
-
-  void _showLogindialog(LoginError loginError) {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogLoginError(
-        title: loginError.code,
-        buttonText: context.l10n.okLabel,
-        description: loginError.message,
-        image: Image.asset(''),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       width: deviceSize.width * 0.85,
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: Center(
-                            child: Text(
-                              context.l10n.enterReceivedCodeMessage,
-                              style: TextStyle(
-                                color: AppTheme.h1,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 11.0,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation1,
-                      child: SlideTransition(
-                          position: _slideAnimation1,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: Center(
-                              child: Text(
-                                context.l10n.enterPhoneToLoginMessage,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 11.0,
-                                ),
-                              ),
-                            ),
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: Colors.blue, width: 1.5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          enabled: true,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffix: Text(''),
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15.0,
-                                            ),
-                                          ),
-                                          keyboardType: TextInputType.number,
-                                          validator: _authMode == AuthMode.Login
-                                              ? (value) {
-                                                  _authData[
-                                                          'verificationCode'] =
-                                                      value!;
-                                                  return null;
-                                                }
-                                              : null,
-                                        ),
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: Colors.blue,
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation1,
-                      child: SlideTransition(
-                        position: _slideAnimation1,
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppTheme.h1, width: 0.5),
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          suffix: Text(''),
-                                          counterStyle: TextStyle(
-                                            decorationStyle:
-                                                TextDecorationStyle.dashed,
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
-                                          ),
-                                        ),
-                                        keyboardType: TextInputType.phone,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return context.l10n
-                                                .enterPhoneValidationMessage;
-                                          }
-                                          return null;
-                                        },
-                                        onSaved: (value) {
-                                          _authData['phoneNumber'] = value!;
-                                        },
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: AppTheme.secondary,
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              _buildEmailField(textScaleFactor, deviceSize),
+              _buildPasswordField(textScaleFactor, deviceSize),
+              const SizedBox(height: 20),
               _isLoading
                   ? SpinKitFadingCircle(
                       itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
+                        return const DecoratedBox(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: index.isEven ? Colors.grey : Colors.grey,
+                            color: Colors.grey,
                           ),
                         );
                       },
                     )
-                  : Container(
+                  : SizedBox(
                       height: deviceSize.height * 0.055,
                       width: deviceSize.width * 0.6,
                       child: FilledButton(
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          _submit();
+                        },
                         child: Text(
-                          _authMode == AuthMode.Login
-                              ? context.l10n.loginLabel
-                              : context.l10n.getVerificationCodeLabel,
+                          context.l10n.loginLabel,
                           style: TextStyle(
                             color: AppTheme.bg,
                             fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _submit();
-                        },
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius: BorderRadius.circular(5),
-                        // ),
-                        // padding: EdgeInsets.symmetric(
-                        //     horizontal: 30.0, vertical: 8.0),
-                        // color: AppTheme.primary,
-                        // textColor: AppTheme.bg,
                       ),
                     ),
-              AnimatedContainer(
-                duration: _controller.duration!,
-                curve: Curves.easeIn,
-                child: FadeTransition(
-                  opacity: _opacityAnimation,
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: ElevatedButton(
-                      child: Text(
-                        context.l10n.correctPhoneNumberLabel,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Iransans',
-                          fontSize: textScaleFactor * 9.0,
-                        ),
-                      ),
-                      onPressed: _switchPhoneCorrectMode,
-                      // padding: EdgeInsets.only(right: 30.0, left: 30.0, top: 4),
-                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      // textColor: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-              ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmailField(double textScaleFactor, Size deviceSize) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Center(
+        child: SizedBox(
+          height: deviceSize.height * 0.055,
+          width: deviceSize.width * 0.6,
+          child: TextFormField(
+            controller: _emailController,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              hintText: context.l10n.emailHint,
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 11,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+            ),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return context.l10n.enterEmailValidationMessage;
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(double textScaleFactor, Size deviceSize) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Center(
+        child: SizedBox(
+          height: deviceSize.height * 0.055,
+          width: deviceSize.width * 0.6,
+          child: TextFormField(
+            controller: _passwordController,
+            textAlign: TextAlign.center,
+            obscureText: _obscurePassword,
+            keyboardType: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (_) => _submit(),
+            decoration: InputDecoration(
+              hintText: context.l10n.passwordHint,
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 11,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() => _obscurePassword = !_obscurePassword);
+                },
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return context.l10n.enterPasswordValidationMessage;
+              }
+              return null;
+            },
           ),
         ),
       ),

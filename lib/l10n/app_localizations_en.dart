@@ -315,6 +315,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailLabel => 'Email';
 
   @override
+  String get emailHint => 'Email';
+
+  @override
+  String get passwordHint => 'Password';
+
+  @override
+  String get invalidCredentialsMessage =>
+      'Invalid email or password. Please try again.';
+
+  @override
+  String get enterEmailValidationMessage => 'Please enter your email.';
+
+  @override
+  String get enterPasswordValidationMessage => 'Please enter your password.';
+
+  @override
   String get vehicleTypeLabel => 'Vehicle type';
 
   @override
