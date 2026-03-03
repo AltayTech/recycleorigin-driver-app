@@ -26,7 +26,6 @@ android {
     namespace "com.recycleorigin.recycleorigindriver"
 
     compileSdkVersion flutter.compileSdkVersion
-    ext.kotlin_version = '1.8.22'
 
     lintOptions {
         disable 'InvalidPackage'

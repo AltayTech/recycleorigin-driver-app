@@ -114,7 +114,7 @@ class Deliveries with ChangeNotifier {
         print('url  $url');
 
         final response = await post(
-          Uri(path: url),
+          Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ class Deliveries with ChangeNotifier {
       _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -256,7 +256,7 @@ class Deliveries with ChangeNotifier {
       _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -323,7 +323,7 @@ class Deliveries with ChangeNotifier {
       _token = prefs.getString('token')!;
       print('tooookkkeeennnnnn  $_token');
 
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'

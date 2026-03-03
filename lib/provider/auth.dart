@@ -57,7 +57,7 @@ class Auth with ChangeNotifier {
     print(url);
 
     try {
-      final response = await http.post(Uri(path:url ), headers: headers);
+      final response = await http.post(Uri.parse(url), headers: headers);
       updateCookie(response);
 
       final responseData = json.decode(response.body);
@@ -156,7 +156,7 @@ class Auth with ChangeNotifier {
         final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
 
         final response = await get(
-          Uri(path: url),
+          Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ class Auth with ChangeNotifier {
         final url = Urls.rootUrl + Urls.addressEndPoint;
 
         final response = await get(
-          Uri(path: url),
+          Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ class Auth with ChangeNotifier {
           addressData: addressList,
         )));
 
-        final response = await post(Uri(path: url),
+        final response = await post(Uri.parse(url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ class Auth with ChangeNotifier {
         _token = prefs.getString('token')!;
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
-        final response = await post(Uri(path: url),
+        final response = await post(Uri.parse(url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -337,7 +337,7 @@ class Auth with ChangeNotifier {
     final url = Urls.rootUrl + Urls.regionEndPoint;
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -368,7 +368,7 @@ class Auth with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });

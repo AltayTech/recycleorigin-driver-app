@@ -66,7 +66,7 @@ class CustomerInfo with ChangeNotifier {
 
     Driver driver;
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -97,7 +97,7 @@ class CustomerInfo with ChangeNotifier {
 
     try {
       final response = await post(
-        Uri(path: url),
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -193,7 +193,7 @@ class CustomerInfo with ChangeNotifier {
     _token = prefs.getString('token')!;
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -226,7 +226,7 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -280,7 +280,7 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -314,7 +314,7 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -347,7 +347,7 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(Uri(path: url), headers: {
+      final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -387,7 +387,7 @@ class CustomerInfo with ChangeNotifier {
         print('url  $url');
 
         final response = await post(
-          Uri(path: url),
+          Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
