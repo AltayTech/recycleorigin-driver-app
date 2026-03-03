@@ -31,7 +31,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
   var scaffoldKey;
   int page = 1;
 
-  late SearchDetail productsDetail;
+  SearchDetail? productsDetail;
 
   @override
   void initState() {
@@ -42,7 +42,8 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
+        final maxPage = productsDetail?.max_page ?? 1;
+        if (page < maxPage) {
           page = page + 1;
           Provider.of<Wastes>(context, listen: false).sPage = page;
 

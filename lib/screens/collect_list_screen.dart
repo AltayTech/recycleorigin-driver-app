@@ -32,7 +32,7 @@ class _CollectListScreenState extends State<CollectListScreen>
   var scaffoldKey;
   int page = 1;
 
-  late SearchDetail productsDetail;
+  SearchDetail? productsDetail;
 
 
   @override
@@ -44,7 +44,8 @@ class _CollectListScreenState extends State<CollectListScreen>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
+        final maxPage = productsDetail?.max_page ?? 1;
+        if (page < maxPage) {
           page = page + 1;
           Provider.of<Wastes>(context, listen: false).sPage = page;
 
@@ -94,7 +95,8 @@ class _CollectListScreenState extends State<CollectListScreen>
 
     Provider.of<Wastes>(context, listen: false).searchBuilder();
     await Provider.of<Wastes>(context, listen: false).searchCollectItems();
-    productsDetail = Provider.of<Wastes>(context, listen: false).searchDetails;
+    productsDetail =
+        Provider.of<Wastes>(context, listen: false).searchDetails;
     _submit();
 
     setState(() {
@@ -213,11 +215,11 @@ class _CollectListScreenState extends State<CollectListScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Spacer(),
-                                      Consumer<Wastes>(
-                                          builder: (_, Wastes, ch) {
-                                        return Container(
-                                          child: Padding(
+                                      const Spacer(),
+                                      Expanded(
+                                        child: Consumer<Wastes>(
+                                            builder: (_, wastes, ch) {
+                                          return Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: deviceHeight * 0.0,
                                                 horizontal: 3),
@@ -289,9 +291,8 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                       productsDetail != null
                                                           ? EnArConvertor()
                                                               .replaceArNumber(
-                                                                  productsDetail
+                                                                  productsDetail!
                                                                       .total
-                                                                      .toString()
                                                                       .toString())
                                                           : EnArConvertor()
                                                               .replaceArNumber(
@@ -305,9 +306,9 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                     ),
                                                   ),
                                                 ]),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     ],
                                   ),
                                   Container(

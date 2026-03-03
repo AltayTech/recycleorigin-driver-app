@@ -20,7 +20,7 @@ class Wastes with ChangeNotifier {
 
   List<RequestWasteItem> _collectItems = [];
 
-  late SearchDetail _searchDetails;
+  SearchDetail? _searchDetails;
 
   late RequestWasteItem _requestWasteItem;
 
@@ -184,7 +184,14 @@ class Wastes with ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
+      final token = prefs.getString('token');
+      if (token == null || token.isEmpty) {
+        _collectItems = [];
+        _searchDetails = null;
+        notifyListeners();
+        return;
+      }
+      _token = token;
       print('tooookkkeeennnnnn  $_token');
 
       final response = await get(Uri.parse(url), headers: {
@@ -194,21 +201,31 @@ class Wastes with ChangeNotifier {
       });
       print(response.statusCode);
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
         print(extractedData.toString());
 
-        CollectMain collectMain = CollectMain.fromJson(extractedData);
-        print(collectMain.searchDetail.max_page.toString());
-
-        _collectItems = collectMain.requestWasteItem;
-        _searchDetails = collectMain.searchDetail;
+        final detailsJson = extractedData['details'];
+        if (detailsJson != null && detailsJson is Map<String, dynamic>) {
+          final collectMain = CollectMain.fromJson(extractedData);
+          print(collectMain.searchDetail.max_page.toString());
+          _collectItems = collectMain.requestWasteItem;
+          _searchDetails = collectMain.searchDetail;
+        } else {
+          _collectItems = [];
+          _searchDetails = null;
+        }
       } else {
         _collectItems = [];
+        _searchDetails = null;
       }
       notifyListeners();
     } catch (error) {
       print(error.toString());
-      throw (error);
+      _collectItems = [];
+      _searchDetails = null;
+      notifyListeners();
+      rethrow;
     }
   }
 
@@ -255,7 +272,7 @@ class Wastes with ChangeNotifier {
 
   RequestWasteItem get requestWasteItem => _requestWasteItem;
 
-  SearchDetail get searchDetails => _searchDetails;
+  SearchDetail? get searchDetails => _searchDetails;
 
   List<RequestWasteItem> get collectItems => _collectItems;
 
