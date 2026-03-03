@@ -14,6 +14,7 @@ import 'package:recycleorigindriver/widgets/collect_detail_item.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigindriver/widgets/header_total.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/wastes.dart';
@@ -46,9 +47,9 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه باید وارد شوید',
+        title: context.l10n.loginLabel,
+        buttonText: context.l10n.loginPageLabel,
+        description: context.l10n.loginRequiredDescription,
         image: Image.asset(''),
       ),
     );
@@ -58,9 +59,9 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: context.l10n.personalInfoLabel,
+        buttonText: context.l10n.profilePageLabel,
+        description: context.l10n.completeProfileDescription,
         image: Image.asset(''),
       ),
     );
@@ -71,8 +72,8 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'درخواست شما با موفقیت ثبت شد',
+        buttonText: context.l10n.okLabel,
+        description: context.l10n.requestSubmittedSuccess,
         image: Image.asset(''),
       ),
     );
@@ -263,7 +264,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'جزئیات درخواست',
+          context.l10n.requestDetailTitle,
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
@@ -314,7 +315,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  'وضعیت',
+                                                  context.l10n.statusLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -325,7 +326,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  'نوع',
+                                                  context.l10n.typeLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -336,7 +337,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  'وزن مشتری',
+                                                  context.l10n.customerWeightLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -347,7 +348,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  'وزن تحویلی',
+                                                  context.l10n.deliveryWeightLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -391,7 +392,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                 : Container(
                                     height: deviceHeight * 0.7,
                                     child: Center(
-                                      child: Text('پسماندی اضافه نشده است'),
+                                      child: Text(context.l10n.noWasteAdded),
                                     ),
                                   ),
                           ),
@@ -424,7 +425,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                 onTap: () async {
                                   SnackBar addToCartSnackBar = SnackBar(
                                     content: Text(
-                                      'قبلا جمع آوری شده است!',
+                                      context.l10n.alreadyCollected,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Iransans',
@@ -432,7 +433,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                       ),
                                     ),
                                     action: SnackBarAction(
-                                      label: 'متوجه شدم',
+                                      label: context.l10n.gotItLabel,
                                       onPressed: () {
                                         // Some code to undo the change.
                                       },
@@ -469,7 +470,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                 child: ButtonBottom(
                                   width: deviceWidth * 0.9,
                                   height: deviceWidth * 0.14,
-                                  text: 'تایید',
+                                  text: context.l10n.confirmLabel,
                                   isActive: loadedCollect.status.slug !=
                                           'cancel' &&
                                       loadedCollect.status.slug != 'collected',
@@ -479,7 +480,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                 onTap: () {
                                   SnackBar addToCartSnackBar = SnackBar(
                                     content: Text(
-                                      'قبلا جمع آوری شده است!',
+                                      context.l10n.alreadyCollected,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Iransans',
@@ -487,7 +488,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                       ),
                                     ),
                                     action: SnackBarAction(
-                                      label: 'متوجه شدم',
+                                      label: context.l10n.gotItLabel,
                                       onPressed: () {
                                         // Some code to undo the change.
                                       },
@@ -527,7 +528,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                           ),
                                         ),
                                         Text(
-                                          'عدم دسترسی',
+                                          context.l10n.noAccessLabel,
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',

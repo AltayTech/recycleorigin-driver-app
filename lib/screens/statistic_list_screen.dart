@@ -4,6 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/widgets/statistic_item_statistics_screen.dart';
 
+import '../l10n/l10n.dart';
 import '../models/request/request_waste_item.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
@@ -31,9 +32,6 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
   int page = 1;
 
   late SearchDetail productsDetail;
-
-  var sortValue = 'جدیدترین';
-  List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
 
   @override
   void initState() {
@@ -158,7 +156,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('شما وارد نشده اید'),
+                        child: Text(context.l10n.notLoggedInLabel),
                       ),
                       InkWell(
                         onTap: () {
@@ -169,7 +167,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Text(
-                              'ورود به حساب کاربری',
+                              context.l10n.loginToAccountLabel,
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -221,7 +219,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                                         value: loadedProductstolist[i],
                                         child: StatisticItemStatisticsScreen(
                                           headColor: Colors.blue,
-                                          title: 'امروز',
+                                          title: context.l10n.todayLabel,
                                           price: '65000',
                                           weight: '10',
                                           number: '6',
@@ -260,7 +258,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                                   child: loadedProductstolist.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'محصولی وجود ندارد',
+                                            context.l10n.noProductAvailable,
                                             style: TextStyle(
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,

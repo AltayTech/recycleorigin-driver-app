@@ -15,13 +15,13 @@ import './screens/home_screen.dart';
 import './screens/map_screen.dart';
 import './screens/navigation_bottom_screen.dart';
 import './screens/wallet_screen.dart';
-import 'classes/strings.dart';
+import 'l10n/app_localizations.dart';
+import 'l10n/l10n.dart';
 import 'provider/customer_info.dart';
 import 'provider/deliveries.dart';
 import 'screens/collect_list_screen.dart';
 import 'screens/customer_info/customer_detail_info_edit_screen.dart';
 import 'screens/customer_info/login_screen.dart';
-import 'screens/customer_info/profile_screen.dart';
 import 'screens/guide_screen.dart';
 import 'screens/send_delivery_screen.dart';
 import 'screens/splash_Screen.dart';
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: Strings.appTitle,
+        onGenerateTitle: (context) => context.l10n.appTitle,
         theme: ThemeData(
           primarySwatch: Colors.green,
           hintColor: Colors.amber,
@@ -71,14 +71,10 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        supportedLocales: const <Locale>[
-          Locale('en', ''),
-          Locale('ar', ''),
-        ],
-        home: Directionality(
-          child: SplashScreens(),
-          textDirection: TextDirection.rtl, // setting rtl
-        ),
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SplashScreens(),
         routes: {
           NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),

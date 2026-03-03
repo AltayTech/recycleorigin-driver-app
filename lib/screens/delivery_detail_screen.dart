@@ -10,6 +10,7 @@ import 'package:recycleorigindriver/widgets/collect_delivery_detail_item.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_send_delivery.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_send_request.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../widgets/buton_bottom.dart';
@@ -43,11 +44,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه باید وارد شوید',
+        title: context.l10n.loginLabel,
+        buttonText: context.l10n.loginPageLabel,
+        description: context.l10n.loginRequiredDescription,
         image: Image.asset(''),
-
       ),
     );
   }
@@ -56,11 +56,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: context.l10n.personalInfoLabel,
+        buttonText: context.l10n.profilePageLabel,
+        description: context.l10n.completeProfileDescription,
         image: Image.asset(''),
-
       ),
     );
   }
@@ -70,10 +69,9 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'درخواست شما با موفقیت ثبت شد',
+        buttonText: context.l10n.okLabel,
+        description: context.l10n.requestSubmittedSuccess,
         image: Image.asset(''),
-
       ),
     );
   }
@@ -279,7 +277,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'جزئیات درخواست',
+          context.l10n.requestDetailTitle,
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
@@ -336,7 +334,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         ),
                                       ),
                                       Text(
-                                        'تعداد ',
+                                        context.l10n.countLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -384,7 +382,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         },
                                       ),
                                       Text(
-                                        'تومان ',
+                                        context.l10n.tomanLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -416,7 +414,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         ),
                                       ),
                                       Text(
-                                        'کیلوگرم ',
+                                        context.l10n.kilogramLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -451,7 +449,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  'نوع',
+                                                  context.l10n.typeLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -463,7 +461,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  'وزن(کیلوگرم) ',
+                                                  context.l10n.weightKgLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -475,7 +473,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  'قیمت(تومان)',
+                                                  context.l10n.priceTomanLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
                                                     fontFamily: 'Iransans',
@@ -515,7 +513,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                 : Container(
                                     height: deviceHeight * 0.7,
                                     child: Center(
-                                      child: Text('پسماندی اضافه نشده است'),
+                                      child: Text(context.l10n.noWasteAdded),
                                     ),
                                   ),
                           ),
@@ -546,7 +544,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                             onTap: () async {
                               SnackBar addToCartSnackBar = SnackBar(
                                 content: Text(
-                                  'قبلا جمع آوری شده است!',
+                                  context.l10n.alreadyCollected,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Iransans',
@@ -554,7 +552,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                   ),
                                 ),
                                 action: SnackBarAction(
-                                  label: 'متوجه شدم',
+                                  label: context.l10n.gotItLabel,
                                   onPressed: () {
                                     // Some code to undo the change.
                                   },
@@ -586,7 +584,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                             child: ButtonBottom(
                               width: deviceWidth * 0.9,
                               height: deviceWidth * 0.14,
-                              text: 'تایید',
+                              text: context.l10n.confirmLabel,
                               isActive: loadedCollect.isNotEmpty,
                             ),
                           ),

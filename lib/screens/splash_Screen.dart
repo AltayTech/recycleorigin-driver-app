@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/splashscreen.dart';
@@ -29,7 +30,7 @@ class _SplashScreensState extends State<SplashScreens> {
       seconds: 3,
       navigateAfterSeconds: new NavigationBottomScreen(),
       title: new Text(
-        'تمیزشهر \n اپلیکیشن راننده',
+        context.l10n.splashTitle,
         textAlign: TextAlign.center,
         style: new TextStyle(
           fontFamily: 'BFarnaz',
@@ -45,7 +46,7 @@ class _SplashScreensState extends State<SplashScreens> {
         ),
       ),
       loadingText: Text(
-        EnArConvertor().replaceArNumber('نسخه آزمایشی 1.0'),
+        EnArConvertor().replaceArNumber(context.l10n.splashVersionLabel),
         style: new TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,

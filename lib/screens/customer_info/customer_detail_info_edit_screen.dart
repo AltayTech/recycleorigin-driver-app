@@ -5,6 +5,7 @@ import '../../models/status.dart';
 
 import '../../models/customer.dart';
 import '../../models/personal_data.dart';
+import '../../l10n/l10n.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/customer_info.dart';
 import '../../widgets/info_edit_item.dart';
@@ -125,7 +126,7 @@ class _CustomerDetailInfoEditScreenState
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'اطلاعات شخص',
+                            context.l10n.personInfoTitle,
                             style: TextStyle(
                               color: AppTheme.black,
                               fontFamily: 'Iransans',
@@ -139,7 +140,7 @@ class _CustomerDetailInfoEditScreenState
                               shrinkWrap: true,
                               children: <Widget>[
                                 InfoEditItem(
-                                  title: 'نام',
+                                  title: context.l10n.firstNameLabel,
                                   controller: nameController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xffA67FEC),
@@ -150,7 +151,7 @@ class _CustomerDetailInfoEditScreenState
                                   maxLine: 1,
                                 ),
                                 InfoEditItem(
-                                  title: 'نام خانوادگی',
+                                  title: context.l10n.lastNameLabel,
                                   controller: familyController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xffA67FEC),
@@ -163,7 +164,7 @@ class _CustomerDetailInfoEditScreenState
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Text(
-                                    'نوع کاربر:',
+                                    context.l10n.userTypeColon,
                                     style: TextStyle(
                                       color: AppTheme.black,
                                       fontFamily: 'Iransans',
@@ -190,7 +191,7 @@ class _CustomerDetailInfoEditScreenState
                                             right: 8.0, left: 8, top: 6),
                                         child: DropdownButton<String>(
                                           hint: Text(
-                                            'نوع کاربر',
+                                            context.l10n.userTypeLabel,
                                             style: TextStyle(
                                               color: AppTheme.grey,
                                               fontFamily: 'Iransans',
@@ -260,7 +261,7 @@ class _CustomerDetailInfoEditScreenState
                               shrinkWrap: true,
                               children: <Widget>[
                                 InfoEditItem(
-                                  title: 'استان',
+                                  title: context.l10n.provinceLabel,
                                   controller: ostanController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -271,7 +272,7 @@ class _CustomerDetailInfoEditScreenState
                                   maxLine: 1,
                                 ),
                                 InfoEditItem(
-                                  title: 'شهر',
+                                  title: context.l10n.cityLabel,
                                   controller: cityController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -282,7 +283,7 @@ class _CustomerDetailInfoEditScreenState
                                   maxLine: 1,
                                 ),
                                 InfoEditItem(
-                                  title: 'کدپستی',
+                                  title: context.l10n.postalCodeLabel,
                                   controller: postCodeController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -314,7 +315,7 @@ class _CustomerDetailInfoEditScreenState
           builder: (context) => FloatingActionButton(
             onPressed: () {
               setState(() {});
-              var _snackBarMessage = 'اطلاعات ویرایش شد.';
+              var _snackBarMessage = context.l10n.infoEditedSuccess;
               final addToCartSnackBar = SnackBar(
                 content: Text(
                   _snackBarMessage,

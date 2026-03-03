@@ -10,6 +10,7 @@ import 'package:recycleorigindriver/widgets/collect_item_store_collect_screen.da
 import 'package:recycleorigindriver/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_profile.dart';
 
+import '../l10n/l10n.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
@@ -129,9 +130,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه باید وارد شوید',
+        title: context.l10n.loginLabel,
+        buttonText: context.l10n.loginPageLabel,
+        description: context.l10n.loginRequiredDescription,
         image: Image.asset(''),
       ),
     );
@@ -141,9 +142,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: context.l10n.personalInfoLabel,
+        buttonText: context.l10n.profilePageLabel,
+        description: context.l10n.completeProfileDescription,
         image: Image.asset(''),
       ),
     );
@@ -174,7 +175,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('شما وارد نشده اید'),
+                        child: Text(context.l10n.notLoggedInLabel),
                       ),
                       InkWell(
                         onTap: () {
@@ -185,7 +186,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Text(
-                              'ورود به حساب کاربری',
+                              context.l10n.loginToAccountLabel,
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -253,7 +254,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'تعداد:',
+                                                        context.l10n.countWithColon,
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -293,7 +294,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'از',
+                                                        context.l10n.ofLabel,
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -364,7 +365,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                           onTap: () async {
                             SnackBar addToCartSnackBar = SnackBar(
                               content: Text(
-                                'قبلا جمع آوری شده است!',
+                                context.l10n.alreadyCollected,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Iransans',
@@ -372,7 +373,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                 ),
                               ),
                               action: SnackBarAction(
-                                label: 'متوجه شدم',
+                                label: context.l10n.gotItLabel,
                                 onPressed: () {
                                   // Some code to undo the change.
                                 },
@@ -391,7 +392,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                           child: ButtonBottom(
                             width: deviceWidth * 0.9,
                             height: deviceWidth * 0.14,
-                            text: 'تحویل به انبار',
+                            text: context.l10n.deliverToWarehouseLabel,
                             isActive: loadedProducts.isNotEmpty,
                           ),
                         ),
@@ -421,7 +422,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                   child: loadedProductstolist.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'محصولی وجود ندارد',
+                                            context.l10n.noProductAvailable,
                                             style: TextStyle(
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,

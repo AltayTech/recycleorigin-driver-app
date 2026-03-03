@@ -8,6 +8,7 @@ import 'package:recycleorigindriver/models/clearing.dart';
 import 'package:recycleorigindriver/provider/clearings.dart';
 import 'package:recycleorigindriver/widgets/clearing_item_clear_screen.dart';
 
+import '../l10n/l10n.dart';
 import '../models/customer.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
@@ -94,10 +95,9 @@ class _ClearScreenState extends State<ClearScreen>
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'درخواست شما با موفقیت ثبت شد',
+        buttonText: context.l10n.okLabel,
+        description: context.l10n.requestSubmittedSuccess,
         image: Image.asset(''),
-
       ),
     );
   }
@@ -153,7 +153,7 @@ class _ClearScreenState extends State<ClearScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'درخواست تسویه',
+          context.l10n.settlementRequestTitle,
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -183,7 +183,7 @@ class _ClearScreenState extends State<ClearScreen>
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('شما وارد نشده اید'),
+                                child: Text(context.l10n.notLoggedInLabel),
                               ),
                               InkWell(
                                 onTap: () {
@@ -194,7 +194,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Text(
-                                      'ورود به حساب کاربری',
+                                      context.l10n.loginToAccountLabel,
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -244,7 +244,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                                'امتیاز',
+                                                context.l10n.pointsLabel,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
                                                   fontFamily: 'Iransans',
@@ -287,7 +287,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                 ),
                                               ),
                                               Text(
-                                                'تومان',
+                                                context.l10n.tomanLabel,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
                                                   fontFamily: 'Iransans',
@@ -305,7 +305,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       padding: const EdgeInsets.only(
                                           top: 16.0, bottom: 4),
                                       child: Text(
-                                        'شماره شبا',
+                                        context.l10n.shebaNumberLabel,
                                         textDirection: TextDirection.ltr,
                                         style: TextStyle(
                                           color: AppTheme.h1,
@@ -353,7 +353,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       padding: const EdgeInsets.only(
                                           top: 16.0, bottom: 4),
                                       child: Text(
-                                        'مقدار درخواستی(تومان)',
+                                        context.l10n.requestedAmountToman,
                                         style: TextStyle(
                                           color: AppTheme.h1,
                                           fontFamily: 'Iransans',
@@ -422,7 +422,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                         .spaceBetween,
                                                 children: <Widget>[
                                                   Text(
-                                                    'لیست درخواست ها',
+                                                    context.l10n.requestListTitle,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: AppTheme.black
@@ -463,7 +463,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                                       vertical:
                                                                           5),
                                                               child: Text(
-                                                                'تعداد:',
+                                                                context.l10n.countWithColon,
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
@@ -510,7 +510,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                                       vertical:
                                                                           5),
                                                               child: Text(
-                                                                'از',
+                                                                context.l10n.ofLabel,
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
@@ -568,7 +568,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           const EdgeInsets.only(
                                                               top: 8.0),
                                                       child: Text(
-                                                        'وضعیت',
+                                                        context.l10n.statusLabel,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -588,7 +588,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           const EdgeInsets.only(
                                                               top: 8.0),
                                                       child: Text(
-                                                        'مبلغ(تومان)',
+                                                        context.l10n.amountTomanLabel,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -641,7 +641,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   onTap: () {
                                     SnackBar addToCartSnackBar = SnackBar(
                                       content: Text(
-                                        'شماره شبا را وارد نمایید',
+                                        context.l10n.enterShebaNumber,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'Iransans',
@@ -649,7 +649,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                       ),
                                       action: SnackBarAction(
-                                        label: 'متوجه شدم',
+                                        label: context.l10n.gotItLabel,
                                         onPressed: () {
                                           // Some code to undo the change.
                                         },
@@ -680,7 +680,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: ButtonBottom(
                                     width: deviceWidth * 0.9,
                                     height: deviceWidth * 0.14,
-                                    text: 'ثبت درخواست',
+                                    text: context.l10n.submitRequestLabel,
                                     isActive: true,
                                   ),
                                 ),

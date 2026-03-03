@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../classes/strings.dart';
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../widgets/main_drawer.dart';
 import '../widgets/profile_view.dart';
@@ -31,34 +31,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     super.dispose();
   }
 
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': HomeScreen(),
-      'title': Strings.navHome,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navRequest,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navShop,
-    },
-    {
-      'page': ProfileView(),
-      'title': Strings.navProfile,
-    }
-  ];
-
-  void _selectBNBItem(int index) {
-    setState(
-      () {
-        _selectedPageIndex = index;
-      },
-    );
-  }
-
-  Future<bool> _onBackPressed() async{
+  Future<bool> _onBackPressed() async {
     return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
@@ -67,7 +40,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 fontFamily: 'Iransans',
                 fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
             title: Text(
-              'خروج از اپلیکیشن',
+              context.l10n.exitDialogTitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppTheme.black,
@@ -75,7 +48,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                   fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
             ),
             content: Text(
-              'آیا میخواهید از اپلیکیشن خارج شوید؟',
+              context.l10n.exitDialogMessage,
               style: TextStyle(
                   color: AppTheme.grey,
                   fontFamily: 'Iransans',
@@ -86,7 +59,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Text(
-                  "نه",
+                  context.l10n.noLabel,
                   style: TextStyle(
                       color: AppTheme.black,
                       fontFamily: 'Iransans',
@@ -101,7 +74,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 onTap: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text("بلی"),
+                child: Text(context.l10n.yesLabel),
               ),
             ],
           ),
@@ -111,40 +84,57 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 
   @override
   Widget build(BuildContext context) {
+    final pages = <Map<String, Object>>[
+      {
+        'page': HomeScreen(),
+        'title': context.l10n.homeTabLabel,
+      },
+      {
+        'page': HomeScreen(),
+        'title': context.l10n.requestTabLabel,
+      },
+      {
+        'page': HomeScreen(),
+        'title': context.l10n.shopTabLabel,
+      },
+      {
+        'page': ProfileView(),
+        'title': context.l10n.profileTabLabel,
+      }
+    ];
+
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: AppBar(
+      child: Scaffold(
+        appBar: AppBar(
 //            bottom: PreferredSize(
 //              child: Container(),
 //              preferredSize: Size.fromHeight(15),
 //            ),
-            title: Text(
-              'تمیز شهر',
-              style: TextStyle(
-                fontFamily: 'Iransans',
-              ),
+          title: Text(
+            context.l10n.appBarTitle,
+            style: TextStyle(
+              fontFamily: 'Iransans',
             ),
+          ),
 //            shape: RoundedRectangleBorder(
 //              borderRadius: new BorderRadius.vertical(
 //                  bottom: new Radius.elliptical(
 //                      MediaQuery.of(context).size.width * 9, 200.0)),
 //            ),
-            backgroundColor: AppTheme.appBarColor,
-            iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-            centerTitle: true,
+          backgroundColor: AppTheme.appBarColor,
+          iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+          centerTitle: true,
+        ),
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            // Set the transparency here
+            canvasColor: Colors
+                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
           ),
-          drawer: Theme(
-            data: Theme.of(context).copyWith(
-              // Set the transparency here
-              canvasColor: Colors
-                  .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-            ),
-            child: MainDrawer(),
-          ),
-          body: _pages[_selectedPageIndex]['page'] as Widget,
+          child: MainDrawer(),
+        ),
+        body: pages[_selectedPageIndex]['page'] as Widget,
 //          bottomNavigationBar: BottomNavigationBar(
 //            elevation: 8,
 //            selectedLabelStyle: TextStyle(
@@ -187,7 +177,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //              ),
 //            ],
 //          ),
-        ),
       ),
     );
   }

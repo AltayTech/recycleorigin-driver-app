@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -171,7 +173,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                           child: Text(
                             widget.wasteItem.pasmand.post_title != null
                                 ? widget.wasteItem.pasmand.post_title
-                                : 'ندارد',
+                                : context.l10n.noneLabel,
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w500,

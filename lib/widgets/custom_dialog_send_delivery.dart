@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/models/request/pasmand.dart';
 import 'package:recycleorigindriver/provider/customer_info.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 
 class CustomDialogSendDelivery extends StatefulWidget {
@@ -84,8 +85,8 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Container(
                     width: deviceWidth * 0.78,
-                    child: Text(
-                      'انتخاب انبار',
+                      child: Text(
+                      context.l10n.selectWarehouseLabel,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.h1,
@@ -112,7 +113,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                             const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                         child: DropdownButton<String>(
                           hint: Text(
-                            'انبار مورد نظر را آنتخاب کنید.',
+                            context.l10n.selectWarehouseMessage,
                             style: TextStyle(
                               color: AppTheme.grey,
                               fontFamily: 'Iransans',
@@ -191,7 +192,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'تایید',
+                                context.l10n.confirmLabel,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Iransans',

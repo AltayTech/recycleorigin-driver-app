@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../screens/collect_list_screen.dart';
 
 import '../classes/top_bar.dart';
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';
@@ -56,7 +57,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('شما وارد نشده اید'),
+                    child: Text(context.l10n.notLoggedInLabel),
                   ),
                   InkWell(
                     onTap: () {
@@ -66,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Text(
-                          'ورود به اکانت کاربری',
+                          context.l10n.loginToAccountLabel,
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -110,7 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
                             width: deviceSizeWidth * 0.4,
                             right: 20,
                             child: Text(
-                              'پروفایل کاربری',
+                              context.l10n.userProfileTitle,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: AppTheme.bg,
@@ -171,7 +172,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'آمار',
+                                                    context
+                                                        .l10n.statisticsLabel,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: AppTheme.black,
@@ -231,12 +233,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                             8.0),
                                                     child: FittedBox(
                                                       child: Text(
-                                                        'اطلاعات شخصی',
+                                                        context.l10n
+                                                            .personalInfoLabel,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
-                                                          color:
-                                                              AppTheme.black,
+                                                          color: AppTheme.black,
                                                           fontFamily:
                                                               'Iransans',
                                                           fontSize:
@@ -361,12 +363,11 @@ class _ProfileViewState extends State<ProfileView> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                    const EdgeInsets.only(
-
-                                                        bottom: 5,
-                                                        top: 0),
+                                                        const EdgeInsets.only(
+                                                            bottom: 5, top: 0),
                                                     child: Text(
-                                                      'درخواست ها',
+                                                      context
+                                                          .l10n.requestTabLabel,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(

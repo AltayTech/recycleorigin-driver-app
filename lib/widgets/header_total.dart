@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/provider/app_theme.dart';
 
 import 'en_to_ar_number_convertor.dart';
+import '../l10n/l10n.dart';
 import 'package:intl/intl.dart' as intl;
 
 class HeaderTotal extends StatelessWidget {
@@ -74,7 +75,7 @@ class HeaderTotal extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'تعداد',
+                            context.l10n.countLabel,
                             style: TextStyle(
                               color: AppTheme.grey,
                               fontFamily: 'Iransans',
@@ -129,7 +130,7 @@ class HeaderTotal extends StatelessWidget {
                             },
                           ),
                           Text(
-                            'تومان ',
+                            context.l10n.tomanLabel,
                             style: TextStyle(
                               color: AppTheme.grey,
                               fontFamily: 'Iransans',
@@ -173,7 +174,7 @@ class HeaderTotal extends StatelessWidget {
                           ),
                           FittedBox(
                             child: Text(
-                              'کیلوگرم ',
+                              context.l10n.kilogramLabel,
                               style: TextStyle(
                                 color: AppTheme.grey,
                                 fontFamily: 'Iransans',

@@ -5,6 +5,7 @@ import 'package:recycleorigindriver/screens/statistic_list_screen.dart';
 import 'package:recycleorigindriver/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/widgets/main_drawer.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../widgets/custom_dialog.dart';
@@ -18,8 +19,6 @@ class StatisticsScreen extends StatefulWidget {
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
   bool _isInit = true;
-
-  int _selectedItem = 1;
 
   @override
   void didChangeDependencies() async {
@@ -51,12 +50,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: 'خوش آمدید',
-          buttonText: 'تایید',
-          description:
-              'برای دریافت اطلاعات کاربری به قسمت پروفایل مراجعه فرمایید',
+          title: context.l10n.welcomeTitle,
+          buttonText: context.l10n.confirmLabel,
+          description: context.l10n.goToProfileDescription,
           image: Image.asset(''),
-
         ),
       );
     });
@@ -67,11 +64,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: 'کاربر گرامی',
-          buttonText: 'تایید',
-          description: 'شما با موفقیت از اکانت کاربری خارج شدید',
+          title: context.l10n.dearUserTitle,
+          buttonText: context.l10n.confirmLabel,
+          description: context.l10n.logoutSuccessDescription,
           image: Image.asset(''),
-
         ),
       );
     });
@@ -80,15 +76,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    double itemPaddingF = 0.019;
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'آمار',
+          context.l10n.statisticsLabel,
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
@@ -99,98 +93,95 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 16, left: 16, right: 16, bottom: 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.primary.withOpacity(0.08),
-                              blurRadius: 10.10,
-                              spreadRadius: 10.510,
-                              offset: Offset(
-                                0,
-                                0,
-                              ),
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0, left: 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.calendar_today,
-                                color: AppTheme.iconColor1,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 16, left: 16, right: 16, bottom: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.primary.withOpacity(0.08),
+                            blurRadius: 10.10,
+                            spreadRadius: 10.510,
+                            offset: Offset(
+                              0,
+                              0,
+                            ),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.calendar_today,
+                              color: AppTheme.iconColor1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              EnArConvertor()
+                                  .replaceArNumber('${Jalali.fromDateTime(
+                                DateTime.now(),
+                              ).year}/${Jalali.fromDateTime(
+                                DateTime.now(),
+                              ).month}/${Jalali.fromDateTime(
+                                DateTime.now(),
+                              ).day}'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppTheme.h1,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 16.0,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                EnArConvertor()
-                                    .replaceArNumber('${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).year}/${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).month}/${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).day}'),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppTheme.h1,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 16.0,
-                                ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.access_time,
+                              color: AppTheme.iconColor1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              EnArConvertor().replaceArNumber(
+                                  '${DateTime.now().hour}:${DateTime.now().minute}'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppTheme.h1,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 18.0,
                               ),
                             ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.access_time,
-                                color: AppTheme.iconColor1,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                EnArConvertor().replaceArNumber(
-                                    '${DateTime.now().hour}:${DateTime.now().minute}'),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppTheme.h1,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 18.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Container(
-                    height: deviceHeight * 0.7,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return StatisticsListScreen();
-                      },
-                    ),
-                  )
-                ],
-              ),
+                ),
+                Container(
+                  height: deviceHeight * 0.7,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return StatisticsListScreen();
+                    },
+                  ),
+                )
+              ],
             ),
           ),
         );

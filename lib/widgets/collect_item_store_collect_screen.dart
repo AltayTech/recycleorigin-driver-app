@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../l10n/l10n.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/models/request/delivery_waste_item.dart';
@@ -124,7 +126,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'کیلوگرم',
+                                    context.l10n.kilogramLabel,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -156,7 +158,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    ' تومان',
+                                    ' ${context.l10n.tomanLabel}',
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(

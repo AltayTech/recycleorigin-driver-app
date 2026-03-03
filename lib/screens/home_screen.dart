@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigindriver/widgets/en_to_ar_number_convertor.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../screens/collect_list_screen.dart';
@@ -52,12 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: 'خوش آمدید',
-          buttonText: 'تایید',
-          description:
-              'برای دریافت اطلاعات کاربری به قسمت پروفایل مراجعه فرمایید',
+          title: context.l10n.welcomeTitle,
+          buttonText: context.l10n.confirmLabel,
+          description: context.l10n.goToProfileDescription,
           image: Image.asset(''),
-
         ),
       );
     });
@@ -68,11 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: 'کاربر گرامی',
-          buttonText: 'تایید',
-          description: 'شما با موفقیت از اکانت کاربری خارج شدید',
+          title: context.l10n.dearUserTitle,
+          buttonText: context.l10n.confirmLabel,
+          description: context.l10n.logoutSuccessDescription,
           image: Image.asset(''),
-
         ),
       );
     });
@@ -291,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: FittedBox(
                                     fit: BoxFit.cover,
                                     child: Text(
-                                      'تحویل انبار',
+                                      context.l10n.warehouseDeliveryLabel,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: _selectedItem == 0
@@ -365,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       left: 10, right: 10, bottom: 0, top: 3),
                                   child: FittedBox(
                                     child: Text(
-                                      'جمع آوری',
+                                      context.l10n.collectionLabel,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: _selectedItem == 1
@@ -439,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10, bottom: 0, top: 3),
                                     child: Text(
-                                      'کیف پول',
+                                      context.l10n.walletLabel,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.black45,

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../models/request/request_waste_item.dart';
 import '../models/search_detail.dart';
+import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/wastes.dart';
@@ -33,8 +34,6 @@ class _CollectListScreenState extends State<CollectListScreen>
 
   late SearchDetail productsDetail;
 
-  var sortValue = 'جدیدترین';
-  List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
 
   @override
   void initState() {
@@ -159,7 +158,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('شما وارد نشده اید'),
+                        child: Text(context.l10n.notLoggedInLabel),
                       ),
                       InkWell(
                         onTap: () {
@@ -170,7 +169,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Text(
-                              'ورود به حساب کاربری',
+                              context.l10n.loginToAccountLabel,
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -234,7 +233,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                         horizontal: 3,
                                                         vertical: 5),
                                                     child: Text(
-                                                      'تعداد:',
+                                                      context.l10n.countWithColon,
                                                       style: TextStyle(
                                                         fontFamily: 'Iransans',
                                                         fontSize:
@@ -272,7 +271,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                         horizontal: 3,
                                                         vertical: 5),
                                                     child: Text(
-                                                      'از',
+                                                      context.l10n.ofLabel,
                                                       style: TextStyle(
                                                         fontFamily: 'Iransans',
                                                         fontSize:
@@ -356,7 +355,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                   child: loadedProductstolist.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'درخواستی وجود ندارد',
+                                            context.l10n.noRequestAvailable,
                                             style: TextStyle(
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,

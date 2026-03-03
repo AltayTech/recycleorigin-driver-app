@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n/l10n.dart';
 import '../models/shop.dart';
 import '../provider/app_theme.dart';
 import '../provider/customer_info.dart';
@@ -49,12 +50,12 @@ class _ContactWithUsState extends State<ContactWithUs> {
         shopData.pay_methods_desc
       ];
       aboutInfotitle = [
-        'درباره فروشگاه',
-        'قوانین بازگردانی',
-        'حریم خصوصی',
-        'نحوه سفارش',
-        'سوالات متداول',
-        'شیوه پرداخت',
+        context.l10n.aboutStoreLabel,
+        context.l10n.returnPolicyLabel,
+        context.l10n.privacyPolicyLabel,
+        context.l10n.howToOrderLabel,
+        context.l10n.faqLabel,
+        context.l10n.paymentMethodLabel,
       ];
     }
     _isInit = false;
@@ -85,7 +86,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'تماس با ما',
+          context.l10n.contactUsLabel,
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',
@@ -188,9 +189,9 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     Expanded(
                                       flex: 8,
                                       child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(shopData.support_phone,),
-
+                                        EnArConvertor().replaceArNumber(
+                                          shopData.support_phone,
+                                        ),
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'Iransans',

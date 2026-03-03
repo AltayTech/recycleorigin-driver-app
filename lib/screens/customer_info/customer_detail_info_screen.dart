@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/models/driver.dart';
 
 import '../../models/customer.dart';
+import '../../l10n/l10n.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/customer_info.dart';
 
@@ -88,7 +89,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'اطلاعات شخصی',
+                              context.l10n.personalInfoLabel,
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontFamily: 'Iransans',
@@ -106,7 +107,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'مشخصات',
+                              context.l10n.specificationsLabel,
                               style: TextStyle(
                                 color: AppTheme.black,
                                 fontFamily: 'Iransans',
@@ -148,19 +149,19 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             shrinkWrap: true,
                             children: <Widget>[
                               InfoItem(
-                                title: 'نام',
+                                title: context.l10n.firstNameLabel,
                                 text: customer.driver_data.fname,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'نام خانوادگی',
+                                title: context.l10n.lastNameLabel,
                                 text: customer.driver_data.lname,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'نوع کاربر',
+                                title: context.l10n.userTypeLabel,
                                 text: customer.status.name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
@@ -177,13 +178,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             shrinkWrap: true,
                             children: <Widget>[
                               InfoItem(
-                                title: 'ایمیل',
+                                title: context.l10n.emailLabel,
                                 text: customer.driver_data.email,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'استان',
+                                title: context.l10n.provinceLabel,
                                 text: customer.driver_data.ostan != null
                                     ? customer.driver_data.ostan
                                     : '',
@@ -191,7 +192,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
-                                title: 'شهر',
+                                title: context.l10n.cityLabel,
                                 text: customer.driver_data.city != null
                                     ? customer.driver_data.city
                                     : '',
@@ -199,7 +200,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
-                                title: 'کدپستی',
+                                title: context.l10n.postalCodeLabel,
                                 text: customer.driver_data.postcode != null
                                     ? customer.driver_data.postcode
                                     : '',
@@ -218,19 +219,19 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             shrinkWrap: true,
                             children: <Widget>[
                               InfoItem(
-                                title: 'نوع خودرو',
+                                title: context.l10n.vehicleTypeLabel,
                                 text: customer.car.name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'رنگ خودرو',
+                                title: context.l10n.vehicleColorLabel,
                                 text: customer.car_color.name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
-                                title: 'پلاک',
+                                title: context.l10n.plateNumberLabel,
                                 text: customer.car_number,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),

@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/l10n.dart';
 import '../models/shop.dart';
 import '../provider/app_theme.dart';
 import '../provider/customer_info.dart';
@@ -26,7 +27,6 @@ class _GuideScreenState extends State<GuideScreen> {
 
   bool _isLoading = false;
 
-
   @override
   void didChangeDependencies() async {
     if (_isInit) {
@@ -40,11 +40,11 @@ class _GuideScreenState extends State<GuideScreen> {
         shopData.pay_methods_desc
       ];
       aboutInfotitle = [
-        'قوانین بازگردانی',
-        'حریم خصوصی',
-        'نحوه سفارش',
-        'سوالات متداول',
-        'شیوه پرداخت',
+        context.l10n.returnPolicyLabel,
+        context.l10n.privacyPolicyLabel,
+        context.l10n.howToOrderLabel,
+        context.l10n.faqLabel,
+        context.l10n.paymentMethodLabel,
       ];
     }
     _isInit = false;
@@ -75,7 +75,7 @@ class _GuideScreenState extends State<GuideScreen> {
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'راهنما',
+          context.l10n.guideLabel,
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',
@@ -154,7 +154,6 @@ class _GuideScreenState extends State<GuideScreen> {
                                 padding: const EdgeInsets.all(1.0),
                                 child: Card(
                                   child: ExpansionTile(
-
                                     title: Text(
                                       aboutInfotitle[index],
                                       style: TextStyle(

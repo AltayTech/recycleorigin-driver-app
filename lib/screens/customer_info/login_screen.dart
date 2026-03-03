@@ -7,6 +7,7 @@ import 'package:recycleorigindriver/models/error.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_login_error.dart';
 
 import '../../classes/http_exception.dart';
+import '../../l10n/l10n.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
 import '../../widgets/main_drawer.dart';
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 18.0, vertical: 30),
                         child: Text(
-                          'سامانه مدیریت پسماند',
+                          context.l10n.wasteManagementSystemTitle,
                           style: TextStyle(
                             fontFamily: 'BFarnaz',
                             fontWeight: FontWeight.w900,
@@ -105,7 +106,7 @@ class _AuthCardState extends State<AuthCard>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _opacityAnimation;
-  late  Animation<Offset> _slideAnimation1;
+  late Animation<Offset> _slideAnimation1;
   late Animation<double> _opacityAnimation1;
 
   @override
@@ -160,11 +161,11 @@ class _AuthCardState extends State<AuthCard>
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('مشکل در ورود'),
+        title: Text(context.l10n.loginErrorTitle),
         content: Text(message),
         actions: <Widget>[
           FilledButton(
-            child: Text('تایید'),
+            child: Text(context.l10n.confirmLabel),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -186,7 +187,7 @@ class _AuthCardState extends State<AuthCard>
     try {
       if (_authMode == AuthMode.VerificationCode) {
         // Log user in
-        var response = await Provider.of<Auth>(context, listen: false).login(
+        await Provider.of<Auth>(context, listen: false).login(
           _authData['phoneNumber']!,
         );
 
@@ -206,7 +207,7 @@ class _AuthCardState extends State<AuthCard>
         }
       }
     } on HttpException catch (error) {
-      var errorMessage = 'ارتباط برقرار نشد.';
+      var errorMessage = context.l10n.connectionFailedMessage;
       if (error.toString().contains('EMAIL_EXISTS')) {
         errorMessage = 'This email address is already in use.';
       } else if (error.toString().contains('INVALID_EMAIL')) {
@@ -220,7 +221,7 @@ class _AuthCardState extends State<AuthCard>
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
-      const errorMessage = 'ارتباط برقرار نشد، لطفا دوباره تلاش کنید.';
+      final errorMessage = context.l10n.connectionRetryMessage;
       _showErrorDialog(errorMessage);
     }
 
@@ -264,7 +265,7 @@ class _AuthCardState extends State<AuthCard>
       context: context,
       builder: (ctx) => CustomDialogLoginError(
         title: loginError.code,
-        buttonText: 'خب',
+        buttonText: context.l10n.okLabel,
         description: loginError.message,
         image: Image.asset(''),
       ),
@@ -297,7 +298,7 @@ class _AuthCardState extends State<AuthCard>
                           padding: const EdgeInsets.only(bottom: 15.0),
                           child: Center(
                             child: Text(
-                              'کد دریافتی را وارد نمایید',
+                              context.l10n.enterReceivedCodeMessage,
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontFamily: 'Iransans',
@@ -321,7 +322,7 @@ class _AuthCardState extends State<AuthCard>
                             padding: const EdgeInsets.only(bottom: 15.0),
                             child: Center(
                               child: Text(
-                                'برای ورود شماره تلفن همراه را وارد نمایید',
+                                context.l10n.enterPhoneToLoginMessage,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.black54,
@@ -442,7 +443,8 @@ class _AuthCardState extends State<AuthCard>
                                         keyboardType: TextInputType.phone,
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return 'لطفا شماره تلفن را وارد نمایید';
+                                            return context.l10n
+                                                .enterPhoneValidationMessage;
                                           }
                                           return null;
                                         },
@@ -490,8 +492,8 @@ class _AuthCardState extends State<AuthCard>
                       child: FilledButton(
                         child: Text(
                           _authMode == AuthMode.Login
-                              ? 'ورود'
-                              : 'دریافت کد تایید',
+                              ? context.l10n.loginLabel
+                              : context.l10n.getVerificationCodeLabel,
                           style: TextStyle(
                             color: AppTheme.bg,
                             fontFamily: 'Iransans',
@@ -520,7 +522,7 @@ class _AuthCardState extends State<AuthCard>
                     position: _slideAnimation,
                     child: ElevatedButton(
                       child: Text(
-                        'اصلاح شماره تلفن',
+                        context.l10n.correctPhoneNumberLabel,
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Iransans',

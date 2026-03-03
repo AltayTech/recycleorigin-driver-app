@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/screens/customer_info/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
+import '../l10n/l10n.dart';
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';
 import '../screens/about_us_screen.dart';
@@ -34,38 +35,34 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Color textColor = Colors.white;
     Color iconColor = Colors.white38;
     return Drawer(
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 5,
-                    sigmaY: 5,
-                  ),
-                  child: Container(color: Colors.black.withOpacity(0.3)),
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5,
+                  sigmaY: 5,
                 ),
+                child: Container(color: Colors.black.withOpacity(0.3)),
               ),
-
-              Wrap(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        height: deviceHeight * 0.25,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/main_page_header.png',
-                          fit: BoxFit.cover,
-                        ),
+            ),
+            Wrap(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      height: deviceHeight * 0.25,
+                      width: double.infinity,
+                      child: Image.asset(
+                        'assets/images/main_page_header.png',
+                        fit: BoxFit.cover,
                       ),
+                    ),
 //                      Container(
 //                        width: double.infinity,
 //                        height: deviceHeight * 0.25,
@@ -86,189 +83,191 @@ class MainDrawer extends StatelessWidget {
 //                          ),
 //                        ),
 //                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<Auth>(
-                    builder: (_, auth, ch) => ListTile(
-                      title: Text(
-                        auth.isAuth ? 'پروفایل' : 'ورود',
-                        style: TextStyle(
-                          fontFamily: "Iransans",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: textColor,
-                        ),
-                        textAlign: TextAlign.right,
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Consumer<Auth>(
+                  builder: (_, auth, ch) => ListTile(
+                    title: Text(
+                      auth.isAuth
+                          ? context.l10n.userProfileLabel
+                          : context.l10n.loginLabel,
+                      style: TextStyle(
+                        fontFamily: "Iransans",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: textColor,
                       ),
-                      trailing: Icon(
-                        Icons.account_circle,
-                        color: iconColor,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        auth.isAuth
-                            ? Navigator.of(context)
-                                .pushNamed(CustomerUserInfoScreen.routeName)
-                            : Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
-                      },
+                      textAlign: TextAlign.right,
                     ),
+                    trailing: Icon(
+                      Icons.account_circle,
+                      color: iconColor,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      auth.isAuth
+                          ? Navigator.of(context)
+                              .pushNamed(CustomerUserInfoScreen.routeName)
+                          : Navigator.of(context)
+                              .pushNamed(LoginScreen.routeName);
+                    },
                   ),
-                  Divider(
-                    thickness: 2,
-                  ),
-                  Container(
-                    height: deviceHeight * 0.63,
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              'خانه',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                Container(
+                  height: deviceHeight * 0.63,
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            context.l10n.homeTabLabel,
+                            style: TextStyle(
+                              fontFamily: "Iransans",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
                             ),
-                            trailing: Icon(
-                              Icons.home,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  NavigationBottomScreen.routeName,
-                                  (Route<dynamic> route) => false);
+                            textAlign: TextAlign.right,
+                          ),
+                          trailing: Icon(
+                            Icons.home,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                NavigationBottomScreen.routeName,
+                                (Route<dynamic> route) => false);
 //                              Navigator.of(context)
 //                                  .pushNamed(NavigationBottomScreen.routeName);
-                            },
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.statisticsLabel,
+                            style: TextStyle(
+                              fontFamily: "Iransans",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          ListTile(
-                            title: Text(
-                              'آمار',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.format_list_numbered,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
+                          trailing: Icon(
+                            Icons.format_list_numbered,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
 
-                              Navigator.of(context)
-                                  .pushNamed(StatisticsScreen.routeName);
-                            },
+                            Navigator.of(context)
+                                .pushNamed(StatisticsScreen.routeName);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.guideLabel,
+                            style: TextStyle(
+                              fontFamily: "Iransans",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          ListTile(
-                            title: Text(
-                              'راهنما',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.help,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
+                          trailing: Icon(
+                            Icons.help,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
 
-                              Navigator.of(context)
-                                  .pushNamed(GuideScreen.routeName);
-                            },
+                            Navigator.of(context)
+                                .pushNamed(GuideScreen.routeName);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.contactUsLabel,
+                            style: TextStyle(
+                              fontFamily: "Iransans",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          ListTile(
-                            title: Text(
-                              'تماس با ما',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.contact_phone,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
+                          trailing: Icon(
+                            Icons.contact_phone,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
 
-                              Navigator.of(context)
-                                  .pushNamed(ContactWithUs.routeName);
-                            },
+                            Navigator.of(context)
+                                .pushNamed(ContactWithUs.routeName);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.aboutUsLabel,
+                            style: TextStyle(
+                              fontFamily: "Iransans",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          ListTile(
-                            title: Text(
-                              'درباره ما',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.account_balance,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
+                          trailing: Icon(
+                            Icons.account_balance,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
 
-                              Navigator.of(context)
-                                  .pushNamed(AboutUsScreen.routeName);
-                            },
-                          ),
-                          Divider(
-                            height: 1,
-                            color: Colors.grey.withOpacity(0.6),
-                          ),
-                          ListTile(
-                            title: Text(
-                              'خروج',
-                              style: TextStyle(
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 13.0,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
+                            Navigator.of(context)
+                                .pushNamed(AboutUsScreen.routeName);
+                          },
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Colors.grey.withOpacity(0.6),
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.logoutLabel,
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 13.0,
+                              color: textColor,
                             ),
-                            trailing: Icon(
-                              Icons.power_settings_new,
-                              color: Colors.red,
-                            ),
-                            onTap: () async {
-                              Provider.of<CustomerInfo>(context, listen: false)
-                                  .driver = Provider.of<CustomerInfo>(context,
-                                      listen: false)
-                                  .driver_zero;
-                              await Provider.of<Auth>(context, listen: false)
-                                  .removeToken();
-                              Provider.of<Auth>(context, listen: false)
-                                  .isFirstLogout = true;
-                              Navigator.of(context).pop();
-                              Navigator.of(context)
-                                  .pushNamed(NavigationBottomScreen.routeName);
-                            },
+                            textAlign: TextAlign.right,
                           ),
+                          trailing: Icon(
+                            Icons.power_settings_new,
+                            color: Colors.red,
+                          ),
+                          onTap: () async {
+                            Provider.of<CustomerInfo>(context, listen: false)
+                                .driver = Provider.of<CustomerInfo>(context,
+                                    listen: false)
+                                .driver_zero;
+                            await Provider.of<Auth>(context, listen: false)
+                                .removeToken();
+                            Provider.of<Auth>(context, listen: false)
+                                .isFirstLogout = true;
+                            Navigator.of(context).pop();
+                            Navigator.of(context)
+                                .pushNamed(NavigationBottomScreen.routeName);
+                          },
+                        ),
 //                          Container(
 //                            height: 20,
 //                            color: Colors.black54,
@@ -296,15 +295,13 @@ class MainDrawer extends StatelessWidget {
 //                              ],
 //                            ),
 //                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-//        ),
-            ],
-          ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

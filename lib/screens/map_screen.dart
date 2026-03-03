@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/l10n.dart';
 import '../models/region.dart';
 import '../models/request/address.dart';
 import '../provider/app_theme.dart';
@@ -203,7 +204,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 //          preferredSize: Size.fromHeight(15),
 //        ),
         title: Text(
-          'آدرس جدید',
+          context.l10n.newAddressLabel,
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -249,7 +250,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 ),
               ),
               InfoEditItem(
-                title: 'نام آدرس',
+                title: context.l10n.addressNameLabel,
                 controller: nameController,
                 bgColor: AppTheme.bg,
                 iconColor: Color(0xffA67FEC),
@@ -263,7 +264,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 child: Container(
                   width: deviceWidth * 0.78,
                   child: Text(
-                    'مناطق : ',
+                    context.l10n.areasLabel,
                     style: TextStyle(
                       color: AppTheme.h1,
                       fontFamily: 'Iransans',
@@ -289,7 +290,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                       child: DropdownButton<String>(
                         hint: Text(
-                          'منطقه مورد نظر را آنتخاب کنید.',
+                          context.l10n.selectAreaMessage,
                           style: TextStyle(
                             color: AppTheme.grey,
                             fontFamily: 'Iransans',
@@ -348,7 +349,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 ),
               ),
               InfoEditItem(
-                title: 'آدرس',
+                title: context.l10n.addressLabel,
                 controller: addressController,
                 bgColor: AppTheme.bg,
                 iconColor: Color(0xffA67FEC),
@@ -368,7 +369,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           onPressed: () async {
             SnackBar addToCartSnackBar = SnackBar(
               content: Text(
-                'منطقه انتخاب نشده است!',
+                context.l10n.noAreaSelected,
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Iransans',
@@ -376,7 +377,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 ),
               ),
               action: SnackBarAction(
-                label: 'متوجه شدم',
+                label: context.l10n.gotItLabel,
                 onPressed: () {
                   // Some code to undo the change.
                 },

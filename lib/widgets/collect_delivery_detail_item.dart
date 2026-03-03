@@ -5,6 +5,7 @@ import 'package:recycleorigindriver/models/request/collect.dart';
 import 'package:recycleorigindriver/provider/app_theme.dart';
 
 import 'en_to_ar_number_convertor.dart';
+import '../l10n/l10n.dart';
 
 class CollectDeliveryDetailItem extends StatefulWidget {
   final Collect wasteItem;
@@ -163,7 +164,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                             child: Text(
                               widget.wasteItem.pasmand.post_title != null
                                   ? widget.wasteItem.pasmand.post_title
-                                  : 'ندارد',
+                                  : context.l10n.noneLabel,
                               style: TextStyle(
                                 color: AppTheme.black,
                                 fontWeight: FontWeight.w500,
