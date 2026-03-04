@@ -23,28 +23,68 @@ class Driver with ChangeNotifier {
     required this.money,
   });
 
-  factory Driver.fromJson(Map<String, dynamic> parsedJson) {
-    var storeList = parsedJson['stores'] as List;
-    List<Pasmand> storeRaw = [];
+  factory Driver.fromJson(Map<String, dynamic>? parsedJson) {
+    if (parsedJson == null) {
+      return Driver(
+        status: Status(term_id: 0, name: '', slug: ''),
+        car: Status(term_id: 0, name: '', slug: ''),
+        car_color: Status(term_id: 0, name: '', slug: ''),
+        car_number: '',
+        driver_data: DriverData(
+          driver_image: '',
+          phone: '',
+          fname: '',
+          lname: '',
+          email: '',
+          ostan: '',
+          city: '',
+          mobile: '',
+          address: '',
+          postcode: '',
+        ),
+        stores: const [],
+        money: '0',
+      );
+    }
+    final storeList = parsedJson['stores'];
+    final List<Pasmand> storeRaw = storeList is List
+        ? (storeList)
+            .map<Pasmand>((dynamic i) =>
+                Pasmand.fromJson(i as Map<String, dynamic>))
+            .toList()
+        : <Pasmand>[];
 
-    storeRaw =
-        storeList.map((i) => Pasmand.fromJson(i)).toList();
+    final driverDataJson = parsedJson['driver_data'];
+    final driverData = driverDataJson is Map<String, dynamic>
+        ? DriverData.fromJson(driverDataJson)
+        : DriverData(
+            driver_image: '',
+            phone: '',
+            fname: '',
+            lname: '',
+            email: '',
+            ostan: '',
+            city: '',
+            mobile: '',
+            address: '',
+            postcode: '',
+          );
 
     return Driver(
-      status: parsedJson['status'] != null
-          ? Status.fromJson(parsedJson['status'])
+      status: parsedJson['status'] != null && parsedJson['status'] is Map
+          ? Status.fromJson(parsedJson['status'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '', slug: ''),
-      car: parsedJson['car'] != null
-          ? Status.fromJson(parsedJson['car'])
+      car: parsedJson['car'] != null && parsedJson['car'] is Map
+          ? Status.fromJson(parsedJson['car'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '', slug: ''),
-      car_color: parsedJson['car_color'] != null
-          ? Status.fromJson(parsedJson['car_color'])
+      car_color: parsedJson['car_color'] != null && parsedJson['car_color'] is Map
+          ? Status.fromJson(parsedJson['car_color'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '', slug: ''),
       car_number:
-          parsedJson['car_number'] != null ? parsedJson['car_number'] : '',
-      driver_data: DriverData.fromJson(parsedJson['driver_data']),
-      stores:storeRaw,
-      money: parsedJson['money'] != null ? parsedJson['money'] : '0',
+          parsedJson['car_number'] != null ? parsedJson['car_number'] as String : '',
+      driver_data: driverData,
+      stores: storeRaw,
+      money: parsedJson['money'] != null ? parsedJson['money'] as String : '0',
     );
   }
 

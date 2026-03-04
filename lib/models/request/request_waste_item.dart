@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../driver.dart';
+import '../region.dart';
 import '../status.dart';
 import 'address.dart';
 import 'collect.dart';
@@ -32,33 +33,66 @@ class RequestWasteItem with ChangeNotifier {
       required this.driver});
 
   factory RequestWasteItem.fromJson(Map<String, dynamic> parsedJson) {
-    var collectList = parsedJson['collect_list'] as List;
-    List<Collect> collectRaw =
-        collectList.map((i) => Collect.fromJson(i)).toList();
+    final collectList = parsedJson['collect_list'];
+    final List<Collect> collectRaw = collectList is List
+        ? (collectList)
+            .map<Collect>((dynamic i) =>
+                Collect.fromJson(i as Map<String, dynamic>))
+            .toList()
+        : <Collect>[];
+
+    final addressDataJson = parsedJson['address_data'];
+    final addressData = addressDataJson is Map<String, dynamic>
+        ? Address.fromJson(addressDataJson)
+        : Address(
+            name: '',
+            address: '',
+            region: Region(
+              term_id: 0,
+              name: '',
+              collect_hour: [],
+            ),
+          );
+
+    final driverJson = parsedJson['driver'];
+    final driver = driverJson is Map<String, dynamic>
+        ? Driver.fromJson(driverJson)
+        : Driver.fromJson(null);
 
     return RequestWasteItem(
-      id: parsedJson['id'],
-      collect_type: parsedJson['collect_type'] != null
-          ? Status.fromJson(parsedJson['collect_type'])
+      id: parsedJson['id'] is int
+          ? parsedJson['id'] as int
+          : int.tryParse(parsedJson['id']?.toString() ?? '0') ?? 0,
+      collect_type: parsedJson['collect_type'] != null &&
+              parsedJson['collect_type'] is Map
+          ? Status.fromJson(parsedJson['collect_type'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '0', slug: '0'),
-      status: parsedJson['status'] != null
-          ? Status.fromJson(parsedJson['status'])
+      status: parsedJson['status'] != null && parsedJson['status'] is Map
+          ? Status.fromJson(parsedJson['status'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '0', slug: '0'),
-      total_collects_price: parsedJson['total_collects_price'] != null
-          ? CollectStatus.fromJson(parsedJson['total_collects_price'])
+      total_collects_price: parsedJson['total_collects_price'] != null &&
+              parsedJson['total_collects_price'] is Map
+          ? CollectStatus.fromJson(
+              parsedJson['total_collects_price'] as Map<String, dynamic>)
           : CollectStatus(estimated: '0', exact: '0'),
-      total_collects_weight: parsedJson['total_collects_weight'] != null
-          ? CollectStatus.fromJson(parsedJson['total_collects_weight'])
+      total_collects_weight: parsedJson['total_collects_weight'] != null &&
+              parsedJson['total_collects_weight'] is Map
+          ? CollectStatus.fromJson(
+              parsedJson['total_collects_weight'] as Map<String, dynamic>)
           : CollectStatus(estimated: '0', exact: '0'),
-      total_collects_number: parsedJson['total_collects_number'] != null
-          ? CollectStatus.fromJson(parsedJson['total_collects_number'])
+      total_collects_number: parsedJson['total_collects_number'] != null &&
+              parsedJson['total_collects_number'] is Map
+          ? CollectStatus.fromJson(
+              parsedJson['total_collects_number'] as Map<String, dynamic>)
           : CollectStatus(estimated: '0', exact: '0'),
-      collect_date: parsedJson['collect_date'] != null
-          ? CollectTime.fromJson(parsedJson['collect_date'])
+      collect_date: parsedJson['collect_date'] != null &&
+              parsedJson['collect_date'] is Map
+          ? CollectTime.fromJson(
+              parsedJson['collect_date'] as Map<String, dynamic>)
           : CollectTime(time: '0', day: '0', collect_done_time: '0'),
-      address_data: Address.fromJson(parsedJson['address_data']),
+      address_data: addressData,
       collect_list: collectRaw,
-      driver: Driver.fromJson(parsedJson['driver']),
+      driver: driver,
     );
   }
 

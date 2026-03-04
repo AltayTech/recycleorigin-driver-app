@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/models/request/collect.dart';
 
-import '../models/request/collect_main.dart';
 import '../models/request/request_waste.dart';
 import '../models/request/request_waste_item.dart';
 import '../models/request/wasteCart.dart';
@@ -108,12 +107,11 @@ class Wastes with ChangeNotifier {
   }
 
   Future<void> sendRequest(RequestWaste request, bool isLogin, int id) async {
-    print('sendRequest');
     try {
       if (isLogin) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-        print('tooookkkeeennnnnn  $_token');
+        final token = await SecureStorage.getToken();
+        if (token == null || token.isEmpty) throw StateError('No auth token');
+        _token = token;
 
         final url = Urls.rootUrl + Urls.collectsEndPoint + '/$id';
         print('url  $url');
@@ -176,17 +174,11 @@ class Wastes with ChangeNotifier {
     print(searchEndPoint);
   }
 
+  /// Fetches collect requests assigned to the logged-in driver (GET /driver/collects).
+  /// Uses the same token as Auth (SecureStorage) so assignments from admin panel appear here.
   Future<void> searchCollectItems() async {
-    print('searchCollectItems');
-
-    // Driver app: fetch collects assigned to this driver.
-    final url =
-        Urls.rootUrl + Urls.driverCollectsEndPoint + '$searchEndPoint';
-    print(url);
-
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
+      final token = await SecureStorage.getToken();
       if (token == null || token.isEmpty) {
         _collectItems = [];
         _searchDetails = null;
@@ -194,28 +186,46 @@ class Wastes with ChangeNotifier {
         return;
       }
       _token = token;
-      print('tooookkkeeennnnnn  $_token');
 
+      final url =
+          Urls.rootUrl + Urls.driverCollectsEndPoint + searchEndPoint;
       final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
       });
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
-        print(extractedData.toString());
-
-        final detailsJson = extractedData['details'];
-        if (detailsJson != null && detailsJson is Map<String, dynamic>) {
-          final collectMain = CollectMain.fromJson(extractedData);
-          print(collectMain.searchDetail.max_page.toString());
-          _collectItems = collectMain.requestWasteItem;
-          _searchDetails = collectMain.searchDetail;
-        } else {
+            json.decode(response.body) as Map<String, dynamic>?;
+        if (extractedData == null) {
           _collectItems = [];
           _searchDetails = null;
+          notifyListeners();
+          return;
+        }
+        final dataList = extractedData['data'];
+        final detailsJson = extractedData['details'];
+        if (dataList is List) {
+          _collectItems = dataList
+              .map<RequestWasteItem>((dynamic e) =>
+                  RequestWasteItem.fromJson(e as Map<String, dynamic>))
+              .toList();
+        } else {
+          _collectItems = [];
+        }
+        if (detailsJson != null && detailsJson is Map<String, dynamic>) {
+          final total = detailsJson['total'];
+          final maxPages = detailsJson['max_pages'];
+          _searchDetails = SearchDetail(
+            total: total is int ? total : _collectItems.length,
+            max_page: maxPages is int ? maxPages : 1,
+          );
+        } else {
+          _searchDetails = SearchDetail(
+            total: _collectItems.length,
+            max_page: _collectItems.isEmpty ? 1 : 1,
+          );
         }
       } else {
         _collectItems = [];
@@ -223,7 +233,6 @@ class Wastes with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      print(error.toString());
       _collectItems = [];
       _searchDetails = null;
       notifyListeners();
@@ -232,15 +241,11 @@ class Wastes with ChangeNotifier {
   }
 
   Future<void> retrieveCollectItem(int collectId) async {
-    print('retrieveCollectItem');
-
-    final url = Urls.rootUrl + Urls.collectsEndPoint + "/$collectId";
-    print(url);
-
+    final url = Urls.rootUrl + Urls.collectsEndPoint + '/$collectId';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
-      print('tooookkkeeennnnnn  $_token');
+      final token = await SecureStorage.getToken();
+      if (token == null || token.isEmpty) throw StateError('No auth token');
+      _token = token;
 
       final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',

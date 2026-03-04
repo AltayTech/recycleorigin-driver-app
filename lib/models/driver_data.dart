@@ -25,19 +25,29 @@ class DriverData with ChangeNotifier {
     required this.postcode,
   });
 
+  /// Coerces a JSON value to String (handles backend sending object e.g. driver_image as Map).
+  static String _stringFromJson(dynamic value) {
+    if (value == null) return '';
+    if (value is String) return value;
+    if (value is Map) {
+      final url = value['url'] ?? value['src'] ?? value['link'];
+      if (url is String) return url;
+    }
+    return value.toString();
+  }
+
   factory DriverData.fromJson(Map<String, dynamic> parsedJson) {
     return DriverData(
-      driver_image:
-          parsedJson['driver_image'] != null ? parsedJson['driver_image'] : '',
-      phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
-      fname: parsedJson['fname'] != null ? parsedJson['fname'] : '',
-      lname: parsedJson['lname'] != null ? parsedJson['lname'] : '',
-      email: parsedJson['email'] != null ? parsedJson['email'] : '',
-      ostan: parsedJson['ostan'] != null ? parsedJson['ostan'] : '',
-      city: parsedJson['city'] != null ? parsedJson['city'] : '',
-      mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
-      address: parsedJson['address'] != null ? parsedJson['address'] : '',
-      postcode: parsedJson['postcode'] != null ? parsedJson['postcode'] : '',
+      driver_image: _stringFromJson(parsedJson['driver_image']),
+      phone: _stringFromJson(parsedJson['phone']),
+      fname: _stringFromJson(parsedJson['fname']),
+      lname: _stringFromJson(parsedJson['lname']),
+      email: _stringFromJson(parsedJson['email']),
+      ostan: _stringFromJson(parsedJson['ostan']),
+      city: _stringFromJson(parsedJson['city']),
+      mobile: _stringFromJson(parsedJson['mobile']),
+      address: _stringFromJson(parsedJson['address']),
+      postcode: _stringFromJson(parsedJson['postcode']),
     );
   }
 
