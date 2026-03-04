@@ -179,7 +179,9 @@ class Wastes with ChangeNotifier {
   Future<void> searchCollectItems() async {
     print('searchCollectItems');
 
-    final url = Urls.rootUrl + Urls.collectsEndPoint + '$searchEndPoint';
+    // Driver app: fetch collects assigned to this driver.
+    final url =
+        Urls.rootUrl + Urls.driverCollectsEndPoint + '$searchEndPoint';
     print(url);
 
     try {

@@ -12,6 +12,8 @@ class Urls {
   static const addressEndPoint = '/customer/address';
   static const regionEndPoint = '/customer/regions';
   static const collectsEndPoint = '/collects';
+  /// Collects assigned to the logged-in driver (use this in driver app for "my requests").
+  static const driverCollectsEndPoint = '/driver/collects';
   static const checkCompletedEndPoint = '/customer/completed';
   static const driverEndPoint = '/driver';
   static const deliveriesEndPoint = '/deliveries';

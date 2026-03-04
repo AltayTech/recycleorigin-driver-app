@@ -59,9 +59,12 @@ class CustomerInfo with ChangeNotifier {
     print(url);
 
     final prefs = await SharedPreferences.getInstance();
-
-    _token = prefs.getString('token')!;
-
+    final String? token = prefs.getString('token');
+    if (token == null) {
+      notifyListeners();
+      return;
+    }
+    _token = token;
     print(_token);
 
     Driver driver;
@@ -82,7 +85,7 @@ class CustomerInfo with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print(error.toString());
-      throw (error);
+      rethrow;
     }
   }
 
@@ -92,8 +95,11 @@ class CustomerInfo with ChangeNotifier {
     final url = Urls.rootUrl + Urls.driverEndPoint;
 
     final prefs = await SharedPreferences.getInstance();
-
-    _token = prefs.getString('token')!;
+    final String? token = prefs.getString('token');
+    if (token == null) {
+      throw StateError('No auth token');
+    }
+    _token = token;
 
     try {
       final response = await post(
@@ -159,7 +165,7 @@ class CustomerInfo with ChangeNotifier {
 
   List<Transaction> _transactionItems = [];
 
-  late SearchDetail _searchDetails;
+  SearchDetail? _searchDetails;
   late Transaction _transactionItem;
 
   void searchBuilder() {
@@ -189,8 +195,14 @@ class CustomerInfo with ChangeNotifier {
     final url = Urls.rootUrl + Urls.transactionsEndPoint + '$searchEndPoint';
     print(url);
     final prefs = await SharedPreferences.getInstance();
-
-    _token = prefs.getString('token')!;
+    final String? token = prefs.getString('token');
+    if (token == null) {
+      _transactionItems = [];
+      _searchDetails = null;
+      notifyListeners();
+      return;
+    }
+    _token = token;
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -211,11 +223,15 @@ class CustomerInfo with ChangeNotifier {
         _searchDetails = transactionMain.searchDetail;
       } else {
         _transactionItems = [];
+        _searchDetails = null;
       }
       notifyListeners();
     } catch (error) {
       print(error.toString());
-      throw (error);
+      _searchDetails = null;
+      _transactionItems = [];
+      notifyListeners();
+      rethrow;
     }
   }
 
@@ -245,7 +261,7 @@ class CustomerInfo with ChangeNotifier {
 
   Transaction get transactionItem => _transactionItem;
 
-  SearchDetail get searchDetails => _searchDetails;
+  SearchDetail? get searchDetails => _searchDetails;
 
   List<Transaction> get transactionItems => _transactionItems;
 
@@ -380,7 +396,11 @@ class CustomerInfo with ChangeNotifier {
     try {
       if (isLogin) {
         final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
+        final String? token = prefs.getString('token');
+        if (token == null) {
+          throw StateError('No auth token');
+        }
+        _token = token;
         print('tooookkkeeennnnnn  $_token');
 
         final url = Urls.rootUrl + Urls.clearingEndPoint;

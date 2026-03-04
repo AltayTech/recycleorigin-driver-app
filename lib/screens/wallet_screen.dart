@@ -30,7 +30,7 @@ class _WalletScreenState extends State<WalletScreen>
   ScrollController _scrollController = new ScrollController();
   var _isLoading;
   int page = 1;
-  late SearchDetail productsDetail;
+  SearchDetail? productsDetail;
 
   late Customer customer;
 
@@ -42,7 +42,7 @@ class _WalletScreenState extends State<WalletScreen>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
+        if (page < (productsDetail?.max_page ?? 1)) {
           page = page + 1;
           Provider.of<CustomerInfo>(context, listen: false).sPage = page;
 
@@ -85,20 +85,24 @@ class _WalletScreenState extends State<WalletScreen>
       _isLoading = true;
     });
 
-    Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
-    await Provider.of<CustomerInfo>(context, listen: false)
-        .searchTransactionItems();
-    productsDetail =
-        Provider.of<CustomerInfo>(context, listen: false).searchDetails;
+    try {
+      Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
+      await Provider.of<CustomerInfo>(context, listen: false)
+          .searchTransactionItems();
+      productsDetail =
+          Provider.of<CustomerInfo>(context, listen: false).searchDetails;
 
-    loadedProducts.clear();
-    loadedProducts = await Provider.of<CustomerInfo>(context, listen: false)
-        .transactionItems;
-    loadedProductstolist.addAll(loadedProducts);
-
-    setState(() {
-      _isLoading = false;
-    });
+      loadedProducts.clear();
+      loadedProducts = await Provider.of<CustomerInfo>(context, listen: false)
+          .transactionItems;
+      loadedProductstolist.addAll(loadedProducts);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -212,20 +216,13 @@ class _WalletScreenState extends State<WalletScreen>
                                           ),
                                           Consumer<CustomerInfo>(
                                             builder: (_, data, ch) => Text(
-                                              data.driver != null
-                                                  ? EnArConvertor()
-                                                      .replaceArNumber(
-                                                          currencyFormat
-                                                              .format(double
-                                                                  .parse(data
-                                                                      .driver
-                                                                      .money))
-                                                              .toString())
-                                                  : EnArConvertor()
-                                                      .replaceArNumber(
-                                                          currencyFormat.format(
-                                                              double.parse(
-                                                                  '0'))),
+                                              EnArConvertor().replaceArNumber(
+                                                currencyFormat.format(
+                                                  double.parse(
+                                                    data.driver.money,
+                                                  ),
+                                                ).toString(),
+                                              ),
                                               style: TextStyle(
                                                 color: AppTheme.black,
                                                 fontFamily: 'Iransans',
@@ -366,8 +363,9 @@ class _WalletScreenState extends State<WalletScreen>
                                                           productsDetail != null
                                                               ? EnArConvertor()
                                                                   .replaceArNumber(
-                                                                      productsDetail
-                                                                          .total
+                                                                      (productsDetail
+                                                                              ?.total ??
+                                                                          0)
                                                                           .toString())
                                                               : EnArConvertor()
                                                                   .replaceArNumber(

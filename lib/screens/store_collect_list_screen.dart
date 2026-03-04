@@ -36,7 +36,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
   var scaffoldKey;
   int page = 1;
 
-  late SearchDetail productsDetail;
+  SearchDetail? productsDetail;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
+        if (page < (productsDetail?.max_page ?? 1)) {
           page = page + 1;
           Provider.of<Deliveries>(context, listen: false).sPage = page;
 
@@ -95,15 +95,22 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
       _isLoading = true;
     });
 
-    Provider.of<Deliveries>(context, listen: false).searchBuilder();
-    await Provider.of<Deliveries>(context, listen: false).searchCollectItems();
-    productsDetail =
-        Provider.of<Deliveries>(context, listen: false).searchDetails;
-    _submit();
-
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      Provider.of<Deliveries>(context, listen: false).searchBuilder();
+      await Provider.of<Deliveries>(context, listen: false).searchCollectItems();
+      productsDetail =
+          Provider.of<Deliveries>(context, listen: false).searchDetails;
+      if (productsDetail == null) {
+        loadedProductstolist.clear();
+      }
+      _submit();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> changeCat(BuildContext context) async {
@@ -233,10 +240,12 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        Spacer(),
-                                        Consumer<Deliveries>(
-                                            builder: (context, Deliveries, ch) {
-                                          return Container(
+                                        const Spacer(),
+                                        Expanded(
+                                          child: Consumer<Deliveries>(
+                                              builder:
+                                                  (context, Deliveries, ch) {
+                                            return Container(
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
                                                   vertical: deviceHeight * 0.0,
@@ -313,9 +322,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                         productsDetail != null
                                                             ? EnArConvertor()
                                                                 .replaceArNumber(
-                                                                    productsDetail
-                                                                        .total
-                                                                        .toString()
+                                                                    (productsDetail
+                                                                            ?.total ??
+                                                                        0)
                                                                         .toString())
                                                             : EnArConvertor()
                                                                 .replaceArNumber(
@@ -331,8 +340,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                     ),
                                                   ]),
                                             ),
-                                          );
-                                        }),
+                                            );
+                                          }),
+                                        ),
                                       ],
                                     ),
                                     Container(

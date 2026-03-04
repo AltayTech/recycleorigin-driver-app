@@ -19,7 +19,7 @@ class Deliveries with ChangeNotifier {
 
   List<DeliveryWasteItem> _deliveriesItems = [];
 
-  late SearchDetail _searchDetails;
+  SearchDetail? _searchDetails;
 
   late DeliveryWasteItem _requestWasteItem;
 
@@ -217,7 +217,14 @@ class Deliveries with ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
+      final String? token = prefs.getString('token');
+      if (token == null) {
+        _deliveriesItems = [];
+        _searchDetails = null;
+        notifyListeners();
+        return;
+      }
+      _token = token;
       print('tooookkkeeennnnnn  $_token');
 
       final response = await get(Uri.parse(url), headers: {
@@ -237,11 +244,15 @@ class Deliveries with ChangeNotifier {
         _searchDetails = deliveryMain.searchDetail;
       } else {
         _deliveriesItems = [];
+        _searchDetails = null;
       }
       notifyListeners();
     } catch (error) {
       print(error.toString());
-      throw (error);
+      _searchDetails = null;
+      _deliveriesItems = [];
+      notifyListeners();
+      rethrow;
     }
   }
 
@@ -288,7 +299,7 @@ class Deliveries with ChangeNotifier {
 
   DeliveryWasteItem get deliveriesWasteItem => _requestWasteItem;
 
-  SearchDetail get searchDetails => _searchDetails;
+  SearchDetail? get searchDetails => _searchDetails;
 
   List<DeliveryWasteItem> get deliveriesItems => _deliveriesItems;
 
