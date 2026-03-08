@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
-import '../provider/app_theme.dart';
 import '../widgets/main_drawer.dart';
 import '../widgets/profile_view.dart';
 import 'home_screen.dart';
@@ -13,170 +12,91 @@ class NavigationBottomScreen extends StatefulWidget {
   _NavigationBottomScreenState createState() => _NavigationBottomScreenState();
 }
 
-class _NavigationBottomScreenState extends State<NavigationBottomScreen>
-    with SingleTickerProviderStateMixin {
-  late bool isLogin;
+class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   int _selectedPageIndex = 0;
 
-  void selectBNBItem(int index) {
-    setState(
-      () {
-        _selectedPageIndex = index;
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+  void _selectBottomNavigationItem(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
   }
 
   Future<bool> _onBackPressed() async {
-    return await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            contentTextStyle: TextStyle(
-                color: AppTheme.grey,
-                fontFamily: 'Iransans',
-                fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            title: Text(
-              context.l10n.exitDialogTitle,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: AppTheme.black,
-                  fontFamily: 'Iransans',
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            ),
-            content: Text(
-              context.l10n.exitDialogMessage,
-              style: TextStyle(
-                  color: AppTheme.grey,
-                  fontFamily: 'Iransans',
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            ),
-            actionsPadding: EdgeInsets.all(10),
-            actions: <Widget>[
-              GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text(
-                  context.l10n.noLabel,
-                  style: TextStyle(
-                      color: AppTheme.black,
-                      fontFamily: 'Iransans',
-                      fontSize: MediaQuery.of(context).textScaleFactor * 18.0),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-                width: MediaQuery.of(context).size.width * 0.3,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Text(context.l10n.yesLabel),
-              ),
-            ],
+    final l10n = context.l10n;
+
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          l10n.exitDialogTitle,
+          textAlign: TextAlign.center,
+        ),
+        content: Text(l10n.exitDialogMessage),
+        actionsPadding: const EdgeInsets.all(10),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.noLabel),
           ),
-        ) ??
-        false;
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.yesLabel),
+          ),
+        ],
+      ),
+    );
+
+    return result ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final pages = <Map<String, Object>>[
-      {
-        'page': HomeScreen(),
-        'title': context.l10n.homeTabLabel,
-      },
-      {
-        'page': HomeScreen(),
-        'title': context.l10n.requestTabLabel,
-      },
-      {
-        'page': HomeScreen(),
-        'title': context.l10n.shopTabLabel,
-      },
-      {
-        'page': ProfileView(),
-        'title': context.l10n.profileTabLabel,
-      }
+    final pages = <Widget>[
+      HomeScreen(),
+      HomeScreen(),
+      HomeScreen(),
+      ProfileView(),
     ];
+
+    final currentPage = pages[_selectedPageIndex];
 
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-//            bottom: PreferredSize(
-//              child: Container(),
-//              preferredSize: Size.fromHeight(15),
-//            ),
           title: Text(
             context.l10n.appBarTitle,
-            style: TextStyle(
-              fontFamily: 'Iransans',
-            ),
           ),
-//            shape: RoundedRectangleBorder(
-//              borderRadius: new BorderRadius.vertical(
-//                  bottom: new Radius.elliptical(
-//                      MediaQuery.of(context).size.width * 9, 200.0)),
-//            ),
-          backgroundColor: AppTheme.appBarColor,
-          iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-          centerTitle: true,
         ),
         drawer: Theme(
           data: Theme.of(context).copyWith(
-            // Set the transparency here
-            canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+            canvasColor: Colors.transparent,
           ),
           child: MainDrawer(),
         ),
-        body: pages[_selectedPageIndex]['page'] as Widget,
-//          bottomNavigationBar: BottomNavigationBar(
-//            elevation: 8,
-//            selectedLabelStyle: TextStyle(
-//                color: AppTheme.secondary,
-//                fontFamily: 'Iransans',
-//                fontSize: MediaQuery.of(context).textScaleFactor * 10.0),
-//            onTap: _selectBNBItem,
-//            backgroundColor: AppTheme.bg,
-//            unselectedItemColor: Colors.grey,
-//            selectedItemColor: AppTheme.primary,
-//            currentIndex: _selectedPageIndex,
-//            items: [
-//              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
-//                icon: Icon(Icons.home),
-//                title: Text(
-//                  Strings.navHome,
-//                ),
-//              ),
-//              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
-//                icon: Icon(Icons.directions_car),
-//                title: Text(
-//                  Strings.navRequest,
-//                ),
-//              ),
-//              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
-//                icon: Icon(Icons.add_shopping_cart),
-//                title: Text(
-//                  Strings.navShop,
-//                ),
-//              ),
-//              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
-//                icon: Icon(Icons.account_circle),
-//                title: Text(
-//                  Strings.navProfile,
-//                ),
-//              ),
-//            ],
-//          ),
+        body: currentPage,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedPageIndex,
+          onTap: _selectBottomNavigationItem,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: context.l10n.homeTabLabel,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.directions_car),
+              label: context.l10n.requestTabLabel,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.add_shopping_cart),
+              label: context.l10n.shopTabLabel,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.account_circle),
+              label: context.l10n.profileTabLabel,
+            ),
+          ],
+        ),
       ),
     );
   }

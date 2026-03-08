@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import '../screens/collect_list_screen.dart';
 
 import '../classes/top_bar.dart';
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';
+import '../screens/collect_list_screen.dart';
 import '../screens/customer_info/customer_user_info_screen.dart';
 import '../screens/customer_info/login_screen.dart';
 
@@ -20,389 +20,248 @@ class _ProfileViewState extends State<ProfileView> {
   var _isLoading = false;
   bool _isInit = true;
 
-  Future<void> cashOrder() async {
+  Future<void> _loadCustomer() async {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
 
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.connectionRetryMessage,
+          ),
+        ),
+      );
+    } finally {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      cashOrder();
+      _loadCustomer();
+      _isInit = false;
     }
-    _isInit = false;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    final auth = Provider.of<Auth>(context);
+    final isLogin = auth.isAuth;
 
-    double deviceSizeWidth = MediaQuery.of(context).size.width;
-    double deviceSizeHeight = MediaQuery.of(context).size.height;
-    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    double itemPaddingF = 0.03;
-    return !isLogin
-        ? Container(
-            child: Center(
-              child: Wrap(
-                direction: Axis.vertical,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(context.l10n.notLoggedInLabel),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(LoginScreen.routeName);
-                    },
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          context.l10n.loginToAccountLabel,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                  )
-                ],
+    final mediaQuery = MediaQuery.of(context);
+    final deviceSizeWidth = mediaQuery.size.width;
+    final deviceSizeHeight = mediaQuery.size.height;
+    final textScaleFactor = mediaQuery.textScaleFactor;
+
+    if (!isLogin) {
+      return Center(
+        child: Wrap(
+          direction: Axis.vertical,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                context.l10n.notLoggedInLabel,
+                textAlign: TextAlign.center,
               ),
             ),
-          )
-        : Container(
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(LoginScreen.routeName);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.primary,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  context.l10n.loginToAccountLabel,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    if (_isLoading) {
+      return const Center(
+        child: SpinKitFadingCircle(
+          itemBuilder: _buildLoadingItem,
+        ),
+      );
+    }
+
+    return SizedBox(
+      width: deviceSizeWidth,
+      height: deviceSizeHeight,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: deviceSizeHeight * 0,
             width: deviceSizeWidth,
-            height: deviceSizeHeight,
-            child: Align(
-              alignment: Alignment.center,
-              child: _isLoading
-                  ? SpinKitFadingCircle(
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: index.isEven ? Colors.grey : Colors.grey,
-                          ),
+            child: TopBar(),
+          ),
+          Positioned(
+            top: deviceSizeHeight * 0.070,
+            width: deviceSizeWidth * 0.6,
+            right: 20,
+            child: Text(
+              context.l10n.userProfileTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppTheme.bg,
+                fontFamily: 'Iransans',
+                fontSize: textScaleFactor * 24.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Positioned(
+            top: deviceSizeHeight * 0.250,
+            right: 0,
+            left: 0,
+            child: SizedBox(
+              height: deviceSizeHeight * 0.7,
+              width: deviceSizeWidth * 0.9,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: GridView(
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  children: <Widget>[
+                    _ProfileMenuItem(
+                      imagePath: 'assets/images/orders_list.png',
+                      label: context.l10n.statisticsLabel,
+                      textScaleFactor: textScaleFactor,
+                      onTap: () {
+                        // TODO: Navigate to statistics screen for driver.
+                      },
+                    ),
+                    _ProfileMenuItem(
+                      imagePath: 'assets/images/user_Icon.png',
+                      label: context.l10n.personalInfoLabel,
+                      textScaleFactor: textScaleFactor,
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          CustomerUserInfoScreen.routeName,
                         );
                       },
-                    )
-                  : Container(
-                      width: deviceSizeWidth,
-                      height: deviceSizeHeight,
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned(
-                              top: deviceSizeHeight * 0,
-                              width: deviceSizeWidth,
-                              child: TopBar()),
-
-                          Positioned(
-                            top: deviceSizeHeight * 0.070,
-                            width: deviceSizeWidth * 0.4,
-                            right: 20,
-                            child: Text(
-                              context.l10n.userProfileTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: AppTheme.bg,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 24.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-
-                          Positioned(
-                              top: deviceSizeHeight * 0.250,
-                              right: 0,
-                              left: 0,
-                              child: Container(
-                                height: deviceSizeHeight * 0.7,
-                                width: deviceSizeWidth * 0.9,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: GridView(
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-//                                          Navigator.of(context).pushNamed(
-//                                              OrdersScreen.routeName);
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              deviceSizeWidth * itemPaddingF),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: AppTheme.primary
-                                                        .withOpacity(0.08),
-
-                                                    blurRadius: 10.10,
-                                                    // has the effect of softening the shadow
-                                                    spreadRadius: 10.510,
-                                                    // has the effect of extending the shadow
-                                                    offset: Offset(
-                                                      0, // horizontal, move right 10
-                                                      0, // vertical, move down 10
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(25)),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Image.asset(
-                                                  'assets/images/orders_list.png',
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    context
-                                                        .l10n.statisticsLabel,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: AppTheme.black,
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              18.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              CustomerUserInfoScreen.routeName);
-                                        },
-                                        child: Container(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(
-                                                deviceSizeWidth * itemPaddingF),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: AppTheme.primary
-                                                          .withOpacity(0.08),
-
-                                                      blurRadius: 10.10,
-                                                      // has the effect of softening the shadow
-                                                      spreadRadius: 10.510,
-                                                      // has the effect of extending the shadow
-                                                      offset: Offset(
-                                                        0, // horizontal, move right 10
-                                                        0, // vertical, move down 10
-                                                      ),
-                                                    )
-                                                  ],
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25)),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                    'assets/images/user_Icon.png',
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: FittedBox(
-                                                      child: Text(
-                                                        context.l10n
-                                                            .personalInfoLabel,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: AppTheme.black,
-                                                          fontFamily:
-                                                              'Iransans',
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  16.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-//                                          Navigator.of(context).pushNamed(
-//                                              MessageScreen.routeName);
-                                        },
-                                        child: Container(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(
-                                                deviceSizeWidth * itemPaddingF),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: AppTheme.primary
-                                                          .withOpacity(0.08),
-
-                                                      blurRadius: 10.10,
-                                                      // has the effect of softening the shadow
-                                                      spreadRadius: 10.510,
-                                                      // has the effect of extending the shadow
-                                                      offset: Offset(
-                                                        0, // horizontal, move right 10
-                                                        0, // vertical, move down 10
-                                                      ),
-                                                    )
-                                                  ],
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25)),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                    'assets/images/message_icon.png',
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      '',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: AppTheme.black,
-                                                        fontFamily: 'Iransans',
-                                                        fontSize:
-                                                            textScaleFactor *
-                                                                18.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              CollectListScreen.routeName);
-                                        },
-                                        child: Container(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(
-                                                deviceSizeWidth * itemPaddingF),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: AppTheme.primary
-                                                          .withOpacity(0.08),
-
-                                                      blurRadius: 10.10,
-                                                      // has the effect of softening the shadow
-                                                      spreadRadius: 10.510,
-                                                      // has the effect of extending the shadow
-                                                      offset: Offset(
-                                                        0, // horizontal, move right 10
-                                                        0, // vertical, move down 10
-                                                      ),
-                                                    )
-                                                  ],
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25)),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 40,
-                                                            right: 40,
-                                                            bottom: 0,
-                                                            top: 5),
-                                                    child: Image.asset(
-                                                      'assets/images/main_page_request_ic.png',
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5, top: 0),
-                                                    child: Text(
-                                                      context
-                                                          .l10n.requestTabLabel,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: AppTheme.black,
-                                                        fontFamily: 'Iransans',
-                                                        fontSize:
-                                                            textScaleFactor *
-                                                                18.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 1,
-                                      crossAxisSpacing: 2,
-                                      mainAxisSpacing: 2,
-                                    ),
-                                  ),
-                                ),
-                              )
-//
-                              ),
-//
-                        ],
-                      ),
                     ),
+                    _ProfileMenuItem(
+                      imagePath: 'assets/images/message_icon.png',
+                      label: '',
+                      textScaleFactor: textScaleFactor,
+                      onTap: () {
+                        // TODO: Navigate to driver messages when implemented.
+                      },
+                    ),
+                    _ProfileMenuItem(
+                      imagePath: 'assets/images/main_page_request_ic.png',
+                      label: context.l10n.requestTabLabel,
+                      textScaleFactor: textScaleFactor,
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(CollectListScreen.routeName);
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
-          );
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildLoadingItem(BuildContext context, int index) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: index.isEven ? Colors.grey : Colors.grey.shade400,
+      ),
+    );
+  }
+}
+
+class _ProfileMenuItem extends StatelessWidget {
+  const _ProfileMenuItem({
+    required this.imagePath,
+    required this.label,
+    required this.textScaleFactor,
+    required this.onTap,
+  });
+
+  final String imagePath;
+  final String label;
+  final double textScaleFactor;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: EdgeInsets.all(
+          MediaQuery.of(context).size.width * 0.03,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primary.withOpacity(0.08),
+                blurRadius: 10.1,
+                spreadRadius: 10.51,
+                offset: const Offset(0, 0),
+              )
+            ],
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FittedBox(
+                  child: Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppTheme.black,
+                      fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 16.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

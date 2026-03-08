@@ -4,6 +4,7 @@ import 'package:recycleorigindriver/provider/clearings.dart';
 import 'package:recycleorigindriver/screens/delivery_detail_screen.dart';
 import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
+import './provider/app_theme.dart';
 import './provider/auth.dart';
 import './provider/wastes.dart';
 import './screens/about_us_screen.dart';
@@ -26,12 +27,37 @@ import 'screens/guide_screen.dart';
 import 'screens/send_delivery_screen.dart';
 import 'screens/splash_Screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final baseTheme = ThemeData.light();
+    final baseTextTheme = baseTheme.textTheme;
+
+    final textTheme = baseTextTheme.copyWith(
+      bodyLarge: baseTextTheme.bodyLarge?.copyWith(
+        fontFamily: 'Iransans',
+        color: const Color.fromRGBO(20, 51, 51, 1),
+      ),
+      bodyMedium: baseTextTheme.bodyMedium?.copyWith(
+        fontFamily: 'Iransans',
+        color: const Color.fromRGBO(20, 51, 51, 1),
+      ),
+      titleLarge: baseTextTheme.titleLarge?.copyWith(
+        fontSize: 20,
+        fontFamily: 'Iransans',
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppTheme.primary,
+      brightness: Brightness.light,
+    );
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -53,38 +79,59 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         onGenerateTitle: (context) => context.l10n.appTitle,
         theme: ThemeData(
-          primarySwatch: Colors.green,
-          hintColor: Colors.amber,
-          textTheme: ThemeData.light().textTheme.copyWith(
-                bodyLarge: TextStyle(
-                  fontFamily: 'Iransans',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                bodyMedium: TextStyle(
-                  fontFamily: 'Iransans',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                displayLarge: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Iransans',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          useMaterial3: true,
+          colorScheme: colorScheme,
+          scaffoldBackgroundColor: AppTheme.bg,
+          appBarTheme: AppBarTheme(
+            backgroundColor: AppTheme.appBarColor,
+            foregroundColor: AppTheme.appBarIconColor,
+            elevation: 0,
+            centerTitle: true,
+            titleTextStyle: textTheme.titleLarge?.copyWith(
+              color: AppTheme.bg,
+            ),
+          ),
+          textTheme: textTheme,
+          cardTheme: CardThemeData(
+            color: AppTheme.white,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: AppTheme.bg,
+            selectedItemColor: AppTheme.primary,
+            unselectedItemColor: AppTheme.grey,
+          ),
+          dialogTheme: DialogThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            titleTextStyle: textTheme.titleLarge?.copyWith(
+              color: AppTheme.black,
+            ),
+            contentTextStyle: textTheme.bodyMedium?.copyWith(
+              color: AppTheme.grey,
+            ),
+          ),
         ),
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: SplashScreens(),
         routes: {
-          NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
+          NavigationBottomScreen.routeName: (ctx) =>
+              NavigationBottomScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
-          // ProfileScreen.routeName: (ctx) => ProfileScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
           ContactWithUs.routeName: (ctx) => ContactWithUs(),
           CustomerDetailInfoEditScreen.routeName: (ctx) =>
               CustomerDetailInfoEditScreen(),
-          CustomerUserInfoScreen.routeName: (ctx) => CustomerUserInfoScreen(),
+          CustomerUserInfoScreen.routeName: (ctx) =>
+              CustomerUserInfoScreen(),
           GuideScreen.routeName: (ctx) => GuideScreen(),
           MapScreen.routeName: (ctx) => MapScreen(),
           CollectListScreen.routeName: (ctx) => CollectListScreen(),

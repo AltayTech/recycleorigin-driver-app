@@ -80,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     double itemPaddingF = 0.019;
 
     return SingleChildScrollView(
@@ -130,10 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ).day}',
                         ),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: textTheme.bodyLarge?.copyWith(
                           color: AppTheme.h1,
-                          fontFamily: 'Iransans',
-                          fontSize: textScaleFactor * 16.0,
                         ),
                       ),
                     ),
@@ -151,10 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         EnArConvertor().replaceArNumber(
                             '${DateTime.now().hour}:${DateTime.now().minute}'),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: textTheme.titleLarge?.copyWith(
                           color: AppTheme.h1,
-                          fontFamily: 'Iransans',
-                          fontSize: textScaleFactor * 18.0,
                         ),
                       ),
                     ),
@@ -291,13 +288,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       context.l10n.warehouseDeliveryLabel,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: textTheme.bodyMedium?.copyWith(
                                         color: _selectedItem == 0
                                             ? AppTheme.white
                                             : Colors.black45,
-                                        fontFamily: 'Iransans',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
                                   ),
@@ -365,13 +360,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       context.l10n.collectionLabel,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: textTheme.bodyMedium?.copyWith(
                                         color: _selectedItem == 1
                                             ? AppTheme.white
                                             : Colors.black45,
-                                        fontFamily: 'Iransans',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
                                   ),
@@ -439,11 +432,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       context.l10n.walletLabel,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: textTheme.bodyMedium?.copyWith(
                                         color: Colors.black45,
-                                        fontFamily: 'Iransans',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: textScaleFactor * 14.0,
                                       ),
                                     ),
                                   ),

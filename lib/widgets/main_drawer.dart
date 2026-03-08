@@ -15,29 +15,12 @@ import '../screens/guide_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  Widget buildListTile(String title, IconData icon, Function tapHandler) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 26,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onTap: tapHandler(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Color textColor = Colors.white;
     Color iconColor = Colors.white38;
+    final textTheme = Theme.of(context).textTheme;
     return Drawer(
       child: Container(
         child: Stack(
@@ -94,8 +77,7 @@ class MainDrawer extends StatelessWidget {
                       auth.isAuth
                           ? context.l10n.userProfileLabel
                           : context.l10n.loginLabel,
-                      style: TextStyle(
-                        fontFamily: "Iransans",
+                      style: textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                         color: textColor,
@@ -127,8 +109,7 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.homeTabLabel,
-                            style: TextStyle(
-                              fontFamily: "Iransans",
+                            style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: textColor,
@@ -151,8 +132,7 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.statisticsLabel,
-                            style: TextStyle(
-                              fontFamily: "Iransans",
+                            style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: textColor,
@@ -173,8 +153,7 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.guideLabel,
-                            style: TextStyle(
-                              fontFamily: "Iransans",
+                            style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: textColor,
@@ -195,8 +174,7 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.contactUsLabel,
-                            style: TextStyle(
-                              fontFamily: "Iransans",
+                            style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: textColor,
@@ -217,8 +195,7 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.aboutUsLabel,
-                            style: TextStyle(
-                              fontFamily: "Iransans",
+                            style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: textColor,
@@ -243,9 +220,8 @@ class MainDrawer extends StatelessWidget {
                         ListTile(
                           title: Text(
                             context.l10n.logoutLabel,
-                            style: TextStyle(
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 13.0,
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontSize: 13,
                               color: textColor,
                             ),
                             textAlign: TextAlign.right,
