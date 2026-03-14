@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigindriver/models/region.dart';
-import 'package:recycleorigindriver/models/request/collect.dart';
-import 'package:recycleorigindriver/models/request/collect_time.dart';
-import 'package:recycleorigindriver/models/request/pasmand.dart';
-import 'package:recycleorigindriver/models/request/request_address.dart';
-import 'package:recycleorigindriver/models/request/request_waste.dart';
 import 'package:recycleorigindriver/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/models/request/wasteCart.dart';
 import 'package:recycleorigindriver/widgets/collect_detail_item.dart';
-import 'package:recycleorigindriver/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigindriver/widgets/header_total.dart';
 
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/wastes.dart';
-import '../widgets/buton_bottom.dart';
-import '../widgets/custom_dialog_enter.dart';
-import '../widgets/custom_dialog_profile.dart';
 import '../widgets/main_drawer.dart';
-import 'navigation_bottom_screen.dart';
 
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/CollectDetailScreen';
@@ -36,86 +24,71 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
   List<WasteCart> wasteCartItems = [];
   bool _isInit = true;
 
-  var _isLoading = true;
+  bool _isLoading = true;
+  String? _loadError;
   double totalPrice = 0;
   double totalWeight = 0;
-  late RequestWasteItem loadedCollect;
-
-  late RequestWaste requestWaste;
-
-  void _showLogindialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogEnter(
-        title: context.l10n.loginLabel,
-        buttonText: context.l10n.loginPageLabel,
-        description: context.l10n.loginRequiredDescription,
-        image: Image.asset(''),
-      ),
-    );
-  }
-
-  void _showCompletedialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogProfile(
-        title: context.l10n.personalInfoLabel,
-        buttonText: context.l10n.profilePageLabel,
-        description: context.l10n.completeProfileDescription,
-        image: Image.asset(''),
-      ),
-    );
-  }
-
-  void _showSenddialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: context.l10n.okLabel,
-        description: context.l10n.requestSubmittedSuccess,
-        image: Image.asset(''),
-      ),
-    );
-  }
+  RequestWasteItem? _loadedCollect;
 
   @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      Provider.of<Wastes>(context, listen: false).wasteCartItems = [];
-
-      await Provider.of<Auth>(context, listen: false).checkCompleted();
-      await searchItems();
-
-      await getWasteItems();
-      print(
-          'didChangeDependenciesdidChangeDependenciesdidChangeDependenciesdidChangeDependencies');
-
-      setState(() {});
-    }
-    _isInit = false;
-
+  void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_isInit) {
+      _isInit = false;
+      Provider.of<Wastes>(context, listen: false).wasteCartItems = [];
+      Provider.of<Auth>(context, listen: false).checkCompleted().then((_) {
+        _loadRequest();
+      });
+    }
+  }
+
+  Future<void> _loadRequest() async {
+    final collectId = ModalRoute.of(context)?.settings.arguments;
+    if (collectId == null || collectId is! int) {
+      if (mounted) {
+        setState(() {
+          _loadError = 'Invalid request';
+          _isLoading = false;
+        });
+      }
+      return;
+    }
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true;
+      _loadError = null;
+    });
+    try {
+      await Provider.of<Wastes>(context, listen: false)
+          .retrieveCollectItem(collectId);
+      if (!mounted) return;
+      final collect =
+          Provider.of<Wastes>(context, listen: false).requestWasteItem;
+      await Provider.of<Wastes>(context, listen: false).addInitialWasteCart(
+        collect.collect_list,
+        true,
+        collect.status.slug == 'collected',
+      );
+      if (!mounted) return;
+      await getWasteItems();
+      if (!mounted) return;
+      setState(() {
+        _loadedCollect = collect;
+        _isLoading = false;
+        _loadError = null;
+      });
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _loadError = e.toString();
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> searchItems() async {
-    setState(() {
-      _isLoading = true;
-    });
-    final productId = ModalRoute.of(context)?.settings.arguments as int;
-    await Provider.of<Wastes>(context, listen: false)
-        .retrieveCollectItem(productId);
-    loadedCollect =
-        Provider.of<Wastes>(context, listen: false).requestWasteItem;
-
-    await Provider.of<Wastes>(context, listen: false).addInitialWasteCart(
-        loadedCollect.collect_list,
-        true,
-        loadedCollect.status.slug == 'collected');
-
-    setState(() {
-      _isLoading = false;
-    });
+    await _loadRequest();
   }
 
   Future<void> getWasteItems() async {
@@ -187,79 +160,13 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     _totalPriceController.forward(from: 0.0);
   }
 
-  Future<void> createRequest(BuildContext context, bool collected) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    List<Collect> collectList = [];
-    for (int i = 0; i < wasteCartItems.length; i++) {
-      if (wasteCartItems[i].isAdded) {
-        collectList.add(
-          Collect(
-            estimated_weight: wasteCartItems[i].estimated_weight,
-            estimated_price: wasteCartItems[i].estimated_price,
-            exact_weight: wasteCartItems[i].exact_weight,
-            exact_price: wasteCartItems[i].exact_price,
-            pasmand: Pasmand(
-                id: wasteCartItems[i].pasmand.id,
-                post_title: wasteCartItems[i].pasmand.post_title),
-          ),
-        );
-      } else if (!wasteCartItems[i].isAdded) {
-        collectList.add(
-          Collect(
-            estimated_weight: wasteCartItems[i].estimated_weight,
-            estimated_price: wasteCartItems[i].estimated_price,
-            exact_weight: '0',
-            exact_price: '0',
-            pasmand: Pasmand(
-                id: wasteCartItems[i].pasmand.id,
-                post_title: wasteCartItems[i].pasmand.post_title),
-          ),
-        );
-      }
-    }
-
-    requestWaste = RequestWaste(
-      collect_list: collectList,
-      collected: collected,
-      collect_date: CollectTime(day: '', collect_done_time: '', time: ''),
-      address_data: RequestAddress(
-        name: '',
-        address: '',
-        region: '',
-        latitude: '',
-        longitude: '',
-      ),
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  Future<void> sendRequest(BuildContext context, bool isLogin) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Provider.of<Wastes>(context, listen: false)
-        .sendRequest(requestWaste, isLogin, loadedCollect.id);
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
@@ -272,22 +179,54 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
+      body: _buildBody(
+        context: context,
+        deviceHeight: deviceHeight,
+        deviceWidth: deviceWidth,
+        textScaleFactor: textScaleFactor,
+        theme: theme,
+      ),
+      endDrawer: Theme(
+        data: theme.copyWith(canvasColor: Colors.transparent),
+        child: MainDrawer(),
+      ),
+    );
+  }
+
+  Widget _buildBody({
+    required BuildContext context,
+    required double deviceHeight,
+    required double deviceWidth,
+    required double textScaleFactor,
+    required ThemeData theme,
+  }) {
+    if (_loadError != null) {
+      return _buildErrorState(context, theme);
+    }
+    if (_loadedCollect == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    final collect = _loadedCollect!;
+
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        HeaderTotal(
+                  _buildAddressAndDateCard(
+                    context: context,
+                    collect: collect,
+                    textScaleFactor: textScaleFactor,
+                  ),
+                  HeaderTotal(
                           totalNumber: wasteCartItems.length,
                           totalPrice: totalPrice,
                           totalWeight: totalWeight,
@@ -378,12 +317,11 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                                     wasteItem:
                                                         value.wasteCartItems[i],
                                                     function: getWasteItems,
-                                                    isNotActive: (loadedCollect
+                                                    isNotActive: collect
                                                                 .status.slug ==
                                                             'cancel' ||
-                                                        loadedCollect
-                                                                .status.slug ==
-                                                            'collected')),
+                                                        collect.status.slug ==
+                                                            'collected'),
                                           ),
                                         ),
                                       ],
@@ -399,7 +337,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                         ),
                         SizedBox(
                           height: 50,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -419,169 +357,331 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                               );
                             },
                           )
-                        : Column(
-                            children: <Widget>[
-                              InkWell(
-                                onTap: () async {
-                                  SnackBar addToCartSnackBar = SnackBar(
-                                    content: Text(
-                                      context.l10n.alreadyCollected,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                    ),
-                                    action: SnackBarAction(
-                                      label: context.l10n.gotItLabel,
-                                      onPressed: () {
-                                        // Some code to undo the change.
-                                      },
-                                    ),
-                                  );
-                                  if (loadedCollect.status.slug == 'cancel' ||
-                                      loadedCollect.status.slug ==
-                                          'collected') {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(addToCartSnackBar);
-                                  } else if (!isLogin) {
-                                    _showLogindialog();
-                                  } else {
-                                    if (isCompleted) {
-                                      await createRequest(context, true).then(
-                                        (value) =>
-                                            sendRequest(context, isLogin).then(
-                                          (value) {
-                                            Navigator.of(context)
-                                                .pushNamedAndRemoveUntil(
-                                                    NavigationBottomScreen
-                                                        .routeName,
-                                                    (Route<dynamic> route) =>
-                                                        false);
-                                          },
-                                        ),
-                                      );
-                                      _showSenddialog();
-                                    } else {
-                                      _showCompletedialog();
-                                    }
-                                  }
-                                },
-                                child: ButtonBottom(
-                                  width: deviceWidth * 0.9,
-                                  height: deviceWidth * 0.14,
-                                  text: context.l10n.confirmLabel,
-                                  isActive: loadedCollect.status.slug !=
-                                          'cancel' &&
-                                      loadedCollect.status.slug != 'collected',
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  SnackBar addToCartSnackBar = SnackBar(
-                                    content: Text(
-                                      context.l10n.alreadyCollected,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                    ),
-                                    action: SnackBarAction(
-                                      label: context.l10n.gotItLabel,
-                                      onPressed: () {
-                                        // Some code to undo the change.
-                                      },
-                                    ),
-                                  );
-                                  if (loadedCollect.status.slug == 'cancel' ||
-                                      loadedCollect.status.slug ==
-                                          'collected') {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(addToCartSnackBar);
-                                  } else if (!isLogin) {
-                                    _showLogindialog();
-                                  } else {
-                                    if (isCompleted) {
-                                      createRequest(context, false).then(
-                                          (value) =>
-                                              sendRequest(context, isLogin));
-                                    } else {
-                                      _showCompletedialog();
-                                    }
-                                  }
-                                },
-                                child: Container(
-                                  width: deviceWidth * 0.9,
-                                  height: deviceWidth * 0.14,
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Icon(
-                                            Icons.block,
-                                            color: AppTheme.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          context.l10n.noAccessLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        : _buildActionButtons(
+                            context: context,
+                            collect: collect,
+                            deviceWidth: deviceWidth,
+                            textScaleFactor: textScaleFactor,
                           ),
                   ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
+                  if (_isLoading)
+                    Positioned.fill(
+                      child: Container(
+                        color: Colors.black26,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+      );
+  }
+
+  Widget _buildErrorState(BuildContext context, ThemeData theme) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.error_outline,
+              size: 48,
+              color: theme.colorScheme.error,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              _loadError ?? 'Something went wrong',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () {
+                setState(() => _loadError = null);
+                _loadRequest();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddressAndDateCard({
+    required BuildContext context,
+    required RequestWasteItem collect,
+    required double textScaleFactor,
+  }) {
+    final addr = collect.address_data;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              context.l10n.addressLabel,
+              style: TextStyle(
+                fontFamily: 'Iransans',
+                fontSize: textScaleFactor * 14,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.grey,
+              ),
+            ),
+            const SizedBox(height: 4),
+            if (addr.name.trim().isNotEmpty)
+              Text(
+                addr.name,
+                style: TextStyle(
+                  fontFamily: 'Iransans',
+                  fontSize: textScaleFactor * 14,
+                  color: AppTheme.primary,
+                ),
+              ),
+            if (addr.name.trim().isNotEmpty) const SizedBox(height: 4),
+            Text(
+              addr.address,
+              style: TextStyle(
+                fontFamily: 'Iransans',
+                fontSize: textScaleFactor * 13,
+              ),
+            ),
+            if (addr.latitude.isNotEmpty || addr.longitude.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  '${addr.latitude}, ${addr.longitude}',
+                  style: TextStyle(
+                    fontFamily: 'Iransans',
+                    fontSize: textScaleFactor * 11,
+                    color: AppTheme.grey,
+                  ),
+                ),
+              ),
+            const SizedBox(height: 10),
+            Text(
+              context.l10n.collectionLabel,
+              style: TextStyle(
+                fontFamily: 'Iransans',
+                fontSize: textScaleFactor * 14,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.grey,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${collect.collect_date.day} — ${collect.collect_date.time}',
+              style: TextStyle(
+                fontFamily: 'Iransans',
+                fontSize: textScaleFactor * 13,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButtons({
+    required BuildContext context,
+    required RequestWasteItem collect,
+    required double deviceWidth,
+    required double textScaleFactor,
+  }) {
+    final bool isCompleted =
+        collect.status.slug == 'cancel' || collect.status.slug == 'collected';
+
+    if (isCompleted) {
+      return Container(
+        width: deviceWidth * 0.9,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.grey.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          collect.status.slug == 'collected'
+              ? context.l10n.alreadyCollected
+              : 'Request cancelled',
+          style: TextStyle(
+            fontFamily: 'Iransans',
+            fontSize: textScaleFactor * 14,
+            color: AppTheme.grey,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InkWell(
+          onTap: () => _onAcceptPressed(collect.id),
+          child: Container(
+            width: deviceWidth * 0.9,
+            height: deviceWidth * 0.13,
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.green.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Icon(
+                    Icons.check_circle,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Accept',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-        );
-      }),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
-        child: MainDrawer(),
-      ),
+        InkWell(
+          onTap: () => _onRejectPressed(collect.id),
+          child: Container(
+            width: deviceWidth * 0.9,
+            height: deviceWidth * 0.13,
+            decoration: BoxDecoration(
+              color: Colors.red.shade400,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.red.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Icon(
+                    Icons.cancel,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Reject',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  Future<void> _onAcceptPressed(int collectId) async {
+    setState(() => _isLoading = true);
+    try {
+      await Provider.of<Wastes>(context, listen: false)
+          .acceptCollectRequest(collectId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.requestSubmittedSuccess,
+            style: const TextStyle(
+              color: Colors.white,
+              fontFamily: 'Iransans',
+            ),
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _onRejectPressed(int collectId) async {
+    setState(() => _isLoading = true);
+    try {
+      await Provider.of<Wastes>(context, listen: false)
+          .rejectCollectRequest(collectId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Request rejected',
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Iransans',
+            ),
+          ),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 }

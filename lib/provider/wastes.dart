@@ -267,6 +267,48 @@ class Wastes with ChangeNotifier {
     notifyListeners();
   }
 
+  /// POST /driver/collects/:id/accept — driver accepts the assigned request.
+  Future<void> acceptCollectRequest(int collectId) async {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) throw StateError('No auth token');
+    _token = token;
+    final url = Urls.rootUrl + Urls.driverCollectsEndPoint + '/$collectId/accept';
+    final response = await post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode != 200) {
+      final body = response.body;
+      throw Exception(body.isNotEmpty ? body : 'Accept failed');
+    }
+    notifyListeners();
+  }
+
+  /// POST /driver/collects/:id/reject — driver rejects; request is unassigned.
+  Future<void> rejectCollectRequest(int collectId) async {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) throw StateError('No auth token');
+    _token = token;
+    final url = Urls.rootUrl + Urls.driverCollectsEndPoint + '/$collectId/reject';
+    final response = await post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode != 200) {
+      final body = response.body;
+      throw Exception(body.isNotEmpty ? body : 'Reject failed');
+    }
+    notifyListeners();
+  }
+
   get sCategory => _sCategory;
 
   get sOrderBy => _sOrderBy;
