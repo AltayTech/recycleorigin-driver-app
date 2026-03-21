@@ -215,7 +215,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: Stack(
           children: <Widget>[
             SingleChildScrollView(
@@ -227,156 +227,143 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                     textScaleFactor: textScaleFactor,
                   ),
                   HeaderTotal(
-                          totalNumber: wasteCartItems.length,
-                          totalPrice: totalPrice,
-                          totalWeight: totalWeight,
-                          totalPriceController: _totalPriceController,
-                          totalPriceAnimation: _totalPriceAnimation,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Consumer<Wastes>(
-                            builder: (_, value, ch) => value
-                                        .wasteCartItems.length !=
-                                    0
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.statusLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.typeLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.customerWeightLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.deliveryWeightLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                    totalNumber: wasteCartItems.length,
+                    totalPrice: totalPrice,
+                    totalWeight: totalWeight,
+                    totalPriceController: _totalPriceController,
+                    totalPriceAnimation: _totalPriceAnimation,
+                  ),
+                  const SizedBox(height: 12),
+                  Consumer<Wastes>(
+                    builder: (_, value, ch) => value.wasteCartItems.length != 0
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          context.l10n.statusLabel,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
                                           ),
                                         ),
-                                        Container(
-                                          height: deviceHeight * 0.5,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.white,
-                                            borderRadius:
-                                                BorderRadius.circular(2),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          context.l10n.typeLabel,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
                                           ),
-                                          child: ListView.builder(
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          context.l10n.customerWeightLabel,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          context.l10n.deliveryWeightLabel,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: deviceHeight * 0.5,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: ListView.builder(
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                            itemCount:
-                                                value.wasteCartItems.length,
-                                            itemBuilder: (ctx, i) =>
-                                                CollectDetailItem(
-                                                    wasteItem:
-                                                        value.wasteCartItems[i],
-                                                    function: getWasteItems,
-                                                    isNotActive: collect
-                                                                .status.slug ==
-                                                            'cancel' ||
-                                                        collect.status.slug ==
-                                                            'collected'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    height: deviceHeight * 0.7,
-                                    child: Center(
-                                      child: Text(context.l10n.noWasteAdded),
+                                    itemCount: value.wasteCartItems.length,
+                                    itemBuilder: (ctx, i) => CollectDetailItem(
+                                      wasteItem: value.wasteCartItems[i],
+                                      function: getWasteItems,
+                                      isNotActive: collect.status.slug ==
+                                              'cancel' ||
+                                          collect.status.slug == 'collected',
                                     ),
                                   ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
                                 ),
-                              );
-                            },
+                              ],
+                            ),
                           )
-                        : _buildActionButtons(
-                            context: context,
-                            collect: collect,
-                            deviceWidth: deviceWidth,
-                            textScaleFactor: textScaleFactor,
+                        : SizedBox(
+                            height: deviceHeight * 0.7,
+                            child: Center(
+                              child: Text(context.l10n.noWasteAdded),
+                            ),
                           ),
                   ),
-                  if (_isLoading)
-                    Positioned.fill(
-                      child: Container(
-                        color: Colors.black26,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ),
+                  const SizedBox(height: 50),
                 ],
               ),
             ),
-      );
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _isLoading
+                  ? SpinKitFadingCircle(
+                      itemBuilder: (BuildContext context, int index) {
+                        return const DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    )
+                  : _buildActionButtons(
+                      context: context,
+                      collect: collect,
+                      deviceWidth: deviceWidth,
+                      textScaleFactor: textScaleFactor,
+                    ),
+            ),
+            if (_isLoading)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black26,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildErrorState(BuildContext context, ThemeData theme) {
@@ -420,81 +407,98 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     required double textScaleFactor,
   }) {
     final addr = collect.address_data;
+    final TextStyle sectionTitleStyle = TextStyle(
+      fontFamily: 'Iransans',
+      fontSize: textScaleFactor * 14,
+      fontWeight: FontWeight.w700,
+      color: const Color(0xFF2A2A2A),
+    );
+
+    final TextStyle fieldValueStyle = TextStyle(
+      fontFamily: 'Iransans',
+      fontSize: textScaleFactor * 14,
+      color: AppTheme.primary,
+      fontWeight: FontWeight.w600,
+    );
+
+    Widget buildField({
+      required IconData icon,
+      required String value,
+      bool usePrimaryColor = true,
+    }) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: <Widget>[
+            Icon(icon, color: AppTheme.grey, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                value,
+                style: (usePrimaryColor
+                        ? fieldValueStyle
+                        : fieldValueStyle.copyWith(color: AppTheme.black))
+                    .copyWith(height: 1.2),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
+          color: const Color(0xFFE9E9E9),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              context.l10n.addressLabel,
-              style: TextStyle(
-                fontFamily: 'Iransans',
-                fontSize: textScaleFactor * 14,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.grey,
-              ),
+            Text(context.l10n.addressLabel, style: sectionTitleStyle),
+            const SizedBox(height: 12),
+            buildField(
+              icon: Icons.bookmark_border_rounded,
+              value: addr.name.trim().isEmpty
+                  ? context.l10n.addressLabel
+                  : addr.name,
+              usePrimaryColor: addr.name.trim().isNotEmpty,
             ),
-            const SizedBox(height: 4),
-            if (addr.name.trim().isNotEmpty)
-              Text(
-                addr.name,
-                style: TextStyle(
-                  fontFamily: 'Iransans',
-                  fontSize: textScaleFactor * 14,
-                  color: AppTheme.primary,
-                ),
-              ),
-            if (addr.name.trim().isNotEmpty) const SizedBox(height: 4),
-            Text(
-              addr.address,
-              style: TextStyle(
-                fontFamily: 'Iransans',
-                fontSize: textScaleFactor * 13,
-              ),
+            const SizedBox(height: 8),
+            buildField(
+              icon: Icons.location_pin,
+              value: addr.address,
+              usePrimaryColor: false,
             ),
-            if (addr.latitude.isNotEmpty || addr.longitude.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  '${addr.latitude}, ${addr.longitude}',
-                  style: TextStyle(
-                    fontFamily: 'Iransans',
-                    fontSize: textScaleFactor * 11,
-                    color: AppTheme.grey,
-                  ),
-                ),
+            if (addr.latitude.isNotEmpty ||
+                addr.longitude.isNotEmpty) ...<Widget>[
+              const SizedBox(height: 8),
+              buildField(
+                icon: Icons.my_location_rounded,
+                value: '${addr.latitude}, ${addr.longitude}',
               ),
-            const SizedBox(height: 10),
+            ],
+            const SizedBox(height: 14),
             Text(
               context.l10n.collectionLabel,
-              style: TextStyle(
-                fontFamily: 'Iransans',
-                fontSize: textScaleFactor * 14,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.grey,
-              ),
+              style: sectionTitleStyle,
             ),
-            const SizedBox(height: 4),
-            Text(
-              '${collect.collect_date.day} — ${collect.collect_date.time}',
-              style: TextStyle(
-                fontFamily: 'Iransans',
-                fontSize: textScaleFactor * 13,
-              ),
+            const SizedBox(height: 8),
+            buildField(
+              icon: Icons.schedule_rounded,
+              value:
+                  '${collect.collect_date.day} — ${collect.collect_date.time}',
+              usePrimaryColor: false,
             ),
           ],
         ),
