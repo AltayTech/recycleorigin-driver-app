@@ -116,5 +116,15 @@
   "kilogramLabel": "کیلوگرم",
   "sortNewest": "جدیدترین",
   "sortMostExpensive": "گرانترین",
-  "sortCheapest": "ارزانترین"
+  "sortCheapest": "ارزانترین",
+  "collectRequestStatusPendingAssignment": "در انتظار تخصیص راننده",
+  "collectRequestStatusPendingDriverAcceptance": "در انتظار پذیرش راننده",
+  "collectRequestStatusDriverAccepted": "پذیرفته شده توسط راننده",
+  "collectRequestStatusCollected": "جمع‌آوری شده",
+  "collectRequestStatusCancelled": "لغو شده",
+  "collectRequestStatusInProgress": "در حال انجام",
+  "collectAcceptLabel": "پذیرش",
+  "collectRejectLabel": "رد درخواست",
+  "collectAcceptedSuccessMessage": "درخواست پذیرفته شد. می‌توانید ادامه دهید.",
+  "collectAcceptedStateHint": "این درخواست را پذیرفته‌اید. پس از جمع‌آوری، وزن‌ها را به‌روز کنید."
 }

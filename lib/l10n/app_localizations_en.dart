@@ -321,8 +321,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordHint => 'Password';
 
   @override
-  String get invalidCredentialsMessage =>
-      'Invalid email or password. Please try again.';
+  String get invalidCredentialsMessage => 'Invalid email or password. Please try again.';
 
   @override
   String get enterEmailValidationMessage => 'Please enter your email.';
@@ -359,4 +358,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sortCheapest => 'Cheapest';
+
+  @override
+  String get collectRequestStatusPendingAssignment => 'Pending driver assignment';
+
+  @override
+  String get collectRequestStatusPendingDriverAcceptance => 'Pending driver acceptance';
+
+  @override
+  String get collectRequestStatusDriverAccepted => 'Accepted by driver';
+
+  @override
+  String get collectRequestStatusCollected => 'Collected';
+
+  @override
+  String get collectRequestStatusCancelled => 'Cancelled';
+
+  @override
+  String get collectRequestStatusInProgress => 'In progress';
+
+  @override
+  String get collectAcceptLabel => 'Accept';
+
+  @override
+  String get collectRejectLabel => 'Reject';
+
+  @override
+  String get collectAcceptedSuccessMessage => 'Request accepted. You can continue with this pickup.';
+
+  @override
+  String get collectAcceptedStateHint => 'You have accepted this request. Update weights below when you collect.';
 }

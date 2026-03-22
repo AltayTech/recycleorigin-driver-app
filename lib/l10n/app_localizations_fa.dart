@@ -321,8 +321,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get passwordHint => 'رمز عبور';
 
   @override
-  String get invalidCredentialsMessage =>
-      'ایمیل یا رمز عبور اشتباه است. دوباره تلاش کنید.';
+  String get invalidCredentialsMessage => 'ایمیل یا رمز عبور اشتباه است. دوباره تلاش کنید.';
 
   @override
   String get enterEmailValidationMessage => 'لطفا ایمیل را وارد کنید.';
@@ -359,4 +358,34 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get sortCheapest => 'ارزانترین';
+
+  @override
+  String get collectRequestStatusPendingAssignment => 'در انتظار تخصیص راننده';
+
+  @override
+  String get collectRequestStatusPendingDriverAcceptance => 'در انتظار پذیرش راننده';
+
+  @override
+  String get collectRequestStatusDriverAccepted => 'پذیرفته شده توسط راننده';
+
+  @override
+  String get collectRequestStatusCollected => 'جمع‌آوری شده';
+
+  @override
+  String get collectRequestStatusCancelled => 'لغو شده';
+
+  @override
+  String get collectRequestStatusInProgress => 'در حال انجام';
+
+  @override
+  String get collectAcceptLabel => 'پذیرش';
+
+  @override
+  String get collectRejectLabel => 'رد درخواست';
+
+  @override
+  String get collectAcceptedSuccessMessage => 'درخواست پذیرفته شد. می‌توانید ادامه دهید.';
+
+  @override
+  String get collectAcceptedStateHint => 'این درخواست را پذیرفته‌اید. پس از جمع‌آوری، وزن‌ها را به‌روز کنید.';
 }

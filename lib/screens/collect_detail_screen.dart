@@ -306,11 +306,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
                                     itemCount: value.wasteCartItems.length,
-                                    itemBuilder: (ctx, i) => CollectDetailItem(
+                                    itemBuilder: (ctx, i) =>                                     CollectDetailItem(
                                       wasteItem: value.wasteCartItems[i],
                                       function: getWasteItems,
-                                      isNotActive: collect.status.slug ==
-                                              'cancel' ||
+                                      isNotActive: collect
+                                              .needsDriverAcceptOrReject ||
+                                          collect.status.slug == 'cancel' ||
                                           collect.status.slug == 'collected',
                                     ),
                                   ),
@@ -416,34 +417,34 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 
     final TextStyle fieldValueStyle = TextStyle(
       fontFamily: 'Iransans',
-      fontSize: textScaleFactor * 14,
-      color: AppTheme.primary,
-      fontWeight: FontWeight.w600,
-    );
+        fontSize: textScaleFactor * 14,
+        color: AppTheme.primary,
+        fontWeight: FontWeight.w600,
+      );
 
-    Widget buildField({
-      required IconData icon,
-      required String value,
-      bool usePrimaryColor = true,
-    }) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: <Widget>[
-            Icon(icon, color: AppTheme.grey, size: 24),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                value,
-                style: (usePrimaryColor
-                        ? fieldValueStyle
-                        : fieldValueStyle.copyWith(color: AppTheme.black))
-                    .copyWith(height: 1.2),
+      Widget buildField({
+        required IconData icon,
+        required String value,
+        bool usePrimaryColor = true,
+      }) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            children: <Widget>[
+              Icon(icon, color: AppTheme.grey, size: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  value,
+                  style: (usePrimaryColor
+                          ? fieldValueStyle
+                          : fieldValueStyle.copyWith(color: AppTheme.black))
+                      .copyWith(height: 1.2),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -500,6 +501,17 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                   '${collect.collect_date.day} — ${collect.collect_date.time}',
               usePrimaryColor: false,
             ),
+            const SizedBox(height: 14),
+            Text(
+              context.l10n.statusLabel,
+              style: sectionTitleStyle,
+            ),
+            const SizedBox(height: 8),
+            buildField(
+              icon: Icons.flag_outlined,
+              value: collect.requestStatusDisplay(context.l10n),
+              usePrimaryColor: false,
+            ),
           ],
         ),
       ),
@@ -537,6 +549,26 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
       );
     }
 
+    if (!collect.needsDriverAcceptOrReject) {
+      return Container(
+        width: deviceWidth * 0.9,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.primary.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          context.l10n.collectAcceptedStateHint,
+          style: TextStyle(
+            fontFamily: 'Iransans',
+            fontSize: textScaleFactor * 14,
+            color: AppTheme.primary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -568,7 +600,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'Accept',
+                    context.l10n.collectAcceptLabel,
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Iransans',
@@ -608,7 +640,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'Reject',
+                    context.l10n.collectRejectLabel,
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Iransans',
@@ -631,10 +663,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
       await Provider.of<Wastes>(context, listen: false)
           .acceptCollectRequest(collectId);
       if (!mounted) return;
+      await _loadRequest();
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            context.l10n.requestSubmittedSuccess,
+            context.l10n.collectAcceptedSuccessMessage,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'Iransans',
@@ -643,7 +677,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
           backgroundColor: Colors.green,
         ),
       );
-      Navigator.of(context).pop(true);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

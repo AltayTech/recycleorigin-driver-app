@@ -116,5 +116,15 @@
   "kilogramLabel": "kg",
   "sortNewest": "Newest",
   "sortMostExpensive": "Most expensive",
-  "sortCheapest": "Cheapest"
+  "sortCheapest": "Cheapest",
+  "collectRequestStatusPendingAssignment": "Pending driver assignment",
+  "collectRequestStatusPendingDriverAcceptance": "Pending driver acceptance",
+  "collectRequestStatusDriverAccepted": "Accepted by driver",
+  "collectRequestStatusCollected": "Collected",
+  "collectRequestStatusCancelled": "Cancelled",
+  "collectRequestStatusInProgress": "In progress",
+  "collectAcceptLabel": "Accept",
+  "collectRejectLabel": "Reject",
+  "collectAcceptedSuccessMessage": "Request accepted. You can continue with this pickup.",
+  "collectAcceptedStateHint": "You have accepted this request. Update weights below when you collect."
 }

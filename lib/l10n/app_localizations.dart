@@ -707,14 +707,34 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get emailLabel;
 
+  /// No description provided for @emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
   String get emailHint;
 
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
   String get passwordHint;
 
+  /// No description provided for @invalidCredentialsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password. Please try again.'**
   String get invalidCredentialsMessage;
 
+  /// No description provided for @enterEmailValidationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email.'**
   String get enterEmailValidationMessage;
 
+  /// No description provided for @enterPasswordValidationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password.'**
   String get enterPasswordValidationMessage;
 
   /// No description provided for @vehicleTypeLabel.
@@ -776,6 +796,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cheapest'**
   String get sortCheapest;
+
+  /// No description provided for @collectRequestStatusPendingAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending driver assignment'**
+  String get collectRequestStatusPendingAssignment;
+
+  /// No description provided for @collectRequestStatusPendingDriverAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending driver acceptance'**
+  String get collectRequestStatusPendingDriverAcceptance;
+
+  /// No description provided for @collectRequestStatusDriverAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted by driver'**
+  String get collectRequestStatusDriverAccepted;
+
+  /// No description provided for @collectRequestStatusCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected'**
+  String get collectRequestStatusCollected;
+
+  /// No description provided for @collectRequestStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get collectRequestStatusCancelled;
+
+  /// No description provided for @collectRequestStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get collectRequestStatusInProgress;
+
+  /// No description provided for @collectAcceptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get collectAcceptLabel;
+
+  /// No description provided for @collectRejectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get collectRejectLabel;
+
+  /// No description provided for @collectAcceptedSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Request accepted. You can continue with this pickup.'**
+  String get collectAcceptedSuccessMessage;
+
+  /// No description provided for @collectAcceptedStateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You have accepted this request. Update weights below when you collect.'**
+  String get collectAcceptedStateHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

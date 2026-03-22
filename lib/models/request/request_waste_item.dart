@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../driver.dart';
 import '../region.dart';
 import '../status.dart';
@@ -19,6 +20,10 @@ class RequestWasteItem with ChangeNotifier {
   final Address address_data;
   final List<Collect> collect_list;
   final Driver driver;
+  /// From API: false means driver must accept; null = legacy row (treat as accepted).
+  final bool? driverAccepted;
+  final String requestStatusKey;
+  final String requestStatusLabel;
 
   RequestWasteItem(
       {required this.id,
@@ -30,7 +35,53 @@ class RequestWasteItem with ChangeNotifier {
       required this.collect_date,
       required this.address_data,
       required this.collect_list,
-      required this.driver});
+      required this.driver,
+      this.driverAccepted,
+      this.requestStatusKey = '',
+      this.requestStatusLabel = ''});
+
+  /// True when API explicitly requires accept/reject (new assignment flow).
+  bool get needsDriverAcceptOrReject => driverAccepted == false;
+
+  /// Localized line for list/detail; falls back to API label or legacy [status].
+  String requestStatusDisplay(AppLocalizations l10n) {
+    switch (requestStatusKey) {
+      case 'pending_assignment':
+        return l10n.collectRequestStatusPendingAssignment;
+      case 'pending_driver_acceptance':
+        return l10n.collectRequestStatusPendingDriverAcceptance;
+      case 'driver_accepted':
+        return l10n.collectRequestStatusDriverAccepted;
+      case 'collected':
+        if (requestStatusLabel.isNotEmpty) {
+          return requestStatusLabel;
+        }
+        return l10n.collectRequestStatusCollected;
+      case 'cancelled':
+        if (requestStatusLabel.isNotEmpty) {
+          return requestStatusLabel;
+        }
+        return l10n.collectRequestStatusCancelled;
+      case 'in_progress':
+        if (requestStatusLabel.isNotEmpty) {
+          return requestStatusLabel;
+        }
+        return l10n.collectRequestStatusInProgress;
+      default:
+        if (requestStatusLabel.isNotEmpty) {
+          return requestStatusLabel;
+        }
+        final n = status.name.trim();
+        if (n.isNotEmpty && n != '0') {
+          return n;
+        }
+        final s = status.slug.trim();
+        if (s.isNotEmpty && s != '0') {
+          return s;
+        }
+        return '—';
+    }
+  }
 
   factory RequestWasteItem.fromJson(Map<String, dynamic> parsedJson) {
     final collectList = parsedJson['collect_list'];
@@ -58,6 +109,9 @@ class RequestWasteItem with ChangeNotifier {
     final driver = driverJson is Map<String, dynamic>
         ? Driver.fromJson(driverJson)
         : Driver.fromJson(null);
+
+    final dynamic daRaw = parsedJson['driver_accepted'];
+    final bool? driverAccepted = daRaw is bool ? daRaw : null;
 
     return RequestWasteItem(
       id: parsedJson['id'] is int
@@ -93,6 +147,9 @@ class RequestWasteItem with ChangeNotifier {
       address_data: addressData,
       collect_list: collectRaw,
       driver: driver,
+      driverAccepted: driverAccepted,
+      requestStatusKey: parsedJson['request_status_key'] as String? ?? '',
+      requestStatusLabel: parsedJson['request_status_label'] as String? ?? '',
     );
   }
 

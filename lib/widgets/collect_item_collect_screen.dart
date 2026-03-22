@@ -2,13 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
+import '../l10n/l10n.dart';
 import '../models/request/request_waste_item.dart';
 import '../provider/app_theme.dart';
 import '../screens/collect_detail_screen.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
-  Widget getStatusIcon(String statusSlug) {
+  Widget getStatusIcon(String statusSlug, {String requestStatusKey = ''}) {
+    if (requestStatusKey == 'pending_driver_acceptance') {
+      return Icon(
+        Icons.hourglass_top_rounded,
+        color: AppTheme.accent,
+      );
+    }
+    if (requestStatusKey == 'driver_accepted' ||
+        requestStatusKey == 'in_progress') {
+      return Icon(
+        Icons.how_to_reg_rounded,
+        color: AppTheme.primary,
+      );
+    }
+    if (requestStatusKey == 'pending_assignment') {
+      return Icon(
+        Icons.person_search_rounded,
+        color: AppTheme.grey,
+      );
+    }
+
     Widget icon = Icon(
       Icons.timer,
       color: AppTheme.accent,
@@ -52,7 +73,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
@@ -181,6 +201,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                           Expanded(
                                             child: getStatusIcon(
                                               collect.status.slug,
+                                              requestStatusKey:
+                                                  collect.requestStatusKey,
                                             ),
                                           ),
                                         ],
@@ -267,7 +289,9 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              collect.status.name,
+                                              collect.requestStatusDisplay(
+                                                context.l10n,
+                                              ),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
