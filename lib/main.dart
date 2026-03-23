@@ -27,8 +27,13 @@ import 'screens/guide_screen.dart';
 import 'screens/send_delivery_screen.dart';
 import 'screens/splash_Screen.dart';
 
+/// Entry point for the driver app.
+///
+/// The app wires domain providers at the root and exposes a single Material
+/// theme used by all collection, delivery, and profile flows.
 void main() => runApp(const MyApp());
 
+/// Root widget for the driver application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -122,16 +127,14 @@ class MyApp extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         home: SplashScreens(),
         routes: {
-          NavigationBottomScreen.routeName: (ctx) =>
-              NavigationBottomScreen(),
+          NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
           ContactWithUs.routeName: (ctx) => ContactWithUs(),
           CustomerDetailInfoEditScreen.routeName: (ctx) =>
               CustomerDetailInfoEditScreen(),
-          CustomerUserInfoScreen.routeName: (ctx) =>
-              CustomerUserInfoScreen(),
+          CustomerUserInfoScreen.routeName: (ctx) => CustomerUserInfoScreen(),
           GuideScreen.routeName: (ctx) => GuideScreen(),
           MapScreen.routeName: (ctx) => MapScreen(),
           CollectListScreen.routeName: (ctx) => CollectListScreen(),

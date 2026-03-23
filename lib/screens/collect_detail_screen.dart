@@ -12,6 +12,11 @@ import '../provider/auth.dart';
 import '../provider/wastes.dart';
 import '../widgets/main_drawer.dart';
 
+/// Displays one collect request with editable collected waste details.
+///
+/// The screen loads request details by route argument (`int collectId`),
+/// hydrates local cart state in `Wastes`, then computes aggregate weight and
+/// price for the header summary.
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/CollectDetailScreen';
 
@@ -91,6 +96,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     await _loadRequest();
   }
 
+  /// Rebuilds aggregated totals from provider cart items.
+  ///
+  /// This method is intentionally centralized so both first-load and refresh
+  /// paths use the same calculation logic and animation update behavior.
   Future<void> getWasteItems() async {
     setState(() {
       _isLoading = true;
@@ -306,7 +315,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
                                     itemCount: value.wasteCartItems.length,
-                                    itemBuilder: (ctx, i) =>                                     CollectDetailItem(
+                                    itemBuilder: (ctx, i) => CollectDetailItem(
                                       wasteItem: value.wasteCartItems[i],
                                       function: getWasteItems,
                                       isNotActive: collect
@@ -417,34 +426,34 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 
     final TextStyle fieldValueStyle = TextStyle(
       fontFamily: 'Iransans',
-        fontSize: textScaleFactor * 14,
-        color: AppTheme.primary,
-        fontWeight: FontWeight.w600,
-      );
+      fontSize: textScaleFactor * 14,
+      color: AppTheme.primary,
+      fontWeight: FontWeight.w600,
+    );
 
-      Widget buildField({
-        required IconData icon,
-        required String value,
-        bool usePrimaryColor = true,
-      }) {
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-          decoration: BoxDecoration(
-            color: AppTheme.white,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Row(
-            children: <Widget>[
-              Icon(icon, color: AppTheme.grey, size: 24),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  value,
-                  style: (usePrimaryColor
-                          ? fieldValueStyle
-                          : fieldValueStyle.copyWith(color: AppTheme.black))
-                      .copyWith(height: 1.2),
+    Widget buildField({
+      required IconData icon,
+      required String value,
+      bool usePrimaryColor = true,
+    }) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: <Widget>[
+            Icon(icon, color: AppTheme.grey, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                value,
+                style: (usePrimaryColor
+                        ? fieldValueStyle
+                        : fieldValueStyle.copyWith(color: AppTheme.black))
+                    .copyWith(height: 1.2),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

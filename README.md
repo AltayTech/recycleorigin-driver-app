@@ -1,16 +1,46 @@
-# tamizshahrdriver
+# Recycle Origin Driver App
 
-Tamiz Shahr, Driver Application
+Flutter mobile application used by drivers to accept, collect, and complete
+recycling pickups and delivery operations.
 
-## Getting Started
+## Responsibilities
 
-This project is a starting point for a Flutter application.
+- driver authentication and profile completion
+- list and inspect assigned collections and deliveries
+- update collected item quantities/weights and statuses
+- view wallet/statistics and operational history
 
-A few resources to get you started if this is your first Flutter project:
+## Project Structure
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- `lib/main.dart`: app bootstrap, providers, theme, routes
+- `lib/provider`: state and remote data orchestration
+- `lib/screens`: route-level UI screens
+- `lib/widgets`: reusable presentation components
+- `lib/models`: API and domain data models
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Prerequisites
+
+- Flutter SDK (stable)
+- Android Studio or VS Code + Flutter tooling
+- backend API reachable from the running device/emulator
+
+## Run Locally
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Quality Checks
+
+```bash
+dart format lib test
+flutter analyze
+flutter test
+```
+
+## Documentation Standards
+
+- public widgets/services should include `///` API docs
+- asynchronous load/update flows should document state transitions
+- complex UI state should include short intent comments where needed
