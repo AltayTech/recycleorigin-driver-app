@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/bloc/auth_bloc.dart';
-import 'package:recycleorigindriver/bloc/clearings_bloc.dart';
-import 'package:recycleorigindriver/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/bloc/deliveries_bloc.dart';
-import 'package:recycleorigindriver/bloc/wastes_bloc.dart';
-import 'package:recycleorigindriver/screens/delivery_detail_screen.dart';
-import 'package:recycleorigindriver/screens/statistics_screen.dart';
-
-import './provider/app_theme.dart';
-import './screens/about_us_screen.dart';
-import './screens/clear_screen.dart';
-import './screens/collect_detail_screen.dart';
-import './screens/contact_with_us_screen.dart';
-import './screens/customer_info/customer_user_info_screen.dart';
-import './screens/home_screen.dart';
-import './screens/map_screen.dart';
-import './screens/navigation_bottom_screen.dart';
-import './screens/wallet_screen.dart';
-import 'l10n/app_localizations.dart';
-import 'l10n/l10n.dart';
-import 'screens/collect_list_screen.dart';
-import 'screens/customer_info/customer_detail_info_edit_screen.dart';
-import 'screens/customer_info/login_screen.dart';
-import 'screens/guide_screen.dart';
-import 'screens/send_delivery_screen.dart';
-import 'screens/splash_Screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
+import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigindriver/core/screens/splash_screen.dart';
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
+import 'package:recycleorigindriver/features/clearing_feature/presentation/screens/clear_screen.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
+import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/delivery_detail_screen.dart';
+import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/send_delivery_screen.dart';
+import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
+import 'package:recycleorigindriver/features/home_feature/presentation/home_screen.dart';
+import 'package:recycleorigindriver/features/map_feature/presentation/map_screen.dart';
+import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
+import 'package:recycleorigindriver/l10n/app_localizations.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Entry point for the driver app.
 ///

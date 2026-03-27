@@ -1,0 +1,187 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:recycleorigindriver/core/models/shop.dart';
+
+import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+
+class AboutUsScreen extends StatefulWidget {
+  static const routeName = '/AboutUsScreen';
+
+  @override
+  _AboutUsScreenState createState() => _AboutUsScreenState();
+}
+
+class _AboutUsScreenState extends State<AboutUsScreen> {
+  bool _isInit = true;
+
+  late Shop shopData;
+
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      await searchItems();
+    }
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
+  Future<void> searchItems() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await context.read<CustomerInfoBloc>().fetchShopData();
+    shopData = context.read<CustomerInfoBloc>().state.shop!;
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    return Scaffold(
+      backgroundColor: AppTheme.white,
+      appBar: AppBar(
+        title: Text(
+          context.l10n.aboutUsLabel,
+          style: TextStyle(
+            color: AppTheme.bg,
+            fontFamily: 'Iransans',
+            fontSize: textScaleFactor * 18.0,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        centerTitle: true,
+        backgroundColor: AppTheme.appBarColor,
+        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+      ),
+      body: _isLoading
+          ? SpinKitFadingCircle(
+              itemBuilder: (BuildContext context, int index) {
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: index.isEven ? Colors.grey : Colors.grey,
+                  ),
+                );
+              },
+            )
+          : Directionality(
+              textDirection: TextDirection.rtl,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                            width: deviceWidth * 0.3,
+                            height: deviceWidth * 0.3,
+                            color: AppTheme.bg,
+                            child: FadeInImage(
+                              placeholder:
+                                  AssetImage('assets/images/circle.gif'),
+                              image: NetworkImage(shopData.logo.sizes.medium),
+                              fit: BoxFit.contain,
+                              height: deviceWidth * 0.5,
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Text(
+                            shopData.name,
+                            style: TextStyle(
+                              color: AppTheme.h1,
+                              fontFamily: 'BFarnaz',
+                              fontSize: textScaleFactor * 24.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Text(
+                            shopData.subject,
+                            style: TextStyle(
+                              color: AppTheme.grey,
+                              fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 15.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              shopData.about,
+                              style: TextStyle(
+                                color: AppTheme.black,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 15.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: deviceHeight * 0.7,
+                          width: deviceWidth,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: shopData.features_list.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.arrow_right,
+                                      color: AppTheme.secondary,
+                                    ),
+                                    Text(
+                                      shopData.features_list[index].feature,
+                                      style: TextStyle(
+                                        color: AppTheme.h1,
+                                        fontFamily: 'Iransans',
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: textScaleFactor * 15.0,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(
+          // Set the transparency here
+          canvasColor: Colors
+              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+        ),
+        child: MainDrawer(),
+      ),
+    );
+  }
+}
