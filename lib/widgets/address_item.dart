@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/auth_bloc.dart';
 import '../models/request/address.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
@@ -42,12 +42,12 @@ class _AddressItemState extends State<AddressItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    await context.read<AuthBloc>().getAddresses();
+    addressList = context.read<AuthBloc>().state.addressItems;
 
     addressList.remove(
         addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
-    await Provider.of<Auth>(context, listen: false).updateAddress(addressList);
+    await context.read<AuthBloc>().updateAddress(addressList);
 
     setState(() {
       _isLoading = false;

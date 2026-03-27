@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigindriver/provider/auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigindriver/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/screens/customer_info/login_screen.dart';
 import 'package:recycleorigindriver/screens/navigation_bottom_screen.dart';
 
@@ -20,10 +20,10 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
   }
 
   Future<void> _checkAuth() async {
-    final auth = context.read<Auth>();
+    final auth = context.read<AuthBloc>();
     await auth.loadStoredToken();
     if (!mounted) return;
-    if (auth.isAuth) {
+    if (auth.state.isAuth) {
       Navigator.of(context).pushReplacementNamed(
         NavigationBottomScreen.routeName,
       );

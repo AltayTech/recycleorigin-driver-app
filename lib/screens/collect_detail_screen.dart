@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/models/request/wasteCart.dart';
 import 'package:recycleorigindriver/widgets/collect_detail_item.dart';
 import 'package:recycleorigindriver/widgets/header_total.dart';
 
+import '../bloc/auth_bloc.dart';
+import '../bloc/wastes_bloc.dart';
+import '../bloc/wastes_state.dart';
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/wastes.dart';
 import '../widgets/main_drawer.dart';
 
 /// Displays one collect request with editable collected waste details.
 ///
 /// The screen loads request details by route argument (`int collectId`),
-/// hydrates local cart state in `Wastes`, then computes aggregate weight and
+/// hydrates local cart state in [WastesBloc], then computes aggregate weight and
 /// price for the header summary.
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/CollectDetailScreen';
@@ -40,8 +41,8 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     super.didChangeDependencies();
     if (_isInit) {
       _isInit = false;
-      Provider.of<Wastes>(context, listen: false).wasteCartItems = [];
-      Provider.of<Auth>(context, listen: false).checkCompleted().then((_) {
+      context.read<WastesBloc>().wasteCartItems = [];
+      context.read<AuthBloc>().checkCompleted().then((_) {
         _loadRequest();
       });
     }
@@ -64,12 +65,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
       _loadError = null;
     });
     try {
-      await Provider.of<Wastes>(context, listen: false)
-          .retrieveCollectItem(collectId);
+      await context.read<WastesBloc>().retrieveCollectItem(collectId);
       if (!mounted) return;
-      final collect =
-          Provider.of<Wastes>(context, listen: false).requestWasteItem;
-      await Provider.of<Wastes>(context, listen: false).addInitialWasteCart(
+      final collect = context.read<WastesBloc>().state.requestWasteItem!;
+      await context.read<WastesBloc>().addInitialWasteCart(
         collect.collect_list,
         true,
         collect.status.slug == 'collected',
@@ -104,7 +103,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     setState(() {
       _isLoading = true;
     });
-    wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
+    wasteCartItems = context.read<WastesBloc>().state.wasteCartItems;
     totalPrice = 0;
     totalWeight = 0;
     if (wasteCartItems.length > 0) {
@@ -243,8 +242,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                     totalPriceAnimation: _totalPriceAnimation,
                   ),
                   const SizedBox(height: 12),
-                  Consumer<Wastes>(
-                    builder: (_, value, ch) => value.wasteCartItems.length != 0
+                  BlocBuilder<WastesBloc, WastesState>(
+                    buildWhen: (prev, next) =>
+                        prev.wasteCartItems != next.wasteCartItems,
+                    builder: (_, state) => state.wasteCartItems.length != 0
                         ? Container(
                             decoration: BoxDecoration(
                               color: AppTheme.white,
@@ -314,9 +315,9 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                    itemCount: value.wasteCartItems.length,
+                                    itemCount: state.wasteCartItems.length,
                                     itemBuilder: (ctx, i) => CollectDetailItem(
-                                      wasteItem: value.wasteCartItems[i],
+                                      wasteItem: state.wasteCartItems[i],
                                       function: getWasteItems,
                                       isNotActive: collect
                                               .needsDriverAcceptOrReject ||
@@ -669,8 +670,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
   Future<void> _onAcceptPressed(int collectId) async {
     setState(() => _isLoading = true);
     try {
-      await Provider.of<Wastes>(context, listen: false)
-          .acceptCollectRequest(collectId);
+      await context.read<WastesBloc>().acceptCollectRequest(collectId);
       if (!mounted) return;
       await _loadRequest();
       if (!mounted) return;
@@ -702,8 +702,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
   Future<void> _onRejectPressed(int collectId) async {
     setState(() => _isLoading = true);
     try {
-      await Provider.of<Wastes>(context, listen: false)
-          .rejectCollectRequest(collectId);
+      await context.read<WastesBloc>().rejectCollectRequest(collectId);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

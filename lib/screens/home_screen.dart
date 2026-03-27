@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigindriver/widgets/en_to_ar_number_convertor.dart';
 
 import '../l10n/l10n.dart';
+import '../bloc/auth_bloc.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
 import '../screens/collect_list_screen.dart';
 import '../screens/wallet_screen.dart';
 import '../widgets/custom_dialog.dart';
@@ -28,20 +28,20 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_isInit) {
       _isInit = false;
 
-      Provider.of<Auth>(context, listen: false).getToken();
+      context.read<AuthBloc>().getToken();
 
-      bool _isFirstLogin =
-          Provider.of<Auth>(context, listen: false).isFirstLogin;
-      if (_isFirstLogin) {
+      bool isFirstLogin =
+          context.read<AuthBloc>().state.isFirstLogin;
+      if (isFirstLogin) {
         _showLoginDialog(context);
       }
-      bool _isFirstLogout =
-          Provider.of<Auth>(context, listen: false).isFirstLogout;
-      if (_isFirstLogout) {
+      bool isFirstLogout =
+          context.read<AuthBloc>().state.isFirstLogout;
+      if (isFirstLogout) {
         _showLoginDialogExit(context);
       }
 
-      Provider.of<Auth>(context, listen: false).isFirstLogin = false;
+      context.read<AuthBloc>().isFirstLogin = false;
     }
     _isInit = false;
 

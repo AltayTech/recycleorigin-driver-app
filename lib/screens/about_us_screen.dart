@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../models/shop.dart';
-import '../provider/customer_info.dart';
-import 'package:provider/provider.dart';
 
+import '../bloc/customer_info_bloc.dart';
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
 import '../widgets/main_drawer.dart';
@@ -36,8 +36,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).fetchShopData();
-    shopData = Provider.of<CustomerInfo>(context, listen: false).shop;
+    await context.read<CustomerInfoBloc>().fetchShopData();
+    shopData = context.read<CustomerInfoBloc>().state.shop!;
 
     setState(() {
       _isLoading = false;

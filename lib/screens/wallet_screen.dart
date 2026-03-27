@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/widgets/buton_bottom.dart';
 
+import '../bloc/auth_bloc.dart';
+import '../bloc/customer_info_bloc.dart';
+import '../bloc/customer_info_state.dart';
 import '../l10n/l10n.dart';
 import '../models/customer.dart';
 import '../models/search_detail.dart';
 import '../models/transaction.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/customer_info.dart';
 import '../screens/clear_screen.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/main_drawer.dart';
@@ -36,15 +38,15 @@ class _WalletScreenState extends State<WalletScreen>
 
   @override
   void initState() {
-    Provider.of<CustomerInfo>(context, listen: false).sPage = 1;
+    context.read<CustomerInfoBloc>().sPage = 1;
 
-    Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
+    context.read<CustomerInfoBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < (productsDetail?.max_page ?? 1)) {
           page = page + 1;
-          Provider.of<CustomerInfo>(context, listen: false).sPage = page;
+          context.read<CustomerInfoBloc>().sPage = page;
 
           searchItems();
         }
@@ -71,9 +73,9 @@ class _WalletScreenState extends State<WalletScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().state.isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
@@ -86,15 +88,15 @@ class _WalletScreenState extends State<WalletScreen>
     });
 
     try {
-      Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
-      await Provider.of<CustomerInfo>(context, listen: false)
+      context.read<CustomerInfoBloc>().searchBuilder();
+      await context.read<CustomerInfoBloc>()
           .searchTransactionItems();
       productsDetail =
-          Provider.of<CustomerInfo>(context, listen: false).searchDetails;
+          context.read<CustomerInfoBloc>().state.searchDetails;
 
       loadedProducts.clear();
-      loadedProducts = await Provider.of<CustomerInfo>(context, listen: false)
-          .transactionItems;
+      loadedProducts = List<Transaction>.from(
+          context.read<CustomerInfoBloc>().state.transactionItems);
       loadedProductstolist.addAll(loadedProducts);
     } finally {
       if (mounted) {
@@ -110,7 +112,7 @@ class _WalletScreenState extends State<WalletScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -214,8 +216,11 @@ class _WalletScreenState extends State<WalletScreen>
                                             ),
                                             textAlign: TextAlign.center,
                                           ),
-                                          Consumer<CustomerInfo>(
-                                            builder: (_, data, ch) => Text(
+                                          BlocBuilder<CustomerInfoBloc,
+                                              CustomerInfoState>(
+                                            buildWhen: (p, c) =>
+                                                p.driver.money != c.driver.money,
+                                            builder: (_, data) => Text(
                                               EnArConvertor().replaceArNumber(
                                                 currencyFormat.format(
                                                   double.parse(
@@ -278,8 +283,14 @@ class _WalletScreenState extends State<WalletScreen>
                                               ),
                                             ),
                                             Spacer(),
-                                            Consumer<CustomerInfo>(
-                                                builder: (_, Wastes, ch) {
+                                            BlocBuilder<CustomerInfoBloc,
+                                                CustomerInfoState>(
+                                              buildWhen: (p, c) =>
+                                                  p.searchDetails !=
+                                                      c.searchDetails ||
+                                                  p.transactionItems.length !=
+                                                      c.transactionItems.length,
+                                              builder: (_, customerState) {
                                               return Container(
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
@@ -383,7 +394,8 @@ class _WalletScreenState extends State<WalletScreen>
                                                   ),
                                                 ),
                                               );
-                                            }),
+                                            },
+                                            ),
                                           ],
                                         ),
                                       ),

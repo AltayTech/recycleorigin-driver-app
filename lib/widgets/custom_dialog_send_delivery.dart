@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigindriver/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/models/request/pasmand.dart';
-import 'package:recycleorigindriver/provider/customer_info.dart';
 
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
@@ -30,7 +30,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
 
   @override
   void didChangeDependencies() {
-    storeList = Provider.of<CustomerInfo>(context).driver.stores;
+    storeList = context.watch<CustomerInfoBloc>().state.driver.stores;
 
     for (int i = 0; i < storeList.length; i++) {
       storeValueList.add(storeList[i].post_title);

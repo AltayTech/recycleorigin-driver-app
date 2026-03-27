@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/auth_bloc.dart';
+import '../bloc/customer_info_bloc.dart';
 import '../classes/top_bar.dart';
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/customer_info.dart';
 import '../screens/collect_list_screen.dart';
 import '../screens/customer_info/customer_user_info_screen.dart';
 import '../screens/customer_info/login_screen.dart';
@@ -26,7 +26,7 @@ class _ProfileViewState extends State<ProfileView> {
     });
 
     try {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -55,8 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Auth>(context);
-    final isLogin = auth.isAuth;
+    final isLogin = context.watch<AuthBloc>().state.isAuth;
 
     final mediaQuery = MediaQuery.of(context);
     final deviceSizeWidth = mediaQuery.size.width;

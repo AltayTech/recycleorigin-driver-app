@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/models/driver.dart';
 import '../../models/status.dart';
 
 import '../../models/customer.dart';
 import '../../models/personal_data.dart';
 import '../../l10n/l10n.dart';
+import '../../bloc/customer_info_bloc.dart';
 import '../../provider/app_theme.dart';
-import '../../provider/customer_info.dart';
 import '../../widgets/info_edit_item.dart';
 import '../../widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';
@@ -41,7 +41,7 @@ class _CustomerDetailInfoEditScreenState
 
   @override
   void initState() {
-    Driver customer = Provider.of<CustomerInfo>(context, listen: false).driver;
+    Driver customer = context.read<CustomerInfoBloc>().state.driver;
     nameController.text = customer.driver_data.fname;
     familyController.text = customer.driver_data.lname;
 
@@ -71,9 +71,9 @@ class _CustomerDetailInfoEditScreenState
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getTypes();
+    await context.read<CustomerInfoBloc>().getTypes();
 
-    typesList = Provider.of<CustomerInfo>(context, listen: false).typesItems;
+    typesList = context.read<CustomerInfoBloc>().state.typesItems;
     for (int i = 0; i < typesList.length; i++) {
       typeValueList.add(typesList[i].name);
     }
@@ -95,7 +95,7 @@ class _CustomerDetailInfoEditScreenState
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Driver customerInfo =
-        Provider.of<CustomerInfo>(context, listen: false).driver;
+        context.read<CustomerInfoBloc>().state.driver;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -342,7 +342,7 @@ class _CustomerDetailInfoEditScreenState
                 status: Status(term_id: 0, name: '', slug: ''),
               );
 
-              Provider.of<CustomerInfo>(context, listen: false)
+              context.read<CustomerInfoBloc>()
                   .sendCustomer(customerSend)
                   .then((v) {
                 ScaffoldMessenger.of(context).showSnackBar(addToCartSnackBar);

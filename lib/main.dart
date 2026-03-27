@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigindriver/provider/clearings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigindriver/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/bloc/clearings_bloc.dart';
+import 'package:recycleorigindriver/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/bloc/deliveries_bloc.dart';
+import 'package:recycleorigindriver/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/screens/delivery_detail_screen.dart';
 import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
 import './provider/app_theme.dart';
-import './provider/auth.dart';
-import './provider/wastes.dart';
 import './screens/about_us_screen.dart';
 import './screens/clear_screen.dart';
 import './screens/collect_detail_screen.dart';
@@ -18,8 +20,6 @@ import './screens/navigation_bottom_screen.dart';
 import './screens/wallet_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'l10n/l10n.dart';
-import 'provider/customer_info.dart';
-import 'provider/deliveries.dart';
 import 'screens/collect_list_screen.dart';
 import 'screens/customer_info/customer_detail_info_edit_screen.dart';
 import 'screens/customer_info/login_screen.dart';
@@ -63,23 +63,13 @@ class MyApp extends StatelessWidget {
       brightness: Brightness.light,
     );
 
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => Auth(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CustomerInfo(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Wastes(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Deliveries(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Clearings(),
-        ),
+        BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+        BlocProvider<CustomerInfoBloc>(create: (_) => CustomerInfoBloc()),
+        BlocProvider<WastesBloc>(create: (_) => WastesBloc()),
+        BlocProvider<DeliveriesBloc>(create: (_) => DeliveriesBloc()),
+        BlocProvider<ClearingsBloc>(create: (_) => ClearingsBloc()),
       ],
       child: MaterialApp(
         onGenerateTitle: (context) => context.l10n.appTitle,

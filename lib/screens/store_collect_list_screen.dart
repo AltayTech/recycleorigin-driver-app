@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:recycleorigindriver/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/bloc/deliveries_bloc.dart';
+import 'package:recycleorigindriver/bloc/deliveries_state.dart';
 import 'package:recycleorigindriver/models/request/delivery_waste_item.dart';
-import 'package:recycleorigindriver/provider/deliveries.dart';
 import 'package:recycleorigindriver/screens/send_delivery_screen.dart';
 import 'package:recycleorigindriver/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/widgets/collect_item_store_collect_screen.dart';
@@ -13,7 +16,6 @@ import 'package:recycleorigindriver/widgets/custom_dialog_profile.dart';
 import '../l10n/l10n.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import '../widgets/main_drawer.dart';
 import 'customer_info/login_screen.dart';
@@ -40,16 +42,16 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
 
   @override
   void initState() {
-    Provider.of<Deliveries>(context, listen: false).sPage = 1;
+    context.read<DeliveriesBloc>().sPage = 1;
 
-    Provider.of<Deliveries>(context, listen: false).searchBuilder();
+    context.read<DeliveriesBloc>().searchBuilder();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < (productsDetail?.max_page ?? 1)) {
           page = page + 1;
-          Provider.of<Deliveries>(context, listen: false).sPage = page;
+          context.read<DeliveriesBloc>().sPage = page;
 
           searchItems();
         }
@@ -80,8 +82,8 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
 
   Future<void> _submit() async {
     loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Deliveries>(context, listen: false).deliveriesItems;
+    loadedProducts = List<DeliveryWasteItem>.from(
+        context.read<DeliveriesBloc>().state.deliveriesItems);
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -96,10 +98,10 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     });
 
     try {
-      Provider.of<Deliveries>(context, listen: false).searchBuilder();
-      await Provider.of<Deliveries>(context, listen: false).searchCollectItems();
+      context.read<DeliveriesBloc>().searchBuilder();
+      await context.read<DeliveriesBloc>().searchCollectItems();
       productsDetail =
-          Provider.of<Deliveries>(context, listen: false).searchDetails;
+          context.read<DeliveriesBloc>().state.searchDetails;
       if (productsDetail == null) {
         loadedProductstolist.clear();
       }
@@ -119,9 +121,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     });
     print(_isLoading.toString());
 
-    Provider.of<Deliveries>(context, listen: false).sPage = 1;
+    context.read<DeliveriesBloc>().sPage = 1;
 
-    Provider.of<Deliveries>(context, listen: false).searchBuilder();
+    context.read<DeliveriesBloc>().searchBuilder();
 
     loadedProductstolist.clear();
 
@@ -162,10 +164,8 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
-    bool isCompleted = Provider.of<Auth>(
-      context,
-    ).isCompleted;
+    bool isLogin = context.watch<AuthBloc>().state.isAuth;
+    bool isCompleted = context.watch<AuthBloc>().state.isCompleted;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -242,9 +242,14 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                       children: <Widget>[
                                         const Spacer(),
                                         Expanded(
-                                          child: Consumer<Deliveries>(
-                                              builder:
-                                                  (context, Deliveries, ch) {
+                                          child: BlocBuilder<DeliveriesBloc,
+                                              DeliveriesState>(
+                                            buildWhen: (p, c) =>
+                                                p.searchDetails !=
+                                                    c.searchDetails ||
+                                                p.deliveriesItems !=
+                                                    c.deliveriesItems,
+                                            builder: (context, deliveryState) {
                                             return Container(
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
@@ -341,7 +346,8 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                   ]),
                                             ),
                                             );
-                                          }),
+                                            },
+                                          ),
                                         ),
                                       ],
                                     ),

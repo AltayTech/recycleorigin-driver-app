@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
 
+import '../bloc/customer_info_bloc.dart';
 import '../l10n/l10n.dart';
 import '../models/shop.dart';
 import '../provider/app_theme.dart';
-import '../provider/customer_info.dart';
 import '../widgets/main_drawer.dart';
 
 class GuideScreen extends StatefulWidget {
@@ -56,8 +56,8 @@ class _GuideScreenState extends State<GuideScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).fetchShopData();
-    shopData = Provider.of<CustomerInfo>(context, listen: false).shop;
+    await context.read<CustomerInfoBloc>().fetchShopData();
+    shopData = context.read<CustomerInfoBloc>().state.shop!;
 
     setState(() {
       _isLoading = false;
@@ -69,7 +69,7 @@ class _GuideScreenState extends State<GuideScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    shopData = Provider.of<CustomerInfo>(context).shop;
+    shopData = context.watch<CustomerInfoBloc>().state.shop!;
 
     return Scaffold(
       backgroundColor: AppTheme.white,

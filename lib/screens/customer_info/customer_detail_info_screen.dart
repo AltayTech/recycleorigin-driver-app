@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/models/driver.dart';
 
+import '../../bloc/customer_info_bloc.dart';
 import '../../models/customer.dart';
 import '../../l10n/l10n.dart';
 import '../../provider/app_theme.dart';
-import '../../provider/customer_info.dart';
 
 class CustomerDetailInfoScreen extends StatefulWidget {
   final Customer customer;
@@ -36,8 +36,8 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
-    customer = Provider.of<CustomerInfo>(context, listen: false).driver;
+    await context.read<CustomerInfoBloc>().getCustomer();
+    customer = context.read<CustomerInfoBloc>().state.driver;
 
     setState(() {
       _isLoading = false;

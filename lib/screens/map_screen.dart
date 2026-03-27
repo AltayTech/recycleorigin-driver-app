@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
+import '../bloc/auth_bloc.dart';
 import '../l10n/l10n.dart';
 import '../models/region.dart';
 import '../models/request/address.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
 import '../widgets/info_edit_item.dart';
 
 class MapScreen extends StatefulWidget {
@@ -144,9 +144,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
+    await context.read<AuthBloc>().getAddresses();
 
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    addressList = context.read<AuthBloc>().state.addressItems;
 
     addressList.add(Address(
       name: nameController.text,
@@ -157,7 +157,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     ));
     print('addressList    ${addressList.length}');
 
-    await Provider.of<Auth>(context, listen: false).updateAddress(addressList);
+    await context.read<AuthBloc>().updateAddress(addressList);
 
     setState(() {
       _isLoading = false;
@@ -168,9 +168,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).retrieveRegionList();
+    await context.read<AuthBloc>().retrieveRegionList();
 
-    regionList = Provider.of<Auth>(context, listen: false).regionItems;
+    regionList = context.read<AuthBloc>().state.regionItems;
     for (int i = 0; i < regionList.length; i++) {
       regionValueList.add(regionList[i].name);
     }

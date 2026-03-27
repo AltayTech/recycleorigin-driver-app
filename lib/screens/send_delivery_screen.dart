@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:recycleorigindriver/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/bloc/deliveries_bloc.dart';
+import 'package:recycleorigindriver/bloc/deliveries_state.dart';
 import 'package:recycleorigindriver/models/request/collect.dart';
 import 'package:recycleorigindriver/models/request/request_waste.dart';
-import 'package:recycleorigindriver/provider/customer_info.dart';
-import 'package:recycleorigindriver/provider/deliveries.dart';
 import 'package:recycleorigindriver/widgets/collect_delivery_detail_item.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_send_delivery.dart';
 import 'package:recycleorigindriver/widgets/custom_dialog_send_request.dart';
@@ -13,7 +16,6 @@ import 'package:recycleorigindriver/widgets/header_total.dart';
 
 import '../l10n/l10n.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
 import '../widgets/buton_bottom.dart';
 import '../widgets/custom_dialog_enter.dart';
 import '../widgets/custom_dialog_profile.dart';
@@ -78,11 +80,11 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<Auth>(context, listen: false).checkCompleted();
+      await context.read<AuthBloc>().checkCompleted();
       await searchItems();
 
       await getWasteItems();
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
       print(
           'didChangeDependenciesdidChangeDependenciesdidChangeDependenciesdidChangeDependencies');
 
@@ -101,10 +103,10 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //    await Provider.of<Wastes>(context, listen: false)
 //        .retrieveCollectItem(productId);
 
-    await Provider.of<Deliveries>(context, listen: false)
+      await context.read<DeliveriesBloc>()
         .getCollectedItemsToDeliver();
     loadedCollect =
-        Provider.of<Deliveries>(context, listen: false).toDeliveryCollectItems;
+        context.read<DeliveriesBloc>().state.toDeliveryCollectItems;
 //    await Provider.of<Deliveries>(context, listen: false)
 //        .addInitialWasteCart(loadedCollect.collect_list, true);
 //    loadedCollect =
@@ -119,7 +121,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
       _isLoading = true;
     });
     loadedCollect =
-        Provider.of<Deliveries>(context, listen: false).toDeliveryCollectItems;
+        context.read<DeliveriesBloc>().state.toDeliveryCollectItems;
 //    wasteCartItems = Provider.of<Deliveries>(context, listen: false).wasteCartItems;
     totalPrice = 0;
     totalWeight = 0;
@@ -235,8 +237,8 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     setState(() {
       _isLoading = true;
     });
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    await Provider.of<Deliveries>(context, listen: false)
+    bool isLogin = context.read<AuthBloc>().state.isAuth;
+    await context.read<DeliveriesBloc>()
         .sendRequest(
       storeId,
       isLogin,
@@ -272,7 +274,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().state.isAuth;
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
@@ -309,8 +311,11 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
-                          child: Consumer<Deliveries>(
-                            builder: (_, value, ch) => value
+                          child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
+                            buildWhen: (p, c) =>
+                                p.toDeliveryCollectItems !=
+                                c.toDeliveryCollectItems,
+                            builder: (_, deliveryState) => deliveryState
                                         .toDeliveryCollectItems.length !=
                                     0
                                 ? Container(
@@ -377,11 +382,11 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                            itemCount: value
+                                            itemCount: deliveryState
                                                 .toDeliveryCollectItems.length,
                                             itemBuilder: (ctx, i) =>
                                                 CollectDeliveryDetailItem(
-                                              wasteItem: value
+                                              wasteItem: deliveryState
                                                   .toDeliveryCollectItems[i],
                                               function: getWasteItems,
                                             ),

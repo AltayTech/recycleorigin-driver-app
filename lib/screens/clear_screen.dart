@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/models/clearing.dart';
-import 'package:recycleorigindriver/provider/clearings.dart';
 import 'package:recycleorigindriver/widgets/clearing_item_clear_screen.dart';
 
 import '../l10n/l10n.dart';
 import '../models/customer.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/customer_info.dart';
+import '../bloc/auth_bloc.dart';
+import '../bloc/clearings_bloc.dart';
+import '../bloc/clearings_state.dart';
+import '../bloc/customer_info_bloc.dart';
+import '../bloc/customer_info_state.dart';
 import '../widgets/buton_bottom.dart';
 import '../widgets/currency_input_formatter.dart';
 import '../widgets/custom_dialog_send_request.dart';
@@ -34,7 +37,7 @@ class _ClearScreenState extends State<ClearScreen>
   bool _isInit = true;
   var _isLoading = false;
   int page = 1;
-  late SearchDetail productsDetail;
+  SearchDetail? productsDetail;
   ScrollController _scrollController = new ScrollController();
 
   late Customer customer;
@@ -44,15 +47,15 @@ class _ClearScreenState extends State<ClearScreen>
 
   @override
   void initState() {
-    Provider.of<Clearings>(context, listen: false).sPage = 1;
+    context.read<ClearingsBloc>().sPage = 1;
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
+    context.read<ClearingsBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
+        if (page < (productsDetail?.max_page ?? 1)) {
           page = page + 1;
-          Provider.of<Clearings>(context, listen: false).sPage = page;
+          context.read<ClearingsBloc>().sPage = page;
 
           searchItems();
         }
@@ -84,9 +87,9 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().state.isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
@@ -110,14 +113,14 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
-    await Provider.of<Clearings>(context, listen: false).searchCleaingsItems();
+    context.read<ClearingsBloc>().searchBuilder();
+    await context.read<ClearingsBloc>().searchCleaingsItems();
     productsDetail =
-        Provider.of<Clearings>(context, listen: false).searchDetails;
+        context.read<ClearingsBloc>().state.searchDetails;
 
     loadedProducts.clear();
     loadedProducts =
-        await Provider.of<Clearings>(context, listen: false).deliveriesItems;
+        List<Clearing>.from(context.read<ClearingsBloc>().state.deliveriesItems);
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {
@@ -141,7 +144,7 @@ class _ClearScreenState extends State<ClearScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -256,23 +259,21 @@ class _ClearScreenState extends State<ClearScreen>
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Consumer<CustomerInfo>(
-                                                  builder: (_, data, ch) =>
-                                                      Text(
-                                                    data.driver != null
-                                                        ? EnArConvertor().replaceArNumber(
-                                                            currencyFormat
-                                                                .format(double.parse(data
-                                                                        .driver
-                                                                        .money)
-                                                                    .roundToDouble())
-                                                                .toString())
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                currencyFormat
-                                                                    .format(double
-                                                                        .parse(
-                                                                            '0'))),
+                                                child: BlocBuilder<
+                                                    CustomerInfoBloc,
+                                                    CustomerInfoState>(
+                                                  buildWhen: (p, c) =>
+                                                      p.driver.money !=
+                                                      c.driver.money,
+                                                  builder: (_, data) => Text(
+                                                    EnArConvertor().replaceArNumber(
+                                                      currencyFormat
+                                                          .format(double.parse(
+                                                                  data.driver
+                                                                      .money)
+                                                              .roundToDouble())
+                                                          .toString(),
+                                                    ),
                                                     style: TextStyle(
                                                       color: AppTheme.black,
                                                       fontFamily: 'Iransans',
@@ -434,8 +435,14 @@ class _ClearScreenState extends State<ClearScreen>
                                                     ),
                                                   ),
                                                   Spacer(),
-                                                  Consumer<CustomerInfo>(
-                                                      builder: (_, Wastes, ch) {
+                                                  BlocBuilder<ClearingsBloc,
+                                                      ClearingsState>(
+                                                    buildWhen: (p, c) =>
+                                                        p.searchDetails !=
+                                                            c.searchDetails ||
+                                                        p.deliveriesItems !=
+                                                            c.deliveriesItems,
+                                                    builder: (_, clearingState) {
                                                     return Container(
                                                       child: Padding(
                                                         padding: EdgeInsets
@@ -532,8 +539,9 @@ class _ClearScreenState extends State<ClearScreen>
                                                                 productsDetail !=
                                                                         null
                                                                     ? EnArConvertor().replaceArNumber(
-                                                                        productsDetail
-                                                                            .total
+                                                                        (productsDetail
+                                                                                    ?.total ??
+                                                                                0)
                                                                             .toString())
                                                                     : EnArConvertor()
                                                                         .replaceArNumber(
@@ -552,7 +560,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                         ),
                                                       ),
                                                     );
-                                                  }),
+                                                    },
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -659,8 +668,8 @@ class _ClearScreenState extends State<ClearScreen>
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(addToCartSnackBar);
                                     } else {
-                                      Provider.of<CustomerInfo>(context,
-                                              listen: false)
+                                      context
+                                          .read<CustomerInfoBloc>()
                                           .sendClearingRequest(
                                               removeSemicolon(
                                                   donationController.text),

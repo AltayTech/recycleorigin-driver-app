@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/provider/app_theme.dart';
 
+import '../bloc/wastes_bloc.dart';
 import '../models/request/wasteCart.dart';
-import '../provider/wastes.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class CollectDetailItem extends StatefulWidget {
@@ -56,7 +56,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
+    await context.read<WastesBloc>().removeWasteCart(
       widget.wasteItem.pasmand.id,
     );
 
@@ -70,7 +70,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false)
+    await context.read<WastesBloc>()
         .updateWasteCart(widget.wasteItem, exactWeight, isAdded);
 
     widget.function();
@@ -217,8 +217,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                     productWeightFraction =
                                         productWeightFraction - 1000;
                                   }
-                                  await Provider.of<Wastes>(context,
-                                          listen: false)
+                                  await context.read<WastesBloc>()
                                       .updateWasteCart(
                                           widget.wasteItem,
                                           getWeight(productWeight,
@@ -243,8 +242,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                     productWeightFraction =
                                         productWeightFraction - 1000;
                                   }
-                                  await Provider.of<Wastes>(context,
-                                          listen: false)
+                                  await context.read<WastesBloc>()
                                       .updateWasteCart(
                                           widget.wasteItem,
                                           getWeight(productWeight,
@@ -303,7 +301,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       productWeightFraction = 0;
                                     }
 
-                                    Provider.of<Wastes>(context, listen: false)
+                                    context.read<WastesBloc>()
                                         .updateWasteCart(
                                             widget.wasteItem,
                                             getWeight(productWeight,
@@ -331,7 +329,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       productWeightFraction = 0;
                                     }
 
-                                    Provider.of<Wastes>(context, listen: false)
+                                    context.read<WastesBloc>()
                                         .updateWasteCart(
                                             widget.wasteItem,
                                             getWeight(productWeight,
@@ -381,8 +379,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                 if (!widget.isNotActive) {
                                   productWeight = productWeight + 1;
 
-                                  await Provider.of<Wastes>(context,
-                                          listen: false)
+                                  await context.read<WastesBloc>()
                                       .updateWasteCart(
                                           widget.wasteItem,
                                           getWeight(productWeight,
@@ -403,8 +400,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                 if (!widget.isNotActive) {
                                   productWeight = productWeight + 10;
 
-                                  await Provider.of<Wastes>(context,
-                                          listen: false)
+                                  await context.read<WastesBloc>()
                                       .updateWasteCart(
                                           widget.wasteItem,
                                           getWeight(productWeight,
@@ -461,8 +457,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       print('productCount' +
                                           productWeight.toString());
 
-                                      Provider.of<Wastes>(context,
-                                              listen: false)
+                                      context
+                                          .read<WastesBloc>()
                                           .updateWasteCart(
                                               widget.wasteItem,
                                               getWeight(productWeight,
@@ -489,8 +485,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       print('productCount' +
                                           productWeight.toString());
 
-                                      Provider.of<Wastes>(context,
-                                              listen: false)
+                                      context
+                                          .read<WastesBloc>()
                                           .updateWasteCart(
                                               widget.wasteItem,
                                               getWeight(productWeight,

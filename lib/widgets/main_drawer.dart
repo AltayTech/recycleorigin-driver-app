@@ -1,13 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/screens/customer_info/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/screens/statistics_screen.dart';
 
+import '../bloc/auth_bloc.dart';
+import '../bloc/auth_state.dart';
+import '../bloc/customer_info_bloc.dart';
 import '../l10n/l10n.dart';
-import '../provider/auth.dart';
-import '../provider/customer_info.dart';
 import '../screens/about_us_screen.dart';
 import '../screens/contact_with_us_screen.dart';
 import '../screens/customer_info/login_screen.dart';
@@ -71,10 +72,11 @@ class MainDrawer extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Consumer<Auth>(
-                  builder: (_, auth, ch) => ListTile(
+                BlocBuilder<AuthBloc, AuthState>(
+                  buildWhen: (p, c) => p.isAuth != c.isAuth,
+                  builder: (_, authState) => ListTile(
                     title: Text(
-                      auth.isAuth
+                      authState.isAuth
                           ? context.l10n.userProfileLabel
                           : context.l10n.loginLabel,
                       style: textTheme.bodyMedium?.copyWith(
@@ -90,7 +92,7 @@ class MainDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
-                      auth.isAuth
+                      authState.isAuth
                           ? Navigator.of(context)
                               .pushNamed(CustomerUserInfoScreen.routeName)
                           : Navigator.of(context)
@@ -231,14 +233,10 @@ class MainDrawer extends StatelessWidget {
                             color: Colors.red,
                           ),
                           onTap: () async {
-                            Provider.of<CustomerInfo>(context, listen: false)
-                                .driver = Provider.of<CustomerInfo>(context,
-                                    listen: false)
-                                .driver_zero;
-                            await Provider.of<Auth>(context, listen: false)
-                                .removeToken();
-                            Provider.of<Auth>(context, listen: false)
-                                .isFirstLogout = true;
+                            context.read<CustomerInfoBloc>().driver =
+                                context.read<CustomerInfoBloc>().driverZero;
+                            await context.read<AuthBloc>().removeToken();
+                            context.read<AuthBloc>().isFirstLogout = true;
                             Navigator.of(context).pop();
                             Navigator.of(context)
                                 .pushNamed(NavigationBottomScreen.routeName);

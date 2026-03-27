@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/widgets/statistic_item_statistics_screen.dart';
 
+import '../bloc/auth_bloc.dart';
+import '../bloc/wastes_bloc.dart';
 import '../l10n/l10n.dart';
 import '../models/request/request_waste_item.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/wastes.dart';
 import '../widgets/main_drawer.dart';
 import 'customer_info/login_screen.dart';
 
@@ -35,9 +36,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
 
   @override
   void initState() {
-    Provider.of<Wastes>(context, listen: false).sPage = 1;
+    context.read<WastesBloc>().sPage = 1;
 
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
+    context.read<WastesBloc>().searchBuilder();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -45,7 +46,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
         final maxPage = productsDetail?.max_page ?? 1;
         if (page < maxPage) {
           page = page + 1;
-          Provider.of<Wastes>(context, listen: false).sPage = page;
+          context.read<WastesBloc>().sPage = page;
 
           searchItems();
         }
@@ -77,7 +78,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
   Future<void> _submit() async {
     loadedProducts.clear();
     loadedProducts =
-        await Provider.of<Wastes>(context, listen: false).collectItems;
+        List<RequestWasteItem>.from(context.read<WastesBloc>().state.collectItems);
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -91,9 +92,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
       _isLoading = true;
     });
 
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
-    await Provider.of<Wastes>(context, listen: false).searchCollectItems();
-    productsDetail = Provider.of<Wastes>(context, listen: false).searchDetails;
+    context.read<WastesBloc>().searchBuilder();
+    await context.read<WastesBloc>().searchCollectItems();
+    productsDetail = context.read<WastesBloc>().state.searchDetails;
     _submit();
 
     setState(() {
@@ -107,9 +108,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     });
     print(_isLoading.toString());
 
-    Provider.of<Wastes>(context, listen: false).sPage = 1;
+    context.read<WastesBloc>().sPage = 1;
 
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
+    context.read<WastesBloc>().searchBuilder();
 
     loadedProductstolist.clear();
 
@@ -126,7 +127,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 

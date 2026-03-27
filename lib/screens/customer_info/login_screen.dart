@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:recycleorigindriver/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/provider/app_theme.dart';
-import 'package:recycleorigindriver/provider/auth.dart';
 import 'package:recycleorigindriver/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/screens/navigation_bottom_screen.dart';
 
@@ -126,7 +126,7 @@ class _AuthCardState extends State<_AuthCard> {
     setState(() => _isLoading = true);
 
     try {
-      final success = await context.read<Auth>().login(
+      final success = await context.read<AuthBloc>().login(
             _emailController.text.trim(),
             _passwordController.text,
           );
