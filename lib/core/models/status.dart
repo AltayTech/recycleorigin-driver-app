@@ -8,10 +8,19 @@ class Status with ChangeNotifier {
   Status({required this.term_id, required this.name, required this.slug});
 
   factory Status.fromJson(Map<String, dynamic> parsedJson) {
+    final dynamic tid = parsedJson['term_id'];
+    var termId = 0;
+    if (tid is int) {
+      termId = tid;
+    } else if (tid is num) {
+      termId = tid.toInt();
+    } else if (tid != null) {
+      termId = int.tryParse(tid.toString()) ?? 0;
+    }
     return Status(
-      term_id: parsedJson['term_id'],
-      name: parsedJson['name'],
-      slug: parsedJson['slug'],
+      term_id: termId,
+      name: parsedJson['name']?.toString() ?? '',
+      slug: parsedJson['slug']?.toString() ?? '',
     );
   }
 

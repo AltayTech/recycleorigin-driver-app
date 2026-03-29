@@ -14,7 +14,7 @@ import 'package:recycleorigindriver/core/models/status.dart';
 import 'package:recycleorigindriver/core/models/transaction.dart';
 import 'package:recycleorigindriver/core/models/transaction_main.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 
 /// Driver profile, transactions, shop, and clearing request.
 class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
@@ -159,9 +159,8 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     Emitter<CustomerInfoState> emit,
   ) async {
     final url = Urls.rootUrl + Urls.driverEndPoint;
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    if (token == null) {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) {
       event.completer?.complete();
       return;
     }
@@ -174,14 +173,28 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
           'Accept': 'application/json',
         },
       );
-      final extractedData = json.decode(response.body);
-      final driver = Driver.fromJson(extractedData);
+      if (response.statusCode != 200) {
+        throw Exception('HTTP ${response.statusCode}');
+      }
+      final decoded = json.decode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Invalid driver profile response');
+      }
+      final driver = Driver.fromJson(decoded);
       emit(state.copyWith(driver: driver, token: token));
       event.completer?.complete();
-    } catch (error) {
-      event.completer?.completeError(error);
+    } catch (error, st) {
+      event.completer?.completeError(error, st);
       rethrow;
     }
+  }
+
+  /// Body for POST /driver — matches [models.CustomerUpdateRequest] on the server.
+  Map<String, dynamic> _driverProfileUpdatePayload(Customer customer) {
+    return {
+      'customer_type': customer.type.toJson(),
+      'customer_data': customer.personalData.toJson(),
+    };
   }
 
   Future<void> _onSendCustomer(
@@ -189,10 +202,10 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     Emitter<CustomerInfoState> emit,
   ) async {
     final url = Urls.rootUrl + Urls.driverEndPoint;
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    if (token == null) {
-      throw StateError('No auth token');
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) {
+      event.completer?.completeError(StateError('No auth token'));
+      return;
     }
     try {
       final response = await post(
@@ -202,14 +215,45 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: jsonEncode(event.customer),
+        body: jsonEncode(_driverProfileUpdatePayload(event.customer)),
       );
-      json.decode(response.body);
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception('HTTP ${response.statusCode}: ${response.body}');
+      }
+      try {
+        await _refreshDriverAfterSave(emit, token);
+      } catch (_) {
+        // POST succeeded; follow-up GET is best-effort (avoids false "save failed").
+      }
       event.completer?.complete();
-    } catch (error) {
-      event.completer?.completeError(error);
+    } catch (error, st) {
+      event.completer?.completeError(error, st);
       rethrow;
     }
+  }
+
+  Future<void> _refreshDriverAfterSave(
+    Emitter<CustomerInfoState> emit,
+    String token,
+  ) async {
+    final url = Urls.rootUrl + Urls.driverEndPoint;
+    final response = await get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode != 200) {
+      throw Exception('HTTP ${response.statusCode}');
+    }
+    final decoded = json.decode(response.body);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Invalid driver profile response');
+    }
+    final driver = Driver.fromJson(decoded);
+    emit(state.copyWith(driver: driver, token: token));
   }
 
   Future<void> _onFetchShopData(
@@ -240,9 +284,8 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     Emitter<CustomerInfoState> emit,
   ) async {
     final url = Urls.rootUrl + Urls.transactionsEndPoint + state.searchEndPoint;
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    if (token == null) {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) {
       emit(
         state.copyWith(
           transactionItems: [],
@@ -403,9 +446,8 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
   ) async {
     try {
       if (event.isLogin) {
-        final prefs = await SharedPreferences.getInstance();
-        final token = prefs.getString('token');
-        if (token == null) {
+        final token = await SecureStorage.getToken();
+        if (token == null || token.isEmpty) {
           throw StateError('No auth token');
         }
         final url = Urls.rootUrl + Urls.clearingEndPoint;

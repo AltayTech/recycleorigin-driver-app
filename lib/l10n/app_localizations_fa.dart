@@ -66,15 +66,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confirmLabel => 'تایید';
 
   @override
-  String get goToProfileDescription =>
-      'برای دریافت اطلاعات کاربری به قسمت پروفایل مراجعه فرمایید';
+  String get goToProfileDescription => 'برای دریافت اطلاعات کاربری به قسمت پروفایل مراجعه فرمایید';
 
   @override
   String get dearUserTitle => 'کاربر گرامی';
 
   @override
-  String get logoutSuccessDescription =>
-      'شما با موفقیت از اکانت کاربری خارج شدید';
+  String get logoutSuccessDescription => 'شما با موفقیت از اکانت کاربری خارج شدید';
 
   @override
   String get warehouseDeliveryLabel => 'تحویل انبار';
@@ -107,8 +105,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get connectionFailedMessage => 'ارتباط برقرار نشد.';
 
   @override
-  String get connectionRetryMessage =>
-      'ارتباط برقرار نشد، لطفا دوباره تلاش کنید.';
+  String get connectionRetryMessage => 'ارتباط برقرار نشد، لطفا دوباره تلاش کنید.';
 
   @override
   String get okLabel => 'خب';
@@ -117,8 +114,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get enterReceivedCodeMessage => 'کد دریافتی را وارد نمایید';
 
   @override
-  String get enterPhoneToLoginMessage =>
-      'برای ورود شماره تلفن همراه را وارد نمایید';
+  String get enterPhoneToLoginMessage => 'برای ورود شماره تلفن همراه را وارد نمایید';
 
   @override
   String get enterPhoneValidationMessage => 'لطفا شماره تلفن را وارد نمایید';
@@ -163,8 +159,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get loginRequiredDescription => 'برای ادامه باید وارد شوید';
 
   @override
-  String get completeProfileDescription =>
-      'برای ادامه باید اطلاعات کاربری تکمیل کنید';
+  String get completeProfileDescription => 'برای ادامه باید اطلاعات کاربری تکمیل کنید';
 
   @override
   String get requestSubmittedSuccess => 'درخواست شما با موفقیت ثبت شد';
@@ -326,8 +321,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get passwordHint => 'رمز عبور';
 
   @override
-  String get invalidCredentialsMessage =>
-      'ایمیل یا رمز عبور اشتباه است. دوباره تلاش کنید.';
+  String get invalidCredentialsMessage => 'ایمیل یا رمز عبور اشتباه است. دوباره تلاش کنید.';
 
   @override
   String get enterEmailValidationMessage => 'لطفا ایمیل را وارد کنید.';
@@ -346,6 +340,18 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get infoEditedSuccess => 'اطلاعات ویرایش شد.';
+
+  @override
+  String get editProfileLabel => 'ویرایش پروفایل';
+
+  @override
+  String get profileSaveFailedMessage => 'ذخیره پروفایل انجام نشد. دوباره تلاش کنید.';
+
+  @override
+  String get profileNameRequiredMessage => 'نام و نام خانوادگی را وارد کنید.';
+
+  @override
+  String get profileTypesListEmptyHint => 'فهرست نوع کاربر بارگذاری نشد. می‌توانید ذخیره کنید؛ نوع فعلی حساب شما استفاده می‌شود.';
 
   @override
   String get selectWarehouseLabel => 'انتخاب انبار';
@@ -369,8 +375,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get collectRequestStatusPendingAssignment => 'در انتظار تخصیص راننده';
 
   @override
-  String get collectRequestStatusPendingDriverAcceptance =>
-      'در انتظار پذیرش راننده';
+  String get collectRequestStatusPendingDriverAcceptance => 'در انتظار پذیرش راننده';
 
   @override
   String get collectRequestStatusDriverAccepted => 'پذیرفته شده توسط راننده';
@@ -391,10 +396,8 @@ class AppLocalizationsFa extends AppLocalizations {
   String get collectRejectLabel => 'رد درخواست';
 
   @override
-  String get collectAcceptedSuccessMessage =>
-      'درخواست پذیرفته شد. می‌توانید ادامه دهید.';
+  String get collectAcceptedSuccessMessage => 'درخواست پذیرفته شد. می‌توانید ادامه دهید.';
 
   @override
-  String get collectAcceptedStateHint =>
-      'این درخواست را پذیرفته‌اید. پس از جمع‌آوری، وزن‌ها را به‌روز کنید.';
+  String get collectAcceptedStateHint => 'این درخواست را پذیرفته‌اید. پس از جمع‌آوری، وزن‌ها را به‌روز کنید.';
 }

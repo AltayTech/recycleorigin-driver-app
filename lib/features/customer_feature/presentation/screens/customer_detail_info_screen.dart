@@ -1,252 +1,161 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
 
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/core/models/customer.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 
-class CustomerDetailInfoScreen extends StatefulWidget {
-  final Customer customer;
-
-  CustomerDetailInfoScreen({required this.customer});
-
+/// Read-only driver profile (name, contact, address, vehicle summary).
+class CustomerDetailInfoScreen extends StatelessWidget {
   @override
-  _CustomerDetailInfoScreenState createState() =>
-      _CustomerDetailInfoScreenState();
+  Widget build(BuildContext context) {
+    return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
+      buildWhen: (prev, cur) => prev.driver != cur.driver,
+      builder: (context, state) {
+        final d = state.driver;
+        return _DriverProfileBody(driver: d);
+      },
+    );
+  }
 }
 
-class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
-  late Driver customer;
-  var _isLoading = false;
-  bool _isInit = true;
+class _DriverProfileBody extends StatelessWidget {
+  const _DriverProfileBody({required this.driver});
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      cashOrder();
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  Future<void> cashOrder() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await context.read<CustomerInfoBloc>().getCustomer();
-    customer = context.read<CustomerInfoBloc>().state.driver;
-
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
-    print(_isLoading.toString());
-  }
+  final Driver driver;
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final deviceHeight = MediaQuery.of(context).size.height;
 
     return Container(
       color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-        child: _isLoading
-            ? Align(
-                alignment: Alignment.center,
-                child: SpinKitFadingCircle(
-                  itemBuilder: (BuildContext context, int index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: index.isEven ? Colors.grey : Colors.grey,
-                      ),
-                    );
-                  },
-                ),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/images/user_Icon.png',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              context.l10n.personalInfoLabel,
-                              style: TextStyle(
-                                color: AppTheme.h1,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 18.0,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
+                      child: Image.asset(
+                        'assets/images/user_Icon.png',
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              context.l10n.specificationsLabel,
-                              style: TextStyle(
-                                color: AppTheme.black,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 14.0,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-//                            FittedBox(
-//                              child: FlatButton(
-//                                color: AppTheme.primary,
-//                                onPressed: () {
-//                                  Navigator.of(context).pushReplacementNamed(
-//                                      CustomerDetailInfoEditScreen.routeName);
-//                                },
-//                                child: Row(
-//                                  children: <Widget>[
-//                                    Icon(
-//                                      Icons.edit,
-//                                      color: Colors.white,
-//                                      size: 16,
-//                                    ),
-//                                    Text(
-//                                      ' ویرایش',
-//                                      style: TextStyle(
-//                                        color: Colors.white,
-//                                        fontFamily: 'Iransans',
-//                                        fontSize: textScaleFactor * 14.0,
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
-//                              ),
-//                            ),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        context.l10n.personalInfoLabel,
+                        style: TextStyle(
+                          color: AppTheme.h1,
+                          fontFamily: 'Iransans',
+                          fontSize: textScaleFactor * 18.0,
                         ),
-                        Container(
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              InfoItem(
-                                title: context.l10n.firstNameLabel,
-                                text: customer.driver_data.fname,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xffA67FEC),
-                              ),
-                              InfoItem(
-                                title: context.l10n.lastNameLabel,
-                                text: customer.driver_data.lname,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xffA67FEC),
-                              ),
-                              InfoItem(
-                                title: context.l10n.userTypeLabel,
-                                text: customer.status.name,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xffA67FEC),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.white,
-                        ),
-                        Container(
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              InfoItem(
-                                title: context.l10n.emailLabel,
-                                text: customer.driver_data.email,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xffA67FEC),
-                              ),
-                              InfoItem(
-                                title: context.l10n.provinceLabel,
-                                text: customer.driver_data.ostan != null
-                                    ? customer.driver_data.ostan
-                                    : '',
-                                bgColor: Colors.white,
-                                iconColor: Color(0xff4392F1),
-                              ),
-                              InfoItem(
-                                title: context.l10n.cityLabel,
-                                text: customer.driver_data.city != null
-                                    ? customer.driver_data.city
-                                    : '',
-                                bgColor: Colors.white,
-                                iconColor: Color(0xff4392F1),
-                              ),
-                              InfoItem(
-                                title: context.l10n.postalCodeLabel,
-                                text: customer.driver_data.postcode != null
-                                    ? customer.driver_data.postcode
-                                    : '',
-                                bgColor: Colors.white,
-                                iconColor: Color(0xff4392F1),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.white,
-                        ),
-                        Container(
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              InfoItem(
-                                title: context.l10n.vehicleTypeLabel,
-                                text: customer.car.name,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xffA67FEC),
-                              ),
-                              InfoItem(
-                                title: context.l10n.vehicleColorLabel,
-                                text: customer.car_color.name,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xff4392F1),
-                              ),
-                              InfoItem(
-                                title: context.l10n.plateNumberLabel,
-                                text: customer.car_number,
-                                bgColor: Colors.white,
-                                iconColor: Color(0xff4392F1),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        textAlign: TextAlign.right,
+                      ),
                     ),
-                    SizedBox(
-                      height: deviceHeight * 0.02,
-                    )
                   ],
                 ),
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      context.l10n.specificationsLabel,
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontFamily: 'Iransans',
+                        fontSize: textScaleFactor * 14.0,
+                      ),
+                    ),
+                  ),
+                  ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      InfoItem(
+                        title: context.l10n.firstNameLabel,
+                        text: driver.driver_data.fname,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.lastNameLabel,
+                        text: driver.driver_data.lname,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.userTypeLabel,
+                        text: driver.status.name,
+                        bgColor: Colors.white,
+                      ),
+                    ],
+                  ),
+                  const Divider(color: Colors.white),
+                  ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      InfoItem(
+                        title: context.l10n.emailLabel,
+                        text: driver.driver_data.email,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.provinceLabel,
+                        text: driver.driver_data.ostan,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.cityLabel,
+                        text: driver.driver_data.city,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.postalCodeLabel,
+                        text: driver.driver_data.postcode,
+                        bgColor: Colors.white,
+                      ),
+                    ],
+                  ),
+                  const Divider(color: Colors.white),
+                  ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      InfoItem(
+                        title: context.l10n.vehicleTypeLabel,
+                        text: driver.car.name,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.vehicleColorLabel,
+                        text: driver.car_color.name,
+                        bgColor: Colors.white,
+                      ),
+                      InfoItem(
+                        title: context.l10n.plateNumberLabel,
+                        text: driver.car_number,
+                        bgColor: Colors.white,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: deviceHeight * 0.02),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -257,19 +166,15 @@ class InfoItem extends StatelessWidget {
     required this.title,
     required this.text,
     required this.bgColor,
-    required this.iconColor,
   });
 
   final String title;
   final String text;
   final Color bgColor;
-  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Column(
@@ -284,26 +189,24 @@ class InfoItem extends StatelessWidget {
             ),
           ),
           Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: bgColor,
-                border: Border.all(
-                    color: Colors.grey.withOpacity(
-                  0.0,
-                )),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: AppTheme.black,
-                    fontFamily: 'Iransans',
-                    fontSize: textScaleFactor * 14.0,
-                  ),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: bgColor,
+              border: Border.all(color: Colors.grey.withOpacity(0.0)),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                text.isEmpty ? '—' : text,
+                style: TextStyle(
+                  color: AppTheme.black,
+                  fontFamily: 'Iransans',
+                  fontSize: textScaleFactor * 14.0,
                 ),
-              ))
+              ),
+            ),
+          ),
         ],
       ),
     );
