@@ -124,8 +124,7 @@ class _WalletScreenState extends State<WalletScreen>
         title: Text(
           context.l10n.walletLabel,
           style: TextStyle(
-            fontFamily: 'Iransans',
-          ),
+            ),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -134,7 +133,7 @@ class _WalletScreenState extends State<WalletScreen>
         actions: <Widget>[],
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -209,7 +208,6 @@ class _WalletScreenState extends State<WalletScreen>
                                             context.l10n.pointsLabel,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 13.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -231,7 +229,6 @@ class _WalletScreenState extends State<WalletScreen>
                                               ),
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
                                                 fontWeight: FontWeight.w700,
                                                 fontSize:
                                                     textScaleFactor * 18.0,
@@ -243,7 +240,6 @@ class _WalletScreenState extends State<WalletScreen>
                                             context.l10n.tomanLabel,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 13.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -278,7 +274,6 @@ class _WalletScreenState extends State<WalletScreen>
                                               style: TextStyle(
                                                 color: AppTheme.black
                                                     .withOpacity(0.8),
-                                                fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 14.0,
                                               ),
@@ -319,8 +314,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                             context.l10n
                                                                 .countWithColon,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       12.0,
@@ -345,8 +338,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                                     .replaceArNumber(
                                                                         '0'),
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       13.0,
@@ -363,8 +354,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                             context
                                                                 .l10n.ofLabel,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       12.0,
@@ -389,8 +378,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                                     .replaceArNumber(
                                                                         '0'),
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       13.0,
@@ -421,7 +408,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 15.0,
                                                   ),
@@ -437,7 +423,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 15.0,
                                                   ),
@@ -453,7 +438,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 15.0,
                                                   ),
@@ -531,7 +515,6 @@ class _WalletScreenState extends State<WalletScreen>
                                                 context.l10n
                                                     .noTransactionAvailable,
                                                 style: TextStyle(
-                                                  fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 15.0,
                                                 ),

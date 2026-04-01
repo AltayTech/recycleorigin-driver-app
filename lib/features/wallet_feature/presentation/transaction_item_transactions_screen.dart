@@ -4,11 +4,14 @@ import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/core/models/transaction.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/localization/transaction_operation_labels.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class TransactionItemTransactionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
@@ -41,11 +44,13 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        transaction.operation,
+                        localizedTransactionOperation(
+                          l10n,
+                          transaction.operation,
+                        ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
                       ),
@@ -60,7 +65,6 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
                       ),
@@ -76,10 +80,9 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                             .toString()),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: transaction.operation == 'برداشت'
+                          color: isWithdrawalOperation(transaction.operation)
                               ? Colors.red
                               : AppTheme.primary,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 17.0,
                         ),
                       ),

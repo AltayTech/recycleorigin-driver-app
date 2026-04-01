@@ -400,4 +400,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get collectAcceptedStateHint => 'You have accepted this request. Update weights below when you collect.';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get languageTitle => 'Language';
+
+  @override
+  String get applicationLanguageLabel => 'Application language';
+
+  @override
+  String get englishLabel => 'English';
+
+  @override
+  String get turkishLabel => 'Turkish';
+
+  @override
+  String get retryLabel => 'Retry';
+
+  @override
+  String get collectTotalWeightColon => 'Total weight:';
+
+  @override
+  String get collectPerKgColon => 'Per kg:';
+
+  @override
+  String get collectTotalPriceColon => 'Total price:';
+
+  @override
+  String get fieldRequiredValidation => 'Please enter a value.';
+
+  @override
+  String get transactionOperationWithdrawal => 'Withdrawal';
+
+  @override
+  String get transactionOperationDeposit => 'Deposit';
 }

@@ -207,8 +207,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         title: Text(
           context.l10n.newAddressLabel,
           style: TextStyle(
-            fontFamily: 'Iransans',
-          ),
+            ),
         ),
 //        shape: RoundedRectangleBorder(
 //          borderRadius: new BorderRadius.vertical(
@@ -221,7 +220,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       ),
       body: SingleChildScrollView(
         child: Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Column(
             children: <Widget>[
               Container(
@@ -268,7 +267,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     context.l10n.areasLabel,
                     style: TextStyle(
                       color: AppTheme.h1,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                   ),
@@ -294,7 +292,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           context.l10n.selectAreaMessage,
                           style: TextStyle(
                             color: AppTheme.grey,
-                            fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),
@@ -311,7 +308,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         dropdownColor: AppTheme.white,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 13.0,
                         ),
                         isDense: true,
@@ -336,7 +332,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 13.0,
                                   ),
                                 ),
@@ -373,7 +368,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 context.l10n.noAreaSelected,
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Iransans',
                   fontSize: textScaleFactor * 14.0,
                 ),
               ),

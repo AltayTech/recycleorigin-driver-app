@@ -90,7 +90,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
@@ -120,7 +119,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                     ),
@@ -131,7 +129,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
                                   ),
@@ -153,7 +150,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,
                                     ),
                                   ),
@@ -163,7 +159,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 11.0,
                                     ),
                                   ),
@@ -178,7 +173,6 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12.0,
                                 ),
                               ),

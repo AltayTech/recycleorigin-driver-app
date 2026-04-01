@@ -182,7 +182,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
           context.l10n.requestDetailTitle,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
           ),
         ),
         centerTitle: true,
@@ -221,7 +220,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     final collect = _loadedCollect!;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: Stack(
@@ -267,7 +266,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                           context.l10n.statusLabel,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12,
                                           ),
                                         ),
@@ -277,7 +275,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                           context.l10n.typeLabel,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12,
                                           ),
                                         ),
@@ -287,7 +284,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                           context.l10n.customerWeightLabel,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12,
                                           ),
                                         ),
@@ -297,7 +293,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                                           context.l10n.deliveryWeightLabel,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12,
                                           ),
                                         ),
@@ -404,7 +399,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                 _loadRequest();
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(context.l10n.retryLabel),
             ),
           ],
         ),
@@ -419,14 +414,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
   }) {
     final addr = collect.address_data;
     final TextStyle sectionTitleStyle = TextStyle(
-      fontFamily: 'Iransans',
       fontSize: textScaleFactor * 14,
       fontWeight: FontWeight.w700,
       color: const Color(0xFF2A2A2A),
     );
 
     final TextStyle fieldValueStyle = TextStyle(
-      fontFamily: 'Iransans',
       fontSize: textScaleFactor * 14,
       color: AppTheme.primary,
       fontWeight: FontWeight.w600,
@@ -550,7 +543,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
               ? context.l10n.alreadyCollected
               : 'Request cancelled',
           style: TextStyle(
-            fontFamily: 'Iransans',
             fontSize: textScaleFactor * 14,
             color: AppTheme.grey,
           ),
@@ -570,7 +562,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
         child: Text(
           context.l10n.collectAcceptedStateHint,
           style: TextStyle(
-            fontFamily: 'Iransans',
             fontSize: textScaleFactor * 14,
             color: AppTheme.primary,
           ),
@@ -613,7 +604,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                     context.l10n.collectAcceptLabel,
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -653,7 +643,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
                     context.l10n.collectRejectLabel,
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -680,7 +669,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
             context.l10n.collectAcceptedSuccessMessage,
             style: const TextStyle(
               color: Colors.white,
-              fontFamily: 'Iransans',
             ),
           ),
           backgroundColor: Colors.green,
@@ -710,7 +698,6 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
             'Request rejected',
             style: TextStyle(
               color: Colors.white,
-              fontFamily: 'Iransans',
             ),
           ),
           backgroundColor: Colors.orange,

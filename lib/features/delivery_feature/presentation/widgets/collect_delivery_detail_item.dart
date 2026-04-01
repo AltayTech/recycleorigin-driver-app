@@ -168,7 +168,6 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                               style: TextStyle(
                                 color: AppTheme.black,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18,
                               ),
                             ),
@@ -186,7 +185,6 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                                 .toString(),
                             style: TextStyle(
                               color: AppTheme.black,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 16,
                             ),
                             textAlign: TextAlign.center,
@@ -208,7 +206,6 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                                   : EnArConvertor().replaceArNumber('0'),
                               style: TextStyle(
                                 color: AppTheme.h1,
-                                fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18,
                               ),
                               textAlign: TextAlign.center,
@@ -284,8 +281,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //                                      .toString(),
 //                                  style: TextStyle(
 //                                    color: AppTheme.black,
-//                                    fontFamily: 'Iransans',
-//                                    fontSize: textScaleFactor * 14,
+//                                    //                                    fontSize: textScaleFactor * 14,
 //                                  ),
 //                                  textAlign: TextAlign.center,
 //                                ),
@@ -424,8 +420,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //                                      .toString(),
 //                                  style: TextStyle(
 //                                    color: AppTheme.black,
-//                                    fontFamily: 'Iransans',
-//                                    fontSize: textScaleFactor * 14,
+//                                    //                                    fontSize: textScaleFactor * 14,
 //                                  ),
 //                                  textAlign: TextAlign.center,
 //                                ),

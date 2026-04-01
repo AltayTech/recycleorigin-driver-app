@@ -32,7 +32,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         centerTitle: true,
         title: Text(
           context.l10n.personalInfoLabel,
-          style: const TextStyle(fontFamily: 'Iransans'),
+          style: const TextStyle(),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
@@ -53,7 +53,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         child: MainDrawer(),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: CustomerDetailInfoScreen(),
       ),
     );

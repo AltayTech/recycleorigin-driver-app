@@ -57,7 +57,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           context.l10n.aboutUsLabel,
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -78,7 +77,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               },
             )
           : Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -115,7 +114,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             shopData.subject,
                             style: TextStyle(
                               color: AppTheme.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.center,
@@ -129,7 +127,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               shopData.about,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.center,
@@ -156,7 +153,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                       shopData.features_list[index].feature,
                                       style: TextStyle(
                                         color: AppTheme.h1,
-                                        fontFamily: 'Iransans',
                                         fontStyle: FontStyle.italic,
                                         fontSize: textScaleFactor * 15.0,
                                       ),

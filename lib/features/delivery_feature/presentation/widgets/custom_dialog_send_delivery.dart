@@ -90,7 +90,6 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.h1,
-                        fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 16.0,
                       ),
                     ),
@@ -116,7 +115,6 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                             context.l10n.selectWarehouseMessage,
                             style: TextStyle(
                               color: AppTheme.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 13.0,
                             ),
                           ),
@@ -132,7 +130,6 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                           dropdownColor: AppTheme.white,
                           style: TextStyle(
                             color: AppTheme.black,
-                            fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                           isDense: true,
@@ -156,7 +153,6 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 13.0,
                                     ),
                                   ),
@@ -195,7 +191,6 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                                 context.l10n.confirmLabel,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 16,
                                 ),
                               ),

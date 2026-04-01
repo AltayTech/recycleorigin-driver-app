@@ -178,7 +178,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18,
                             ),
                           ),
@@ -194,7 +193,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                               .toString(),
                           style: TextStyle(
                             color: AppTheme.black,
-                            fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14,
                           ),
                           textAlign: TextAlign.center,
@@ -287,7 +285,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       .toString(),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 14,
                                   ),
                                   textAlign: TextAlign.center,
@@ -444,7 +441,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                       .toString(),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 14,
                                   ),
                                   textAlign: TextAlign.center,

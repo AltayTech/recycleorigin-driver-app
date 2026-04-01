@@ -135,7 +135,7 @@ class _CollectListScreenState extends State<CollectListScreen>
 
     return Scaffold(
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: !isLogin
               ? Container(
@@ -248,8 +248,6 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                           context.l10n
                                                               .countWithColon,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'Iransans',
                                                             fontSize:
                                                                 textScaleFactor *
                                                                     12.0,
@@ -273,8 +271,6 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                                   .replaceArNumber(
                                                                       '0'),
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'Iransans',
                                                             fontSize:
                                                                 textScaleFactor *
                                                                     13.0,
@@ -290,8 +286,6 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                         child: Text(
                                                           context.l10n.ofLabel,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'Iransans',
                                                             fontSize:
                                                                 textScaleFactor *
                                                                     12.0,
@@ -315,8 +309,6 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                                   .replaceArNumber(
                                                                       '0'),
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'Iransans',
                                                             fontSize:
                                                                 textScaleFactor *
                                                                     13.0,
@@ -376,7 +368,6 @@ class _CollectListScreenState extends State<CollectListScreen>
                                           child: Text(
                                             context.l10n.noRequestAvailable,
                                             style: TextStyle(
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),

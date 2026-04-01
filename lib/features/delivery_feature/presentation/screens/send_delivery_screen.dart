@@ -280,7 +280,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
           context.l10n.requestDetailTitle,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
           ),
         ),
         centerTitle: true,
@@ -289,7 +288,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
       ),
       body: Builder(builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -335,7 +334,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                                   context.l10n.typeLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -347,7 +345,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                                   context.l10n.weightKgLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -359,7 +356,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                                   context.l10n.priceTomanLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -431,7 +427,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                   context.l10n.alreadyCollected,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 14.0,
                                   ),
                                 ),

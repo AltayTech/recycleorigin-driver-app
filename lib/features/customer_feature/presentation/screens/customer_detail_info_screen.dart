@@ -57,7 +57,6 @@ class _DriverProfileBody extends StatelessWidget {
                         context.l10n.personalInfoLabel,
                         style: TextStyle(
                           color: AppTheme.h1,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 18.0,
                         ),
                         textAlign: TextAlign.right,
@@ -75,7 +74,6 @@ class _DriverProfileBody extends StatelessWidget {
                       context.l10n.specificationsLabel,
                       style: TextStyle(
                         color: AppTheme.black,
-                        fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
                     ),
@@ -184,7 +182,6 @@ class InfoItem extends StatelessWidget {
             '$title : ',
             style: TextStyle(
               color: AppTheme.grey,
-              fontFamily: 'Iransans',
               fontSize: textScaleFactor * 14.0,
             ),
           ),
@@ -201,7 +198,6 @@ class InfoItem extends StatelessWidget {
                 text.isEmpty ? '—' : text,
                 style: TextStyle(
                   color: AppTheme.black,
-                  fontFamily: 'Iransans',
                   fontSize: textScaleFactor * 14.0,
                 ),
               ),

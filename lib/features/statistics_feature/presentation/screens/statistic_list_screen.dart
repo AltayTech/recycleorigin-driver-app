@@ -133,7 +133,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
 
     return Scaffold(
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: !isLogin
               ? Container(
@@ -262,7 +262,6 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                                           child: Text(
                                             context.l10n.noProductAvailable,
                                             style: TextStyle(
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),

@@ -14,6 +14,7 @@ import 'package:recycleorigindriver/features/contact_feature/presentation/contac
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigindriver/core/screens/settings_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -129,6 +130,27 @@ class MainDrawer extends StatelessWidget {
                                 (Route<dynamic> route) => false);
 //                              Navigator.of(context)
 //                                  .pushNamed(NavigationBottomScreen.routeName);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            context.l10n.settingsTitle,
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                          trailing: Icon(
+                            Icons.settings_rounded,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushNamed(
+                              SettingsScreen.routeName,
+                            );
                           },
                         ),
                         ListTile(
@@ -252,8 +274,7 @@ class MainDrawer extends StatelessWidget {
 //                                  'تبریزاپس',
 //                                  textAlign: TextAlign.center,
 //                                  style: TextStyle(
-//                                    fontFamily: 'Iransans',
-//                                    color: Colors.green,
+//                                    //                                    color: Colors.green,
 //                                    fontSize: textScaleFactor * 11.0,
 //                                  ),
 //                                ),
@@ -261,8 +282,7 @@ class MainDrawer extends StatelessWidget {
 //                                  'طراحی شده توسط',
 //                                  textAlign: TextAlign.center,
 //                                  style: TextStyle(
-//                                    fontFamily: 'Iransans',
-//                                    color: textColor,
+//                                    //                                    color: textColor,
 //                                    fontSize: textScaleFactor * 11.0,
 //                                  ),
 //                                ),

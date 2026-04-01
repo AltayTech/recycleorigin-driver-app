@@ -44,7 +44,6 @@ class ButtonBottom extends StatelessWidget {
           text,
           style: TextStyle(
             color: Colors.white,
-            fontFamily: 'Iransans',
             fontSize: textScaleFactor * 16.0,
             fontWeight: FontWeight.w600,
           ),

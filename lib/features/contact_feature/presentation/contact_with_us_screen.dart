@@ -89,7 +89,6 @@ class _ContactWithUsState extends State<ContactWithUs> {
           context.l10n.contactUsLabel,
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -110,7 +109,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
               },
             )
           : Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -163,7 +162,6 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         shopData.address,
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,
@@ -194,7 +192,6 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         ),
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,
@@ -224,7 +221,6 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                             .replaceArNumber(shopData.mobile),
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,

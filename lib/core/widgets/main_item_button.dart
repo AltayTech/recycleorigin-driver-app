@@ -67,7 +67,6 @@ class MainItemButton extends StatelessWidget {
                     style: TextStyle(
                       color:
                           selectedItem == 1 ? AppTheme.white : Colors.black45,
-                      fontFamily: 'Iransans',
                       fontWeight: FontWeight.w600,
                       fontSize: textScaleFactor * 12.0,
                     ),

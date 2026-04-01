@@ -123,7 +123,6 @@ class _ProfileViewState extends State<ProfileView> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.bg,
-                fontFamily: 'Iransans',
                 fontSize: textScaleFactor * 24.0,
                 fontWeight: FontWeight.w600,
               ),
@@ -250,7 +249,6 @@ class _ProfileMenuItem extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppTheme.black,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 16.0,
                     ),
                   ),

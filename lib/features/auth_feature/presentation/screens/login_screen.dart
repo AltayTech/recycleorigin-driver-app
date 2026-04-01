@@ -189,7 +189,6 @@ class _AuthCardState extends State<_AuthCard> {
                           context.l10n.loginLabel,
                           style: TextStyle(
                             color: AppTheme.bg,
-                            fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),

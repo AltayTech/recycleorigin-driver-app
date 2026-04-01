@@ -170,7 +170,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
 
     return Scaffold(
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: !isLogin
               ? Container(
@@ -274,8 +274,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                             context.l10n
                                                                 .countWithColon,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       12.0,
@@ -300,8 +298,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                                     .replaceArNumber(
                                                                         '0'),
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       13.0,
@@ -318,8 +314,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                             context
                                                                 .l10n.ofLabel,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       12.0,
@@ -344,8 +338,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                                                     .replaceArNumber(
                                                                         '0'),
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
                                                               fontSize:
                                                                   textScaleFactor *
                                                                       13.0,
@@ -393,7 +385,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                 context.l10n.alreadyCollected,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 14.0,
                                 ),
                               ),
@@ -449,7 +440,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                           child: Text(
                                             context.l10n.noProductAvailable,
                                             style: TextStyle(
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),

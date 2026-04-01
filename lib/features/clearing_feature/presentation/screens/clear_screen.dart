@@ -157,8 +157,7 @@ class _ClearScreenState extends State<ClearScreen>
         title: Text(
           context.l10n.settlementRequestTitle,
           style: TextStyle(
-            fontFamily: 'Iransans',
-          ),
+            ),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -169,7 +168,7 @@ class _ClearScreenState extends State<ClearScreen>
       body: Builder(
         builder: (context) {
           return Directionality(
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -210,7 +209,7 @@ class _ClearScreenState extends State<ClearScreen>
                         ),
                       )
                     : Directionality(
-                        textDirection: TextDirection.rtl,
+                        textDirection: Directionality.of(context),
                         child: Container(
                           color: AppTheme.bg,
                           height: deviceHeight * 0.9,
@@ -249,7 +248,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                 context.l10n.pointsLabel,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
-                                                  fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 13.0,
                                                 ),
@@ -276,7 +274,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                     ),
                                                     style: TextStyle(
                                                       color: AppTheme.black,
-                                                      fontFamily: 'Iransans',
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       fontSize:
@@ -291,7 +288,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                 context.l10n.tomanLabel,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
-                                                  fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 13.0,
                                                 ),
@@ -310,7 +306,6 @@ class _ClearScreenState extends State<ClearScreen>
                                         textDirection: TextDirection.ltr,
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                       ),
@@ -319,7 +314,6 @@ class _ClearScreenState extends State<ClearScreen>
                                       maxLines: 1,
                                       style: TextStyle(
                                         color: AppTheme.h1,
-                                        fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 16.0,
                                       ),
                                       textDirection: TextDirection.ltr,
@@ -345,7 +339,6 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                         labelStyle: TextStyle(
                                           color: Colors.blue,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 10.0,
                                         ),
                                       ),
@@ -357,7 +350,6 @@ class _ClearScreenState extends State<ClearScreen>
                                         context.l10n.requestedAmountToman,
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                       ),
@@ -368,7 +360,6 @@ class _ClearScreenState extends State<ClearScreen>
                                         maxLines: 1,
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 16.0,
                                         ),
                                         keyboardType: TextInputType.number,
@@ -393,7 +384,6 @@ class _ClearScreenState extends State<ClearScreen>
                                           ),
                                           labelStyle: TextStyle(
                                             color: Colors.blue,
-                                            fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 10.0,
                                           ),
                                         ),
@@ -428,7 +418,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                     style: TextStyle(
                                                       color: AppTheme.black
                                                           .withOpacity(0.5),
-                                                      fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               14.0,
@@ -475,8 +464,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                                       .countWithColon,
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Iransans',
                                                                     fontSize:
                                                                         textScaleFactor *
                                                                             12.0,
@@ -502,8 +489,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                                               '0'),
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Iransans',
                                                                     fontSize:
                                                                         textScaleFactor *
                                                                             13.0,
@@ -522,8 +507,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                                       .ofLabel,
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Iransans',
                                                                     fontSize:
                                                                         textScaleFactor *
                                                                             12.0,
@@ -549,8 +532,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                                               '0'),
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Iransans',
                                                                     fontSize:
                                                                         textScaleFactor *
                                                                             13.0,
@@ -584,8 +565,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                             TextAlign.center,
                                                         style: TextStyle(
                                                           color: AppTheme.grey,
-                                                          fontFamily:
-                                                              'Iransans',
                                                           fontSize:
                                                               textScaleFactor *
                                                                   12.0,
@@ -605,8 +584,6 @@ class _ClearScreenState extends State<ClearScreen>
                                                             TextAlign.center,
                                                         style: TextStyle(
                                                           color: AppTheme.grey,
-                                                          fontFamily:
-                                                              'Iransans',
                                                           fontSize:
                                                               textScaleFactor *
                                                                   12.0,
@@ -656,7 +633,6 @@ class _ClearScreenState extends State<ClearScreen>
                                         context.l10n.enterShebaNumber,
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                       ),

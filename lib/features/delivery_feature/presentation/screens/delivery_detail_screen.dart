@@ -280,7 +280,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
           context.l10n.requestDetailTitle,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
           ),
         ),
         centerTitle: true,
@@ -289,7 +288,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
       ),
       body: Builder(builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -329,7 +328,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -337,7 +335,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         context.l10n.countLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -374,7 +371,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                     .replaceArNumber('0'),
                                             style: TextStyle(
                                               color: AppTheme.h1,
-                                              fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 18,
                                             ),
                                           );
@@ -384,7 +380,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         context.l10n.tomanLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -408,7 +403,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -416,7 +410,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         context.l10n.kilogramLabel,
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -454,7 +447,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                   context.l10n.typeLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -466,7 +458,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                   context.l10n.weightKgLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -478,7 +469,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                   context.l10n.priceTomanLabel,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12,
                                                   ),
@@ -549,7 +539,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                   context.l10n.alreadyCollected,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 14.0,
                                   ),
                                 ),

@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_fa.dart';
+import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +92,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('fa')
+    Locale('tr')
   ];
 
   /// No description provided for @appTitle.
@@ -880,6 +880,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have accepted this request. Update weights below when you collect.'**
   String get collectAcceptedStateHint;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageTitle;
+
+  /// No description provided for @applicationLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Application language'**
+  String get applicationLanguageLabel;
+
+  /// No description provided for @englishLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get englishLabel;
+
+  /// No description provided for @turkishLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkishLabel;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @collectTotalWeightColon.
+  ///
+  /// In en, this message translates to:
+  /// **'Total weight:'**
+  String get collectTotalWeightColon;
+
+  /// No description provided for @collectPerKgColon.
+  ///
+  /// In en, this message translates to:
+  /// **'Per kg:'**
+  String get collectPerKgColon;
+
+  /// No description provided for @collectTotalPriceColon.
+  ///
+  /// In en, this message translates to:
+  /// **'Total price:'**
+  String get collectTotalPriceColon;
+
+  /// No description provided for @fieldRequiredValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a value.'**
+  String get fieldRequiredValidation;
+
+  /// No description provided for @transactionOperationWithdrawal.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal'**
+  String get transactionOperationWithdrawal;
+
+  /// No description provided for @transactionOperationDeposit.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get transactionOperationDeposit;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -891,7 +963,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'fa'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -903,7 +975,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en': return AppLocalizationsEn();
-    case 'fa': return AppLocalizationsFa();
+    case 'tr': return AppLocalizationsTr();
   }
 
   throw FlutterError(

@@ -83,7 +83,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           context.l10n.statisticsLabel,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
           ),
         ),
         centerTitle: true,
@@ -140,7 +139,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppTheme.h1,
-                                fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 16.0,
                               ),
                             ),
@@ -161,7 +159,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppTheme.h1,
-                                fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18.0,
                               ),
                             ),

@@ -6,6 +6,7 @@ import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/price_weight.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;
@@ -53,6 +54,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
@@ -83,11 +85,10 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           Text(
                             widget.collectItem.pasmand.post_title != null
                                 ? widget.collectItem.pasmand.post_title
-                                : 'ندارد',
+                                : l10n.noneLabel,
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w700,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 16,
                             ),
                           ),
@@ -96,10 +97,9 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                'وزن کل: ',
+                                l10n.collectTotalWeightColon,
                                 style: TextStyle(
                                   color: Colors.grey,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12,
                                 ),
                               ),
@@ -111,15 +111,13 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                     .toString(),
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 16,
                                 ),
                               ),
                               Text(
-                                '  کیلوگرم ',
+                                ' ${l10n.kilogramLabel} ',
                                 style: TextStyle(
                                   color: Colors.grey,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12,
                                 ),
                               ),
@@ -134,10 +132,9 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'هر کیلو: ',
+                            l10n.collectPerKgColon,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
                           ),
@@ -150,24 +147,21 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                 : EnArConvertor().replaceArNumber('0'),
                             style: TextStyle(
                               color: AppTheme.black,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 16,
                             ),
                           ),
                           Text(
-                            '  تومان ',
+                            ' ${l10n.tomanLabel} ',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            'قیمت کل: ',
+                            l10n.collectTotalPriceColon,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
                           ),
@@ -179,15 +173,13 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                 : EnArConvertor().replaceArNumber('0'),
                             style: TextStyle(
                               color: AppTheme.black,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18,
                             ),
                           ),
                           Text(
-                            '  تومان ',
+                            ' ${l10n.tomanLabel} ',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
                           ),

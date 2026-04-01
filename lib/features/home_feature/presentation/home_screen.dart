@@ -218,8 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //                                      color: _selectedItem == 0
 //                                          ? AppTheme.white
 //                                          : Colors.black45,
-//                                      fontFamily: 'Iransans',
-//                                      fontWeight: FontWeight.w600,
+//                                      //                                      fontWeight: FontWeight.w600,
 //                                      fontSize: textScaleFactor * 13.0,
 //                                    ),
 //                                  ),

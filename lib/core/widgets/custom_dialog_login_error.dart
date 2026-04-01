@@ -57,7 +57,6 @@ class CustomDialogLoginError extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.red,
                   fontSize: MediaQuery.of(context).textScaleFactor * 16,
-                  fontFamily: 'Iransans',
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -67,7 +66,6 @@ class CustomDialogLoginError extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.blueGrey,
-                  fontFamily: 'Iransans',
                   fontSize: MediaQuery.of(context).textScaleFactor * 14,
                 ),
               ),
@@ -93,7 +91,6 @@ class CustomDialogLoginError extends StatelessWidget {
                           buttonText,
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 16,
                           ),

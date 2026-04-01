@@ -157,13 +157,13 @@ class _CustomerDetailInfoEditScreenState
   Widget build(BuildContext context) {
     final textScale = MediaQuery.of(context).textScaleFactor;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text(
             context.l10n.editProfileLabel,
-            style: const TextStyle(fontFamily: 'Iransans'),
+            style: const TextStyle(),
           ),
           backgroundColor: AppTheme.appBarColor,
           iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
@@ -186,7 +186,6 @@ class _CustomerDetailInfoEditScreenState
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
                           fontSize: textScale * 14,
                         ),
                       ),
@@ -236,7 +235,6 @@ class _CustomerDetailInfoEditScreenState
                           context.l10n.userTypeColon,
                           style: TextStyle(
                             color: AppTheme.black,
-                            fontFamily: 'Iransans',
                             fontSize: textScale * 13,
                           ),
                         ),
@@ -248,7 +246,6 @@ class _CustomerDetailInfoEditScreenState
                             context.l10n.profileTypesListEmptyHint,
                             style: TextStyle(
                               color: AppTheme.grey,
-                              fontFamily: 'Iransans',
                               fontSize: textScale * 13,
                             ),
                           ),
@@ -278,7 +275,6 @@ class _CustomerDetailInfoEditScreenState
                                         child: Text(
                                           t.name,
                                           style: TextStyle(
-                                            fontFamily: 'Iransans',
                                             fontSize: textScale * 13,
                                           ),
                                         ),
@@ -375,7 +371,6 @@ class _ProfileField extends StatelessWidget {
             '$label :',
             style: TextStyle(
               color: AppTheme.h1,
-              fontFamily: 'Iransans',
               fontSize: textScale * 14,
             ),
           ),
@@ -396,7 +391,6 @@ class _ProfileField extends StatelessWidget {
             validator: validator,
             style: TextStyle(
               color: AppTheme.h1,
-              fontFamily: 'Iransans',
               fontSize: textScale * 14,
             ),
             decoration: InputDecoration(

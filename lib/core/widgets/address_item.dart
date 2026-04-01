@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
@@ -56,10 +56,10 @@ class _AddressItemState extends State<AddressItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
       child: Padding(
@@ -95,7 +95,7 @@ class _AddressItemState extends State<AddressItem> {
                       Expanded(
                         flex: 6,
                         child: Directionality(
-                          textDirection: TextDirection.rtl,
+                          textDirection: Directionality.of(context),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -106,12 +106,11 @@ class _AddressItemState extends State<AddressItem> {
                                   child: Text(
                                     widget.addressItem.name != null
                                         ? widget.addressItem.name
-                                        : 'ندارد',
+                                        : l10n.noneLabel,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 18,
                                     ),
                                   ),
@@ -126,7 +125,6 @@ class _AddressItemState extends State<AddressItem> {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     color: AppTheme.grey,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15,
                                   ),
                                 ),

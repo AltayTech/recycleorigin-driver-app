@@ -56,7 +56,6 @@ class HeaderTotal extends StatelessWidget {
                             .toString(),
                         style: TextStyle(
                           color: AppTheme.h1,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 18,
                         ),
                       ),
@@ -65,7 +64,6 @@ class HeaderTotal extends StatelessWidget {
                       context.l10n.countLabel,
                       style: TextStyle(
                         color: AppTheme.grey,
-                        fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 12,
                       ),
                     ),
@@ -99,7 +97,6 @@ class HeaderTotal extends StatelessWidget {
                                 : EnArConvertor().replaceArNumber('0'),
                             style: TextStyle(
                               color: AppTheme.h1,
-                              fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18,
                             ),
                           ),
@@ -110,7 +107,6 @@ class HeaderTotal extends StatelessWidget {
                       context.l10n.tomanLabel,
                       style: TextStyle(
                         color: AppTheme.grey,
-                        fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 12,
                       ),
                     ),
@@ -141,7 +137,6 @@ class HeaderTotal extends StatelessWidget {
                               .toString(),
                           style: TextStyle(
                             color: AppTheme.h1,
-                            fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 18,
                           ),
                         ),
@@ -152,7 +147,6 @@ class HeaderTotal extends StatelessWidget {
                         context.l10n.kilogramLabel,
                         style: TextStyle(
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 12,
                         ),
                       ),

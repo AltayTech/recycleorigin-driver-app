@@ -33,7 +33,6 @@ class _SplashScreensState extends State<SplashScreens> {
         context.l10n.splashTitle,
         textAlign: TextAlign.center,
         style: new TextStyle(
-          fontFamily: 'BFarnaz',
           fontSize: MediaQuery.of(context).textScaleFactor * 30,
           color: AppTheme.black,
           shadows: <Shadow>[
@@ -48,7 +47,6 @@ class _SplashScreensState extends State<SplashScreens> {
       loadingText: Text(
         EnArConvertor().replaceArNumber(context.l10n.splashVersionLabel),
         style: new TextStyle(
-          fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,
           fontSize: MediaQuery.of(context).textScaleFactor * 18,
           color: Colors.black,

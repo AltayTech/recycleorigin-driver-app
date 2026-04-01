@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class StatisticItemStatisticsScreen extends StatelessWidget {
   final Color headColor;
@@ -23,11 +23,11 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -45,7 +45,6 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppTheme.black,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 15.0,
                     ),
                   ),
@@ -79,36 +78,33 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                               children: <Widget>[
                                 Expanded(
                                   child: Text(
-                                    'مبلغ(تومان)',
+                                    l10n.priceTomanLabel,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'وزن(کیلوگرم)',
+                                    l10n.weightKgLabel,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'تعداد',
+                                    l10n.countLabel,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
@@ -129,7 +125,6 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),
@@ -141,7 +136,6 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),
@@ -153,7 +147,6 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),

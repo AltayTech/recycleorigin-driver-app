@@ -130,5 +130,17 @@
   "collectAcceptLabel": "Accept",
   "collectRejectLabel": "Reject",
   "collectAcceptedSuccessMessage": "Request accepted. You can continue with this pickup.",
-  "collectAcceptedStateHint": "You have accepted this request. Update weights below when you collect."
+  "collectAcceptedStateHint": "You have accepted this request. Update weights below when you collect.",
+  "settingsTitle": "Settings",
+  "languageTitle": "Language",
+  "applicationLanguageLabel": "Application language",
+  "englishLabel": "English",
+  "turkishLabel": "Turkish",
+  "retryLabel": "Retry",
+  "collectTotalWeightColon": "Total weight:",
+  "collectPerKgColon": "Per kg:",
+  "collectTotalPriceColon": "Total price:",
+  "fieldRequiredValidation": "Please enter a value.",
+  "transactionOperationWithdrawal": "Withdrawal",
+  "transactionOperationDeposit": "Deposit"
 }

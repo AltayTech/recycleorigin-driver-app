@@ -75,6 +75,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final l10n = context.l10n;
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -149,7 +150,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                           TextAlign.right,
                                                       style: TextStyle(
                                                         color: AppTheme.black,
-                                                        fontFamily: 'Iransans',
                                                         fontSize:
                                                             textScaleFactor *
                                                                 12.0,
@@ -188,7 +188,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                       color: AppTheme.black,
-                                                      fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               14.0,
@@ -230,7 +229,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: AppTheme.black,
-                                                      fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               14.0,
@@ -238,12 +236,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'کیلوگرم',
+                                                  l10n.kilogramLabel,
                                                   maxLines: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 10.0,
                                                   ),
@@ -268,18 +265,16 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     color: AppTheme.black,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 14.0,
                                                   ),
                                                 ),
                                                 Text(
-                                                  ' تومان',
+                                                  ' ${l10n.tomanLabel}',
                                                   maxLines: 1,
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                     color: AppTheme.grey,
-                                                    fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 11.0,
                                                   ),
@@ -297,7 +292,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 13.0,
                                               ),
@@ -333,7 +327,6 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12.0,
                                 ),
                               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem({
@@ -50,7 +51,6 @@ class InfoEditItem extends StatelessWidget {
                   '$title : ',
                   style: TextStyle(
                     color: AppTheme.h1,
-                    fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
@@ -65,13 +65,12 @@ class InfoEditItem extends StatelessWidget {
                     onEditingComplete: () {},
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'لطفا مقداری را وارد نمایید';
+                        return context.l10n.fieldRequiredValidation;
                       }
                       return null;
                     },
                     style: TextStyle(
                       color: AppTheme.h1,
-                      fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                     onFieldSubmitted: (_) =>
@@ -89,7 +88,6 @@ class InfoEditItem extends StatelessWidget {
                       ),
                       labelStyle: TextStyle(
                         color: Colors.blue,
-                        fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 10.0,
                       ),
                     ),
