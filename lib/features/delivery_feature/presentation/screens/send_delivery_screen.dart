@@ -287,163 +287,159 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: Directionality.of(context),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        HeaderTotal(
-                          totalNumber: loadedCollect.length,
-                          totalPrice: totalPrice,
-                          totalWeight: totalWeight,
-                          totalPriceController: _totalPriceController,
-                          totalPriceAnimation: _totalPriceAnimation,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
-                            buildWhen: (p, c) =>
-                                p.toDeliveryCollectItems !=
-                                c.toDeliveryCollectItems,
-                            builder: (_, deliveryState) => deliveryState
-                                        .toDeliveryCollectItems.length !=
-                                    0
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 15.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.typeLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                  textAlign: TextAlign.center,
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      HeaderTotal(
+                        totalNumber: loadedCollect.length,
+                        totalPrice: totalPrice,
+                        totalWeight: totalWeight,
+                        totalPriceController: _totalPriceController,
+                        totalPriceAnimation: _totalPriceAnimation,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
+                          buildWhen: (p, c) =>
+                              p.toDeliveryCollectItems !=
+                              c.toDeliveryCollectItems,
+                          builder: (_, deliveryState) => deliveryState
+                                      .toDeliveryCollectItems.length !=
+                                  0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.typeLabel,
+                                                style: TextStyle(
+                                                  color: AppTheme.grey,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
                                                 ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.weightKgLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                  textAlign: TextAlign.center,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.weightKgLabel,
+                                                style: TextStyle(
+                                                  color: AppTheme.grey,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
                                                 ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.priceTomanLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
-                                                  ),
-                                                  textAlign: TextAlign.center,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.priceTomanLabel,
+                                                style: TextStyle(
+                                                  color: AppTheme.grey,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
                                                 ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                        Container(
-                                          height: deviceHeight * 0.6,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.white,
-                                            borderRadius:
-                                                BorderRadius.circular(2),
-                                          ),
-                                          child: ListView.builder(
+                                      ),
+                                      Container(
+                                        height: deviceHeight * 0.6,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.white,
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                        ),
+                                        child: ListView.builder(
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                            itemCount: deliveryState
-                                                .toDeliveryCollectItems.length,
-                                            itemBuilder: (ctx, i) =>
-                                                CollectDeliveryDetailItem(
-                                              wasteItem: deliveryState
-                                                  .toDeliveryCollectItems[i],
-                                              function: getWasteItems,
-                                            ),
+                                          itemCount: deliveryState
+                                              .toDeliveryCollectItems.length,
+                                          itemBuilder: (ctx, i) =>
+                                              CollectDeliveryDetailItem(
+                                            wasteItem: deliveryState
+                                                .toDeliveryCollectItems[i],
+                                            function: getWasteItems,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    height: deviceHeight * 0.5,
-                                    child: Center(
-                                      child:
-                                          Text(context.l10n.noWasteToDeliver),
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                          ),
+                                )
+                              : Container(
+                                  height: deviceHeight * 0.5,
+                                  child: Center(
+                                    child: Text(context.l10n.noWasteToDeliver),
+                                  ),
+                                ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: index.isEven ? Colors.grey : Colors.grey,
+                              ),
+                            );
+                          },
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            SnackBar addToCartSnackBar = SnackBar(
+                              content: Text(
+                                context.l10n.alreadyCollected,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: textScaleFactor * 14.0,
                                 ),
-                              );
-                            },
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              SnackBar addToCartSnackBar = SnackBar(
-                                content: Text(
-                                  context.l10n.alreadyCollected,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: textScaleFactor * 14.0,
-                                  ),
-                                ),
-                                action: SnackBarAction(
-                                  label: context.l10n.gotItLabel,
-                                  onPressed: () {
-                                    // Some code to undo the change.
-                                  },
-                                ),
-                              );
-                              if (loadedCollect.isEmpty) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(addToCartSnackBar);
-                              } else if (!isLogin) {
-                                _showLogindialog();
-                              } else {
-                                _showSendDeliveryDialog();
+                              ),
+                              action: SnackBarAction(
+                                label: context.l10n.gotItLabel,
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            if (loadedCollect.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(addToCartSnackBar);
+                            } else if (!isLogin) {
+                              _showLogindialog();
+                            } else {
+                              _showSendDeliveryDialog();
 //                                await createRequest(context, true).then(
 //                                  (value) =>
 //                                      sendRequest(context, isLogin).then(
@@ -458,41 +454,39 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //                                  ),
 //                                );
 //                                _showSenddialog();
-                              }
-                            },
-                            child: ButtonBottom(
-                              width: deviceWidth * 0.9,
-                              height: deviceWidth * 0.14,
-                              text: context.l10n.deliverLabel,
-                              isActive: loadedCollect.isNotEmpty,
-                            ),
+                            }
+                          },
+                          child: ButtonBottom(
+                            width: deviceWidth * 0.9,
+                            height: deviceWidth * 0.14,
+                            text: context.l10n.deliverLabel,
+                            isActive: loadedCollect.isNotEmpty,
                           ),
+                        ),
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
                   ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

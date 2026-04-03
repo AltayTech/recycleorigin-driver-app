@@ -1,4 +1,3 @@
-import 'dart:ui' show Locale;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
@@ -79,6 +78,12 @@ class MyApp extends StatelessWidget {
         builder: (context, locale, _) {
           return MaterialApp(
             onGenerateTitle: (context) => context.l10n.appTitle,
+            // English and Turkish are LTR-only; force layout direction so RTL
+            // system locales (e.g. Arabic) do not mirror the UI.
+            builder: (context, child) => Directionality(
+              textDirection: TextDirection.ltr,
+              child: child ?? const SizedBox.shrink(),
+            ),
             theme: ThemeData(
               useMaterial3: true,
               colorScheme: colorScheme,
@@ -132,7 +137,8 @@ class MyApp extends StatelessWidget {
               SettingsScreen.routeName: (ctx) => const SettingsScreen(),
               CustomerDetailInfoEditScreen.routeName: (ctx) =>
                   CustomerDetailInfoEditScreen(),
-              CustomerUserInfoScreen.routeName: (ctx) => CustomerUserInfoScreen(),
+              CustomerUserInfoScreen.routeName: (ctx) =>
+                  CustomerUserInfoScreen(),
               GuideScreen.routeName: (ctx) => GuideScreen(),
               MapScreen.routeName: (ctx) => MapScreen(),
               CollectListScreen.routeName: (ctx) => CollectListScreen(),

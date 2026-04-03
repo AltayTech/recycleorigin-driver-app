@@ -52,10 +52,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),
-      body: Directionality(
-        textDirection: Directionality.of(context),
-        child: CustomerDetailInfoScreen(),
-      ),
+      body: CustomerDetailInfoScreen(),
     );
   }
 }

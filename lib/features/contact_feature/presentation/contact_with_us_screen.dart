@@ -108,167 +108,163 @@ class _ContactWithUsState extends State<ContactWithUs> {
                 );
               },
             )
-          : Directionality(
-              textDirection: Directionality.of(context),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: deviceWidth * 0.3,
-                          height: deviceWidth * 0.3,
-                          color: AppTheme.bg,
-                          child: FadeInImage(
-                            placeholder: AssetImage('assets/images/circle.gif'),
-                            image: NetworkImage(shopData.logo.sizes.medium),
-                            fit: BoxFit.contain,
-                            height: deviceWidth * 0.5,
-                          ),
+          : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: deviceWidth * 0.3,
+                        height: deviceWidth * 0.3,
+                        color: AppTheme.bg,
+                        child: FadeInImage(
+                          placeholder: AssetImage('assets/images/circle.gif'),
+                          image: NetworkImage(shopData.logo.sizes.medium),
+                          fit: BoxFit.contain,
+                          height: deviceWidth * 0.5,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: Text(
-                            shopData.name,
-                            style: TextStyle(
-                              color: AppTheme.h1,
-                              fontFamily: 'BFarnaz',
-                              fontSize: textScaleFactor * 24.0,
-                            ),
-                            textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Text(
+                          shopData.name,
+                          style: TextStyle(
+                            color: AppTheme.h1,
+                            fontFamily: 'BFarnaz',
+                            fontSize: textScaleFactor * 24.0,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        Divider(),
-                        Column(
-                          children: <Widget>[
-                            Card(
+                      ),
+                      Divider(),
+                      Column(
+                        children: <Widget>[
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      color: Colors.indigoAccent,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 8,
+                                    child: Text(
+                                      shopData.address,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: textScaleFactor * 18,
+                                      ),
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.call,
+                                      color: Colors.indigoAccent,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 8,
+                                    child: Text(
+                                      EnArConvertor().replaceArNumber(
+                                        shopData.support_phone,
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: textScaleFactor * 18,
+                                      ),
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.smartphone,
+                                      color: Colors.indigoAccent,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 8,
+                                    child: Text(
+                                      EnArConvertor()
+                                          .replaceArNumber(shopData.mobile),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: textScaleFactor * 18,
+                                      ),
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: deviceHeight * 0.10,
+                            child: Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        color: Colors.indigoAccent,
+                                    Expanded(
+                                      flex: 8,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _launchURL(
+                                              shopData.social_media.instagram);
+                                        },
+                                        child: Image.asset(
+                                            'assets/images/instagram.png'),
                                       ),
                                     ),
                                     Expanded(
                                       flex: 8,
-                                      child: Text(
-                                        shopData.address,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: textScaleFactor * 18,
-                                        ),
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.call,
-                                        color: Colors.indigoAccent,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Text(
-                                        EnArConvertor().replaceArNumber(
-                                          shopData.support_phone,
-                                        ),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: textScaleFactor * 18,
-                                        ),
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.smartphone,
-                                        color: Colors.indigoAccent,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(shopData.mobile),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: textScaleFactor * 18,
-                                        ),
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: deviceHeight * 0.10,
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
-                                        flex: 8,
-                                        child: InkWell(
+                                      child: InkWell(
                                           onTap: () {
-                                            _launchURL(shopData
-                                                .social_media.instagram);
+                                            _launchURL(
+                                                shopData.social_media.telegram);
                                           },
                                           child: Image.asset(
-                                              'assets/images/instagram.png'),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 8,
-                                        child: InkWell(
-                                            onTap: () {
-                                              _launchURL(shopData
-                                                  .social_media.telegram);
-                                            },
-                                            child: Image.asset(
-                                                'assets/images/telegram.png')),
-                                      ),
-                                    ],
-                                  ),
+                                              'assets/images/telegram.png')),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),

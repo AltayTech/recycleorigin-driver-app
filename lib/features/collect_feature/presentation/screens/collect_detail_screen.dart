@@ -219,155 +219,152 @@ class _CollectDetailScreenState extends State<CollectDetailScreen>
     }
     final collect = _loadedCollect!;
 
-    return Directionality(
-      textDirection: Directionality.of(context),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  _buildAddressAndDateCard(
-                    context: context,
-                    collect: collect,
-                    textScaleFactor: textScaleFactor,
-                  ),
-                  HeaderTotal(
-                    totalNumber: wasteCartItems.length,
-                    totalPrice: totalPrice,
-                    totalWeight: totalWeight,
-                    totalPriceController: _totalPriceController,
-                    totalPriceAnimation: _totalPriceAnimation,
-                  ),
-                  const SizedBox(height: 12),
-                  BlocBuilder<WastesBloc, WastesState>(
-                    buildWhen: (prev, next) =>
-                        prev.wasteCartItems != next.wasteCartItems,
-                    builder: (_, state) => state.wasteCartItems.length != 0
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 10,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Text(
-                                          context.l10n.statusLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 12,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          context.l10n.typeLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 12,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          context.l10n.customerWeightLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 12,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          context.l10n.deliveryWeightLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                _buildAddressAndDateCard(
+                  context: context,
+                  collect: collect,
+                  textScaleFactor: textScaleFactor,
+                ),
+                HeaderTotal(
+                  totalNumber: wasteCartItems.length,
+                  totalPrice: totalPrice,
+                  totalWeight: totalWeight,
+                  totalPriceController: _totalPriceController,
+                  totalPriceAnimation: _totalPriceAnimation,
+                ),
+                const SizedBox(height: 12),
+                BlocBuilder<WastesBloc, WastesState>(
+                  buildWhen: (prev, next) =>
+                      prev.wasteCartItems != next.wasteCartItems,
+                  builder: (_, state) => state.wasteCartItems.length != 0
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
                                 ),
-                                Container(
-                                  height: deviceHeight * 0.5,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: ListView.builder(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        context.l10n.statusLabel,
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontSize: textScaleFactor * 12,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        context.l10n.typeLabel,
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontSize: textScaleFactor * 12,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        context.l10n.customerWeightLabel,
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontSize: textScaleFactor * 12,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        context.l10n.deliveryWeightLabel,
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontSize: textScaleFactor * 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: deviceHeight * 0.5,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ListView.builder(
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                    itemCount: state.wasteCartItems.length,
-                                    itemBuilder: (ctx, i) => CollectDetailItem(
-                                      wasteItem: state.wasteCartItems[i],
-                                      function: getWasteItems,
-                                      isNotActive: collect
-                                              .needsDriverAcceptOrReject ||
-                                          collect.status.slug == 'cancel' ||
-                                          collect.status.slug == 'collected',
-                                    ),
+                                  itemCount: state.wasteCartItems.length,
+                                  itemBuilder: (ctx, i) => CollectDetailItem(
+                                    wasteItem: state.wasteCartItems[i],
+                                    function: getWasteItems,
+                                    isNotActive:
+                                        collect.needsDriverAcceptOrReject ||
+                                            collect.status.slug == 'cancel' ||
+                                            collect.status.slug == 'collected',
                                   ),
                                 ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(
-                            height: deviceHeight * 0.7,
-                            child: Center(
-                              child: Text(context.l10n.noWasteAdded),
-                            ),
+                              ),
+                            ],
                           ),
-                  ),
-                  const SizedBox(height: 50),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: _isLoading
-                  ? SpinKitFadingCircle(
-                      itemBuilder: (BuildContext context, int index) {
-                        return const DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
+                        )
+                      : SizedBox(
+                          height: deviceHeight * 0.7,
+                          child: Center(
+                            child: Text(context.l10n.noWasteAdded),
                           ),
-                        );
-                      },
-                    )
-                  : _buildActionButtons(
-                      context: context,
-                      collect: collect,
-                      deviceWidth: deviceWidth,
-                      textScaleFactor: textScaleFactor,
-                    ),
+                        ),
+                ),
+                const SizedBox(height: 50),
+              ],
             ),
-            if (_isLoading)
-              Positioned.fill(
-                child: Container(
-                  color: Colors.black26,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: _isLoading
+                ? SpinKitFadingCircle(
+                    itemBuilder: (BuildContext context, int index) {
+                      return const DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  )
+                : _buildActionButtons(
+                    context: context,
+                    collect: collect,
+                    deviceWidth: deviceWidth,
+                    textScaleFactor: textScaleFactor,
                   ),
+          ),
+          if (_isLoading)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black26,
+                child: const Center(
+                  child: CircularProgressIndicator(),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

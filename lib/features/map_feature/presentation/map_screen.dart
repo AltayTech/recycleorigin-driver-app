@@ -206,8 +206,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 //        ),
         title: Text(
           context.l10n.newAddressLabel,
-          style: TextStyle(
-            ),
+          style: TextStyle(),
         ),
 //        shape: RoundedRectangleBorder(
 //          borderRadius: new BorderRadius.vertical(
@@ -219,144 +218,140 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Directionality(
-          textDirection: Directionality.of(context),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: deviceHeight * 0.4,
-                child: Card(
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _lastMapPosition,
-                      zoom: 12.0,
-                    ),
-                    mapType: _currentMapType,
-                    markers: _markers,
-                    onCameraMove: _onCameraMove,
-                    myLocationEnabled: true,
-                    compassEnabled: true,
-                    scrollGesturesEnabled: true,
-                    mapToolbarEnabled: true,
-                    myLocationButtonEnabled: true,
-                    onTap: (location) {
-                      _onAddMarkerButtonPressed(location);
-                    },
-                    zoomGesturesEnabled: true,
-                    onLongPress: (location) =>
-                        _onAddMarkerButtonPressed(location),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: deviceHeight * 0.4,
+              child: Card(
+                child: GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _lastMapPosition,
+                    zoom: 12.0,
+                  ),
+                  mapType: _currentMapType,
+                  markers: _markers,
+                  onCameraMove: _onCameraMove,
+                  myLocationEnabled: true,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  mapToolbarEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onTap: (location) {
+                    _onAddMarkerButtonPressed(location);
+                  },
+                  zoomGesturesEnabled: true,
+                  onLongPress: (location) =>
+                      _onAddMarkerButtonPressed(location),
+                ),
+              ),
+            ),
+            InfoEditItem(
+              title: context.l10n.addressNameLabel,
+              controller: nameController,
+              bgColor: AppTheme.bg,
+              iconColor: Color(0xffA67FEC),
+              keybordType: TextInputType.text,
+              fieldHeight: deviceHeight * 0.06,
+              thisFocusNode: nameNode,
+              newFocusNode: regionNode,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Container(
+                width: deviceWidth * 0.78,
+                child: Text(
+                  context.l10n.areasLabel,
+                  style: TextStyle(
+                    color: AppTheme.h1,
+                    fontSize: textScaleFactor * 14.0,
                   ),
                 ),
               ),
-              InfoEditItem(
-                title: context.l10n.addressNameLabel,
-                controller: nameController,
-                bgColor: AppTheme.bg,
-                iconColor: Color(0xffA67FEC),
-                keybordType: TextInputType.text,
-                fieldHeight: deviceHeight * 0.06,
-                thisFocusNode: nameNode,
-                newFocusNode: regionNode,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+            ),
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
                 child: Container(
                   width: deviceWidth * 0.78,
-                  child: Text(
-                    context.l10n.areasLabel,
-                    style: TextStyle(
-                      color: AppTheme.h1,
-                      fontSize: textScaleFactor * 14.0,
-                    ),
-                  ),
-                ),
-              ),
-              Directionality(
-                textDirection: TextDirection.ltr,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    width: deviceWidth * 0.78,
-                    height: deviceHeight * 0.05,
-                    alignment: Alignment.centerRight,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppTheme.white,
-                        border: Border.all(color: AppTheme.h1, width: 0.6)),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(right: 8.0, left: 8, top: 6),
-                      child: DropdownButton<String>(
-                        hint: Text(
-                          context.l10n.selectAreaMessage,
-                          style: TextStyle(
-                            color: AppTheme.grey,
-                            fontSize: textScaleFactor * 13.0,
-                          ),
-                        ),
-                        value: regionValue,
-                        focusNode: regionNode,
-                        icon: Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Icon(
-                            Icons.arrow_drop_down,
-                            color: AppTheme.black,
-                            size: 20,
-                          ),
-                        ),
-                        dropdownColor: AppTheme.white,
+                  height: deviceHeight * 0.05,
+                  alignment: Alignment.centerRight,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppTheme.white,
+                      border: Border.all(color: AppTheme.h1, width: 0.6)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, left: 8, top: 6),
+                    child: DropdownButton<String>(
+                      hint: Text(
+                        context.l10n.selectAreaMessage,
                         style: TextStyle(
-                          color: AppTheme.black,
+                          color: AppTheme.grey,
                           fontSize: textScaleFactor * 13.0,
                         ),
-                        isDense: true,
-                        onChanged: (newValue) {
-                          setState(() {
-                            regionValue = newValue;
-                            selectedRegion = regionList[
-                                regionValueList.lastIndexOf(newValue!)];
-                            FocusScope.of(context).requestFocus(addressNode);
-                          });
-                        },
-                        items: regionValueList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 3.0),
-                                child: Text(
-                                  value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontSize: textScaleFactor * 13.0,
-                                  ),
+                      ),
+                      value: regionValue,
+                      focusNode: regionNode,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: AppTheme.black,
+                          size: 20,
+                        ),
+                      ),
+                      dropdownColor: AppTheme.white,
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontSize: textScaleFactor * 13.0,
+                      ),
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          regionValue = newValue;
+                          selectedRegion = regionList[
+                              regionValueList.lastIndexOf(newValue!)];
+                          FocusScope.of(context).requestFocus(addressNode);
+                        });
+                      },
+                      items: regionValueList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 3.0),
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppTheme.black,
+                                  fontSize: textScaleFactor * 13.0,
                                 ),
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
               ),
-              InfoEditItem(
-                title: context.l10n.addressLabel,
-                controller: addressController,
-                bgColor: AppTheme.bg,
-                iconColor: Color(0xffA67FEC),
-                keybordType: TextInputType.text,
-                fieldHeight: deviceHeight * 0.2,
-                maxLine: 10,
-                thisFocusNode: addressNode,
-                newFocusNode: new FocusNode(),
-              ),
-            ],
-          ),
+            ),
+            InfoEditItem(
+              title: context.l10n.addressLabel,
+              controller: addressController,
+              bgColor: AppTheme.bg,
+              iconColor: Color(0xffA67FEC),
+              keybordType: TextInputType.text,
+              fieldHeight: deviceHeight * 0.2,
+              maxLine: 10,
+              thisFocusNode: addressNode,
+              newFocusNode: new FocusNode(),
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

@@ -156,186 +156,183 @@ class _CustomerDetailInfoEditScreenState
   @override
   Widget build(BuildContext context) {
     final textScale = MediaQuery.of(context).textScaleFactor;
-    return Directionality(
-      textDirection: Directionality.of(context),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            context.l10n.editProfileLabel,
-            style: const TextStyle(),
-          ),
-          backgroundColor: AppTheme.appBarColor,
-          iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          context.l10n.editProfileLabel,
+          style: const TextStyle(),
         ),
-        endDrawer: Theme(
-          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-          child: MainDrawer(),
-        ),
-        body: !_typesLoaded
-            ? const Center(child: CircularProgressIndicator())
-            : Form(
-                key: _formKey,
-                child: ColoredBox(
-                  color: AppTheme.bg,
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: <Widget>[
-                      Text(
-                        context.l10n.personInfoTitle,
-                        textAlign: TextAlign.center,
+        backgroundColor: AppTheme.appBarColor,
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+      ),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: MainDrawer(),
+      ),
+      body: !_typesLoaded
+          ? const Center(child: CircularProgressIndicator())
+          : Form(
+              key: _formKey,
+              child: ColoredBox(
+                color: AppTheme.bg,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: <Widget>[
+                    Text(
+                      context.l10n.personInfoTitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontSize: textScale * 14,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _ProfileField(
+                      label: context.l10n.firstNameLabel,
+                      controller: _nameController,
+                      focusNode: _fnName,
+                      nextFocus: _fnFamily,
+                      validator: (String? v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return context.l10n.profileNameRequiredMessage;
+                        }
+                        return null;
+                      },
+                    ),
+                    _ProfileField(
+                      label: context.l10n.lastNameLabel,
+                      controller: _familyController,
+                      focusNode: _fnFamily,
+                      nextFocus: _fnEmail,
+                      validator: (String? v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return context.l10n.profileNameRequiredMessage;
+                        }
+                        return null;
+                      },
+                    ),
+                    _ProfileField(
+                      label: context.l10n.emailLabel,
+                      controller: _emailController,
+                      focusNode: _fnEmail,
+                      nextFocus: _fnOstan,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (String? v) {
+                        final s = v?.trim() ?? '';
+                        if (s.isEmpty) return null;
+                        if (!s.contains('@')) {
+                          return context.l10n.enterEmailValidationMessage;
+                        }
+                        return null;
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                      child: Text(
+                        context.l10n.userTypeColon,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontSize: textScale * 14,
+                          fontSize: textScale * 13,
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      _ProfileField(
-                        label: context.l10n.firstNameLabel,
-                        controller: _nameController,
-                        focusNode: _fnName,
-                        nextFocus: _fnFamily,
-                        validator: (String? v) {
-                          if (v == null || v.trim().isEmpty) {
-                            return context.l10n.profileNameRequiredMessage;
-                          }
-                          return null;
-                        },
-                      ),
-                      _ProfileField(
-                        label: context.l10n.lastNameLabel,
-                        controller: _familyController,
-                        focusNode: _fnFamily,
-                        nextFocus: _fnEmail,
-                        validator: (String? v) {
-                          if (v == null || v.trim().isEmpty) {
-                            return context.l10n.profileNameRequiredMessage;
-                          }
-                          return null;
-                        },
-                      ),
-                      _ProfileField(
-                        label: context.l10n.emailLabel,
-                        controller: _emailController,
-                        focusNode: _fnEmail,
-                        nextFocus: _fnOstan,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (String? v) {
-                          final s = v?.trim() ?? '';
-                          if (s.isEmpty) return null;
-                          if (!s.contains('@')) {
-                            return context.l10n.enterEmailValidationMessage;
-                          }
-                          return null;
-                        },
-                      ),
+                    ),
+                    if (_types.isEmpty)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          context.l10n.userTypeColon,
+                          context.l10n.profileTypesListEmptyHint,
                           style: TextStyle(
-                            color: AppTheme.black,
+                            color: AppTheme.grey,
                             fontSize: textScale * 13,
                           ),
                         ),
-                      ),
-                      if (_types.isEmpty)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            context.l10n.profileTypesListEmptyHint,
-                            style: TextStyle(
-                              color: AppTheme.grey,
-                              fontSize: textScale * 13,
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: AppTheme.h1,
+                              width: 0.6,
                             ),
                           ),
-                        )
-                      else
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                color: AppTheme.h1,
-                                width: 0.6,
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<int>(
-                                isExpanded: true,
-                                value: _typeDropdownValue,
-                                hint: Text(context.l10n.userTypeLabel),
-                                items: _types
-                                    .map(
-                                      (Status t) => DropdownMenuItem<int>(
-                                        value: t.term_id,
-                                        child: Text(
-                                          t.name,
-                                          style: TextStyle(
-                                            fontSize: textScale * 13,
-                                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<int>(
+                              isExpanded: true,
+                              value: _typeDropdownValue,
+                              hint: Text(context.l10n.userTypeLabel),
+                              items: _types
+                                  .map(
+                                    (Status t) => DropdownMenuItem<int>(
+                                      value: t.term_id,
+                                      child: Text(
+                                        t.name,
+                                        style: TextStyle(
+                                          fontSize: textScale * 13,
                                         ),
                                       ),
-                                    )
-                                    .toList(),
-                                onChanged: (int? id) {
-                                  if (id == null) return;
-                                  final Status t = _types.firstWhere(
-                                    (Status e) => e.term_id == id,
-                                  );
-                                  setState(() => _selectedType = t);
-                                },
-                              ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (int? id) {
+                                if (id == null) return;
+                                final Status t = _types.firstWhere(
+                                  (Status e) => e.term_id == id,
+                                );
+                                setState(() => _selectedType = t);
+                              },
                             ),
                           ),
                         ),
-                      const Divider(),
-                      _ProfileField(
-                        label: context.l10n.provinceLabel,
-                        controller: _ostanController,
-                        focusNode: _fnOstan,
-                        nextFocus: _fnCity,
                       ),
-                      _ProfileField(
-                        label: context.l10n.cityLabel,
-                        controller: _cityController,
-                        focusNode: _fnCity,
-                        nextFocus: _fnPost,
-                      ),
-                      _ProfileField(
-                        label: context.l10n.postalCodeLabel,
-                        controller: _postCodeController,
-                        focusNode: _fnPost,
-                        nextFocus: null,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.done,
-                      ),
-                    ],
-                  ),
+                    const Divider(),
+                    _ProfileField(
+                      label: context.l10n.provinceLabel,
+                      controller: _ostanController,
+                      focusNode: _fnOstan,
+                      nextFocus: _fnCity,
+                    ),
+                    _ProfileField(
+                      label: context.l10n.cityLabel,
+                      controller: _cityController,
+                      focusNode: _fnCity,
+                      nextFocus: _fnPost,
+                    ),
+                    _ProfileField(
+                      label: context.l10n.postalCodeLabel,
+                      controller: _postCodeController,
+                      focusNode: _fnPost,
+                      nextFocus: null,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                    ),
+                  ],
                 ),
               ),
-        floatingActionButton: _saving
-            ? FloatingActionButton(
-                onPressed: null,
-                backgroundColor: AppTheme.primary,
-                child: const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
+            ),
+      floatingActionButton: _saving
+          ? FloatingActionButton(
+              onPressed: null,
+              backgroundColor: AppTheme.primary,
+              child: const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
                 ),
-              )
-            : FloatingActionButton(
-                onPressed: _typesLoaded ? _submit : null,
-                backgroundColor: AppTheme.primary,
-                child: const Icon(Icons.check, color: Colors.white),
               ),
-      ),
+            )
+          : FloatingActionButton(
+              onPressed: _typesLoaded ? _submit : null,
+              backgroundColor: AppTheme.primary,
+              child: const Icon(Icons.check, color: Colors.white),
+            ),
     );
   }
 }

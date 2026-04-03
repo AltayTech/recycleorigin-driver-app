@@ -156,8 +156,7 @@ class _ClearScreenState extends State<ClearScreen>
         ),
         title: Text(
           context.l10n.settlementRequestTitle,
-          style: TextStyle(
-            ),
+          style: TextStyle(),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -167,540 +166,501 @@ class _ClearScreenState extends State<ClearScreen>
       ),
       body: Builder(
         builder: (context) {
-          return Directionality(
-            textDirection: Directionality.of(context),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: deviceHeight * 0.0,
-                    horizontal: deviceWidth * 0.03),
-                child: !isLogin
-                    ? Container(
-                        height: deviceHeight * 0.8,
-                        child: Center(
-                          child: Wrap(
-                            direction: Axis.vertical,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(context.l10n.notLoggedInLabel),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(LoginScreen.routeName);
-                                },
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      context.l10n.loginToAccountLabel,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
+              child: !isLogin
+                  ? Container(
+                      height: deviceHeight * 0.8,
+                      child: Center(
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(context.l10n.notLoggedInLabel),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
+                              },
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    context.l10n.loginToAccountLabel,
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.primary,
-                                      borderRadius: BorderRadius.circular(5)),
                                 ),
-                              )
-                            ],
-                          ),
+                                decoration: BoxDecoration(
+                                    color: AppTheme.primary,
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    : Directionality(
-                        textDirection: Directionality.of(context),
-                        child: Container(
-                          color: AppTheme.bg,
-                          height: deviceHeight * 0.9,
-                          child: Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, bottom: 4),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: AppTheme.primary
-                                                    .withOpacity(0.08),
-                                                blurRadius: 10.10,
-                                                spreadRadius: 10.510,
-                                                offset: Offset(
-                                                  0,
-                                                  0,
+                      ),
+                    )
+                  : Container(
+                      color: AppTheme.bg,
+                      height: deviceHeight * 0.9,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 10, bottom: 4),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppTheme.primary
+                                                .withOpacity(0.08),
+                                            blurRadius: 10.10,
+                                            spreadRadius: 10.510,
+                                            offset: Offset(
+                                              0,
+                                              0,
+                                            ),
+                                          )
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            context.l10n.pointsLabel,
+                                            style: TextStyle(
+                                              color: AppTheme.grey,
+                                              fontSize: textScaleFactor * 13.0,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: BlocBuilder<CustomerInfoBloc,
+                                                CustomerInfoState>(
+                                              buildWhen: (p, c) =>
+                                                  p.driver.money !=
+                                                  c.driver.money,
+                                              builder: (_, data) => Text(
+                                                EnArConvertor().replaceArNumber(
+                                                  currencyFormat
+                                                      .format(double.parse(
+                                                              data.driver.money)
+                                                          .roundToDouble())
+                                                      .toString(),
                                                 ),
-                                              )
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                context.l10n.pointsLabel,
                                                 style: TextStyle(
-                                                  color: AppTheme.grey,
+                                                  color: AppTheme.black,
+                                                  fontWeight: FontWeight.w700,
                                                   fontSize:
-                                                      textScaleFactor * 13.0,
+                                                      textScaleFactor * 18.0,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: BlocBuilder<
-                                                    CustomerInfoBloc,
-                                                    CustomerInfoState>(
-                                                  buildWhen: (p, c) =>
-                                                      p.driver.money !=
-                                                      c.driver.money,
-                                                  builder: (_, data) => Text(
-                                                    EnArConvertor()
-                                                        .replaceArNumber(
-                                                      currencyFormat
-                                                          .format(double.parse(
-                                                                  data.driver
-                                                                      .money)
-                                                              .roundToDouble())
-                                                          .toString(),
-                                                    ),
-                                                    style: TextStyle(
-                                                      color: AppTheme.black,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              18.0,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                context.l10n.tomanLabel,
-                                                style: TextStyle(
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 13.0,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16.0, bottom: 4),
-                                      child: Text(
-                                        context.l10n.shebaNumberLabel,
-                                        textDirection: TextDirection.ltr,
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        color: AppTheme.h1,
-                                        fontSize: textScaleFactor * 16.0,
-                                      ),
-                                      textDirection: TextDirection.ltr,
-                                      textAlignVertical:
-                                          TextAlignVertical.bottom,
-                                      textInputAction: TextInputAction.go,
-                                      keyboardType: TextInputType.number,
-                                      controller: shabaController,
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 20.0,
-                                            right: 20,
-                                            top: 10,
-                                            bottom: 10),
-                                        border: OutlineInputBorder(
-                                          gapPadding: 10,
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: BorderSide(
-                                            width: 0,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        labelStyle: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: textScaleFactor * 10.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16.0, bottom: 4),
-                                      child: Text(
-                                        context.l10n.requestedAmountToman,
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: TextFormField(
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontSize: textScaleFactor * 16.0,
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        textInputAction: TextInputAction.go,
-                                        controller: donationController,
-                                        decoration: InputDecoration(
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 20.0,
-                                              right: 20,
-                                              top: 0,
-                                              bottom: 10),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            borderSide: BorderSide(
-                                              width: 0,
-                                              color: Colors.white,
                                             ),
                                           ),
-                                          labelStyle: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: textScaleFactor * 10.0,
+                                          Text(
+                                            context.l10n.tomanLabel,
+                                            style: TextStyle(
+                                              color: AppTheme.grey,
+                                              fontSize: textScaleFactor * 13.0,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                        ),
-                                        inputFormatters: [
-                                          // WhitelistingTextInputFormatter
-                                          //     .digitsOnly,
-                                          new CurrencyInputFormatter(),
                                         ],
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: AppTheme.bg,
-                                        ),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, right: 8),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Text(
-                                                    context
-                                                        .l10n.requestListTitle,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: AppTheme.black
-                                                          .withOpacity(0.5),
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              14.0,
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  BlocBuilder<ClearingsBloc,
-                                                      ClearingsState>(
-                                                    buildWhen: (p, c) =>
-                                                        p.searchDetails !=
-                                                            c.searchDetails ||
-                                                        p.deliveriesItems !=
-                                                            c.deliveriesItems,
-                                                    builder:
-                                                        (_, clearingState) {
-                                                      return Container(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  vertical:
-                                                                      deviceHeight *
-                                                                          0.0,
-                                                                  horizontal:
-                                                                      3),
-                                                          child: Wrap(
-                                                            alignment:
-                                                                WrapAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                WrapCrossAlignment
-                                                                    .center,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            children: <Widget>[
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        3,
-                                                                    vertical:
-                                                                        5),
-                                                                child: Text(
-                                                                  context.l10n
-                                                                      .countWithColon,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        textScaleFactor *
-                                                                            12.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        right:
-                                                                            4.0,
-                                                                        left:
-                                                                            6),
-                                                                child: Text(
-                                                                  productsDetail !=
-                                                                          null
-                                                                      ? EnArConvertor().replaceArNumber(loadedProductstolist
-                                                                          .length
-                                                                          .toString())
-                                                                      : EnArConvertor()
-                                                                          .replaceArNumber(
-                                                                              '0'),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        textScaleFactor *
-                                                                            13.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        3,
-                                                                    vertical:
-                                                                        5),
-                                                                child: Text(
-                                                                  context.l10n
-                                                                      .ofLabel,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        textScaleFactor *
-                                                                            12.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        right:
-                                                                            4.0,
-                                                                        left:
-                                                                            6),
-                                                                child: Text(
-                                                                  productsDetail !=
-                                                                          null
-                                                                      ? EnArConvertor().replaceArNumber((productsDetail?.total ??
-                                                                              0)
-                                                                          .toString())
-                                                                      : EnArConvertor()
-                                                                          .replaceArNumber(
-                                                                              '0'),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        textScaleFactor *
-                                                                            13.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: deviceWidth * 0.08,
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 8.0),
-                                                      child: Text(
-                                                        context
-                                                            .l10n.statusLabel,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: AppTheme.grey,
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  12.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 8.0),
-                                                      child: Text(
-                                                        context.l10n
-                                                            .amountTomanLabel,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: AppTheme.grey,
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  12.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Divider(
-                                              height: 1,
-                                            ),
-                                            Container(
-                                              width: double.infinity,
-                                              height: deviceHeight * 0.42,
-                                              child: ListView.builder(
-                                                controller: _scrollController,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount:
-                                                    loadedProductstolist.length,
-                                                itemBuilder: (ctx, i) =>
-                                                    ChangeNotifierProvider
-                                                        .value(
-                                                  value:
-                                                      loadedProductstolist[i],
-                                                  child:
-                                                      ClearingItemClearScreen(),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 20,
-                                left: 15,
-                                right: 15,
-                                child: InkWell(
-                                  onTap: () {
-                                    SnackBar addToCartSnackBar = SnackBar(
-                                      content: Text(
-                                        context.l10n.enterShebaNumber,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                      ),
-                                      action: SnackBarAction(
-                                        label: context.l10n.gotItLabel,
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
-                                      ),
-                                    );
-                                    if (shabaController.text == 'IR') {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(addToCartSnackBar);
-                                    } else {
-                                      context
-                                          .read<CustomerInfoBloc>()
-                                          .sendClearingRequest(
-                                              removeSemicolon(
-                                                  donationController.text),
-                                              shabaController.text,
-                                              isLogin)
-                                          .then((value) {
-                                        Navigator.of(context)
-                                            .pushNamedAndRemoveUntil(
-                                                NavigationBottomScreen
-                                                    .routeName,
-                                                (Route<dynamic> route) =>
-                                                    false);
-                                        _showSenddialog();
-                                      });
-                                    }
-                                  },
-                                  child: ButtonBottom(
-                                    width: deviceWidth * 0.9,
-                                    height: deviceWidth * 0.14,
-                                    text: context.l10n.submitRequestLabel,
-                                    isActive: true,
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                  top: 0,
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: _isLoading
-                                          ? SpinKitFadingCircle(
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return DecoratedBox(
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: index.isEven
-                                                        ? Colors.grey
-                                                        : Colors.grey,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 4),
+                                  child: Text(
+                                    context.l10n.shebaNumberLabel,
+                                    textDirection: TextDirection.ltr,
+                                    style: TextStyle(
+                                      color: AppTheme.h1,
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                  ),
+                                ),
+                                TextFormField(
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: AppTheme.h1,
+                                    fontSize: textScaleFactor * 16.0,
+                                  ),
+                                  textDirection: TextDirection.ltr,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  textInputAction: TextInputAction.go,
+                                  keyboardType: TextInputType.number,
+                                  controller: shabaController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 20,
+                                        top: 10,
+                                        bottom: 10),
+                                    border: OutlineInputBorder(
+                                      gapPadding: 10,
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    labelStyle: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: textScaleFactor * 10.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 4),
+                                  child: Text(
+                                    context.l10n.requestedAmountToman,
+                                    style: TextStyle(
+                                      color: AppTheme.h1,
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: TextFormField(
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: AppTheme.h1,
+                                      fontSize: textScaleFactor * 16.0,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    textAlignVertical: TextAlignVertical.center,
+                                    textInputAction: TextInputAction.go,
+                                    controller: donationController,
+                                    decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 20.0,
+                                          right: 20,
+                                          top: 0,
+                                          bottom: 10),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      labelStyle: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: textScaleFactor * 10.0,
+                                      ),
+                                    ),
+                                    inputFormatters: [
+                                      // WhitelistingTextInputFormatter
+                                      //     .digitsOnly,
+                                      new CurrencyInputFormatter(),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: AppTheme.bg,
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, right: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                context.l10n.requestListTitle,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: AppTheme.black
+                                                      .withOpacity(0.5),
+                                                  fontSize:
+                                                      textScaleFactor * 14.0,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              BlocBuilder<ClearingsBloc,
+                                                  ClearingsState>(
+                                                buildWhen: (p, c) =>
+                                                    p.searchDetails !=
+                                                        c.searchDetails ||
+                                                    p.deliveriesItems !=
+                                                        c.deliveriesItems,
+                                                builder: (_, clearingState) {
+                                                  return Container(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical:
+                                                                  deviceHeight *
+                                                                      0.0,
+                                                              horizontal: 3),
+                                                      child: Wrap(
+                                                        alignment:
+                                                            WrapAlignment.start,
+                                                        crossAxisAlignment:
+                                                            WrapCrossAlignment
+                                                                .center,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        3,
+                                                                    vertical:
+                                                                        5),
+                                                            child: Text(
+                                                              context.l10n
+                                                                  .countWithColon,
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    textScaleFactor *
+                                                                        12.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    right: 4.0,
+                                                                    left: 6),
+                                                            child: Text(
+                                                              productsDetail !=
+                                                                      null
+                                                                  ? EnArConvertor().replaceArNumber(
+                                                                      loadedProductstolist
+                                                                          .length
+                                                                          .toString())
+                                                                  : EnArConvertor()
+                                                                      .replaceArNumber(
+                                                                          '0'),
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    textScaleFactor *
+                                                                        13.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        3,
+                                                                    vertical:
+                                                                        5),
+                                                            child: Text(
+                                                              context
+                                                                  .l10n.ofLabel,
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    textScaleFactor *
+                                                                        12.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    right: 4.0,
+                                                                    left: 6),
+                                                            child: Text(
+                                                              productsDetail !=
+                                                                      null
+                                                                  ? EnArConvertor().replaceArNumber(
+                                                                      (productsDetail?.total ??
+                                                                              0)
+                                                                          .toString())
+                                                                  : EnArConvertor()
+                                                                      .replaceArNumber(
+                                                                          '0'),
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    textScaleFactor *
+                                                                        13.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          height: deviceWidth * 0.08,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                    context.l10n.statusLabel,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: AppTheme.grey,
+                                                      fontSize:
+                                                          textScaleFactor *
+                                                              12.0,
+                                                    ),
                                                   ),
-                                                );
-                                              },
-                                            )
-                                          : Container()))
-                            ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text(
+                                                    context
+                                                        .l10n.amountTomanLabel,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: AppTheme.grey,
+                                                      fontSize:
+                                                          textScaleFactor *
+                                                              12.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 1,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          height: deviceHeight * 0.42,
+                                          child: ListView.builder(
+                                            controller: _scrollController,
+                                            scrollDirection: Axis.vertical,
+                                            itemCount:
+                                                loadedProductstolist.length,
+                                            itemBuilder: (ctx, i) =>
+                                                ChangeNotifierProvider.value(
+                                              value: loadedProductstolist[i],
+                                              child: ClearingItemClearScreen(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            bottom: 20,
+                            left: 15,
+                            right: 15,
+                            child: InkWell(
+                              onTap: () {
+                                SnackBar addToCartSnackBar = SnackBar(
+                                  content: Text(
+                                    context.l10n.enterShebaNumber,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                  ),
+                                  action: SnackBarAction(
+                                    label: context.l10n.gotItLabel,
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                    },
+                                  ),
+                                );
+                                if (shabaController.text == 'IR') {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(addToCartSnackBar);
+                                } else {
+                                  context
+                                      .read<CustomerInfoBloc>()
+                                      .sendClearingRequest(
+                                          removeSemicolon(
+                                              donationController.text),
+                                          shabaController.text,
+                                          isLogin)
+                                      .then((value) {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            NavigationBottomScreen.routeName,
+                                            (Route<dynamic> route) => false);
+                                    _showSenddialog();
+                                  });
+                                }
+                              },
+                              child: ButtonBottom(
+                                width: deviceWidth * 0.9,
+                                height: deviceWidth * 0.14,
+                                text: context.l10n.submitRequestLabel,
+                                isActive: true,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              top: 0,
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: _isLoading
+                                      ? SpinKitFadingCircle(
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: index.isEven
+                                                    ? Colors.grey
+                                                    : Colors.grey,
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : Container()))
+                        ],
                       ),
-              ),
+                    ),
             ),
           );
         },

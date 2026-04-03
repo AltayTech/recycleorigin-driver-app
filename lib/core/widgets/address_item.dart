@@ -94,43 +94,40 @@ class _AddressItemState extends State<AddressItem> {
                           )),
                       Expanded(
                         flex: 6,
-                        child: Directionality(
-                          textDirection: Directionality.of(context),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 3,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    widget.addressItem.name != null
-                                        ? widget.addressItem.name
-                                        : l10n.noneLabel,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: AppTheme.black,
-                                      fontSize: textScaleFactor * 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 3,
+                              child: Align(
+                                alignment: Alignment.centerRight,
                                 child: Text(
-                                  widget.addressItem.address,
+                                  widget.addressItem.name != null
+                                      ? widget.addressItem.name
+                                      : l10n.noneLabel,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    color: AppTheme.grey,
-                                    fontSize: textScaleFactor * 15,
+                                    color: AppTheme.black,
+                                    fontSize: textScaleFactor * 18,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                widget.addressItem.address,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: AppTheme.grey,
+                                  fontSize: textScaleFactor * 15,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

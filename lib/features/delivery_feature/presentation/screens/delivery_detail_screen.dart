@@ -287,275 +287,269 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: Directionality.of(context),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: deviceHeight * 0.15,
-                          decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.restore_from_trash,
-                                          color: Colors.red,
-                                          size: 40,
-                                        ),
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: deviceHeight * 0.15,
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Icon(
+                                        Icons.restore_from_trash,
+                                        color: Colors.red,
+                                        size: 40,
                                       ),
-                                      Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(
-                                                loadedCollect.length.toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontSize: textScaleFactor * 18,
-                                        ),
+                                    ),
+                                    Text(
+                                      EnArConvertor()
+                                          .replaceArNumber(
+                                              loadedCollect.length.toString())
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: AppTheme.h1,
+                                        fontSize: textScaleFactor * 18,
                                       ),
-                                      Text(
-                                        context.l10n.countLabel,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 12,
-                                        ),
+                                    ),
+                                    Text(
+                                      context.l10n.countLabel,
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontSize: textScaleFactor * 12,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.monetization_on,
-                                          color: AppTheme.primary,
-                                          size: 40,
-                                        ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Icon(
+                                        Icons.monetization_on,
+                                        color: AppTheme.primary,
+                                        size: 40,
                                       ),
-                                      AnimatedBuilder(
-                                        animation: _totalPriceAnimation,
-                                        builder: (context, child) {
-                                          return new Text(
-                                            totalPrice.toString().isNotEmpty
-                                                ? EnArConvertor()
-                                                    .replaceArNumber(
-                                                        currencyFormat
-                                                            .format(
-                                                                double.parse(
-                                                              _totalPriceAnimation
-                                                                  .value
-                                                                  .toStringAsFixed(
-                                                                      0),
-                                                            ))
-                                                            .toString())
-                                                : EnArConvertor()
-                                                    .replaceArNumber('0'),
-                                            style: TextStyle(
-                                              color: AppTheme.h1,
-                                              fontSize: textScaleFactor * 18,
-                                            ),
-                                          );
-                                        },
+                                    ),
+                                    AnimatedBuilder(
+                                      animation: _totalPriceAnimation,
+                                      builder: (context, child) {
+                                        return new Text(
+                                          totalPrice.toString().isNotEmpty
+                                              ? EnArConvertor().replaceArNumber(
+                                                  currencyFormat
+                                                      .format(double.parse(
+                                                        _totalPriceAnimation
+                                                            .value
+                                                            .toStringAsFixed(0),
+                                                      ))
+                                                      .toString())
+                                              : EnArConvertor()
+                                                  .replaceArNumber('0'),
+                                          style: TextStyle(
+                                            color: AppTheme.h1,
+                                            fontSize: textScaleFactor * 18,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Text(
+                                      context.l10n.tomanLabel,
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontSize: textScaleFactor * 12,
                                       ),
-                                      Text(
-                                        context.l10n.tomanLabel,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.av_timer,
-                                          color: Colors.blue,
-                                          size: 40,
-                                        ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Icon(
+                                        Icons.av_timer,
+                                        color: Colors.blue,
+                                        size: 40,
                                       ),
-                                      Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(
-                                                totalWeight.toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontSize: textScaleFactor * 18,
-                                        ),
+                                    ),
+                                    Text(
+                                      EnArConvertor()
+                                          .replaceArNumber(
+                                              totalWeight.toString())
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: AppTheme.h1,
+                                        fontSize: textScaleFactor * 18,
                                       ),
-                                      Text(
-                                        context.l10n.kilogramLabel,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 12,
-                                        ),
+                                    ),
+                                    Text(
+                                      context.l10n.kilogramLabel,
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontSize: textScaleFactor * 12,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
-                            buildWhen: (p, c) =>
-                                p.toDeliveryCollectItems !=
-                                c.toDeliveryCollectItems,
-                            builder: (_, deliveryState) => deliveryState
-                                        .toDeliveryCollectItems.length !=
-                                    0
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.typeLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
+                          buildWhen: (p, c) =>
+                              p.toDeliveryCollectItems !=
+                              c.toDeliveryCollectItems,
+                          builder: (_, deliveryState) =>
+                              deliveryState.toDeliveryCollectItems.length != 0
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Text(
+                                                    context.l10n.typeLabel,
+                                                    style: TextStyle(
+                                                      color: AppTheme.grey,
+                                                      fontSize:
+                                                          textScaleFactor * 12,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
-                                                  textAlign: TextAlign.center,
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.weightKgLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
+                                                Expanded(
+                                                  child: Text(
+                                                    context.l10n.weightKgLabel,
+                                                    style: TextStyle(
+                                                      color: AppTheme.grey,
+                                                      fontSize:
+                                                          textScaleFactor * 12,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
-                                                  textAlign: TextAlign.center,
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  context.l10n.priceTomanLabel,
-                                                  style: TextStyle(
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 12,
+                                                Expanded(
+                                                  child: Text(
+                                                    context
+                                                        .l10n.priceTomanLabel,
+                                                    style: TextStyle(
+                                                      color: AppTheme.grey,
+                                                      fontSize:
+                                                          textScaleFactor * 12,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
-                                                  textAlign: TextAlign.center,
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          height: deviceHeight * 0.6,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.white,
-                                            borderRadius:
-                                                BorderRadius.circular(2),
-                                          ),
-                                          child: ListView.builder(
+                                          Container(
+                                            height: deviceHeight * 0.6,
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(2),
+                                            ),
+                                            child: ListView.builder(
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                            itemCount: deliveryState
-                                                .toDeliveryCollectItems.length,
-                                            itemBuilder: (ctx, i) =>
-                                                CollectDeliveryDetailItem(
-                                              wasteItem: deliveryState
-                                                  .toDeliveryCollectItems[i],
-                                              function: getWasteItems,
+                                              itemCount: deliveryState
+                                                  .toDeliveryCollectItems
+                                                  .length,
+                                              itemBuilder: (ctx, i) =>
+                                                  CollectDeliveryDetailItem(
+                                                wasteItem: deliveryState
+                                                    .toDeliveryCollectItems[i],
+                                                function: getWasteItems,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
+                                    )
+                                  : Container(
+                                      height: deviceHeight * 0.7,
+                                      child: Center(
+                                        child: Text(context.l10n.noWasteAdded),
+                                      ),
                                     ),
-                                  )
-                                : Container(
-                                    height: deviceHeight * 0.7,
-                                    child: Center(
-                                      child: Text(context.l10n.noWasteAdded),
-                                    ),
-                                  ),
-                          ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: index.isEven ? Colors.grey : Colors.grey,
+                              ),
+                            );
+                          },
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            SnackBar addToCartSnackBar = SnackBar(
+                              content: Text(
+                                context.l10n.alreadyCollected,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: textScaleFactor * 14.0,
                                 ),
-                              );
-                            },
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              SnackBar addToCartSnackBar = SnackBar(
-                                content: Text(
-                                  context.l10n.alreadyCollected,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: textScaleFactor * 14.0,
-                                  ),
-                                ),
-                                action: SnackBarAction(
-                                  label: context.l10n.gotItLabel,
-                                  onPressed: () {
-                                    // Some code to undo the change.
-                                  },
-                                ),
-                              );
-                              if (loadedCollect.isEmpty) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(addToCartSnackBar);
-                              } else if (!isLogin) {
-                                _showLogindialog();
-                              } else {
-                                _showSendDeliveryDialog();
+                              ),
+                              action: SnackBarAction(
+                                label: context.l10n.gotItLabel,
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            if (loadedCollect.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(addToCartSnackBar);
+                            } else if (!isLogin) {
+                              _showLogindialog();
+                            } else {
+                              _showSendDeliveryDialog();
 //                                await createRequest(context, true).then(
 //                                  (value) =>
 //                                      sendRequest(context, isLogin).then(
@@ -570,41 +564,39 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 //                                  ),
 //                                );
 //                                _showSenddialog();
-                              }
-                            },
-                            child: ButtonBottom(
-                              width: deviceWidth * 0.9,
-                              height: deviceWidth * 0.14,
-                              text: context.l10n.confirmLabel,
-                              isActive: loadedCollect.isNotEmpty,
-                            ),
+                            }
+                          },
+                          child: ButtonBottom(
+                            width: deviceWidth * 0.9,
+                            height: deviceWidth * 0.14,
+                            text: context.l10n.confirmLabel,
+                            isActive: loadedCollect.isNotEmpty,
                           ),
+                        ),
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
                   ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
