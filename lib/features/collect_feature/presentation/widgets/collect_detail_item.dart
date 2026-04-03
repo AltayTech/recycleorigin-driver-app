@@ -41,12 +41,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
 
       productWeight = int.parse(
           double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0));
-//      setState(() {
-//
-//      });
-//      changeNumberAnimation(double.parse(
-//              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
-//          widget.wasteItem.weight);
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -93,37 +87,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     return totalWeight;
   }
 
-//  AnimationController _controller;
-//  Animation<double> _animation;
 
-  @override
-  initState() {
-//    _controller = new AnimationController(
-//      vsync: this,
-//      duration: const Duration(milliseconds: 1000),
-//    );
-//    _animation = _controller;
-    super.initState();
-  }
 
-  @override
-  void dispose() {
-//    _controller.dispose();
-    super.dispose();
-  }
-
-//  void changeNumberAnimation(double newValue) {
-//    setState(() {
-//      _animation = new Tween<double>(
-//        begin: _animation.value,
-//        end: newValue,
-//      ).animate(new CurvedAnimation(
-//        curve: Curves.ease,
-//        parent: _controller,
-//      ));
-//    });
-//    _controller.forward(from: 0.0);
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,14 +188,6 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                           getWeight(productWeight,
                                               productWeightFraction),
                                           widget.wasteItem.isAdded);
-//                                                    changeNumberAnimation(
-//                                                        double.parse(getPrice(
-//                                                                widget.wasteItem
-//                                                                    .prices,
-//                                                                widget.wasteItem
-//                                                                    .weight)) *
-//                                                            widget.wasteItem
-//                                                                .weight);
                                   widget.function();
                                 }
                               },
