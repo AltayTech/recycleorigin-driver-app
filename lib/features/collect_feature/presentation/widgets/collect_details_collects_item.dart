@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 
 import 'package:recycleorigindriver/core/models/request/price_weight.dart';
@@ -58,7 +57,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -104,11 +103,11 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                 ),
                               ),
                               Text(
-                                EnArConvertor()
-                                    .replaceArNumber(widget
-                                        .collectItem.estimated_weight
-                                        .toString())
-                                    .toString(),
+                                EnArConvertor.localize(
+                                  context,
+                                  widget.collectItem.estimated_weight
+                                      .toString(),
+                                ),
                                 style: TextStyle(
                                   color: AppTheme.black,
                                   fontSize: textScaleFactor * 16,
@@ -140,11 +139,15 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           ),
                           Text(
                             widget.collectItem.estimated_price.length != null
-                                ? EnArConvertor().replaceArNumber(currencyFormat
-                                    .format(double.parse(
-                                        widget.collectItem.estimated_price))
-                                    .toString())
-                                : EnArConvertor().replaceArNumber('0'),
+                                ? EnArConvertor.localize(
+                                    context,
+                                    currencyFormat.format(
+                                      double.parse(
+                                        widget.collectItem.estimated_price,
+                                      ),
+                                    ),
+                                  )
+                                : EnArConvertor.localize(context, '0'),
                             style: TextStyle(
                               color: AppTheme.black,
                               fontSize: textScaleFactor * 16,
@@ -167,10 +170,15 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           ),
                           Text(
                             widget.collectItem.estimated_price != null
-                                ? EnArConvertor().replaceArNumber(
-                                    currencyFormat.format(double.parse(
-                                        widget.collectItem.estimated_price)))
-                                : EnArConvertor().replaceArNumber('0'),
+                                ? EnArConvertor.localize(
+                                    context,
+                                    currencyFormat.format(
+                                      double.parse(
+                                        widget.collectItem.estimated_price,
+                                      ),
+                                    ),
+                                  )
+                                : EnArConvertor.localize(context, '0'),
                             style: TextStyle(
                               color: AppTheme.black,
                               fontSize: textScaleFactor * 18,

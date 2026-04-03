@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
@@ -87,15 +86,11 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     return totalWeight;
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -152,10 +147,10 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                       Padding(
                         padding: const EdgeInsets.only(top: 3.0),
                         child: Text(
-                          EnArConvertor()
-                              .replaceArNumber(
-                                  widget.wasteItem.estimated_weight.toString())
-                              .toString(),
+                          EnArConvertor.localize(
+                            context,
+                            widget.wasteItem.estimated_weight.toString(),
+                          ),
                           style: TextStyle(
                             color: AppTheme.black,
                             fontSize: textScaleFactor * 14,
@@ -233,13 +228,13 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 3.0),
                                 child: Text(
-                                  EnArConvertor()
-                                      .replaceArNumber((double.parse(
-                                                  productWeightFraction
-                                                      .toString()) /
-                                              1000)
-                                          .toStringAsFixed(3))
-                                      .toString(),
+                                  EnArConvertor.localize(
+                                    context,
+                                    (double.parse(productWeightFraction
+                                                .toString()) /
+                                            1000)
+                                        .toStringAsFixed(3),
+                                  ),
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontSize: textScaleFactor * 14,
@@ -390,12 +385,11 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 3.0),
                                 child: Text(
-                                  EnArConvertor()
-                                      .replaceArNumber(double.parse(
-                                              widget.wasteItem.exact_weight)
-                                          .toStringAsFixed(0)
-                                          .toString())
-                                      .toString(),
+                                  EnArConvertor.localize(
+                                    context,
+                                    double.parse(widget.wasteItem.exact_weight)
+                                        .toStringAsFixed(0),
+                                  ),
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontSize: textScaleFactor * 14,

@@ -51,6 +51,10 @@ class SettingsScreen extends StatelessWidget {
                       value: 'tr',
                       child: Text(context.l10n.turkishLabel),
                     ),
+                    DropdownMenuItem<String>(
+                      value: 'ar',
+                      child: Text(context.l10n.arabicLabel),
+                    ),
                   ],
                   onChanged: (value) {
                     if (value == null) return;
@@ -65,4 +69,3 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
-

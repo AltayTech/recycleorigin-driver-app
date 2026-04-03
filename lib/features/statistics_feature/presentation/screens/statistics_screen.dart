@@ -128,14 +128,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              EnArConvertor()
-                                  .replaceArNumber('${Jalali.fromDateTime(
-                                DateTime.now(),
-                              ).year}/${Jalali.fromDateTime(
-                                DateTime.now(),
-                              ).month}/${Jalali.fromDateTime(
-                                DateTime.now(),
-                              ).day}'),
+                              EnArConvertor.localize(
+                                context,
+                                '${Jalali.fromDateTime(
+                                  DateTime.now(),
+                                ).year}/${Jalali.fromDateTime(
+                                  DateTime.now(),
+                                ).month}/${Jalali.fromDateTime(
+                                  DateTime.now(),
+                                ).day}',
+                              ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppTheme.h1,
@@ -154,8 +156,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              EnArConvertor().replaceArNumber(
-                                  '${DateTime.now().hour}:${DateTime.now().minute}'),
+                              EnArConvertor.localize(
+                                context,
+                                '${DateTime.now().hour}:${DateTime.now().minute}',
+                              ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppTheme.h1,

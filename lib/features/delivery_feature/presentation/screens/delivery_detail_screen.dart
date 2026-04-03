@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -271,7 +270,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
     bool isLogin = context.read<AuthBloc>().state.isAuth;
     return Scaffold(
       backgroundColor: AppTheme.bg,
@@ -319,10 +318,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                       ),
                                     ),
                                     Text(
-                                      EnArConvertor()
-                                          .replaceArNumber(
-                                              loadedCollect.length.toString())
-                                          .toString(),
+                                      EnArConvertor.localize(
+                                        context,
+                                        loadedCollect.length.toString(),
+                                      ),
                                       style: TextStyle(
                                         color: AppTheme.h1,
                                         fontSize: textScaleFactor * 18,
@@ -353,16 +352,19 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                       builder: (context, child) {
                                         return new Text(
                                           totalPrice.toString().isNotEmpty
-                                              ? EnArConvertor().replaceArNumber(
-                                                  currencyFormat
-                                                      .format(double.parse(
-                                                        _totalPriceAnimation
-                                                            .value
-                                                            .toStringAsFixed(0),
-                                                      ))
-                                                      .toString())
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
+                                              ? EnArConvertor.localize(
+                                                  context,
+                                                  currencyFormat.format(
+                                                    double.parse(
+                                                      _totalPriceAnimation.value
+                                                          .toStringAsFixed(0),
+                                                    ),
+                                                  ),
+                                                )
+                                              : EnArConvertor.localize(
+                                                  context,
+                                                  '0',
+                                                ),
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontSize: textScaleFactor * 18,
@@ -391,10 +393,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                       ),
                                     ),
                                     Text(
-                                      EnArConvertor()
-                                          .replaceArNumber(
-                                              totalWeight.toString())
-                                          .toString(),
+                                      EnArConvertor.localize(
+                                        context,
+                                        totalWeight.toString(),
+                                      ),
                                       style: TextStyle(
                                         color: AppTheme.h1,
                                         fontSize: textScaleFactor * 18,

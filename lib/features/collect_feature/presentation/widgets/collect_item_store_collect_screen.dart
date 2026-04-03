@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
 
@@ -45,7 +44,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final collect = Provider.of<DeliveryWasteItem>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -113,8 +112,10 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         right: 30, left: 4),
                                     child: Text(
-                                      EnArConvertor().replaceArNumber(collect
-                                          .total_collects_weight.estimated),
+                                      EnArConvertor.localize(
+                                        context,
+                                        collect.total_collects_weight.estimated,
+                                      ),
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -140,12 +141,15 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    EnArConvertor().replaceArNumber(
-                                        currencyFormat
-                                            .format(double.parse(collect
-                                                .total_collects_price
-                                                .estimated))
-                                            .toString()),
+                                    EnArConvertor.localize(
+                                      context,
+                                      currencyFormat.format(
+                                        double.parse(
+                                          collect
+                                              .total_collects_price.estimated,
+                                        ),
+                                      ),
+                                    ),
                                     maxLines: 1,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(

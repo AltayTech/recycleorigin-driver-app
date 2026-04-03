@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/core/models/transaction.dart';
@@ -16,7 +15,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final transaction = Provider.of<Transaction>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -74,10 +73,12 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        EnArConvertor().replaceArNumber(currencyFormat
-                            .format(
-                                double.parse(transaction.money).roundToDouble())
-                            .toString()),
+                        EnArConvertor.localize(
+                          context,
+                          currencyFormat.format(
+                            double.parse(transaction.money).roundToDouble(),
+                          ),
+                        ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: isWithdrawalOperation(transaction.operation)

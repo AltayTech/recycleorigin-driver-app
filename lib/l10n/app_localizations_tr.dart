@@ -66,7 +66,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get confirmLabel => 'Tamam';
 
   @override
-  String get goToProfileDescription => 'Devam etmek icin once profil bilgilerinizi tamamlayin.';
+  String get goToProfileDescription =>
+      'Devam etmek icin once profil bilgilerinizi tamamlayin.';
 
   @override
   String get dearUserTitle => 'Sayin kullanici';
@@ -105,7 +106,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get connectionFailedMessage => 'Baglanti basarisiz.';
 
   @override
-  String get connectionRetryMessage => 'Baglanti basarisiz, lutfen tekrar deneyin.';
+  String get connectionRetryMessage =>
+      'Baglanti basarisiz, lutfen tekrar deneyin.';
 
   @override
   String get okLabel => 'Tamam';
@@ -114,7 +116,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get enterReceivedCodeMessage => 'Gelen kodu girin.';
 
   @override
-  String get enterPhoneToLoginMessage => 'Giris icin cep telefonu numaranizi girin.';
+  String get enterPhoneToLoginMessage =>
+      'Giris icin cep telefonu numaranizi girin.';
 
   @override
   String get enterPhoneValidationMessage => 'Lutfen telefon numarasi girin.';
@@ -159,7 +162,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginRequiredDescription => 'Devam etmek icin giris yapmalisiniz.';
 
   @override
-  String get completeProfileDescription => 'Devam etmek icin profil bilgilerinizi tamamlayin.';
+  String get completeProfileDescription =>
+      'Devam etmek icin profil bilgilerinizi tamamlayin.';
 
   @override
   String get requestSubmittedSuccess => 'Talebiniz basariyla gonderildi.';
@@ -321,7 +325,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get passwordHint => 'Sifre';
 
   @override
-  String get invalidCredentialsMessage => 'E-posta veya sifre hatali. Tekrar deneyin.';
+  String get invalidCredentialsMessage =>
+      'E-posta veya sifre hatali. Tekrar deneyin.';
 
   @override
   String get enterEmailValidationMessage => 'Lutfen e-posta girin.';
@@ -345,13 +350,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editProfileLabel => 'Profili duzenle';
 
   @override
-  String get profileSaveFailedMessage => 'Profil kaydedilemedi. Tekrar deneyin.';
+  String get profileSaveFailedMessage =>
+      'Profil kaydedilemedi. Tekrar deneyin.';
 
   @override
   String get profileNameRequiredMessage => 'Lutfen ad ve soyad girin.';
 
   @override
-  String get profileTypesListEmptyHint => 'Tur listesi yuklenemedi. Yine de kaydedebilirsiniz; mevcut hesap turunuz kullanilir.';
+  String get profileTypesListEmptyHint =>
+      'Tur listesi yuklenemedi. Yine de kaydedebilirsiniz; mevcut hesap turunuz kullanilir.';
 
   @override
   String get selectWarehouseLabel => 'Depo sec';
@@ -372,10 +379,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sortCheapest => 'En ucuz';
 
   @override
-  String get collectRequestStatusPendingAssignment => 'Surucu atamasi bekleniyor';
+  String get collectRequestStatusPendingAssignment =>
+      'Surucu atamasi bekleniyor';
 
   @override
-  String get collectRequestStatusPendingDriverAcceptance => 'Surucu onayi bekleniyor';
+  String get collectRequestStatusPendingDriverAcceptance =>
+      'Surucu onayi bekleniyor';
 
   @override
   String get collectRequestStatusDriverAccepted => 'Surucu kabul etti';
@@ -396,10 +405,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get collectRejectLabel => 'Reddet';
 
   @override
-  String get collectAcceptedSuccessMessage => 'Talep kabul edildi. Bu toplamaya devam edebilirsiniz.';
+  String get collectAcceptedSuccessMessage =>
+      'Talep kabul edildi. Bu toplamaya devam edebilirsiniz.';
 
   @override
-  String get collectAcceptedStateHint => 'Bu talebi kabul ettiniz. Toplama yaptiginizda asagidaki agirliklari guncelleyin.';
+  String get collectAcceptedStateHint =>
+      'Bu talebi kabul ettiniz. Toplama yaptiginizda asagidaki agirliklari guncelleyin.';
 
   @override
   String get settingsTitle => 'Ayarlar';
@@ -415,6 +426,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get turkishLabel => 'Turkce';
+
+  @override
+  String get arabicLabel => 'Arapca';
 
   @override
   String get retryLabel => 'Tekrar dene';

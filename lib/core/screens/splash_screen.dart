@@ -45,7 +45,10 @@ class _SplashScreensState extends State<SplashScreens> {
         ),
       ),
       loadingText: Text(
-        EnArConvertor().replaceArNumber(context.l10n.splashVersionLabel),
+        EnArConvertor.localize(
+          context,
+          context.l10n.splashVersionLabel,
+        ),
         style: new TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: MediaQuery.of(context).textScaleFactor * 18,

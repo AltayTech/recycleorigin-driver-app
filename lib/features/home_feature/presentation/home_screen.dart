@@ -119,7 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
-                        EnArConvertor().replaceArNumber(
+                        EnArConvertor.localize(
+                          context,
                           '${Jalali.fromDateTime(
                             DateTime.now(),
                           ).year}/${Jalali.fromDateTime(
@@ -145,8 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        EnArConvertor().replaceArNumber(
-                            '${DateTime.now().hour}:${DateTime.now().minute}'),
+                        EnArConvertor.localize(
+                          context,
+                          '${DateTime.now().hour}:${DateTime.now().minute}',
+                        ),
                         textAlign: TextAlign.center,
                         style: textTheme.titleLarge?.copyWith(
                           color: AppTheme.h1,

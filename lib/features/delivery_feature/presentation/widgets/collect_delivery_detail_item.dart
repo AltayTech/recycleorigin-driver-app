@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 
@@ -122,7 +121,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -178,11 +177,10 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                         child: Padding(
                           padding: const EdgeInsets.only(top: 3.0),
                           child: Text(
-                            EnArConvertor()
-                                .replaceArNumber(widget
-                                    .wasteItem.estimated_weight
-                                    .toString())
-                                .toString(),
+                            EnArConvertor.localize(
+                              context,
+                              widget.wasteItem.estimated_weight.toString(),
+                            ),
                             style: TextStyle(
                               color: AppTheme.black,
                               fontSize: textScaleFactor * 16,
@@ -197,13 +195,15 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                           builder: (context, child) {
                             return new Text(
                               widget.wasteItem.estimated_price.length != 0
-                                  ? EnArConvertor()
-                                      .replaceArNumber(currencyFormat
-                                          .format(double.parse(
-                                            _animation.value.toStringAsFixed(0),
-                                          ))
-                                          .toString())
-                                  : EnArConvertor().replaceArNumber('0'),
+                                  ? EnArConvertor.localize(
+                                      context,
+                                      currencyFormat.format(
+                                        double.parse(
+                                          _animation.value.toStringAsFixed(0),
+                                        ),
+                                      ),
+                                    )
+                                  : EnArConvertor.localize(context, '0'),
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontSize: textScaleFactor * 18,

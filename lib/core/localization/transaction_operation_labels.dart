@@ -14,9 +14,7 @@ bool isWithdrawalOperation(String operation) {
 /// Whether [operation] from the API indicates a deposit (credit).
 bool isDepositOperation(String operation) {
   final t = operation.trim().toLowerCase();
-  return operation == 'واریز' ||
-      t == 'deposit' ||
-      t == 'credit';
+  return operation == 'واریز' || t == 'deposit' || t == 'credit';
 }
 
 /// Maps known API operation strings to localized labels; otherwise returns

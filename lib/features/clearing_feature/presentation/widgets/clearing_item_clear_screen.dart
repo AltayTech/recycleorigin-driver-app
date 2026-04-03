@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/core/models/clearing.dart';
 
@@ -13,7 +12,7 @@ class ClearingItemClearScreen extends StatelessWidget {
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final transaction = Provider.of<Clearing>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -49,9 +48,12 @@ class ClearingItemClearScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      EnArConvertor().replaceArNumber(currencyFormat
-                          .format(double.parse(transaction.money))
-                          .toString()),
+                      EnArConvertor.localize(
+                        context,
+                        currencyFormat.format(
+                          double.parse(transaction.money),
+                        ),
+                      ),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.red,

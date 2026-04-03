@@ -253,15 +253,14 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                               right: 4.0,
                                                               left: 6),
                                                       child: Text(
-                                                        productsDetail != null
-                                                            ? EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    loadedProductstolist
-                                                                        .length
-                                                                        .toString())
-                                                            : EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    '0'),
+                                                        EnArConvertor.localize(
+                                                          context,
+                                                          productsDetail != null
+                                                              ? loadedProductstolist
+                                                                  .length
+                                                                  .toString()
+                                                              : '0',
+                                                        ),
                                                         style: TextStyle(
                                                           fontSize:
                                                               textScaleFactor *
@@ -289,15 +288,14 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                               right: 4.0,
                                                               left: 6),
                                                       child: Text(
-                                                        productsDetail != null
-                                                            ? EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    productsDetail!
-                                                                        .total
-                                                                        .toString())
-                                                            : EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    '0'),
+                                                        EnArConvertor.localize(
+                                                          context,
+                                                          productsDetail != null
+                                                              ? productsDetail!
+                                                                  .total
+                                                                  .toString()
+                                                              : '0',
+                                                        ),
                                                         style: TextStyle(
                                                           fontSize:
                                                               textScaleFactor *

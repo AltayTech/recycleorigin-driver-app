@@ -1,5 +1,5 @@
 {
-  "@@locale": "en",
+  "@@locale": "ar",
   "appTitle": "Recycle Origin Driver",
   "homeTabLabel": "Home",
   "requestTabLabel": "Requests",
@@ -136,7 +136,7 @@
   "applicationLanguageLabel": "Application language",
   "englishLabel": "English",
   "turkishLabel": "Turkish",
-  "arabicLabel": "Arabic",
+  "arabicLabel": "العربية",
   "retryLabel": "Retry",
   "collectTotalWeightColon": "Total weight:",
   "collectPerKgColon": "Per kg:",

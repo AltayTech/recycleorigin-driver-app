@@ -78,10 +78,12 @@ class MyApp extends StatelessWidget {
         builder: (context, locale, _) {
           return MaterialApp(
             onGenerateTitle: (context) => context.l10n.appTitle,
-            // English and Turkish are LTR-only; force layout direction so RTL
-            // system locales (e.g. Arabic) do not mirror the UI.
+            // Arabic uses RTL; English and Turkish stay LTR. App locale (not
+            // only the device locale) controls direction.
             builder: (context, child) => Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: locale.languageCode == 'ar'
+                  ? TextDirection.rtl
+                  : TextDirection.ltr,
               child: child ?? const SizedBox.shrink(),
             ),
             theme: ThemeData(

@@ -4,9 +4,9 @@ import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for English (`en`).
-class AppLocalizationsEn extends AppLocalizations {
-  AppLocalizationsEn([String locale = 'en']) : super(locale);
+/// The translations for Arabic (`ar`).
+class AppLocalizationsAr extends AppLocalizations {
+  AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
   String get appTitle => 'Recycle Origin Driver';
@@ -428,7 +428,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get turkishLabel => 'Turkish';
 
   @override
-  String get arabicLabel => 'Arabic';
+  String get arabicLabel => 'العربية';
 
   @override
   String get retryLabel => 'Retry';

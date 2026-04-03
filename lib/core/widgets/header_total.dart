@@ -25,7 +25,7 @@ class HeaderTotal extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return LayoutBuilder(
       builder: (_, constraint) => Container(
@@ -51,9 +51,10 @@ class HeaderTotal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: Text(
-                        EnArConvertor()
-                            .replaceArNumber(totalNumber.toString())
-                            .toString(),
+                        EnArConvertor.localize(
+                          context,
+                          totalNumber.toString(),
+                        ),
                         style: TextStyle(
                           color: AppTheme.h1,
                           fontSize: textScaleFactor * 18,
@@ -88,13 +89,16 @@ class HeaderTotal extends StatelessWidget {
                           padding: EdgeInsets.only(top: 4, bottom: 4),
                           child: Text(
                             totalPrice.toString().isNotEmpty
-                                ? EnArConvertor().replaceArNumber(currencyFormat
-                                    .format(double.parse(
-                                      totalPriceAnimation.value
-                                          .toStringAsFixed(0),
-                                    ))
-                                    .toString())
-                                : EnArConvertor().replaceArNumber('0'),
+                                ? EnArConvertor.localize(
+                                    context,
+                                    currencyFormat.format(
+                                      double.parse(
+                                        totalPriceAnimation.value
+                                            .toStringAsFixed(0),
+                                      ),
+                                    ),
+                                  )
+                                : EnArConvertor.localize(context, '0'),
                             style: TextStyle(
                               color: AppTheme.h1,
                               fontSize: textScaleFactor * 18,
@@ -132,9 +136,10 @@ class HeaderTotal extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4, bottom: 4),
                         child: Text(
-                          EnArConvertor()
-                              .replaceArNumber(totalWeight.toString())
-                              .toString(),
+                          EnArConvertor.localize(
+                            context,
+                            totalWeight.toString(),
+                          ),
                           style: TextStyle(
                             color: AppTheme.h1,
                             fontSize: textScaleFactor * 18,

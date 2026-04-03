@@ -185,7 +185,8 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                   Expanded(
                                     flex: 8,
                                     child: Text(
-                                      EnArConvertor().replaceArNumber(
+                                      EnArConvertor.localize(
+                                        context,
                                         shopData.support_phone,
                                       ),
                                       style: TextStyle(
@@ -215,8 +216,10 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                   Expanded(
                                     flex: 8,
                                     child: Text(
-                                      EnArConvertor()
-                                          .replaceArNumber(shopData.mobile),
+                                      EnArConvertor.localize(
+                                        context,
+                                        shopData.mobile,
+                                      ),
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: textScaleFactor * 18,

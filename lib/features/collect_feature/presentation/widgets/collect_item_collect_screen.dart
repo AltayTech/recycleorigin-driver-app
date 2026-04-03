@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -77,7 +76,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final l10n = context.l10n;
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -140,11 +139,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 4),
                                                     child: Text(
-                                                      EnArConvertor()
-                                                          .replaceArNumber(
-                                                              collect
-                                                                  .collect_date
-                                                                  .day),
+                                                      EnArConvertor.localize(
+                                                        context,
+                                                        collect
+                                                            .collect_date.day,
+                                                      ),
                                                       maxLines: 1,
                                                       textAlign:
                                                           TextAlign.right,
@@ -181,9 +180,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           top: 4),
                                                   child: Text(
-                                                    EnArConvertor()
-                                                        .replaceArNumber(collect
-                                                            .collect_date.time),
+                                                    EnArConvertor.localize(
+                                                      context,
+                                                      collect.collect_date.time,
+                                                    ),
                                                     maxLines: 1,
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
@@ -221,10 +221,12 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           right: 28, left: 8),
                                                   child: Text(
-                                                    EnArConvertor()
-                                                        .replaceArNumber(collect
-                                                            .total_collects_weight
-                                                            .estimated),
+                                                    EnArConvertor.localize(
+                                                      context,
+                                                      collect
+                                                          .total_collects_weight
+                                                          .estimated,
+                                                    ),
                                                     maxLines: 1,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -254,13 +256,16 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  EnArConvertor().replaceArNumber(
-                                                      currencyFormat
-                                                          .format(double.parse(
-                                                              collect
-                                                                  .total_collects_price
-                                                                  .estimated))
-                                                          .toString()),
+                                                  EnArConvertor.localize(
+                                                    context,
+                                                    currencyFormat.format(
+                                                      double.parse(
+                                                        collect
+                                                            .total_collects_price
+                                                            .estimated,
+                                                      ),
+                                                    ),
+                                                  ),
                                                   maxLines: 1,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(

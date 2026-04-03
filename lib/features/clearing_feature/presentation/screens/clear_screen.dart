@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/core/models/clearing.dart';
@@ -145,7 +144,7 @@ class _ClearScreenState extends State<ClearScreen>
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
@@ -254,12 +253,13 @@ class _ClearScreenState extends State<ClearScreen>
                                                   p.driver.money !=
                                                   c.driver.money,
                                               builder: (_, data) => Text(
-                                                EnArConvertor().replaceArNumber(
-                                                  currencyFormat
-                                                      .format(double.parse(
-                                                              data.driver.money)
-                                                          .roundToDouble())
-                                                      .toString(),
+                                                EnArConvertor.localize(
+                                                  context,
+                                                  currencyFormat.format(
+                                                    double.parse(
+                                                            data.driver.money)
+                                                        .roundToDouble(),
+                                                  ),
                                                 ),
                                                 style: TextStyle(
                                                   color: AppTheme.black,
@@ -452,15 +452,16 @@ class _ClearScreenState extends State<ClearScreen>
                                                                     right: 4.0,
                                                                     left: 6),
                                                             child: Text(
-                                                              productsDetail !=
-                                                                      null
-                                                                  ? EnArConvertor().replaceArNumber(
-                                                                      loadedProductstolist
-                                                                          .length
-                                                                          .toString())
-                                                                  : EnArConvertor()
-                                                                      .replaceArNumber(
-                                                                          '0'),
+                                                              EnArConvertor
+                                                                  .localize(
+                                                                context,
+                                                                productsDetail !=
+                                                                        null
+                                                                    ? loadedProductstolist
+                                                                        .length
+                                                                        .toString()
+                                                                    : '0',
+                                                              ),
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     textScaleFactor *
@@ -493,15 +494,16 @@ class _ClearScreenState extends State<ClearScreen>
                                                                     right: 4.0,
                                                                     left: 6),
                                                             child: Text(
-                                                              productsDetail !=
-                                                                      null
-                                                                  ? EnArConvertor().replaceArNumber(
-                                                                      (productsDetail?.total ??
-                                                                              0)
-                                                                          .toString())
-                                                                  : EnArConvertor()
-                                                                      .replaceArNumber(
-                                                                          '0'),
+                                                              EnArConvertor
+                                                                  .localize(
+                                                                context,
+                                                                productsDetail !=
+                                                                        null
+                                                                    ? (productsDetail?.total ??
+                                                                            0)
+                                                                        .toString()
+                                                                    : '0',
+                                                              ),
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     textScaleFactor *
