@@ -9,445 +9,443 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'Recycle Origin Driver';
+  String get appTitle => 'ريكايكل أوريجن — السائق';
 
   @override
-  String get homeTabLabel => 'Home';
+  String get homeTabLabel => 'الرئيسية';
 
   @override
-  String get requestTabLabel => 'Requests';
+  String get requestTabLabel => 'الطلبات';
 
   @override
-  String get shopTabLabel => 'Shop';
+  String get shopTabLabel => 'المتجر';
 
   @override
-  String get profileTabLabel => 'Profile';
+  String get profileTabLabel => 'الملف الشخصي';
 
   @override
-  String get exitDialogTitle => 'Exit application';
+  String get exitDialogTitle => 'إغلاق التطبيق';
 
   @override
-  String get exitDialogMessage => 'Do you want to exit the application?';
+  String get exitDialogMessage => 'هل تريد إغلاق التطبيق؟';
 
   @override
-  String get noLabel => 'No';
+  String get noLabel => 'لا';
 
   @override
-  String get yesLabel => 'Yes';
+  String get yesLabel => 'نعم';
 
   @override
-  String get appBarTitle => 'Clean City';
+  String get appBarTitle => 'مدينة نظيفة';
 
   @override
-  String get statisticsLabel => 'Statistics';
+  String get statisticsLabel => 'الإحصائيات';
 
   @override
-  String get guideLabel => 'Guide';
+  String get guideLabel => 'الدليل';
 
   @override
-  String get contactUsLabel => 'Contact us';
+  String get contactUsLabel => 'اتصل بنا';
 
   @override
-  String get aboutUsLabel => 'About us';
+  String get aboutUsLabel => 'من نحن';
 
   @override
-  String get logoutLabel => 'Logout';
+  String get logoutLabel => 'تسجيل الخروج';
 
   @override
-  String get loginLabel => 'Login';
+  String get loginLabel => 'تسجيل الدخول';
 
   @override
-  String get userProfileLabel => 'Profile';
+  String get userProfileLabel => 'الملف الشخصي';
 
   @override
-  String get welcomeTitle => 'Welcome';
+  String get welcomeTitle => 'مرحباً';
 
   @override
-  String get confirmLabel => 'Confirm';
+  String get confirmLabel => 'تأكيد';
 
   @override
-  String get goToProfileDescription =>
-      'Please complete your profile information first.';
+  String get goToProfileDescription => 'يرجى إكمال معلومات ملفك الشخصي أولاً.';
 
   @override
-  String get dearUserTitle => 'Dear user';
+  String get dearUserTitle => 'عزيزي المستخدم';
 
   @override
-  String get logoutSuccessDescription => 'You have successfully logged out.';
+  String get logoutSuccessDescription => 'تم تسجيل خروجك بنجاح.';
 
   @override
-  String get warehouseDeliveryLabel => 'Warehouse delivery';
+  String get warehouseDeliveryLabel => 'التسليم إلى المستودع';
 
   @override
-  String get collectionLabel => 'Collection';
+  String get collectionLabel => 'الجمع';
 
   @override
-  String get walletLabel => 'Wallet';
+  String get walletLabel => 'المحفظة';
 
   @override
-  String get notLoggedInLabel => 'You are not logged in.';
+  String get notLoggedInLabel => 'لم تقم بتسجيل الدخول.';
 
   @override
-  String get loginToAccountLabel => 'Login to your account';
+  String get loginToAccountLabel => 'سجّل الدخول إلى حسابك';
 
   @override
-  String get userProfileTitle => 'User profile';
+  String get userProfileTitle => 'ملف المستخدم';
 
   @override
-  String get personalInfoLabel => 'Personal information';
+  String get personalInfoLabel => 'المعلومات الشخصية';
 
   @override
-  String get wasteManagementSystemTitle => 'Waste management system';
+  String get wasteManagementSystemTitle => 'نظام إدارة النفايات';
 
   @override
-  String get loginErrorTitle => 'Login error';
+  String get loginErrorTitle => 'خطأ في تسجيل الدخول';
 
   @override
-  String get connectionFailedMessage => 'Connection failed.';
+  String get connectionFailedMessage => 'فشل الاتصال.';
 
   @override
-  String get connectionRetryMessage => 'Connection failed, please try again.';
+  String get connectionRetryMessage => 'فشل الاتصال، يرجى المحاولة مرة أخرى.';
 
   @override
-  String get okLabel => 'OK';
+  String get okLabel => 'حسناً';
 
   @override
-  String get enterReceivedCodeMessage => 'Enter the received code.';
+  String get enterReceivedCodeMessage => 'أدخل الرمز الذي وصلك.';
 
   @override
-  String get enterPhoneToLoginMessage => 'Enter your mobile number to log in.';
+  String get enterPhoneToLoginMessage =>
+      'أدخل رقم هاتفك المحمول لتسجيل الدخول.';
 
   @override
-  String get enterPhoneValidationMessage => 'Please enter a phone number.';
+  String get enterPhoneValidationMessage => 'يرجى إدخال رقم هاتف.';
 
   @override
-  String get getVerificationCodeLabel => 'Get verification code';
+  String get getVerificationCodeLabel => 'احصل على رمز التحقق';
 
   @override
-  String get correctPhoneNumberLabel => 'Edit phone number';
+  String get correctPhoneNumberLabel => 'تعديل رقم الهاتف';
 
   @override
-  String get splashTitle => 'Clean City\nDriver application';
+  String get splashTitle => 'مدينة نظيفة\nتطبيق السائق';
 
   @override
-  String get splashVersionLabel => 'Trial version 1.0';
+  String get splashVersionLabel => 'نسخة تجريبية 1.0';
 
   @override
-  String get aboutStoreLabel => 'About store';
+  String get aboutStoreLabel => 'عن المتجر';
 
   @override
-  String get returnPolicyLabel => 'Return policy';
+  String get returnPolicyLabel => 'سياسة الإرجاع';
 
   @override
-  String get privacyPolicyLabel => 'Privacy policy';
+  String get privacyPolicyLabel => 'سياسة الخصوصية';
 
   @override
-  String get howToOrderLabel => 'How to order';
+  String get howToOrderLabel => 'كيفية الطلب';
 
   @override
-  String get faqLabel => 'Frequently asked questions';
+  String get faqLabel => 'الأسئلة الشائعة';
 
   @override
-  String get paymentMethodLabel => 'Payment methods';
+  String get paymentMethodLabel => 'طرق الدفع';
 
   @override
-  String get loginPageLabel => 'Login page';
+  String get loginPageLabel => 'صفحة تسجيل الدخول';
 
   @override
-  String get profilePageLabel => 'Profile page';
+  String get profilePageLabel => 'صفحة الملف الشخصي';
 
   @override
-  String get loginRequiredDescription => 'You must log in to continue.';
+  String get loginRequiredDescription => 'يجب تسجيل الدخول للمتابعة.';
 
   @override
   String get completeProfileDescription =>
-      'Please complete your profile information to continue.';
+      'يرجى إكمال معلومات ملفك الشخصي للمتابعة.';
 
   @override
-  String get requestSubmittedSuccess =>
-      'Your request has been submitted successfully.';
+  String get requestSubmittedSuccess => 'تم إرسال طلبك بنجاح.';
 
   @override
-  String get requestDetailTitle => 'Request details';
+  String get requestDetailTitle => 'تفاصيل الطلب';
 
   @override
-  String get typeLabel => 'Type';
+  String get typeLabel => 'النوع';
 
   @override
-  String get weightKgLabel => 'Weight (kg)';
+  String get weightKgLabel => 'الوزن (كغ)';
 
   @override
-  String get priceTomanLabel => 'Price (Toman)';
+  String get priceTomanLabel => 'السعر (تومان)';
 
   @override
-  String get noWasteToDeliver => 'No waste to deliver.';
+  String get noWasteToDeliver => 'لا توجد نفايات للتسليم.';
 
   @override
-  String get alreadyCollected => 'Already collected!';
+  String get alreadyCollected => 'تم الجمع مسبقاً!';
 
   @override
-  String get gotItLabel => 'Got it';
+  String get gotItLabel => 'فهمت';
 
   @override
-  String get deliverLabel => 'Deliver';
+  String get deliverLabel => 'تسليم';
 
   @override
-  String get deliverToWarehouseLabel => 'Deliver to warehouse';
+  String get deliverToWarehouseLabel => 'التسليم إلى المستودع';
 
   @override
-  String get countLabel => 'Count';
+  String get countLabel => 'العدد';
 
   @override
-  String get countWithColon => 'Count:';
+  String get countWithColon => 'العدد:';
 
   @override
-  String get ofLabel => 'of';
+  String get ofLabel => 'من';
 
   @override
-  String get todayLabel => 'Today';
+  String get todayLabel => 'اليوم';
 
   @override
-  String get noProductAvailable => 'No product available.';
+  String get noProductAvailable => 'لا يوجد منتج متاح.';
 
   @override
-  String get noRequestAvailable => 'No request available.';
+  String get noRequestAvailable => 'لا يوجد طلب متاح.';
 
   @override
-  String get statusLabel => 'Status';
+  String get statusLabel => 'الحالة';
 
   @override
-  String get customerWeightLabel => 'Customer weight';
+  String get customerWeightLabel => 'وزن العميل';
 
   @override
-  String get deliveryWeightLabel => 'Delivery weight';
+  String get deliveryWeightLabel => 'وزن التسليم';
 
   @override
-  String get noWasteAdded => 'No waste added.';
+  String get noWasteAdded => 'لم تُضف نفايات.';
 
   @override
-  String get noAccessLabel => 'No access';
+  String get noAccessLabel => 'لا يوجد وصول';
 
   @override
-  String get noneLabel => 'None';
+  String get noneLabel => 'لا يوجد';
 
   @override
-  String get settlementRequestTitle => 'Settlement request';
+  String get settlementRequestTitle => 'طلب التسوية';
 
   @override
-  String get pointsLabel => 'Points';
+  String get pointsLabel => 'النقاط';
 
   @override
-  String get tomanLabel => 'Toman';
+  String get tomanLabel => 'تومان';
 
   @override
-  String get shebaNumberLabel => 'Sheba number';
+  String get shebaNumberLabel => 'رقم الشبا';
 
   @override
-  String get requestedAmountToman => 'Requested amount (Toman)';
+  String get requestedAmountToman => 'المبلغ المطلوب (تومان)';
 
   @override
-  String get requestListTitle => 'Request list';
+  String get requestListTitle => 'قائمة الطلبات';
 
   @override
-  String get enterShebaNumber => 'Please enter your Sheba number.';
+  String get enterShebaNumber => 'يرجى إدخال رقم شبا الخاص بك.';
 
   @override
-  String get submitRequestLabel => 'Submit request';
+  String get submitRequestLabel => 'إرسال الطلب';
 
   @override
-  String get transactionListTitle => 'Transaction list';
+  String get transactionListTitle => 'قائمة المعاملات';
 
   @override
-  String get forLabel => 'For';
+  String get forLabel => 'البيان';
 
   @override
-  String get amountTomanLabel => 'Amount (Toman)';
+  String get amountTomanLabel => 'المبلغ (تومان)';
 
   @override
-  String get settlementRequestLabel => 'Settlement request';
+  String get settlementRequestLabel => 'طلب التسوية';
 
   @override
-  String get noTransactionAvailable => 'No transaction available.';
+  String get noTransactionAvailable => 'لا توجد معاملة متاحة.';
 
   @override
-  String get newAddressLabel => 'New address';
+  String get newAddressLabel => 'عنوان جديد';
 
   @override
-  String get addressNameLabel => 'Address name';
+  String get addressNameLabel => 'اسم العنوان';
 
   @override
-  String get areasLabel => 'Areas:';
+  String get areasLabel => 'المناطق:';
 
   @override
-  String get selectAreaMessage => 'Please select the desired area.';
+  String get selectAreaMessage => 'يرجى اختيار المنطقة المطلوبة.';
 
   @override
-  String get addressLabel => 'Address';
+  String get addressLabel => 'العنوان';
 
   @override
-  String get noAreaSelected => 'No area selected!';
+  String get noAreaSelected => 'لم تُختر منطقة!';
 
   @override
-  String get personInfoTitle => 'Person information';
+  String get personInfoTitle => 'معلومات الشخص';
 
   @override
-  String get specificationsLabel => 'Specifications';
+  String get specificationsLabel => 'المواصفات';
 
   @override
-  String get firstNameLabel => 'First name';
+  String get firstNameLabel => 'الاسم الأول';
 
   @override
-  String get lastNameLabel => 'Last name';
+  String get lastNameLabel => 'اسم العائلة';
 
   @override
-  String get userTypeLabel => 'User type';
+  String get userTypeLabel => 'نوع المستخدم';
 
   @override
-  String get userTypeColon => 'User type:';
+  String get userTypeColon => 'نوع المستخدم:';
 
   @override
-  String get provinceLabel => 'Province';
+  String get provinceLabel => 'المحافظة';
 
   @override
-  String get cityLabel => 'City';
+  String get cityLabel => 'المدينة';
 
   @override
-  String get postalCodeLabel => 'Postal code';
+  String get postalCodeLabel => 'الرمز البريدي';
 
   @override
-  String get emailLabel => 'Email';
+  String get emailLabel => 'البريد الإلكتروني';
 
   @override
-  String get emailHint => 'Email';
+  String get emailHint => 'البريد الإلكتروني';
 
   @override
-  String get passwordHint => 'Password';
+  String get passwordHint => 'كلمة المرور';
 
   @override
   String get invalidCredentialsMessage =>
-      'Invalid email or password. Please try again.';
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.';
 
   @override
-  String get enterEmailValidationMessage => 'Please enter your email.';
+  String get enterEmailValidationMessage => 'يرجى إدخال بريدك الإلكتروني.';
 
   @override
-  String get enterPasswordValidationMessage => 'Please enter your password.';
+  String get enterPasswordValidationMessage => 'يرجى إدخال كلمة المرور.';
 
   @override
-  String get vehicleTypeLabel => 'Vehicle type';
+  String get vehicleTypeLabel => 'نوع المركبة';
 
   @override
-  String get vehicleColorLabel => 'Vehicle color';
+  String get vehicleColorLabel => 'لون المركبة';
 
   @override
-  String get plateNumberLabel => 'Plate number';
+  String get plateNumberLabel => 'رقم اللوحة';
 
   @override
-  String get infoEditedSuccess => 'Information has been updated.';
+  String get infoEditedSuccess => 'تم تحديث المعلومات.';
 
   @override
-  String get editProfileLabel => 'Edit profile';
+  String get editProfileLabel => 'تعديل الملف الشخصي';
 
   @override
   String get profileSaveFailedMessage =>
-      'Could not save profile. Please try again.';
+      'تعذّر حفظ الملف الشخصي. يرجى المحاولة مرة أخرى.';
 
   @override
   String get profileNameRequiredMessage =>
-      'Please enter your first and last name.';
+      'يرجى إدخال اسمك الأول واسم العائلة.';
 
   @override
   String get profileTypesListEmptyHint =>
-      'The type list could not be loaded. You can still save; your current account type is used.';
+      'تعذّر تحميل قائمة الأنواع. يمكنك الحفظ؛ سيتم استخدام نوع حسابك الحالي.';
 
   @override
-  String get selectWarehouseLabel => 'Select warehouse';
+  String get selectWarehouseLabel => 'اختر المستودع';
 
   @override
-  String get selectWarehouseMessage => 'Please select the desired warehouse.';
+  String get selectWarehouseMessage => 'يرجى اختيار المستودع المطلوب.';
 
   @override
-  String get kilogramLabel => 'kg';
+  String get kilogramLabel => 'كغ';
 
   @override
-  String get sortNewest => 'Newest';
+  String get sortNewest => 'الأحدث';
 
   @override
-  String get sortMostExpensive => 'Most expensive';
+  String get sortMostExpensive => 'الأغلى';
 
   @override
-  String get sortCheapest => 'Cheapest';
+  String get sortCheapest => 'الأرخص';
 
   @override
-  String get collectRequestStatusPendingAssignment =>
-      'Pending driver assignment';
+  String get collectRequestStatusPendingAssignment => 'بانتظار تعيين السائق';
 
   @override
   String get collectRequestStatusPendingDriverAcceptance =>
-      'Pending driver acceptance';
+      'بانتظار قبول السائق';
 
   @override
-  String get collectRequestStatusDriverAccepted => 'Accepted by driver';
+  String get collectRequestStatusDriverAccepted => 'قبِلَه السائق';
 
   @override
-  String get collectRequestStatusCollected => 'Collected';
+  String get collectRequestStatusCollected => 'تم الجمع';
 
   @override
-  String get collectRequestStatusCancelled => 'Cancelled';
+  String get collectRequestStatusCancelled => 'ملغى';
 
   @override
-  String get collectRequestStatusInProgress => 'In progress';
+  String get collectRequestStatusInProgress => 'قيد التنفيذ';
 
   @override
-  String get collectAcceptLabel => 'Accept';
+  String get collectAcceptLabel => 'قبول';
 
   @override
-  String get collectRejectLabel => 'Reject';
+  String get collectRejectLabel => 'رفض';
 
   @override
   String get collectAcceptedSuccessMessage =>
-      'Request accepted. You can continue with this pickup.';
+      'تم قبول الطلب. يمكنك متابعة عملية الجمع.';
 
   @override
   String get collectAcceptedStateHint =>
-      'You have accepted this request. Update weights below when you collect.';
+      'لقد قبلت هذا الطلب. حدّث الأوزان أدناه عند الجمع.';
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'الإعدادات';
 
   @override
-  String get languageTitle => 'Language';
+  String get languageTitle => 'اللغة';
 
   @override
-  String get applicationLanguageLabel => 'Application language';
+  String get applicationLanguageLabel => 'لغة التطبيق';
 
   @override
-  String get englishLabel => 'English';
+  String get englishLabel => 'الإنجليزية';
 
   @override
-  String get turkishLabel => 'Turkish';
+  String get turkishLabel => 'التركية';
 
   @override
   String get arabicLabel => 'العربية';
 
   @override
-  String get retryLabel => 'Retry';
+  String get retryLabel => 'إعادة المحاولة';
 
   @override
-  String get collectTotalWeightColon => 'Total weight:';
+  String get collectTotalWeightColon => 'الوزن الإجمالي:';
 
   @override
-  String get collectPerKgColon => 'Per kg:';
+  String get collectPerKgColon => 'لكل كغ:';
 
   @override
-  String get collectTotalPriceColon => 'Total price:';
+  String get collectTotalPriceColon => 'السعر الإجمالي:';
 
   @override
-  String get fieldRequiredValidation => 'Please enter a value.';
+  String get fieldRequiredValidation => 'يرجى إدخال قيمة.';
 
   @override
-  String get transactionOperationWithdrawal => 'Withdrawal';
+  String get transactionOperationWithdrawal => 'سحب';
 
   @override
-  String get transactionOperationDeposit => 'Deposit';
+  String get transactionOperationDeposit => 'إيداع';
 }
