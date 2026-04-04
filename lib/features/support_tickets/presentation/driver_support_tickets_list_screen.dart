@@ -75,6 +75,14 @@ class _DriverSupportTicketsListScreenState
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+        actions: <Widget>[
+          if (authState.isAuth)
+            IconButton(
+              tooltip: 'Refresh',
+              onPressed: _loading ? null : () => _load(),
+              icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
+            ),
+        ],
       ),
       endDrawer:  MainDrawer(),
       floatingActionButton: authState.isAuth
