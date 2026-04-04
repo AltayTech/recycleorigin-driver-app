@@ -431,6 +431,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get arabicLabel => 'Arapca';
 
   @override
+  String get settingsScreenIntro =>
+      'Dil değişiklikleri hemen uygulanır ve bu cihazda kaydedilir.';
+
+  @override
+  String get appInformationSectionTitle => 'Uygulama bilgisi';
+
+  @override
+  String get version => 'Sürüm';
+
+  @override
   String get retryLabel => 'Tekrar dene';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
+import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -35,6 +36,7 @@ import 'core/screens/settings_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppLocaleController.instance.load();
+  await AppInfoService.instance.initialize();
   runApp(const MyApp());
 }
 

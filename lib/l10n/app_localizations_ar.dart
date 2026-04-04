@@ -429,6 +429,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get arabicLabel => 'العربية';
 
   @override
+  String get settingsScreenIntro =>
+      'تُطبَّق تغييرات اللغة فورًا وتُحفَظ على هذا الجهاز.';
+
+  @override
+  String get appInformationSectionTitle => 'معلومات التطبيق';
+
+  @override
+  String get version => 'الإصدار';
+
+  @override
   String get retryLabel => 'إعادة المحاولة';
 
   @override

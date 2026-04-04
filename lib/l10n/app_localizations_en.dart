@@ -431,6 +431,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arabicLabel => 'Arabic';
 
   @override
+  String get settingsScreenIntro =>
+      'Language updates apply immediately and are saved on this device.';
+
+  @override
+  String get appInformationSectionTitle => 'App information';
+
+  @override
+  String get version => 'Version';
+
+  @override
   String get retryLabel => 'Retry';
 
   @override
