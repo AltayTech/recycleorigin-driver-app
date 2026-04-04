@@ -11,6 +11,7 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
@@ -214,6 +215,27 @@ class MainDrawer extends StatelessWidget {
 
                             Navigator.of(context)
                                 .pushNamed(ContactWithUs.routeName);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Support tickets',
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: textColor,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                          trailing: Icon(
+                            Icons.support_agent,
+                            color: iconColor,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushNamed(
+                              DriverSupportTicketsListScreen.routeName,
+                            );
                           },
                         ),
                         ListTile(

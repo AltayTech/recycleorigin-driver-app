@@ -16,6 +16,9 @@ import 'package:recycleorigindriver/features/clearing_feature/presentation/scree
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_ticket_create_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_ticket_detail_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/delivery_detail_screen.dart';
@@ -138,6 +141,12 @@ class MyApp extends StatelessWidget {
               LoginScreen.routeName: (ctx) => LoginScreen(),
               AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
               ContactWithUs.routeName: (ctx) => ContactWithUs(),
+              DriverSupportTicketsListScreen.routeName: (ctx) =>
+                  const DriverSupportTicketsListScreen(),
+              DriverSupportTicketCreateScreen.routeName: (ctx) =>
+                  const DriverSupportTicketCreateScreen(),
+              DriverSupportTicketDetailScreen.routeName: (ctx) =>
+                  const DriverSupportTicketDetailScreen(),
               SettingsScreen.routeName: (ctx) => const SettingsScreen(),
               CustomerDetailInfoEditScreen.routeName: (ctx) =>
                   CustomerDetailInfoEditScreen(),
