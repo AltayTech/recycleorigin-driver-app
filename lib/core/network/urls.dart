@@ -20,6 +20,9 @@ class Urls {
   static const deliveriesEndPoint = '/deliveries';
   static const clearingEndPoint = '/clearings';
   static const transactionsEndPoint = '/transactions';
+  static const walletEndPoint = '/wallet';
+  static const walletTransactionsEndPoint = '/wallet/transactions';
+  static const walletWithdrawEndPoint = '/wallet/withdraw';
   static const provincesEndPoint = '/provinces';
   static const typesEndPoint = '/customer/types';
   static const shopEndPoint = '/info';

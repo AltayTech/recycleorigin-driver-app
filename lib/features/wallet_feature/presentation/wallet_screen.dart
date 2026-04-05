@@ -1,22 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' as intl;
 
-import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
-import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/models/customer.dart';
-import 'package:recycleorigindriver/core/models/search_detail.dart';
-import 'package:recycleorigindriver/core/models/transaction.dart';
+import 'package:recycleorigindriver/core/network/urls.dart';
+import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/screens/clear_screen.dart';
-import 'package:recycleorigindriver/features/wallet_feature/presentation/transaction_item_transactions_screen.dart';
+import 'package:recycleorigindriver/features/wallet_feature/business/entities/wallet.dart';
+import 'package:recycleorigindriver/features/wallet_feature/business/entities/wallet_transaction.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/walletScreen';
@@ -25,34 +26,19 @@ class WalletScreen extends StatefulWidget {
   _WalletScreenState createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen>
-    with SingleTickerProviderStateMixin {
-  bool _isInit = true;
-  ScrollController _scrollController = new ScrollController();
-  var _isLoading;
-  int page = 1;
-  SearchDetail? productsDetail;
-
-  late Customer customer;
+class _WalletScreenState extends State<WalletScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
+  int _page = 1;
+  int _maxPage = 1;
+  Wallet _wallet = const Wallet();
+  List<WalletTransaction> _transactions = [];
 
   @override
   void initState() {
-    context.read<CustomerInfoBloc>().sPage = 1;
-
-    context.read<CustomerInfoBloc>().searchBuilder();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (page < (productsDetail?.max_page ?? 1)) {
-          page = page + 1;
-          context.read<CustomerInfoBloc>().sPage = page;
-
-          searchItems();
-        }
-      }
-    });
-
     super.initState();
+    _scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadData());
   }
 
   @override
@@ -61,466 +47,443 @@ class _WalletScreenState extends State<WalletScreen>
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      getCustomerInfo();
-      searchItems();
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  Future<void> getCustomerInfo() async {
-    bool isLogin = context.read<AuthBloc>().state.isAuth;
-    if (isLogin) {
-      await context.read<CustomerInfoBloc>().getCustomer();
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      if (!_isLoading && _page < _maxPage) {
+        _loadMore();
+      }
     }
   }
 
-  List<Transaction> loadedProducts = [];
-  List<Transaction> loadedProductstolist = [];
+  Future<Map<String, String>> _authHeaders() async {
+    final token = await SecureStorage.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+  }
 
-  Future<void> searchItems() async {
-    setState(() {
-      _isLoading = true;
-    });
+  Future<void> _loadData() async {
+    final isLogin = context.read<AuthBloc>().state.isAuth;
+    if (!isLogin) return;
+
+    setState(() => _isLoading = true);
 
     try {
-      context.read<CustomerInfoBloc>().searchBuilder();
-      await context.read<CustomerInfoBloc>().searchTransactionItems();
-      productsDetail = context.read<CustomerInfoBloc>().state.searchDetails;
+      final headers = await _authHeaders();
 
-      loadedProducts.clear();
-      loadedProducts = List<Transaction>.from(
-          context.read<CustomerInfoBloc>().state.transactionItems);
-      loadedProductstolist.addAll(loadedProducts);
-    } finally {
-      if (mounted) {
+      final walletUrl = Uri.parse(Urls.rootUrl + Urls.walletEndPoint);
+      final walletResp = await http.get(walletUrl, headers: headers);
+      if (walletResp.statusCode == 200 && mounted) {
+        final data = jsonDecode(walletResp.body) as Map<String, dynamic>;
+        final walletJson = data['wallet'] as Map<String, dynamic>?;
+        if (walletJson != null) {
+          _wallet = Wallet.fromJson(walletJson);
+        }
+      }
+
+      _page = 1;
+      final txUrl = Uri.parse(
+        Urls.rootUrl + Urls.walletTransactionsEndPoint,
+      ).replace(queryParameters: {'page': '1', 'per_page': '20'});
+      final txResp = await http.get(txUrl, headers: headers);
+      if (txResp.statusCode == 200 && mounted) {
+        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+        final txList = txData['data'] as List<dynamic>? ?? [];
+        _transactions = txList
+            .map((e) =>
+                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .toList();
+        final details = txData['details'] as Map<String, dynamic>?;
+        _maxPage = details?['max_pages'] as int? ?? 1;
+      }
+
+      if (mounted) setState(() => _isLoading = false);
+    } catch (_) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _loadMore() async {
+    setState(() => _isLoading = true);
+    try {
+      _page++;
+      final headers = await _authHeaders();
+      final txUrl = Uri.parse(
+        Urls.rootUrl + Urls.walletTransactionsEndPoint,
+      ).replace(queryParameters: {
+        'page': '$_page',
+        'per_page': '20',
+      });
+      final txResp = await http.get(txUrl, headers: headers);
+      if (txResp.statusCode == 200 && mounted) {
+        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+        final txList = txData['data'] as List<dynamic>? ?? [];
+        final newTx = txList
+            .map((e) =>
+                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .toList();
         setState(() {
+          _transactions.addAll(newTx);
           _isLoading = false;
         });
       }
+    } catch (_) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  String _currencySymbol(String code) {
+    switch (code.toUpperCase()) {
+      case 'USD':
+        return '\$';
+      case 'EUR':
+        return '\u20AC';
+      case 'GBP':
+        return '\u00A3';
+      case 'IRR':
+        return 'IRR';
+      default:
+        return code;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = context.watch<AuthBloc>().state.isAuth;
-
-    final currencyFormat = EnArConvertor.decimalPatternFor(context);
+    final isLogin = context.watch<AuthBloc>().state.isAuth;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          context.l10n.walletLabel,
-          style: TextStyle(),
-        ),
+        title: Text(context.l10n.walletLabel),
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
         centerTitle: true,
-        actions: <Widget>[],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
-          child: !isLogin
-              ? Container(
-                  height: deviceHeight * 0.8,
-                  child: Center(
-                    child: Wrap(
-                      direction: Axis.vertical,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(context.l10n.notLoggedInLabel),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
-                          },
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text(
-                                context.l10n.loginToAccountLabel,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                                color: AppTheme.primary,
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-                        )
-                      ],
+      body: !isLogin
+          ? _buildNotLoggedIn(context)
+          : RefreshIndicator(
+              onRefresh: _loadData,
+              child: CustomScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(child: _buildBalanceCard(context)),
+                  SliverToBoxAdapter(child: _buildActionBar(context)),
+                  SliverToBoxAdapter(child: _buildSectionHeader(context)),
+                  if (_transactions.isEmpty && !_isLoading)
+                    SliverToBoxAdapter(child: _buildEmpty(context))
+                  else
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (ctx, i) => _WalletTxItem(tx: _transactions[i]),
+                        childCount: _transactions.length,
+                      ),
                     ),
-                  ),
-                )
-              : Container(
-                  height: deviceHeight * 0.89,
-                  child: Stack(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                                color: AppTheme.bg,
-                                border:
-                                    Border.all(width: 5, color: AppTheme.bg)),
-                            height: deviceWidth * 0.5,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Stack(
-                                children: <Widget>[
-                                  Container(
-                                    height: deviceWidth * 0.9,
-                                    width: deviceWidth,
-                                    child: FadeInImage(
-                                      placeholder: AssetImage(
-                                          'assets/images/circle.gif'),
-                                      image: AssetImage(
-                                          'assets/images/wallet_money_bg.png'),
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          context.l10n.pointsLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 13.0,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        BlocBuilder<CustomerInfoBloc,
-                                            CustomerInfoState>(
-                                          buildWhen: (p, c) =>
-                                              p.driver.money != c.driver.money,
-                                          builder: (_, data) => Text(
-                                            EnArConvertor.localize(
-                                              context,
-                                              currencyFormat.format(
-                                                double.parse(
-                                                  data.driver.money,
-                                                ),
-                                              ),
-                                            ),
-                                            style: TextStyle(
-                                              color: AppTheme.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: textScaleFactor * 18.0,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Text(
-                                          context.l10n.tomanLabel,
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontSize: textScaleFactor * 13.0,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: AppTheme.bg,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8.0, right: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            context.l10n.transactionListTitle,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: AppTheme.black
-                                                  .withOpacity(0.8),
-                                              fontSize: textScaleFactor * 14.0,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          BlocBuilder<CustomerInfoBloc,
-                                              CustomerInfoState>(
-                                            buildWhen: (p, c) =>
-                                                p.searchDetails !=
-                                                    c.searchDetails ||
-                                                p.transactionItems.length !=
-                                                    c.transactionItems.length,
-                                            builder: (_, customerState) {
-                                              return Container(
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical:
-                                                          deviceHeight * 0.0,
-                                                      horizontal: 3),
-                                                  child: Wrap(
-                                                    alignment:
-                                                        WrapAlignment.start,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.horizontal,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 3,
-                                                                vertical: 5),
-                                                        child: Text(
-                                                          context.l10n
-                                                              .countWithColon,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    12.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                right: 4.0,
-                                                                left: 6),
-                                                        child: Text(
-                                                          EnArConvertor
-                                                              .localize(
-                                                            context,
-                                                            productsDetail !=
-                                                                    null
-                                                                ? loadedProductstolist
-                                                                    .length
-                                                                    .toString()
-                                                                : '0',
-                                                          ),
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    13.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 3,
-                                                                vertical: 5),
-                                                        child: Text(
-                                                          context.l10n.ofLabel,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    12.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                right: 4.0,
-                                                                left: 6),
-                                                        child: Text(
-                                                          EnArConvertor
-                                                              .localize(
-                                                            context,
-                                                            productsDetail !=
-                                                                    null
-                                                                ? (productsDetail
-                                                                            ?.total ??
-                                                                        0)
-                                                                    .toString()
-                                                                : '0',
-                                                          ),
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    13.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: deviceWidth * 0.10,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                context.l10n.typeLabel,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 15.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                context.l10n.forLabel,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 15.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                context.l10n.amountTomanLabel,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 15.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: deviceHeight * 0.42,
-                                      child: ListView.builder(
-                                        controller: _scrollController,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: loadedProductstolist.length,
-                                        itemBuilder: (ctx, i) =>
-                                            ChangeNotifierProvider.value(
-                                          value: loadedProductstolist[i],
-                                          child:
-                                              TransactionItemTransactionsScreen(),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        bottom: 15,
-                        left: 10,
-                        right: 10,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(ClearScreen.routeName);
-                          },
-                          child: ButtonBottom(
-                            width: deviceWidth * 0.9,
-                            height: deviceWidth * 0.14,
-                            text: context.l10n.settlementRequestLabel,
-                            isActive: true,
+                  if (_isLoading)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: SpinKitFadingCircle(
+                            color: AppTheme.primary,
+                            size: 40,
                           ),
                         ),
                       ),
-                      Positioned(
-                          top: 0,
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: _isLoading
-                                  ? SpinKitFadingCircle(
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: index.isEven
-                                                ? Colors.grey
-                                                : Colors.grey,
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : Container(
-                                      child: loadedProductstolist.isEmpty
-                                          ? Center(
-                                              child: Text(
-                                              context
-                                                  .l10n.noTransactionAvailable,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    textScaleFactor * 15.0,
-                                              ),
-                                            ))
-                                          : Container())))
-                    ],
-                  ),
-                ),
-        ),
-      ),
+                    ),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
+                ],
+              ),
+            ),
       endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
+        data: theme.copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),
     );
+  }
+
+  Widget _buildBalanceCard(BuildContext context) {
+    final parsed = double.tryParse(_wallet.balance) ?? 0;
+    final formatted = intl.NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(parsed);
+    final symbol = _currencySymbol(_wallet.currency);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppTheme.primary,
+              AppTheme.primary.withOpacity(0.8),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: AppTheme.primary.withOpacity(0.3),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Earnings',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Icon(
+                  Icons.account_balance_wallet_outlined,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '$formatted $symbol',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (_wallet.isFrozen) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Text(
+                  'Wallet Frozen',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: InkWell(
+        onTap: () => Navigator.of(context).pushNamed(ClearScreen.routeName),
+        borderRadius: BorderRadius.circular(12),
+        child: ButtonBottom(
+          width: double.infinity,
+          height: 50,
+          text: context.l10n.settlementRequestLabel,
+          isActive: true,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Transaction History',
+            style: TextStyle(
+              color: AppTheme.h1,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (_transactions.isNotEmpty)
+            Text(
+              '${_transactions.length} items',
+              style: TextStyle(color: AppTheme.grey, fontSize: 14),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmpty(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          Icon(Icons.receipt_long_outlined, size: 64, color: Colors.grey[300]),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.noTransactionAvailable,
+            style: TextStyle(color: AppTheme.grey, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNotLoggedIn(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.account_balance_wallet_outlined,
+            size: 80,
+            color: Colors.grey[300],
+          ),
+          const SizedBox(height: 24),
+          Text(context.l10n.notLoggedInLabel,
+              style: const TextStyle(fontSize: 18, color: Colors.grey)),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(LoginScreen.routeName),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            child: Text(context.l10n.loginToAccountLabel,
+                style: const TextStyle(color: Colors.white, fontSize: 16)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WalletTxItem extends StatelessWidget {
+  const _WalletTxItem({required this.tx});
+
+  final WalletTransaction tx;
+
+  IconData get _icon {
+    switch (tx.type) {
+      case 'driver_commission':
+        return Icons.local_shipping;
+      case 'collect_reward':
+        return Icons.recycling;
+      case 'withdrawal':
+        return Icons.account_balance;
+      case 'admin_adjustment':
+        return Icons.admin_panel_settings;
+      case 'deposit':
+        return Icons.add_circle_outline;
+      default:
+        return tx.isCredit ? Icons.arrow_downward : Icons.arrow_upward;
+    }
+  }
+
+  Color get _color => tx.isCredit ? Colors.green.shade600 : Colors.red.shade600;
+
+  @override
+  Widget build(BuildContext context) {
+    final parsed = double.tryParse(tx.amount) ?? 0;
+    final formatted = intl.NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(parsed);
+    final prefix = tx.isCredit ? '+' : '-';
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            offset: const Offset(0, 2),
+            blurRadius: 8,
+          ),
+        ],
+      ),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: _color.withOpacity(0.1),
+          child: Icon(_icon, color: _color, size: 20),
+        ),
+        title: Text(
+          tx.typeLabel,
+          style: TextStyle(
+            color: AppTheme.h1,
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (tx.description.isNotEmpty)
+              Text(
+                tx.description,
+                style: TextStyle(color: AppTheme.grey, fontSize: 13),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            if (tx.createdAt.isNotEmpty)
+              Text(
+                _formatDate(tx.createdAt),
+                style: TextStyle(
+                  color: AppTheme.grey.withOpacity(0.7),
+                  fontSize: 12,
+                ),
+              ),
+          ],
+        ),
+        trailing: Text(
+          '$prefix$formatted',
+          style: TextStyle(
+            color: _color,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(String isoDate) {
+    try {
+      final date = DateTime.parse(isoDate);
+      return intl.DateFormat('MMM d, yyyy HH:mm').format(date);
+    } catch (_) {
+      return isoDate;
+    }
   }
 }
