@@ -146,5 +146,22 @@
   "collectTotalPriceColon": "Total price:",
   "fieldRequiredValidation": "Please enter a value.",
   "transactionOperationWithdrawal": "Withdrawal",
-  "transactionOperationDeposit": "Deposit"
+  "transactionOperationDeposit": "Deposit",
+  "collectRequestStatusPickedUp": "Picked up",
+  "confirmPickupLabel": "Confirm Pickup",
+  "confirmPickupTitle": "Confirm Pickup",
+  "confirmPickupMessage": "You are about to confirm that you have picked up all the waste items. Please verify the exact weights before confirming.",
+  "confirmPickupSuccess": "Pickup confirmed successfully.",
+  "cancelLabel": "Cancel",
+  "wasteItemsLabel": "Waste Items",
+  "customerEstimateLabel": "Customer estimate",
+  "exactWeightLabel": "Exact weight (kg)",
+  "pickupSummaryLabel": "Pickup Summary",
+  "totalItemsLabel": "Total items",
+  "totalEstimatedWeightLabel": "Estimated weight",
+  "totalExactWeightLabel": "Exact weight",
+  "requestInfoLabel": "Request Info",
+  "scheduledTimeLabel": "Scheduled time",
+  "driverActionsLabel": "Actions",
+  "requestPickedUpHint": "This request has been picked up. Waiting for admin approval."
 }

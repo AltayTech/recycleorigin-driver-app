@@ -53,6 +53,8 @@ class RequestWasteItem with ChangeNotifier {
         return l10n.collectRequestStatusPendingDriverAcceptance;
       case 'driver_accepted':
         return l10n.collectRequestStatusDriverAccepted;
+      case 'picked_up':
+        return l10n.collectRequestStatusPickedUp;
       case 'collected':
         if (requestStatusLabel.isNotEmpty) {
           return requestStatusLabel;

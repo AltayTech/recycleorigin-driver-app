@@ -460,4 +460,57 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get transactionOperationDeposit => 'Yatirim';
+
+  @override
+  String get collectRequestStatusPickedUp => 'Teslim alindi';
+
+  @override
+  String get confirmPickupLabel => 'Teslim Almayi Onayla';
+
+  @override
+  String get confirmPickupTitle => 'Teslim Almayi Onayla';
+
+  @override
+  String get confirmPickupMessage =>
+      'Tum atiklari teslim aldiginizi onaylamak uzeresiniz. Onaylamadan once agirliklari dogrulayin.';
+
+  @override
+  String get confirmPickupSuccess => 'Teslim alma basariyla onaylandi.';
+
+  @override
+  String get cancelLabel => 'Iptal';
+
+  @override
+  String get wasteItemsLabel => 'Atik Kalemleri';
+
+  @override
+  String get customerEstimateLabel => 'Musteri tahmini';
+
+  @override
+  String get exactWeightLabel => 'Gercek agirlik (kg)';
+
+  @override
+  String get pickupSummaryLabel => 'Teslim Alma Ozeti';
+
+  @override
+  String get totalItemsLabel => 'Toplam kalem';
+
+  @override
+  String get totalEstimatedWeightLabel => 'Tahmini agirlik';
+
+  @override
+  String get totalExactWeightLabel => 'Gercek agirlik';
+
+  @override
+  String get requestInfoLabel => 'Talep Bilgisi';
+
+  @override
+  String get scheduledTimeLabel => 'Planlanan zaman';
+
+  @override
+  String get driverActionsLabel => 'Islemler';
+
+  @override
+  String get requestPickedUpHint =>
+      'Bu talep teslim alindi. Yonetici onayi bekleniyor.';
 }

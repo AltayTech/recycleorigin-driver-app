@@ -146,5 +146,22 @@
   "collectTotalPriceColon": "السعر الإجمالي:",
   "fieldRequiredValidation": "يرجى إدخال قيمة.",
   "transactionOperationWithdrawal": "سحب",
-  "transactionOperationDeposit": "إيداع"
+  "transactionOperationDeposit": "إيداع",
+  "collectRequestStatusPickedUp": "تم الاستلام",
+  "confirmPickupLabel": "تأكيد الاستلام",
+  "confirmPickupTitle": "تأكيد الاستلام",
+  "confirmPickupMessage": "أنت على وشك تأكيد استلام جميع النفايات. يرجى التحقق من الأوزان الفعلية قبل التأكيد.",
+  "confirmPickupSuccess": "تم تأكيد الاستلام بنجاح.",
+  "cancelLabel": "إلغاء",
+  "wasteItemsLabel": "عناصر النفايات",
+  "customerEstimateLabel": "تقدير العميل",
+  "exactWeightLabel": "الوزن الفعلي (كغ)",
+  "pickupSummaryLabel": "ملخص الاستلام",
+  "totalItemsLabel": "إجمالي العناصر",
+  "totalEstimatedWeightLabel": "الوزن التقديري",
+  "totalExactWeightLabel": "الوزن الفعلي",
+  "requestInfoLabel": "معلومات الطلب",
+  "scheduledTimeLabel": "الوقت المحدد",
+  "driverActionsLabel": "الإجراءات",
+  "requestPickedUpHint": "تم استلام هذا الطلب. بانتظار موافقة المسؤول."
 }

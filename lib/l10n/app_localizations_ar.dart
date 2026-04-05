@@ -458,4 +458,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get transactionOperationDeposit => 'إيداع';
+
+  @override
+  String get collectRequestStatusPickedUp => 'تم الاستلام';
+
+  @override
+  String get confirmPickupLabel => 'تأكيد الاستلام';
+
+  @override
+  String get confirmPickupTitle => 'تأكيد الاستلام';
+
+  @override
+  String get confirmPickupMessage =>
+      'أنت على وشك تأكيد استلام جميع النفايات. يرجى التحقق من الأوزان الفعلية قبل التأكيد.';
+
+  @override
+  String get confirmPickupSuccess => 'تم تأكيد الاستلام بنجاح.';
+
+  @override
+  String get cancelLabel => 'إلغاء';
+
+  @override
+  String get wasteItemsLabel => 'عناصر النفايات';
+
+  @override
+  String get customerEstimateLabel => 'تقدير العميل';
+
+  @override
+  String get exactWeightLabel => 'الوزن الفعلي (كغ)';
+
+  @override
+  String get pickupSummaryLabel => 'ملخص الاستلام';
+
+  @override
+  String get totalItemsLabel => 'إجمالي العناصر';
+
+  @override
+  String get totalEstimatedWeightLabel => 'الوزن التقديري';
+
+  @override
+  String get totalExactWeightLabel => 'الوزن الفعلي';
+
+  @override
+  String get requestInfoLabel => 'معلومات الطلب';
+
+  @override
+  String get scheduledTimeLabel => 'الوقت المحدد';
+
+  @override
+  String get driverActionsLabel => 'الإجراءات';
+
+  @override
+  String get requestPickedUpHint =>
+      'تم استلام هذا الطلب. بانتظار موافقة المسؤول.';
 }

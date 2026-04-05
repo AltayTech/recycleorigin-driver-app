@@ -146,6 +146,23 @@
   "collectTotalPriceColon": "Toplam fiyat:",
   "fieldRequiredValidation": "Lutfen bir deger girin.",
   "transactionOperationWithdrawal": "Cekim",
-  "transactionOperationDeposit": "Yatirim"
+  "transactionOperationDeposit": "Yatirim",
+  "collectRequestStatusPickedUp": "Teslim alindi",
+  "confirmPickupLabel": "Teslim Almayi Onayla",
+  "confirmPickupTitle": "Teslim Almayi Onayla",
+  "confirmPickupMessage": "Tum atiklari teslim aldiginizi onaylamak uzeresiniz. Onaylamadan once agirliklari dogrulayin.",
+  "confirmPickupSuccess": "Teslim alma basariyla onaylandi.",
+  "cancelLabel": "Iptal",
+  "wasteItemsLabel": "Atik Kalemleri",
+  "customerEstimateLabel": "Musteri tahmini",
+  "exactWeightLabel": "Gercek agirlik (kg)",
+  "pickupSummaryLabel": "Teslim Alma Ozeti",
+  "totalItemsLabel": "Toplam kalem",
+  "totalEstimatedWeightLabel": "Tahmini agirlik",
+  "totalExactWeightLabel": "Gercek agirlik",
+  "requestInfoLabel": "Talep Bilgisi",
+  "scheduledTimeLabel": "Planlanan zaman",
+  "driverActionsLabel": "Islemler",
+  "requestPickedUpHint": "Bu talep teslim alindi. Yonetici onayi bekleniyor."
 }
 

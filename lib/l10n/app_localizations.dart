@@ -981,6 +981,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deposit'**
   String get transactionOperationDeposit;
+
+  /// No description provided for @collectRequestStatusPickedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up'**
+  String get collectRequestStatusPickedUp;
+
+  /// No description provided for @confirmPickupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Pickup'**
+  String get confirmPickupLabel;
+
+  /// No description provided for @confirmPickupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Pickup'**
+  String get confirmPickupTitle;
+
+  /// No description provided for @confirmPickupMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to confirm that you have picked up all the waste items. Please verify the exact weights before confirming.'**
+  String get confirmPickupMessage;
+
+  /// No description provided for @confirmPickupSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup confirmed successfully.'**
+  String get confirmPickupSuccess;
+
+  /// No description provided for @cancelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelLabel;
+
+  /// No description provided for @wasteItemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Waste Items'**
+  String get wasteItemsLabel;
+
+  /// No description provided for @customerEstimateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer estimate'**
+  String get customerEstimateLabel;
+
+  /// No description provided for @exactWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact weight (kg)'**
+  String get exactWeightLabel;
+
+  /// No description provided for @pickupSummaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Summary'**
+  String get pickupSummaryLabel;
+
+  /// No description provided for @totalItemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total items'**
+  String get totalItemsLabel;
+
+  /// No description provided for @totalEstimatedWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated weight'**
+  String get totalEstimatedWeightLabel;
+
+  /// No description provided for @totalExactWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact weight'**
+  String get totalExactWeightLabel;
+
+  /// No description provided for @requestInfoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Info'**
+  String get requestInfoLabel;
+
+  /// No description provided for @scheduledTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled time'**
+  String get scheduledTimeLabel;
+
+  /// No description provided for @driverActionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get driverActionsLabel;
+
+  /// No description provided for @requestPickedUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This request has been picked up. Waiting for admin approval.'**
+  String get requestPickedUpHint;
 }
 
 class _AppLocalizationsDelegate

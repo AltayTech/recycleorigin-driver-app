@@ -28,6 +28,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     on<WastesRetrieveCollectItemRequested>(_onRetrieveCollectItem);
     on<WastesAcceptCollectRequested>(_onAcceptCollect);
     on<WastesRejectCollectRequested>(_onRejectCollect);
+    on<WastesConfirmPickupRequested>(_onConfirmPickup);
     on<WastesRequestWasteItemReplace>(_onReplaceRequestWasteItem);
   }
 
@@ -122,6 +123,16 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   Future<void> rejectCollectRequest(int collectId) {
     final c = Completer<void>();
     add(WastesRejectCollectRequested(collectId, completer: c));
+    return c.future;
+  }
+
+  /// Sends corrected exact weights for each waste item and confirms pickup.
+  Future<void> confirmPickup(
+    int collectId,
+    List<Map<String, dynamic>> items,
+  ) {
+    final c = Completer<void>();
+    add(WastesConfirmPickupRequested(collectId, items, completer: c));
     return c.future;
   }
 
@@ -454,6 +465,34 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (response.statusCode != 200) {
       final body = response.body;
       throw Exception(body.isNotEmpty ? body : 'Reject failed');
+    }
+    emit(state.copyWith(token: token));
+    event.completer?.complete();
+  }
+
+  Future<void> _onConfirmPickup(
+    WastesConfirmPickupRequested event,
+    Emitter<WastesState> emit,
+  ) async {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) {
+      throw StateError('No auth token');
+    }
+    final url = Urls.rootUrl +
+        Urls.driverCollectsEndPoint +
+        '/${event.collectId}/pickup';
+    final response = await post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: jsonEncode({'items': event.items}),
+    );
+    if (response.statusCode != 200) {
+      final body = response.body;
+      throw Exception(body.isNotEmpty ? body : 'Pickup confirmation failed');
     }
     emit(state.copyWith(token: token));
     event.completer?.complete();

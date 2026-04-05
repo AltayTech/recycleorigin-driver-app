@@ -460,4 +460,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transactionOperationDeposit => 'Deposit';
+
+  @override
+  String get collectRequestStatusPickedUp => 'Picked up';
+
+  @override
+  String get confirmPickupLabel => 'Confirm Pickup';
+
+  @override
+  String get confirmPickupTitle => 'Confirm Pickup';
+
+  @override
+  String get confirmPickupMessage =>
+      'You are about to confirm that you have picked up all the waste items. Please verify the exact weights before confirming.';
+
+  @override
+  String get confirmPickupSuccess => 'Pickup confirmed successfully.';
+
+  @override
+  String get cancelLabel => 'Cancel';
+
+  @override
+  String get wasteItemsLabel => 'Waste Items';
+
+  @override
+  String get customerEstimateLabel => 'Customer estimate';
+
+  @override
+  String get exactWeightLabel => 'Exact weight (kg)';
+
+  @override
+  String get pickupSummaryLabel => 'Pickup Summary';
+
+  @override
+  String get totalItemsLabel => 'Total items';
+
+  @override
+  String get totalEstimatedWeightLabel => 'Estimated weight';
+
+  @override
+  String get totalExactWeightLabel => 'Exact weight';
+
+  @override
+  String get requestInfoLabel => 'Request Info';
+
+  @override
+  String get scheduledTimeLabel => 'Scheduled time';
+
+  @override
+  String get driverActionsLabel => 'Actions';
+
+  @override
+  String get requestPickedUpHint =>
+      'This request has been picked up. Waiting for admin approval.';
 }
