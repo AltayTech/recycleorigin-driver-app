@@ -1083,6 +1083,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This request has been picked up. Waiting for admin approval.'**
   String get requestPickedUpHint;
+
+  /// No description provided for @myRequestsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My Requests'**
+  String get myRequestsLabel;
 }
 
 class _AppLocalizationsDelegate

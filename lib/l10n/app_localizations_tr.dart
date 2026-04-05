@@ -513,4 +513,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get requestPickedUpHint =>
       'Bu talep teslim alindi. Yonetici onayi bekleniyor.';
+
+  @override
+  String get myRequestsLabel => 'Taleplerim';
 }

@@ -163,6 +163,7 @@
   "requestInfoLabel": "Talep Bilgisi",
   "scheduledTimeLabel": "Planlanan zaman",
   "driverActionsLabel": "Islemler",
-  "requestPickedUpHint": "Bu talep teslim alindi. Yonetici onayi bekleniyor."
+  "requestPickedUpHint": "Bu talep teslim alindi. Yonetici onayi bekleniyor.",
+  "myRequestsLabel": "Taleplerim"
 }
 

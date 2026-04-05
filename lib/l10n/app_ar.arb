@@ -163,5 +163,6 @@
   "requestInfoLabel": "معلومات الطلب",
   "scheduledTimeLabel": "الوقت المحدد",
   "driverActionsLabel": "الإجراءات",
-  "requestPickedUpHint": "تم استلام هذا الطلب. بانتظار موافقة المسؤول."
+  "requestPickedUpHint": "تم استلام هذا الطلب. بانتظار موافقة المسؤول.",
+  "myRequestsLabel": "طلباتي"
 }

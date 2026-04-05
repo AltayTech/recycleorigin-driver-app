@@ -511,4 +511,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get requestPickedUpHint =>
       'تم استلام هذا الطلب. بانتظار موافقة المسؤول.';
+
+  @override
+  String get myRequestsLabel => 'طلباتي';
 }

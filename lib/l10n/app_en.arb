@@ -163,5 +163,6 @@
   "requestInfoLabel": "Request Info",
   "scheduledTimeLabel": "Scheduled time",
   "driverActionsLabel": "Actions",
-  "requestPickedUpHint": "This request has been picked up. Waiting for admin approval."
+  "requestPickedUpHint": "This request has been picked up. Waiting for admin approval.",
+  "myRequestsLabel": "My Requests"
 }

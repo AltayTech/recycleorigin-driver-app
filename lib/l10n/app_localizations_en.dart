@@ -513,4 +513,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get requestPickedUpHint =>
       'This request has been picked up. Waiting for admin approval.';
+
+  @override
+  String get myRequestsLabel => 'My Requests';
 }
