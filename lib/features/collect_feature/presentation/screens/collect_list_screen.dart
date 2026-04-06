@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
-import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_state.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -29,7 +27,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
   bool _isLoading = false;
   bool _hasError = false;
   int _page = 1;
-  SearchDetail _searchDetail = SearchDetail();
+  SearchDetail _searchDetail = SearchDetail(total: 0, max_page: 1);
   final List<RequestWasteItem> _items = [];
 
   @override
@@ -75,7 +73,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
       await bloc.searchCollectItems();
       if (!mounted) return;
       _searchDetail =
-          bloc.state.searchDetails ?? SearchDetail();
+          bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
       _items
         ..clear()
         ..addAll(bloc.state.collectItems);
@@ -98,7 +96,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
       if (!mounted) return;
       _items.addAll(bloc.state.collectItems);
       _searchDetail =
-          bloc.state.searchDetails ?? SearchDetail();
+          bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
     } catch (e) {
       _page--;
       if (mounted) {
@@ -122,24 +120,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     final isLogin = context.watch<AuthBloc>().state.isAuth;
     final l10n = context.l10n;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
-      appBar: AppBar(
-        title: Text(l10n.myRequestsLabel,
-            style: const TextStyle(color: Colors.white)),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme:
-            const IconThemeData(color: AppTheme.appBarIconColor),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      endDrawer: Theme(
-        data: Theme.of(context)
-            .copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
-      body: !isLogin ? _buildNotLoggedIn(l10n) : _buildContent(l10n),
-    );
+    return !isLogin ? _buildNotLoggedIn(l10n) : _buildContent(l10n);
   }
 
   Widget _buildNotLoggedIn(dynamic l10n) {
@@ -147,20 +128,17 @@ class _CollectListScreenState extends State<CollectListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lock_outline,
-              size: 64, color: Colors.grey.shade400),
+          Icon(Icons.lock_outline, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
           Text(l10n.notLoggedInLabel,
-              style:
-                  const TextStyle(fontSize: 16, color: Colors.grey)),
+              style: const TextStyle(fontSize: 16, color: Colors.grey)),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () => Navigator.of(context)
-                .pushNamed(LoginScreen.routeName),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(LoginScreen.routeName),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primary,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 32, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
             ),
@@ -178,20 +156,18 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline,
-                size: 64, color: Colors.redAccent),
+            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
             const SizedBox(height: 16),
             Text(l10n.noRequestAvailable,
-                style: const TextStyle(
-                    fontSize: 16, color: Colors.grey)),
+                style: const TextStyle(fontSize: 16, color: Colors.grey)),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadInitialData,
               icon: const Icon(Icons.refresh, color: Colors.white),
               label: Text(l10n.retryLabel,
                   style: const TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primary),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: AppTheme.primary),
             ),
           ],
         ),
@@ -205,8 +181,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          if (_items.isNotEmpty)
-            SliverToBoxAdapter(child: _buildStatsRow()),
+          if (_items.isNotEmpty) SliverToBoxAdapter(child: _buildStatsRow()),
           _buildRequestsList(),
           if (_isLoading && _items.isNotEmpty)
             const SliverToBoxAdapter(
@@ -259,13 +234,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.inbox_outlined,
-                  size: 64, color: Colors.grey),
+              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
               Text(
                 context.l10n.noRequestAvailable,
-                style: const TextStyle(
-                    fontSize: 16, color: Colors.grey),
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ],
           ),
@@ -275,8 +248,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 14, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
           child: ChangeNotifierProvider.value(
             value: _items[index],
             child: const CollectItemCollectsScreen(),
@@ -290,14 +262,14 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
 class _StatChip extends StatelessWidget {
   const _StatChip({required this.label, required this.value});
+
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
