@@ -528,4 +528,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myRequestsLabel => 'My Requests';
+
+  @override
+  String get collectListSortTooltip => 'Sort';
+
+  @override
+  String get collectListFilterTooltip => 'Filter';
+
+  @override
+  String get collectListSortSheetTitle => 'Sort requests';
+
+  @override
+  String get collectListFilterSheetTitle => 'Filter by status';
+
+  @override
+  String get collectListSortNewestFirst => 'Newest first';
+
+  @override
+  String get collectListSortOldestFirst => 'Oldest first';
+
+  @override
+  String get collectListSortIdDesc => 'Request ID (high to low)';
+
+  @override
+  String get collectListSortIdAsc => 'Request ID (low to high)';
+
+  @override
+  String get collectListFilterAll => 'All';
+
+  @override
+  String get collectListFilterNeedsAction => 'Needs your action';
 }

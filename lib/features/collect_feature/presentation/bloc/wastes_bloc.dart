@@ -45,6 +45,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   set sPerPage(int value) => add(WastesSearchParamsChanged(sPerPage: value));
   set sOrder(String value) => add(WastesSearchParamsChanged(sOrder: value));
   set sOrderBy(String value) => add(WastesSearchParamsChanged(sOrderBy: value));
+  set sCategory(Object? value) =>
+      add(WastesSearchParamsChanged(sCategory: value));
 
   set requestWasteItem(RequestWasteItem value) {
     add(WastesRequestWasteItemReplace(value));

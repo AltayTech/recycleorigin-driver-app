@@ -1113,6 +1113,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My Requests'**
   String get myRequestsLabel;
+
+  /// No description provided for @collectListSortTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get collectListSortTooltip;
+
+  /// No description provided for @collectListFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get collectListFilterTooltip;
+
+  /// No description provided for @collectListSortSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort requests'**
+  String get collectListSortSheetTitle;
+
+  /// No description provided for @collectListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by status'**
+  String get collectListFilterSheetTitle;
+
+  /// No description provided for @collectListSortNewestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get collectListSortNewestFirst;
+
+  /// No description provided for @collectListSortOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get collectListSortOldestFirst;
+
+  /// No description provided for @collectListSortIdDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (high to low)'**
+  String get collectListSortIdDesc;
+
+  /// No description provided for @collectListSortIdAsc.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (low to high)'**
+  String get collectListSortIdAsc;
+
+  /// No description provided for @collectListFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get collectListFilterAll;
+
+  /// No description provided for @collectListFilterNeedsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs your action'**
+  String get collectListFilterNeedsAction;
 }
 
 class _AppLocalizationsDelegate

@@ -526,4 +526,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get myRequestsLabel => 'طلباتي';
+
+  @override
+  String get collectListSortTooltip => 'ترتيب';
+
+  @override
+  String get collectListFilterTooltip => 'تصفية';
+
+  @override
+  String get collectListSortSheetTitle => 'ترتيب الطلبات';
+
+  @override
+  String get collectListFilterSheetTitle => 'تصفية حسب الحالة';
+
+  @override
+  String get collectListSortNewestFirst => 'الأحدث أولاً';
+
+  @override
+  String get collectListSortOldestFirst => 'الأقدم أولاً';
+
+  @override
+  String get collectListSortIdDesc => 'رقم الطلب (من الأعلى إلى الأدنى)';
+
+  @override
+  String get collectListSortIdAsc => 'رقم الطلب (من الأدنى إلى الأعلى)';
+
+  @override
+  String get collectListFilterAll => 'الكل';
+
+  @override
+  String get collectListFilterNeedsAction => 'يتطلب إجراءً منك';
 }

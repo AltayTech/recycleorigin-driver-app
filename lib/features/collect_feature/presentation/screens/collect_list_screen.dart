@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_state.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
+import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
@@ -12,6 +14,7 @@ import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 
+/// Assigned collection requests for the driver (home → Collection tab).
 class CollectListScreen extends StatefulWidget {
   static const routeName = '/collectListScreen';
 
@@ -19,6 +22,13 @@ class CollectListScreen extends StatefulWidget {
 
   @override
   State<CollectListScreen> createState() => _CollectListScreenState();
+}
+
+enum _CollectListSort {
+  newestFirst,
+  oldestFirst,
+  idHighToLow,
+  idLowToHigh,
 }
 
 class _CollectListScreenState extends State<CollectListScreen> {
@@ -29,6 +39,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
   int _page = 1;
   SearchDetail _searchDetail = SearchDetail(total: 0, max_page: 1);
   final List<RequestWasteItem> _items = [];
+
+  _CollectListSort _sort = _CollectListSort.newestFirst;
+
+  /// API [category] query: '' = all; see backend `applyDriverCollectListFilter`.
+  String _filterSlug = '';
 
   @override
   void initState() {
@@ -41,7 +56,10 @@ class _CollectListScreenState extends State<CollectListScreen> {
     super.didChangeDependencies();
     if (_isInit) {
       _isInit = false;
-      _loadInitialData();
+      final bloc = context.read<WastesBloc>();
+      _sort = _sortFromState(bloc.state);
+      _filterSlug = _filterSlugFromState(bloc.state);
+      _reloadFromFirstPage();
     }
   }
 
@@ -49,6 +67,38 @@ class _CollectListScreenState extends State<CollectListScreen> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  _CollectListSort _sortFromState(WastesState s) {
+    final byId = s.sOrderBy == 'id';
+    final asc = s.sOrder == 'asc';
+    if (byId) {
+      return asc ? _CollectListSort.idLowToHigh : _CollectListSort.idHighToLow;
+    }
+    return asc ? _CollectListSort.oldestFirst : _CollectListSort.newestFirst;
+  }
+
+  String _filterSlugFromState(WastesState s) {
+    final c = s.sCategory;
+    if (c == null) {
+      return '';
+    }
+    return c.toString();
+  }
+
+  void _applySortToBloc(WastesBloc bloc, _CollectListSort sort) {
+    final (String order, String orderBy) = switch (sort) {
+      _CollectListSort.newestFirst => ('desc', 'date'),
+      _CollectListSort.oldestFirst => ('asc', 'date'),
+      _CollectListSort.idHighToLow => ('desc', 'id'),
+      _CollectListSort.idLowToHigh => ('asc', 'id'),
+    };
+    bloc.sOrder = order;
+    bloc.sOrderBy = orderBy;
+  }
+
+  void _applyFilterToBloc(WastesBloc bloc, String slug) {
+    bloc.sCategory = slug.isEmpty ? '' : slug;
   }
 
   void _onScroll() {
@@ -61,17 +111,24 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
   }
 
-  Future<void> _loadInitialData() async {
+  Future<void> _reloadFromFirstPage() async {
     setState(() {
       _isLoading = true;
       _hasError = false;
     });
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
     try {
       final bloc = context.read<WastesBloc>();
       bloc.sPage = 1;
+      _applySortToBloc(bloc, _sort);
+      _applyFilterToBloc(bloc, _filterSlug);
       bloc.searchBuilder();
       await bloc.searchCollectItems();
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       _searchDetail =
           bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
       _items
@@ -79,9 +136,13 @@ class _CollectListScreenState extends State<CollectListScreen> {
         ..addAll(bloc.state.collectItems);
       _page = 1;
     } catch (e) {
-      if (mounted) _hasError = true;
+      if (mounted) {
+        _hasError = true;
+      }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -93,7 +154,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
       bloc.sPage = _page;
       bloc.searchBuilder();
       await bloc.searchCollectItems();
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       _items.addAll(bloc.state.collectItems);
       _searchDetail =
           bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
@@ -111,8 +174,233 @@ class _CollectListScreenState extends State<CollectListScreen> {
         );
       }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
+  }
+
+  Future<void> _showSortSheet(AppLocalizations l10n) async {
+    var picked = _sort;
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.collectListSortSheetTitle,
+                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                RadioListTile<_CollectListSort>(
+                  title: Text(l10n.collectListSortNewestFirst),
+                  value: _CollectListSort.newestFirst,
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<_CollectListSort>(
+                  title: Text(l10n.collectListSortOldestFirst),
+                  value: _CollectListSort.oldestFirst,
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<_CollectListSort>(
+                  title: Text(l10n.collectListSortIdDesc),
+                  value: _CollectListSort.idHighToLow,
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<_CollectListSort>(
+                  title: Text(l10n.collectListSortIdAsc),
+                  value: _CollectListSort.idLowToHigh,
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    if (!mounted || picked == _sort) {
+      return;
+    }
+    setState(() => _sort = picked);
+    await _reloadFromFirstPage();
+  }
+
+  Future<void> _showFilterSheet(AppLocalizations l10n) async {
+    var picked = _filterSlug;
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 16,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.collectListFilterSheetTitle,
+                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                RadioListTile<String>(
+                  title: Text(l10n.collectListFilterAll),
+                  value: '',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.collectListFilterNeedsAction),
+                  value: 'needs_accept',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.collectRequestStatusInProgress),
+                  value: 'in_progress',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.collectRequestStatusPickedUp),
+                  value: 'picked_up',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.collectRequestStatusCollected),
+                  value: 'collected',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.collectRequestStatusCancelled),
+                  value: 'cancelled',
+                  groupValue: picked,
+                  onChanged: (v) {
+                    if (v != null) {
+                      picked = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    if (!mounted || picked == _filterSlug) {
+      return;
+    }
+    setState(() => _filterSlug = picked);
+    await _reloadFromFirstPage();
+  }
+
+  Widget _buildSortFilterRow(AppLocalizations l10n) {
+    final disabled = _isLoading;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: disabled ? null : () => _showSortSheet(l10n),
+              icon: Icon(
+                Icons.swap_vert_rounded,
+                size: 20,
+                color: disabled ? null : AppTheme.primary,
+              ),
+              label: Text(l10n.collectListSortTooltip),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: disabled ? null : () => _showFilterSheet(l10n),
+              icon: Badge(
+                isLabelVisible: _filterSlug.isNotEmpty,
+                smallSize: 8,
+                child: Icon(
+                  Icons.filter_list_rounded,
+                  size: 20,
+                  color: disabled ? null : AppTheme.primary,
+                ),
+              ),
+              label: Text(l10n.collectListFilterTooltip),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -123,15 +411,17 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return !isLogin ? _buildNotLoggedIn(l10n) : _buildContent(l10n);
   }
 
-  Widget _buildNotLoggedIn(dynamic l10n) {
+  Widget _buildNotLoggedIn(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.lock_outline, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
-          Text(l10n.notLoggedInLabel,
-              style: const TextStyle(fontSize: 16, color: Colors.grey)),
+          Text(
+            l10n.notLoggedInLabel,
+            style: const TextStyle(fontSize: 16, color: Colors.grey),
+          ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () =>
@@ -140,17 +430,20 @@ class _CollectListScreenState extends State<CollectListScreen> {
               backgroundColor: AppTheme.primary,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: Text(l10n.loginToAccountLabel,
-                style: const TextStyle(color: Colors.white)),
+            child: Text(
+              l10n.loginToAccountLabel,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildContent(dynamic l10n) {
+  Widget _buildContent(AppLocalizations l10n) {
     if (_hasError && _items.isEmpty) {
       return Center(
         child: Column(
@@ -158,16 +451,21 @@ class _CollectListScreenState extends State<CollectListScreen> {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
             const SizedBox(height: 16),
-            Text(l10n.noRequestAvailable,
-                style: const TextStyle(fontSize: 16, color: Colors.grey)),
+            Text(
+              l10n.noRequestAvailable,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
-              onPressed: _loadInitialData,
+              onPressed: _reloadFromFirstPage,
               icon: const Icon(Icons.refresh, color: Colors.white),
-              label: Text(l10n.retryLabel,
-                  style: const TextStyle(color: Colors.white)),
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: AppTheme.primary),
+              label: Text(
+                l10n.retryLabel,
+                style: const TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primary,
+              ),
             ),
           ],
         ),
@@ -175,12 +473,13 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
 
     return RefreshIndicator(
-      onRefresh: _loadInitialData,
+      onRefresh: _reloadFromFirstPage,
       color: AppTheme.primary,
       child: CustomScrollView(
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
+          SliverToBoxAdapter(child: _buildSortFilterRow(l10n)),
           if (_items.isNotEmpty) SliverToBoxAdapter(child: _buildStatsRow()),
           _buildRequestsList(),
           if (_isLoading && _items.isNotEmpty)
@@ -198,7 +497,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
   Widget _buildStatsRow() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -278,19 +577,23 @@ class _StatChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              )),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(width: 4),
-          Text(value,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primary,
-              )),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.primary,
+            ),
+          ),
         ],
       ),
     );

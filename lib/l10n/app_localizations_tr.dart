@@ -528,4 +528,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get myRequestsLabel => 'Taleplerim';
+
+  @override
+  String get collectListSortTooltip => 'Sirala';
+
+  @override
+  String get collectListFilterTooltip => 'Filtrele';
+
+  @override
+  String get collectListSortSheetTitle => 'Talepleri sirala';
+
+  @override
+  String get collectListFilterSheetTitle => 'Duruma gore filtrele';
+
+  @override
+  String get collectListSortNewestFirst => 'En yeni once';
+
+  @override
+  String get collectListSortOldestFirst => 'En eski once';
+
+  @override
+  String get collectListSortIdDesc => 'Talep no (buyukten kucuge)';
+
+  @override
+  String get collectListSortIdAsc => 'Talep no (kucukten buyuge)';
+
+  @override
+  String get collectListFilterAll => 'Tumu';
+
+  @override
+  String get collectListFilterNeedsAction => 'Islem gerekiyor';
 }

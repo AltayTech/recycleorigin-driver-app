@@ -168,5 +168,15 @@
   "scheduledTimeLabel": "Scheduled time",
   "driverActionsLabel": "Actions",
   "requestPickedUpHint": "This request has been picked up. Waiting for admin approval.",
-  "myRequestsLabel": "My Requests"
+  "myRequestsLabel": "My Requests",
+  "collectListSortTooltip": "Sort",
+  "collectListFilterTooltip": "Filter",
+  "collectListSortSheetTitle": "Sort requests",
+  "collectListFilterSheetTitle": "Filter by status",
+  "collectListSortNewestFirst": "Newest first",
+  "collectListSortOldestFirst": "Oldest first",
+  "collectListSortIdDesc": "Request ID (high to low)",
+  "collectListSortIdAsc": "Request ID (low to high)",
+  "collectListFilterAll": "All",
+  "collectListFilterNeedsAction": "Needs your action"
 }

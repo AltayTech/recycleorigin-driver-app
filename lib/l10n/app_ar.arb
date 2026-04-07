@@ -168,5 +168,15 @@
   "scheduledTimeLabel": "الوقت المحدد",
   "driverActionsLabel": "الإجراءات",
   "requestPickedUpHint": "تم استلام هذا الطلب. بانتظار موافقة المسؤول.",
-  "myRequestsLabel": "طلباتي"
+  "myRequestsLabel": "طلباتي",
+  "collectListSortTooltip": "ترتيب",
+  "collectListFilterTooltip": "تصفية",
+  "collectListSortSheetTitle": "ترتيب الطلبات",
+  "collectListFilterSheetTitle": "تصفية حسب الحالة",
+  "collectListSortNewestFirst": "الأحدث أولاً",
+  "collectListSortOldestFirst": "الأقدم أولاً",
+  "collectListSortIdDesc": "رقم الطلب (من الأعلى إلى الأدنى)",
+  "collectListSortIdAsc": "رقم الطلب (من الأدنى إلى الأعلى)",
+  "collectListFilterAll": "الكل",
+  "collectListFilterNeedsAction": "يتطلب إجراءً منك"
 }

@@ -168,6 +168,16 @@
   "scheduledTimeLabel": "Planlanan zaman",
   "driverActionsLabel": "Islemler",
   "requestPickedUpHint": "Bu talep teslim alindi. Yonetici onayi bekleniyor.",
-  "myRequestsLabel": "Taleplerim"
+  "myRequestsLabel": "Taleplerim",
+  "collectListSortTooltip": "Sirala",
+  "collectListFilterTooltip": "Filtrele",
+  "collectListSortSheetTitle": "Talepleri sirala",
+  "collectListFilterSheetTitle": "Duruma gore filtrele",
+  "collectListSortNewestFirst": "En yeni once",
+  "collectListSortOldestFirst": "En eski once",
+  "collectListSortIdDesc": "Talep no (buyukten kucuge)",
+  "collectListSortIdAsc": "Talep no (kucukten buyuge)",
+  "collectListFilterAll": "Tumu",
+  "collectListFilterNeedsAction": "Islem gerekiyor"
 }
 
