@@ -54,18 +54,24 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   Future<void> _load() async {
     final collectId = ModalRoute.of(context)?.settings.arguments;
     if (collectId is! int) {
-      if (mounted) setState(() { _error = 'Invalid request'; _loading = false; });
+      if (mounted)
+        setState(() {
+          _error = 'Invalid request';
+          _loading = false;
+        });
       return;
     }
     if (!mounted) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final bloc = context.read<WastesBloc>();
       await bloc.retrieveCollectItem(collectId);
       if (!mounted) return;
       final collect = bloc.state.requestWasteItem!;
-      final isReadOnly =
-          collect.status.slug == 'collected' ||
+      final isReadOnly = collect.status.slug == 'collected' ||
           collect.status.slug == 'picked_up' ||
           collect.status.slug == 'cancel';
       await bloc.addInitialWasteCart(
@@ -75,9 +81,16 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
       );
       if (!mounted) return;
       _initWeightControllers(bloc.state.wasteCartItems);
-      setState(() { _collect = collect; _loading = false; });
+      setState(() {
+        _collect = collect;
+        _loading = false;
+      });
     } catch (e) {
-      if (mounted) setState(() { _error = e.toString(); _loading = false; });
+      if (mounted)
+        setState(() {
+          _error = e.toString();
+          _loading = false;
+        });
     }
   }
 
@@ -120,6 +133,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(l10n.requestDetailTitle,
             style: const TextStyle(color: AppTheme.appBarIconColor)),
         centerTitle: true,
@@ -127,7 +144,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: theme.copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),
@@ -151,7 +168,8 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
               const SizedBox(height: 16),
               _RequestInfoCard(collect: _collect!),
               const SizedBox(height: 16),
-              _SummaryCard(items: context.watch<WastesBloc>().state.wasteCartItems),
+              _SummaryCard(
+                  items: context.watch<WastesBloc>().state.wasteCartItems),
               const SizedBox(height: 16),
               _WasteItemsList(
                 items: context.watch<WastesBloc>().state.wasteCartItems,
@@ -234,10 +252,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
 
     setState(() => _loading = true);
     try {
-      final payload = items.map((e) => {
-        'pasmand_id': e.pasmand.id,
-        'exact_weight': e.exact_weight,
-      }).toList();
+      final payload = items
+          .map((e) => {
+                'pasmand_id': e.pasmand.id,
+                'exact_weight': e.exact_weight,
+              })
+          .toList();
       await context.read<WastesBloc>().confirmPickup(id, payload);
       if (!mounted) return;
       await _load();
@@ -262,7 +282,14 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   }
 }
 
-enum _Phase { loading, pendingAcceptance, accepted, pickedUp, completed, cancelled }
+enum _Phase {
+  loading,
+  pendingAcceptance,
+  accepted,
+  pickedUp,
+  completed,
+  cancelled
+}
 
 // ---------------------------------------------------------------------------
 // STATUS BANNER
@@ -357,11 +384,12 @@ class _RequestInfoCard extends StatelessWidget {
           label: l10n.addressLabel,
           value: addr.address,
         ),
-        if (addr.latitude.isNotEmpty) _InfoRow(
-          icon: Icons.my_location_rounded,
-          label: 'GPS',
-          value: '${addr.latitude}, ${addr.longitude}',
-        ),
+        if (addr.latitude.isNotEmpty)
+          _InfoRow(
+            icon: Icons.my_location_rounded,
+            label: 'GPS',
+            value: '${addr.latitude}, ${addr.longitude}',
+          ),
         _InfoRow(
           icon: Icons.schedule_rounded,
           label: l10n.scheduledTimeLabel,
@@ -436,13 +464,15 @@ class _SummaryRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: highlight ? AppTheme.primary : AppTheme.grey),
+          Icon(icon,
+              size: 20, color: highlight ? AppTheme.primary : AppTheme.grey),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(label, style: TextStyle(
-              color: AppTheme.black.withValues(alpha: 0.7),
-              fontSize: 13,
-            )),
+            child: Text(label,
+                style: TextStyle(
+                  color: AppTheme.black.withValues(alpha: 0.7),
+                  fontSize: 13,
+                )),
           ),
           Text(
             value,
@@ -598,8 +628,8 @@ class _WasteItemTile extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     enabled: editable,
-                    keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d*\.?\d{0,3}')),
@@ -817,8 +847,7 @@ class _ConfirmPickupDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Row(
         children: [
-          Icon(Icons.local_shipping_rounded,
-              color: AppTheme.primary, size: 24),
+          Icon(Icons.local_shipping_rounded, color: AppTheme.primary, size: 24),
           const SizedBox(width: 10),
           Text(l10n.confirmPickupTitle),
         ],
@@ -881,8 +910,8 @@ class _ConfirmPickupDialog extends StatelessWidget {
         FilledButton.icon(
           style: FilledButton.styleFrom(
             backgroundColor: AppTheme.primary,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
           onPressed: () => Navigator.of(context).pop(true),
           icon: const Icon(Icons.check_circle_rounded, size: 18),
@@ -911,12 +940,11 @@ class _ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline, size: 48,
-                color: theme.colorScheme.error),
+            Icon(Icons.error_outline, size: 48, color: theme.colorScheme.error),
             const SizedBox(height: 16),
             Text(error,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.error),
+                style: theme.textTheme.bodyLarge
+                    ?.copyWith(color: theme.colorScheme.error),
                 textAlign: TextAlign.center),
             const SizedBox(height: 24),
             FilledButton.icon(

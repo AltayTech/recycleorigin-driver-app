@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
         ),

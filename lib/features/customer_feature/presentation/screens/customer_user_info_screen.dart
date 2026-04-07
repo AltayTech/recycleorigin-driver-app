@@ -48,7 +48,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
           ),
         ],
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

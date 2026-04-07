@@ -270,7 +270,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                 ),
               ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

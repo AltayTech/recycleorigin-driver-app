@@ -443,7 +443,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                 ),
               ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

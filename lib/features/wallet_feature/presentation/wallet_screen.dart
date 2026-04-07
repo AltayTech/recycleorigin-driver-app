@@ -93,8 +93,7 @@ class _WalletScreenState extends State<WalletScreen> {
         final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
         final txList = txData['data'] as List<dynamic>? ?? [];
         _transactions = txList
-            .map((e) =>
-                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
             .toList();
         final details = txData['details'] as Map<String, dynamic>?;
         _maxPage = details?['max_pages'] as int? ?? 1;
@@ -122,8 +121,7 @@ class _WalletScreenState extends State<WalletScreen> {
         final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
         final txList = txData['data'] as List<dynamic>? ?? [];
         final newTx = txList
-            .map((e) =>
-                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
             .toList();
         setState(() {
           _transactions.addAll(newTx);
@@ -204,7 +202,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 ],
               ),
             ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: theme.copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

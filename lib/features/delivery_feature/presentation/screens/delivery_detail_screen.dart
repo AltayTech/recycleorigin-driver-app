@@ -275,6 +275,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           context.l10n.requestDetailTitle,
           style: TextStyle(
@@ -603,7 +607,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
           ),
         );
       }),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

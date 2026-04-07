@@ -84,7 +84,7 @@ class _DriverSupportTicketsListScreenState
             ),
         ],
       ),
-      endDrawer:  MainDrawer(),
+      drawer:  MainDrawer(),
       floatingActionButton: authState.isAuth
           ? FloatingActionButton(
               onPressed: () async {

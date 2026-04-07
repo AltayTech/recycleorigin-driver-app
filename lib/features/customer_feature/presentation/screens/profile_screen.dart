@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
 
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

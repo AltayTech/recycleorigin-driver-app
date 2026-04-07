@@ -166,7 +166,7 @@ class _CustomerDetailInfoEditScreenState
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

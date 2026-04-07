@@ -79,6 +79,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           context.l10n.statisticsLabel,
           style: TextStyle(
@@ -185,7 +189,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           ),
         );
       }),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors
