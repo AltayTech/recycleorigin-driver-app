@@ -51,6 +51,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutUsLabel => 'Hakkimizda';
 
   @override
+  String get supportTicketsLabel => 'Destek talepleri';
+
+  @override
+  String get logoutConfirmMessage => 'Cikmak istediginize emin misiniz?';
+
+  @override
+  String get navigationErrorPrefix => 'Gezinme hatasi: ';
+
+  @override
+  String get signOutErrorPrefix => 'Cikis hatasi: ';
+
+  @override
   String get logoutLabel => 'Cikis';
 
   @override

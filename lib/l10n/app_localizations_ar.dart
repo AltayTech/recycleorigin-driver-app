@@ -51,6 +51,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aboutUsLabel => 'من نحن';
 
   @override
+  String get supportTicketsLabel => 'تذاكر الدعم';
+
+  @override
+  String get logoutConfirmMessage => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get navigationErrorPrefix => 'خطأ في التنقل: ';
+
+  @override
+  String get signOutErrorPrefix => 'خطأ في تسجيل الخروج: ';
+
+  @override
   String get logoutLabel => 'تسجيل الخروج';
 
   @override

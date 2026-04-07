@@ -1,325 +1,706 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
-import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
-
+import 'package:recycleorigindriver/core/models/driver.dart';
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/utils/app_info_service.dart';
+import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
-import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
+import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
+
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/core/screens/settings_screen.dart';
 
-class MainDrawer extends StatelessWidget {
+/// Material 3 navigation drawer aligned with the customer app pattern.
+class MainDrawer extends StatefulWidget {
+  const MainDrawer({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    Color textColor = Colors.white;
-    Color iconColor = Colors.white38;
-    final textTheme = Theme.of(context).textTheme;
-    return Drawer(
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 5,
-                  sigmaY: 5,
-                ),
-                child: Container(color: Colors.black.withOpacity(0.3)),
-              ),
-            ),
-            Wrap(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      height: deviceHeight * 0.25,
-                      width: double.infinity,
-                      child: Image.asset(
-                        'assets/images/main_page_header.png',
-                        fit: BoxFit.cover,
-                      ),
+  State<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  static const double _horizontalPadding = 14;
+  static const double _tileRadius = 16;
+  static const Color _heroGradientEnd = Color(0xFF1F8B61);
+
+  String _appVersion = 'v1.0.0';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    try {
+      final appInfo = AppInfoService.instance;
+      if (!appInfo.isInitialized) {
+        await appInfo.initialize();
+      }
+      if (mounted) {
+        setState(() {
+          _appVersion = appInfo.shortVersion;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _appVersion = 'v1.0.0';
+        });
+      }
+    }
+  }
+
+  Widget _buildUserHeader({
+    required bool isAuthenticated,
+    required Driver? driver,
+  }) {
+    final l10n = context.l10n;
+
+    if (!isAuthenticated) {
+      return Container(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[AppTheme.primary, _heroGradientEnd],
+          ),
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 56,
+                  width: 56,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.18),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.28),
+                      width: 1.2,
                     ),
-//                      Container(
-//                        width: double.infinity,
-//                        height: deviceHeight * 0.25,
-//                        padding: EdgeInsets.all(20),
-//                        alignment: Alignment.center,
-//                        color: Colors.purpleAccent.withOpacity(0.1),
-//                        child: Padding(
-//                          padding: const EdgeInsets.only(top: 20.0),
-//                          child: Text(
-//                            'نسخه آزمایشی فروشگاه \n همراه ساتل',
-//                            style: TextStyle(
-//                                fontWeight: FontWeight.w400,
-//                                fontSize: 24,
-//                                height: 2,
-//                                fontFamily: 'BFarnaz',
-//                                color: AppTheme.bg),
-//                            textAlign: TextAlign.center,
-//                          ),
-//                        ),
-//                      ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                BlocBuilder<AuthBloc, AuthState>(
-                  buildWhen: (p, c) => p.isAuth != c.isAuth,
-                  builder: (_, authState) => ListTile(
-                    title: Text(
-                      authState.isAuth
-                          ? context.l10n.userProfileLabel
-                          : context.l10n.loginLabel,
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: textColor,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                    trailing: Icon(
-                      Icons.account_circle,
-                      color: iconColor,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      authState.isAuth
-                          ? Navigator.of(context)
-                              .pushNamed(CustomerUserInfoScreen.routeName)
-                          : Navigator.of(context)
-                              .pushNamed(LoginScreen.routeName);
-                    },
+                  ),
+                  child: const Icon(
+                    Icons.local_shipping_rounded,
+                    color: Colors.white,
+                    size: 28,
                   ),
                 ),
-                Divider(
-                  thickness: 2,
-                ),
-                Container(
-                  height: deviceHeight * 0.63,
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            context.l10n.homeTabLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.home,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                NavigationBottomScreen.routeName,
-                                (Route<dynamic> route) => false);
-//                              Navigator.of(context)
-//                                  .pushNamed(NavigationBottomScreen.routeName);
-                          },
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.appTitle,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.2,
                         ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.settingsTitle,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.settings_rounded,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed(
-                              SettingsScreen.routeName,
-                            );
-                          },
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.loginToAccountLabel,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.86),
+                          fontSize: 12,
+                          height: 1.35,
                         ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.statisticsLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.format_list_numbered,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-
-                            Navigator.of(context)
-                                .pushNamed(StatisticsScreen.routeName);
-                          },
-                        ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.guideLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.help,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-
-                            Navigator.of(context)
-                                .pushNamed(GuideScreen.routeName);
-                          },
-                        ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.contactUsLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.contact_phone,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-
-                            Navigator.of(context)
-                                .pushNamed(ContactWithUs.routeName);
-                          },
-                        ),
-                        ListTile(
-                          title: Text(
-                            'Support tickets',
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.support_agent,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed(
-                              DriverSupportTicketsListScreen.routeName,
-                            );
-                          },
-                        ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.aboutUsLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.account_balance,
-                            color: iconColor,
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-
-                            Navigator.of(context)
-                                .pushNamed(AboutUsScreen.routeName);
-                          },
-                        ),
-                        Divider(
-                          height: 1,
-                          color: Colors.grey.withOpacity(0.6),
-                        ),
-                        ListTile(
-                          title: Text(
-                            context.l10n.logoutLabel,
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontSize: 13,
-                              color: textColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                          trailing: Icon(
-                            Icons.power_settings_new,
-                            color: Colors.red,
-                          ),
-                          onTap: () async {
-                            context.read<CustomerInfoBloc>().driver =
-                                context.read<CustomerInfoBloc>().driverZero;
-                            await context.read<AuthBloc>().removeToken();
-                            context.read<AuthBloc>().isFirstLogout = true;
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushNamed(NavigationBottomScreen.routeName);
-                          },
-                        ),
-//                          Container(
-//                            height: 20,
-//                            color: Colors.black54,
-//                            child: Row(
-//                              mainAxisAlignment: MainAxisAlignment.center,
-//                              children: <Widget>[
-//                                Text(
-//                                  'تبریزاپس',
-//                                  textAlign: TextAlign.center,
-//                                  style: TextStyle(
-//                                    //                                    color: Colors.green,
-//                                    fontSize: textScaleFactor * 11.0,
-//                                  ),
-//                                ),
-//                                Text(
-//                                  'طراحی شده توسط',
-//                                  textAlign: TextAlign.center,
-//                                  style: TextStyle(
-//                                    //                                    color: textColor,
-//                                    fontSize: textScaleFactor * 11.0,
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-                      ],
-                    ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _QuickActionChip(
+                  icon: Icons.settings_rounded,
+                  label: l10n.settingsTitle,
+                  onTap: () => _navigateToRoute(SettingsScreen.routeName),
+                ),
+                _QuickActionChip(
+                  icon: Icons.login_rounded,
+                  label: l10n.loginLabel,
+                  onTap: () => _navigateToRoute(LoginScreen.routeName),
+                ),
+              ],
+            ),
           ],
+        ),
+      );
+    }
+
+    final d = driver ?? Driver.fromJson(null);
+    final data = d.driver_data;
+    final fname = data.fname.trim();
+    final lname = data.lname.trim();
+    final email = data.email.trim();
+    final mobile = data.mobile.trim();
+
+    final displayName = fname.isNotEmpty || lname.isNotEmpty
+        ? '$fname $lname'.trim()
+        : email.isNotEmpty
+            ? email
+            : mobile.isNotEmpty
+                ? mobile
+                : l10n.userProfileLabel;
+
+    final subtitle = email.isNotEmpty
+        ? email
+        : mobile.isNotEmpty
+            ? mobile
+            : l10n.settingsScreenIntro;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[AppTheme.primary, _heroGradientEnd],
+        ),
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 56,
+                width: 56,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.18),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.28),
+                    width: 1.2,
+                  ),
+                ),
+                child: fname.isNotEmpty || lname.isNotEmpty
+                    ? Center(
+                        child: Text(
+                          _nameInitials(displayName),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      )
+                    : const Icon(
+                        Icons.person_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      displayName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.86),
+                        fontSize: 12,
+                        height: 1.35,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _QuickActionChip(
+                icon: Icons.settings_rounded,
+                label: l10n.settingsTitle,
+                onTap: () => _navigateToRoute(SettingsScreen.routeName),
+              ),
+              _QuickActionChip(
+                icon: Icons.person_rounded,
+                label: l10n.userProfileLabel,
+                onTap: () => _navigateToRoute(CustomerUserInfoScreen.routeName),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _nameInitials(String name) {
+    final tokens = name.trim().split(RegExp(r'\s+')).where((t) => t.isNotEmpty);
+    final initials = tokens.take(2).map((t) => t[0]).join().toUpperCase();
+    return initials.isEmpty ? 'D' : initials;
+  }
+
+  Widget _buildSectionTitle(String text) {
+    final textStyle = Theme.of(context).textTheme.labelLarge;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      child: Text(
+        text,
+        style: textStyle?.copyWith(
+          color: Colors.white.withValues(alpha: 0.84),
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.3,
         ),
       ),
     );
   }
+
+  Widget _buildDestinationTile({
+    required _DrawerDestination destination,
+    required bool selected,
+    required bool destructive,
+    required VoidCallback onTap,
+  }) {
+    final colors = Theme.of(context).colorScheme;
+    final selectedColor = colors.surface.withValues(alpha: 0.92);
+    final defaultFg = Colors.white.withValues(alpha: 0.94);
+    final destructiveFg = colors.error;
+    final foreground = destructive ? destructiveFg : defaultFg;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: _horizontalPadding,
+        vertical: 2,
+      ),
+      child: Material(
+        color: selected ? selectedColor : Colors.transparent,
+        borderRadius: BorderRadius.circular(_tileRadius),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(_tileRadius),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+            child: Row(
+              children: [
+                Icon(
+                  destination.icon,
+                  size: 22,
+                  color: selected
+                      ? colors.primary
+                      : (destructive ? destructiveFg : foreground),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    destination.title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      color: selected
+                          ? colors.primary
+                          : (destructive ? destructiveFg : foreground),
+                    ),
+                  ),
+                ),
+                if (selected)
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: colors.primary,
+                    size: 20,
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _navigateToRoute(String routeName, {Object? arguments}) async {
+    try {
+      Navigator.of(context).pop();
+      if (arguments != null) {
+        await Navigator.of(context).pushNamed(routeName, arguments: arguments);
+      } else {
+        await Navigator.of(context).pushNamed(routeName);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${context.l10n.navigationErrorPrefix}${e.toString()}',
+            ),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleLogout() async {
+    try {
+      final l10n = context.l10n;
+      final shouldLogout = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext dialogContext) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            l10n.logoutLabel,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          content: Text(
+            l10n.logoutConfirmMessage,
+            style: const TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(l10n.cancelLabel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+              child: Text(
+                l10n.confirmLabel,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      if (shouldLogout == true && mounted) {
+        context.read<CustomerInfoBloc>().driver =
+            context.read<CustomerInfoBloc>().driverZero;
+
+        await context.read<AuthBloc>().removeToken();
+        context.read<AuthBloc>().isFirstLogout = true;
+
+        if (mounted) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            NavigationBottomScreen.routeName,
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${context.l10n.signOutErrorPrefix}${e.toString()}',
+            ),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentRouteName = ModalRoute.of(context)?.settings.name ?? '';
+    final l10n = context.l10n;
+
+    return Drawer(
+      elevation: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              AppTheme.primary,
+              AppTheme.primary.withValues(alpha: 0.92),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, authState) {
+                  final driver = context.watch<CustomerInfoBloc>().state.driver;
+                  return _buildUserHeader(
+                    isAuthenticated: authState.isAuth,
+                    driver: authState.isAuth ? driver : null,
+                  );
+                },
+              ),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    _buildSectionTitle(l10n.homeTabLabel),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.home_rounded,
+                        title: l10n.homeTabLabel,
+                        routeName: NavigationBottomScreen.routeName,
+                      ),
+                      selected:
+                          currentRouteName == NavigationBottomScreen.routeName,
+                      destructive: false,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          NavigationBottomScreen.routeName,
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.settings_rounded,
+                        title: l10n.settingsTitle,
+                        routeName: SettingsScreen.routeName,
+                      ),
+                      selected: currentRouteName == SettingsScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(SettingsScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.bar_chart_rounded,
+                        title: l10n.statisticsLabel,
+                        routeName: StatisticsScreen.routeName,
+                      ),
+                      selected: currentRouteName == StatisticsScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(StatisticsScreen.routeName),
+                    ),
+                    _buildSectionTitle(l10n.guideLabel),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.menu_book_rounded,
+                        title: l10n.guideLabel,
+                        routeName: GuideScreen.routeName,
+                      ),
+                      selected: currentRouteName == GuideScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(GuideScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.contact_mail_rounded,
+                        title: l10n.contactUsLabel,
+                        routeName: ContactWithUs.routeName,
+                      ),
+                      selected: currentRouteName == ContactWithUs.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(ContactWithUs.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.support_agent_rounded,
+                        title: l10n.supportTicketsLabel,
+                        routeName: DriverSupportTicketsListScreen.routeName,
+                      ),
+                      selected: currentRouteName ==
+                          DriverSupportTicketsListScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(
+                        DriverSupportTicketsListScreen.routeName,
+                      ),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.info_outline_rounded,
+                        title: l10n.aboutUsLabel,
+                        routeName: AboutUsScreen.routeName,
+                      ),
+                      selected: currentRouteName == AboutUsScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(AboutUsScreen.routeName),
+                    ),
+                    BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, authState) {
+                        return Column(
+                          children: [
+                            _buildSectionTitle(
+                              authState.isAuth
+                                  ? l10n.userProfileLabel
+                                  : l10n.loginLabel,
+                            ),
+                            _buildDestinationTile(
+                              destination: _DrawerDestination(
+                                icon: authState.isAuth
+                                    ? Icons.person_rounded
+                                    : Icons.login_rounded,
+                                title: authState.isAuth
+                                    ? l10n.userProfileLabel
+                                    : l10n.loginLabel,
+                                routeName: authState.isAuth
+                                    ? CustomerUserInfoScreen.routeName
+                                    : LoginScreen.routeName,
+                              ),
+                              selected: currentRouteName ==
+                                  (authState.isAuth
+                                      ? CustomerUserInfoScreen.routeName
+                                      : LoginScreen.routeName),
+                              destructive: false,
+                              onTap: () => _navigateToRoute(
+                                authState.isAuth
+                                    ? CustomerUserInfoScreen.routeName
+                                    : LoginScreen.routeName,
+                              ),
+                            ),
+                            if (authState.isAuth)
+                              _buildDestinationTile(
+                                destination: _DrawerDestination(
+                                  icon: Icons.logout_rounded,
+                                  title: l10n.logoutLabel,
+                                  routeName: '',
+                                ),
+                                selected: false,
+                                destructive: true,
+                                onTap: _handleLogout,
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(18, 12, 18, 16),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: Colors.white.withValues(alpha: 0.22),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: Colors.white.withValues(alpha: 0.66),
+                      size: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      _appVersion,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.66),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _QuickActionChip extends StatelessWidget {
+  const _QuickActionChip({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white.withValues(alpha: 0.16),
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: Colors.white, size: 16),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DrawerDestination {
+  const _DrawerDestination({
+    required this.icon,
+    required this.title,
+    required this.routeName,
+  });
+
+  final IconData icon;
+  final String title;
+  final String routeName;
 }

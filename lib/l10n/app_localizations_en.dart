@@ -51,6 +51,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutUsLabel => 'About us';
 
   @override
+  String get supportTicketsLabel => 'Support tickets';
+
+  @override
+  String get logoutConfirmMessage => 'Are you sure you want to sign out?';
+
+  @override
+  String get navigationErrorPrefix => 'Navigation error: ';
+
+  @override
+  String get signOutErrorPrefix => 'Error signing out: ';
+
+  @override
   String get logoutLabel => 'Logout';
 
   @override

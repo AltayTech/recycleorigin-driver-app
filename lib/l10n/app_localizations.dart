@@ -184,6 +184,30 @@ abstract class AppLocalizations {
   /// **'About us'**
   String get aboutUsLabel;
 
+  /// No description provided for @supportTicketsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support tickets'**
+  String get supportTicketsLabel;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get logoutConfirmMessage;
+
+  /// No description provided for @navigationErrorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation error: '**
+  String get navigationErrorPrefix;
+
+  /// No description provided for @signOutErrorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error signing out: '**
+  String get signOutErrorPrefix;
+
   /// No description provided for @logoutLabel.
   ///
   /// In en, this message translates to:

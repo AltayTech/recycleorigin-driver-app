@@ -20,6 +20,11 @@ class AppInfoService {
 
   String get fullVersion => 'v$version ($buildNumber)';
 
+  /// Short label for footers (e.g. `v1.2.3`).
+  String get shortVersion => 'v$version';
+
+  bool get isInitialized => _isInitialized;
+
   Future<bool> initialize() async {
     if (_isInitialized) return true;
     if (_isInitializing) {
