@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
 import 'package:recycleorigindriver/core/utils/app_info_service.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Root widget smoke test (Flutter default entry under `test/`).
+/// End-to-end smoke: real platform bindings, splash, auth gate → login.
+///
+/// Run on a device or emulator:
+/// `flutter test integration_test/driver_app_test.dart`
 void main() {
-  group('MyApp smoke', () {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  group('Driver app integration', () {
     setUp(() async {
-      TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
       await AppLocaleController.instance.load();
       await AppInfoService.instance.initialize();
     });
 
-    testWidgets('builds Material 3 app shell', (tester) async {
+    testWidgets('cold start reaches login after splash', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump();
-      // SplashScreen: 3s timer, then AuthGate (progress) loads token asynchronously.
-      await tester.pump(const Duration(seconds: 4));
-      await tester.pump(const Duration(milliseconds: 800));
 
-      final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      expect(app.theme?.useMaterial3, isTrue);
+      expect(find.byType(MaterialApp), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 4));
+      await tester.pump(const Duration(seconds: 2));
+
+      expect(find.byType(LoginScreen), findsOneWidget);
     });
   });
 }
