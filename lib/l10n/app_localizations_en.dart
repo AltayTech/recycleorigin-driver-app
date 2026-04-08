@@ -36,7 +36,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yesLabel => 'Yes';
 
   @override
-  String get appBarTitle => 'Clean City';
+  String get appBarTitle => 'Recycle Origin';
 
   @override
   String get statisticsLabel => 'Statistics';

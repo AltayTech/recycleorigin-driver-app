@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @appBarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Clean City'**
+  /// **'Recycle Origin'**
   String get appBarTitle;
 
   /// No description provided for @statisticsLabel.
