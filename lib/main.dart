@@ -152,7 +152,7 @@ class MyApp extends StatelessWidget {
                   CustomerDetailInfoEditScreen(),
               CustomerUserInfoScreen.routeName: (ctx) =>
                   CustomerUserInfoScreen(),
-              GuideScreen.routeName: (ctx) => GuideScreen(),
+              GuideScreen.routeName: (ctx) => const GuideScreen(),
               MapScreen.routeName: (ctx) => MapScreen(),
               CollectListScreen.routeName: (ctx) => CollectListScreen(),
               WalletScreen.routeName: (ctx) => WalletScreen(),

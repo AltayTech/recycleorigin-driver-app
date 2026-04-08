@@ -269,12 +269,18 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
           'Accept': 'application/json',
         },
       );
-      final extractedData = json.decode(response.body) as dynamic;
-      final shopData = Shop.fromJson(extractedData);
+      if (response.statusCode != 200) {
+        throw Exception('Shop request failed (${response.statusCode})');
+      }
+      final decoded = json.decode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Invalid shop response');
+      }
+      final shopData = Shop.fromJson(decoded);
       emit(state.copyWith(shop: shopData));
       event.completer?.complete();
-    } catch (error) {
-      event.completer?.completeError(error);
+    } catch (error, st) {
+      event.completer?.completeError(error, st);
       rethrow;
     }
   }
