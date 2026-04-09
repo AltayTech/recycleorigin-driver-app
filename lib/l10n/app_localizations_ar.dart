@@ -556,4 +556,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'يتطلب إجراءً منك';
+
+  @override
+  String get pickupLocationMapTitle => 'موقع الاستلام';
+
+  @override
+  String get openInMapsAppLabel => 'فتح في الخرائط';
+
+  @override
+  String get openMapsAppFailed => 'تعذر فتح تطبيق الخرائط.';
+
+  @override
+  String get pickupMapPreviewSemantics =>
+      'خريطة موقع الاستلام. اضغط للفتح في تطبيق الخرائط.';
+
+  @override
+  String get gpsCoordinatesLabel => 'GPS';
+
+  @override
+  String get pickupLocationMarkerTitle => 'الاستلام';
+
+  @override
+  String get mapScreenMyLocation => 'موقعي';
+
+  @override
+  String get openStreetMapAttributionShort => 'OpenStreetMap';
 }

@@ -8,6 +8,7 @@ import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/pickup_location_preview_card.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Driver collect request detail screen with lifecycle-aware UI.
@@ -166,6 +167,17 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
             children: [
               _StatusBanner(phase: _phase, collect: _collect!),
               const SizedBox(height: 16),
+              if (PickupLocationPreviewCard.hasValidCoordinates(
+                _collect!.address_data.latitude,
+                _collect!.address_data.longitude,
+              )) ...[
+                PickupLocationPreviewCard(
+                  latitude: _collect!.address_data.latitude,
+                  longitude: _collect!.address_data.longitude,
+                  addressLine: _collect!.address_data.address,
+                ),
+                const SizedBox(height: 16),
+              ],
               _RequestInfoCard(collect: _collect!),
               const SizedBox(height: 16),
               _SummaryCard(
@@ -376,7 +388,7 @@ class _RequestInfoCard extends StatelessWidget {
       children: [
         _InfoRow(
           icon: Icons.bookmark_border_rounded,
-          label: l10n.addressLabel,
+          label: l10n.addressNameLabel,
           value: addr.name.trim().isEmpty ? '—' : addr.name,
         ),
         _InfoRow(
@@ -384,11 +396,15 @@ class _RequestInfoCard extends StatelessWidget {
           label: l10n.addressLabel,
           value: addr.address,
         ),
-        if (addr.latitude.isNotEmpty)
+        if (PickupLocationPreviewCard.hasValidCoordinates(
+          addr.latitude,
+          addr.longitude,
+        ))
           _InfoRow(
             icon: Icons.my_location_rounded,
-            label: 'GPS',
+            label: l10n.gpsCoordinatesLabel,
             value: '${addr.latitude}, ${addr.longitude}',
+            monospace: true,
           ),
         _InfoRow(
           icon: Icons.schedule_rounded,
@@ -1022,10 +1038,12 @@ class _InfoRow extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    this.monospace = false,
   });
   final IconData icon;
   final String label;
   final String value;
+  final bool monospace;
 
   @override
   Widget build(BuildContext context) {
@@ -1043,6 +1061,7 @@ class _InfoRow extends StatelessWidget {
                 fontSize: 14,
                 color: AppTheme.black.withValues(alpha: 0.8),
                 height: 1.3,
+                fontFamily: monospace ? 'monospace' : null,
               ),
             ),
           ),

@@ -178,5 +178,13 @@
   "collectListSortIdDesc": "Request ID (high to low)",
   "collectListSortIdAsc": "Request ID (low to high)",
   "collectListFilterAll": "All",
-  "collectListFilterNeedsAction": "Needs your action"
+  "collectListFilterNeedsAction": "Needs your action",
+  "pickupLocationMapTitle": "Pickup location",
+  "openInMapsAppLabel": "Open in Maps",
+  "openMapsAppFailed": "Could not open a maps app.",
+  "pickupMapPreviewSemantics": "Pickup location map. Tap to open in your maps app.",
+  "gpsCoordinatesLabel": "GPS",
+  "pickupLocationMarkerTitle": "Pickup",
+  "mapScreenMyLocation": "My location",
+  "openStreetMapAttributionShort": "OpenStreetMap"
 }

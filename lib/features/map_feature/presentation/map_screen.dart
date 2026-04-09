@@ -1,46 +1,43 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigindriver/l10n/l10n.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:recycleorigindriver/core/models/region.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/info_edit_item.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+/// Add-address screen using OpenStreetMap tiles ([flutter_map]), same stack as
+/// the admin panel (no Google Maps SDK / API key).
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
 
+  const MapScreen({super.key});
+
   @override
-  _MapScreenState createState() => _MapScreenState();
+  State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
+class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
+  static final LatLng _defaultCenter = LatLng(38.074065, 46.312711);
+
   bool _isInit = true;
   var _isLoading;
 
-  Completer<GoogleMapController> _controller = Completer();
-  late GoogleMapController myController;
-  static const LatLng _center = const LatLng(38.074065, 46.312711);
+  final MapController _mapController = MapController();
 
-  final Set<Marker> _markers = {};
-
-  LatLng _lastMapPosition = _center;
-
-  MapType _currentMapType = MapType.normal;
+  LatLng _selectedPosition = _defaultCenter;
 
   final nameController = TextEditingController();
   final addressController = TextEditingController();
 
-  LatLng _selectedPostion = _center;
-
   List<Address> addressList = [];
 
-  var regionValue;
+  dynamic regionValue;
   List<String> regionValueList = [];
   List<Region> regionList = [];
   late Region selectedRegion;
@@ -48,6 +45,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   late FocusNode nameNode;
   late FocusNode regionNode;
   late FocusNode addressNode;
+
+  bool _myLocationButtonVisible = false;
 
   @override
   void didChangeDependencies() async {
@@ -58,85 +57,74 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     super.didChangeDependencies();
   }
 
-  void _onAddMarkerButtonPressed(LatLng latLng) {
-    setState(() {
-      _markers.clear();
-      _markers.add(
-        Marker(
-          markerId: MarkerId(_lastMapPosition.toString()),
-          position: latLng,
-          infoWindow: InfoWindow(
-            title: 'Really cool place',
-            snippet: '5 Star Rating',
-          ),
-          icon: BitmapDescriptor.defaultMarker,
+  Future<void> _refreshLocationPermission() async {
+    var allow = false;
+    try {
+      var perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.denied ||
+          perm == LocationPermission.unableToDetermine) {
+        perm = await Geolocator.requestPermission();
+      }
+      allow = perm == LocationPermission.whileInUse ||
+          perm == LocationPermission.always;
+    } catch (e, st) {
+      debugPrint('_refreshLocationPermission: $e\n$st');
+      allow = false;
+    }
+    if (!mounted) {
+      return;
+    }
+    setState(() => _myLocationButtonVisible = allow);
+  }
+
+  Future<void> _centerOnDeviceLocation() async {
+    await _refreshLocationPermission();
+    if (!_myLocationButtonVisible || !mounted) {
+      return;
+    }
+    try {
+      final pos = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
         ),
-      );
-      _selectedPostion = latLng;
-    });
+      ).timeout(const Duration(seconds: 8));
+      if (!mounted) {
+        return;
+      }
+      final here = LatLng(pos.latitude, pos.longitude);
+      setState(() => _selectedPosition = here);
+      _mapController.move(here, 15);
+    } catch (e) {
+      debugPrint('_centerOnDeviceLocation: $e');
+    }
   }
 
-  void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    myController = controller;
-    _controller.complete(controller);
-  }
-
-  late Geolocator _geolocator;
-  late Position _position;
-
-  void checkPermission() {
-    // _geolocator.checkGeolocationPermissionStatus().then((status) {
-    //   print('status: $status');
-    // });
-    // _geolocator
-    //     .checkGeolocationPermissionStatus(
-    //         locationPermission: GeolocationPermission.locationAlways)
-    //     .then((status) {
-    //   print('always status: $status');
-    // });
-    // _geolocator.checkGeolocationPermissionStatus(
-    //     locationPermission: GeolocationPermission.locationWhenInUse)
-    //   ..then((status) {
-    //     print('whenInUse status: $status');
-    //   });
+  void _onMapTap(LatLng point) {
+    setState(() => _selectedPosition = point);
   }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     nameNode = FocusNode();
     regionNode = FocusNode();
     addressNode = FocusNode();
 
-    _geolocator = Geolocator();
-    // LocationOptions locationOptions =
-    //     LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
-    //
-    // checkPermission();
-    //
-    // _geolocator.getPositionStream(locationOptions).listen((Position position) {
-    //   _position = position;
-    // }
-    // );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future<void>.delayed(const Duration(milliseconds: 200), () {
+        if (mounted) {
+          _refreshLocationPermission();
+        }
+      });
+    });
   }
 
-  void updateLocation() async {
-    try {
-      Position newPosition = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high)
-          .timeout(new Duration(seconds: 5));
-
-      setState(() {
-        _lastMapPosition = LatLng(newPosition.latitude, newPosition.longitude);
-        _position = newPosition;
-      });
-    } catch (e) {
-      print('Error: ${e.toString()}');
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshLocationPermission();
     }
   }
 
@@ -153,10 +141,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       address: addressController.text,
       region:
           Region(term_id: selectedRegion.term_id, name: '', collect_hour: []),
-      latitude: _selectedPostion.latitude.toString(),
-      longitude: _selectedPostion.longitude.toString(),
+      latitude: _selectedPosition.latitude.toString(),
+      longitude: _selectedPosition.longitude.toString(),
     ));
-    print('addressList    ${addressList.length}');
 
     await context.read<AuthBloc>().updateAddress(addressList);
 
@@ -181,8 +168,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     });
   }
 
+  Future<void> _openOsmCopyright() async {
+    final uri = Uri.parse('https://www.openstreetmap.org/copyright');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _mapController.dispose();
     nameController.dispose();
     addressController.dispose();
 
@@ -195,54 +191,107 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final deviceHeight = MediaQuery.sizeOf(context).height;
+    final deviceWidth = MediaQuery.sizeOf(context).width;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Scaffold(
       appBar: AppBar(
-//        bottom: PreferredSize(
-//          child: Container(),
-//          preferredSize: Size.fromHeight(15),
-//        ),
         title: Text(
           context.l10n.newAddressLabel,
-          style: TextStyle(),
+          style: const TextStyle(),
         ),
-//        shape: RoundedRectangleBorder(
-//          borderRadius: new BorderRadius.vertical(
-//              bottom: new Radius.elliptical(
-//                  MediaQuery.of(context).size.width * 9, 200.0)),
-//        ),
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               height: deviceHeight * 0.4,
               child: Card(
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _lastMapPosition,
-                    zoom: 12.0,
-                  ),
-                  mapType: _currentMapType,
-                  markers: _markers,
-                  onCameraMove: _onCameraMove,
-                  myLocationEnabled: true,
-                  compassEnabled: true,
-                  scrollGesturesEnabled: true,
-                  mapToolbarEnabled: true,
-                  myLocationButtonEnabled: true,
-                  onTap: (location) {
-                    _onAddMarkerButtonPressed(location);
-                  },
-                  zoomGesturesEnabled: true,
-                  onLongPress: (location) =>
-                      _onAddMarkerButtonPressed(location),
+                clipBehavior: Clip.antiAlias,
+                margin: const EdgeInsets.all(8),
+                child: Stack(
+                  children: [
+                    FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        initialCenter: _selectedPosition,
+                        initialZoom: 12,
+                        onTap: (TapPosition _, LatLng point) =>
+                            _onMapTap(point),
+                        onLongPress: (TapPosition _, LatLng point) =>
+                            _onMapTap(point),
+                        interactionOptions: const InteractionOptions(
+                          flags: InteractiveFlag.all,
+                        ),
+                        onMapReady: () {
+                          Future<void>.delayed(
+                            const Duration(milliseconds: 100),
+                            () {
+                              if (mounted) {
+                                _refreshLocationPermission();
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName:
+                              'com.recycleorigin.recycleorigindriver',
+                          maxNativeZoom: 19,
+                        ),
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              point: _selectedPosition,
+                              width: 44,
+                              height: 44,
+                              alignment: Alignment.bottomCenter,
+                              child: Icon(
+                                Icons.location_on_rounded,
+                                size: 44,
+                                color: AppTheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SimpleAttributionWidget(
+                          source: Text(
+                            context.l10n.openStreetMapAttributionShort,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 11,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          onTap: _openOsmCopyright,
+                        ),
+                      ],
+                    ),
+                    if (_myLocationButtonVisible)
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Material(
+                          color: Colors.white,
+                          elevation: 2,
+                          shape: const CircleBorder(),
+                          child: IconButton(
+                            tooltip: context.l10n.mapScreenMyLocation,
+                            icon: Icon(
+                              Icons.my_location_rounded,
+                              color: AppTheme.primary,
+                            ),
+                            onPressed: _centerOnDeviceLocation,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -250,7 +299,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               title: context.l10n.addressNameLabel,
               controller: nameController,
               bgColor: AppTheme.bg,
-              iconColor: Color(0xffA67FEC),
+              iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: nameNode,
@@ -258,7 +307,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
+              child: SizedBox(
                 width: deviceWidth * 0.78,
                 child: Text(
                   context.l10n.areasLabel,
@@ -278,11 +327,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   height: deviceHeight * 0.05,
                   alignment: Alignment.centerRight,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppTheme.white,
-                      border: Border.all(color: AppTheme.h1, width: 0.6)),
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppTheme.white,
+                    border: Border.all(color: AppTheme.h1, width: 0.6),
+                  ),
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0, left: 8, top: 6),
+                    padding:
+                        const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                     child: DropdownButton<String>(
                       hint: Text(
                         context.l10n.selectAreaMessage,
@@ -291,7 +342,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           fontSize: textScaleFactor * 13.0,
                         ),
                       ),
-                      value: regionValue,
+                      value: regionValue as String?,
                       focusNode: regionNode,
                       icon: Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
@@ -307,7 +358,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         fontSize: textScaleFactor * 13.0,
                       ),
                       isDense: true,
-                      onChanged: (newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
                           regionValue = newValue;
                           selectedRegion = regionList[
@@ -344,12 +395,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               title: context.l10n.addressLabel,
               controller: addressController,
               bgColor: AppTheme.bg,
-              iconColor: Color(0xffA67FEC),
+              iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.2,
               maxLine: 10,
               thisFocusNode: addressNode,
-              newFocusNode: new FocusNode(),
+              newFocusNode: FocusNode(),
             ),
           ],
         ),
@@ -358,24 +409,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () async {
-            SnackBar addToCartSnackBar = SnackBar(
-              content: Text(
-                context.l10n.noAreaSelected,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: textScaleFactor * 14.0,
-                ),
-              ),
-              action: SnackBarAction(
-                label: context.l10n.gotItLabel,
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
-            await saveAddress().then((value) {
+            await saveAddress();
+            if (context.mounted) {
               Navigator.of(context).pop();
-            });
+            }
           },
           backgroundColor: AppTheme.primary,
           child: Icon(

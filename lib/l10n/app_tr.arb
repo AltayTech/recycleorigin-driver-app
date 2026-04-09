@@ -178,6 +178,14 @@
   "collectListSortIdDesc": "Talep no (buyukten kucuge)",
   "collectListSortIdAsc": "Talep no (kucukten buyuge)",
   "collectListFilterAll": "Tumu",
-  "collectListFilterNeedsAction": "Islem gerekiyor"
+  "collectListFilterNeedsAction": "Islem gerekiyor",
+  "pickupLocationMapTitle": "Toplama konumu",
+  "openInMapsAppLabel": "Haritada ac",
+  "openMapsAppFailed": "Harita uygulamasi acilamadi.",
+  "pickupMapPreviewSemantics": "Toplama konumu haritasi. Harita uygulamasinda acmak icin dokunun.",
+  "gpsCoordinatesLabel": "GPS",
+  "pickupLocationMarkerTitle": "Toplama",
+  "mapScreenMyLocation": "Konumum",
+  "openStreetMapAttributionShort": "OpenStreetMap"
 }
 

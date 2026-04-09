@@ -1173,6 +1173,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Needs your action'**
   String get collectListFilterNeedsAction;
+
+  /// No description provided for @pickupLocationMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup location'**
+  String get pickupLocationMapTitle;
+
+  /// No description provided for @openInMapsAppLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Maps'**
+  String get openInMapsAppLabel;
+
+  /// No description provided for @openMapsAppFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open a maps app.'**
+  String get openMapsAppFailed;
+
+  /// No description provided for @pickupMapPreviewSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup location map. Tap to open in your maps app.'**
+  String get pickupMapPreviewSemantics;
+
+  /// No description provided for @gpsCoordinatesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS'**
+  String get gpsCoordinatesLabel;
+
+  /// No description provided for @pickupLocationMarkerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup'**
+  String get pickupLocationMarkerTitle;
+
+  /// No description provided for @mapScreenMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get mapScreenMyLocation;
+
+  /// No description provided for @openStreetMapAttributionShort.
+  ///
+  /// In en, this message translates to:
+  /// **'OpenStreetMap'**
+  String get openStreetMapAttributionShort;
 }
 
 class _AppLocalizationsDelegate

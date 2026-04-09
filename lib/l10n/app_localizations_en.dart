@@ -558,4 +558,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'Needs your action';
+
+  @override
+  String get pickupLocationMapTitle => 'Pickup location';
+
+  @override
+  String get openInMapsAppLabel => 'Open in Maps';
+
+  @override
+  String get openMapsAppFailed => 'Could not open a maps app.';
+
+  @override
+  String get pickupMapPreviewSemantics =>
+      'Pickup location map. Tap to open in your maps app.';
+
+  @override
+  String get gpsCoordinatesLabel => 'GPS';
+
+  @override
+  String get pickupLocationMarkerTitle => 'Pickup';
+
+  @override
+  String get mapScreenMyLocation => 'My location';
+
+  @override
+  String get openStreetMapAttributionShort => 'OpenStreetMap';
 }

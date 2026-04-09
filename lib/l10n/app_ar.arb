@@ -178,5 +178,13 @@
   "collectListSortIdDesc": "رقم الطلب (من الأعلى إلى الأدنى)",
   "collectListSortIdAsc": "رقم الطلب (من الأدنى إلى الأعلى)",
   "collectListFilterAll": "الكل",
-  "collectListFilterNeedsAction": "يتطلب إجراءً منك"
+  "collectListFilterNeedsAction": "يتطلب إجراءً منك",
+  "pickupLocationMapTitle": "موقع الاستلام",
+  "openInMapsAppLabel": "فتح في الخرائط",
+  "openMapsAppFailed": "تعذر فتح تطبيق الخرائط.",
+  "pickupMapPreviewSemantics": "خريطة موقع الاستلام. اضغط للفتح في تطبيق الخرائط.",
+  "gpsCoordinatesLabel": "GPS",
+  "pickupLocationMarkerTitle": "الاستلام",
+  "mapScreenMyLocation": "موقعي",
+  "openStreetMapAttributionShort": "OpenStreetMap"
 }

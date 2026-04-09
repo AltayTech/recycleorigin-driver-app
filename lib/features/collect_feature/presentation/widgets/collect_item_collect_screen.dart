@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/utils/external_maps.dart';
+import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/pickup_location_preview_card.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 
@@ -69,6 +71,41 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (PickupLocationPreviewCard.hasValidCoordinates(
+                  collect.address_data.latitude,
+                  collect.address_data.longitude,
+                ))
+                  IconButton(
+                    tooltip: l10n.openInMapsAppLabel,
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () async {
+                      final (lat, lng) = ExternalMaps.parseCoordinates(
+                        collect.address_data.latitude,
+                        collect.address_data.longitude,
+                      );
+                      if (lat == null || lng == null) {
+                        return;
+                      }
+                      final ok =
+                          await ExternalMaps.openInExternalMaps(lat, lng);
+                      if (!context.mounted) {
+                        return;
+                      }
+                      if (!ok) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.openMapsAppFailed),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    },
+                    icon: Icon(
+                      Icons.map_rounded,
+                      color: AppTheme.primary,
+                      size: 22,
+                    ),
+                  ),
                 Icon(Icons.chevron_right, color: Colors.grey.shade400),
               ],
             ),

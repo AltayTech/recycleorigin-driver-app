@@ -558,4 +558,29 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'Islem gerekiyor';
+
+  @override
+  String get pickupLocationMapTitle => 'Toplama konumu';
+
+  @override
+  String get openInMapsAppLabel => 'Haritada ac';
+
+  @override
+  String get openMapsAppFailed => 'Harita uygulamasi acilamadi.';
+
+  @override
+  String get pickupMapPreviewSemantics =>
+      'Toplama konumu haritasi. Harita uygulamasinda acmak icin dokunun.';
+
+  @override
+  String get gpsCoordinatesLabel => 'GPS';
+
+  @override
+  String get pickupLocationMarkerTitle => 'Toplama';
+
+  @override
+  String get mapScreenMyLocation => 'Konumum';
+
+  @override
+  String get openStreetMapAttributionShort => 'OpenStreetMap';
 }

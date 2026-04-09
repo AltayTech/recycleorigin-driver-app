@@ -18,11 +18,11 @@ class Address with ChangeNotifier {
 
   factory Address.fromJson(Map<String, dynamic> parsedJson) {
     return Address(
-      name: parsedJson['name'],
-      address: parsedJson['address'],
+      name: parsedJson['name']?.toString() ?? '',
+      address: parsedJson['address']?.toString() ?? '',
       region: Region.fromJson(parsedJson['region']),
-      latitude: parsedJson['latitude'],
-      longitude: parsedJson['longitude'],
+      latitude: parsedJson['latitude']?.toString() ?? '',
+      longitude: parsedJson['longitude']?.toString() ?? '',
     );
   }
 
