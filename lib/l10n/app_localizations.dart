@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Recycle Origin Driver'**
+  /// **'RecycleOrigin Driver'**
   String get appTitle;
 
   /// No description provided for @homeTabLabel.
@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @appBarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Recycle Origin'**
+  /// **'RecycleOrigin'**
   String get appBarTitle;
 
   /// No description provided for @statisticsLabel.
@@ -361,7 +361,7 @@ abstract class AppLocalizations {
   /// No description provided for @splashTitle.
   ///
   /// In en, this message translates to:
-  /// **'Clean City\nDriver application'**
+  /// **'RecycleOrigin\nDriver app.'**
   String get splashTitle;
 
   /// No description provided for @splashVersionLabel.

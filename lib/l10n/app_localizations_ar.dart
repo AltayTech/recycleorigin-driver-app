@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'ريكايكل أوريجن — السائق';
+  String get appTitle => 'RecycleOrigin — السائق';
 
   @override
   String get homeTabLabel => 'الرئيسية';
@@ -36,7 +36,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yesLabel => 'نعم';
 
   @override
-  String get appBarTitle => 'مدينة نظيفة';
+  String get appBarTitle => 'RecycleOrigin';
 
   @override
   String get statisticsLabel => 'الإحصائيات';
@@ -139,7 +139,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get correctPhoneNumberLabel => 'تعديل رقم الهاتف';
 
   @override
-  String get splashTitle => 'مدينة نظيفة\nتطبيق السائق';
+  String get splashTitle => 'RecycleOrigin\nتطبيق السائق';
 
   @override
   String get splashVersionLabel => 'نسخة تجريبية 1.0';

@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name="${applicationName}"
-        android:label="Recycle Origin Driver"
+        android:label="RecycleOrigin Driver"
         android:icon="@drawable/tamizshahr_ic">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"

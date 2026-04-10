@@ -9,7 +9,7 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
-  String get appTitle => 'Recycle Origin Surucu';
+  String get appTitle => 'RecycleOrigin Surucu';
 
   @override
   String get homeTabLabel => 'Ana sayfa';
@@ -36,7 +36,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yesLabel => 'Evet';
 
   @override
-  String get appBarTitle => 'Temiz Sehir';
+  String get appBarTitle => 'RecycleOrigin';
 
   @override
   String get statisticsLabel => 'Istatistik';
@@ -141,7 +141,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get correctPhoneNumberLabel => 'Telefonu duzenle';
 
   @override
-  String get splashTitle => 'Temiz Sehir\nSurucu uygulamasi';
+  String get splashTitle => 'RecycleOrigin\nSurucu uygulamasi';
 
   @override
   String get splashVersionLabel => 'Deneme surumu 1.0';

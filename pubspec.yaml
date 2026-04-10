@@ -1,5 +1,5 @@
 name: recycleorigindriver
-description: Recycle Origin, Driver Application
+description: RecycleOrigin driver application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1

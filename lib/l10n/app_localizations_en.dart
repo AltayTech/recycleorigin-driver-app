@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Recycle Origin Driver';
+  String get appTitle => 'RecycleOrigin Driver';
 
   @override
   String get homeTabLabel => 'Home';
@@ -36,7 +36,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yesLabel => 'Yes';
 
   @override
-  String get appBarTitle => 'Recycle Origin';
+  String get appBarTitle => 'RecycleOrigin';
 
   @override
   String get statisticsLabel => 'Statistics';
@@ -139,7 +139,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correctPhoneNumberLabel => 'Edit phone number';
 
   @override
-  String get splashTitle => 'Clean City\nDriver application';
+  String get splashTitle => 'RecycleOrigin\nDriver app.';
 
   @override
   String get splashVersionLabel => 'Trial version 1.0';

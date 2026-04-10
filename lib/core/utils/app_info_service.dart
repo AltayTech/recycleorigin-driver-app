@@ -12,7 +12,7 @@ class AppInfoService {
 
   String get packageName => _packageInfo?.packageName ?? 'recycleorigindriver';
 
-  String get appName => _packageInfo?.appName ?? 'Recycle Origin Driver';
+  String get appName => _packageInfo?.appName ?? 'RecycleOrigin Driver';
 
   String get version => _packageInfo?.version ?? '1.0.0';
 
