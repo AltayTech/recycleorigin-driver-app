@@ -18,9 +18,6 @@ void main() {
     testWidgets('builds Material 3 app shell', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump();
-      // SplashScreen: 3s timer, then AuthGate (progress) loads token asynchronously.
-      await tester.pump(const Duration(seconds: 4));
-      await tester.pump(const Duration(milliseconds: 800));
 
       final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(app.theme?.useMaterial3, isTrue);

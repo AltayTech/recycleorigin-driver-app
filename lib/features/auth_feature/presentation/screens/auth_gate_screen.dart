@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
-import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
-/// After splash: loads stored token and redirects to Login or Home.
+/// Cold start: shows branding while the session is restored, then opens home
+/// or login.
+///
+/// Navigation runs as soon as [AuthBloc.loadStoredToken] finishes (no fixed
+/// splash delay), which matches common app-store guidance.
 class AuthGateScreen extends StatefulWidget {
   const AuthGateScreen({super.key});
 
@@ -16,10 +23,10 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkAuth());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _resolveDestination());
   }
 
-  Future<void> _checkAuth() async {
+  Future<void> _resolveDestination() async {
     final auth = context.read<AuthBloc>();
     await auth.loadStoredToken();
     if (!mounted) return;
@@ -34,8 +41,77 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    final size = MediaQuery.sizeOf(context);
+    final textTheme = Theme.of(context).textTheme;
+    final logoSize = size.shortestSide * 0.42;
+
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/login_bg.png'),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                const Spacer(flex: 2),
+                Image.asset(
+                  'assets/images/splash_main.png',
+                  width: logoSize,
+                  height: logoSize,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    context.l10n.splashTitle,
+                    textAlign: TextAlign.center,
+                    style: textTheme.headlineSmall?.copyWith(
+                      color: AppTheme.h1,
+                      fontWeight: FontWeight.w600,
+                      height: 1.25,
+                    ),
+                  ),
+                ),
+                const Spacer(flex: 3),
+                SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppTheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    EnArConvertor.localize(
+                      context,
+                      context.l10n.splashVersionLabel,
+                    ),
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall?.copyWith(
+                      color: AppTheme.h1.withValues(alpha: 0.65),
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.05),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

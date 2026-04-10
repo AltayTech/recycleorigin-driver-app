@@ -7,7 +7,7 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/screens/l
 import 'package:recycleorigindriver/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// End-to-end smoke: real platform bindings, splash, auth gate → login.
+/// End-to-end smoke: real platform bindings, startup shell → login.
 ///
 /// Run on a device or emulator:
 /// `flutter test integration_test/driver_app_test.dart`
@@ -21,14 +21,19 @@ void main() {
       await AppInfoService.instance.initialize();
     });
 
-    testWidgets('cold start reaches login after splash', (tester) async {
+    testWidgets('cold start reaches login after auth check', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       expect(find.byType(MaterialApp), findsOneWidget);
 
-      await tester.pump(const Duration(seconds: 4));
-      await tester.pump(const Duration(seconds: 2));
+      // Startup shows an indeterminate progress indicator, so pumpAndSettle
+      // never completes; advance time until login is pushed.
+      const step = Duration(milliseconds: 200);
+      for (var i = 0; i < 100; i++) {
+        await tester.pump(step);
+        if (find.byType(LoginScreen).evaluate().isNotEmpty) break;
+      }
 
       expect(find.byType(LoginScreen), findsOneWidget);
     });

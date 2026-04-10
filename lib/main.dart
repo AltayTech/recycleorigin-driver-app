@@ -8,7 +8,7 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
-import 'package:recycleorigindriver/core/screens/splash_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/auth_gate_screen.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
             locale: locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: SplashScreens(),
+            home: const AuthGateScreen(),
             routes: {
               NavigationBottomScreen.routeName: (ctx) =>
                   NavigationBottomScreen(),
