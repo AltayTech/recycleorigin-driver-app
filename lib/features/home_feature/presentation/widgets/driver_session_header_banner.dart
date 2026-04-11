@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/utils/gregorian_date_format.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -50,15 +51,6 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
     }
   }
 
-  static String _twoDigits(int n) => n.toString().padLeft(2, '0');
-
-  /// Local Gregorian date, year-month-day (numeric).
-  static String _formatGregorianDate(DateTime local) =>
-      '${local.year}/${_twoDigits(local.month)}/${_twoDigits(local.day)}';
-
-  static String _formatTime(DateTime now) =>
-      '${_twoDigits(now.hour)}:${_twoDigits(now.minute)}';
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -68,8 +60,8 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
     final textScaler = MediaQuery.textScalerOf(context);
 
     final now = DateTime.now();
-    final dateRaw = _formatGregorianDate(now);
-    final timeRaw = _formatTime(now);
+    final dateRaw = GregorianDateFormat.dateYmd(now);
+    final timeRaw = GregorianDateFormat.timeHm(now);
     final dateStr = EnArConvertor.localize(context, dateRaw);
     final timeStr = EnArConvertor.localize(context, timeRaw);
 

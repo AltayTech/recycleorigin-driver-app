@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:recycleorigindriver/core/utils/gregorian_date_format.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistic_list_screen.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
@@ -75,6 +75,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final now = DateTime.now();
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
@@ -134,13 +135,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             child: Text(
                               EnArConvertor.localize(
                                 context,
-                                '${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).year}/${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).month}/${Jalali.fromDateTime(
-                                  DateTime.now(),
-                                ).day}',
+                                GregorianDateFormat.dateYmd(now),
                               ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -162,7 +157,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             child: Text(
                               EnArConvertor.localize(
                                 context,
-                                '${DateTime.now().hour}:${DateTime.now().minute}',
+                                GregorianDateFormat.timeHm(now),
                               ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
