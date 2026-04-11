@@ -136,8 +136,8 @@ class MyApp extends StatelessWidget {
             home: const AuthGateScreen(),
             routes: {
               NavigationBottomScreen.routeName: (ctx) =>
-                  NavigationBottomScreen(),
-              HomeScreen.routeName: (ctx) => HomeScreen(),
+                  const NavigationBottomScreen(),
+              HomeScreen.routeName: (ctx) => const HomeScreen(),
               LoginScreen.routeName: (ctx) => LoginScreen(),
               AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
               ContactWithUs.routeName: (ctx) => ContactWithUs(),
@@ -155,7 +155,7 @@ class MyApp extends StatelessWidget {
               GuideScreen.routeName: (ctx) => const GuideScreen(),
               MapScreen.routeName: (ctx) => MapScreen(),
               CollectListScreen.routeName: (ctx) => CollectListScreen(),
-              WalletScreen.routeName: (ctx) => WalletScreen(),
+              WalletScreen.routeName: (ctx) => const WalletScreen(),
               CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
               ClearScreen.routeName: (ctx) => ClearScreen(),
               StatisticsScreen.routeName: (ctx) => StatisticsScreen(),

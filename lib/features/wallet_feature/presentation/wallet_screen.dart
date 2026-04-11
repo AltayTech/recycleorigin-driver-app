@@ -10,7 +10,6 @@ import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
-import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
@@ -21,6 +20,11 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/walletScreen';
+
+  const WalletScreen({super.key, this.embedInShell = false});
+
+  /// When true, renders only scrollable content for use inside [NavigationBottomScreen].
+  final bool embedInShell;
 
   @override
   _WalletScreenState createState() => _WalletScreenState();
@@ -153,6 +157,54 @@ class _WalletScreenState extends State<WalletScreen> {
     final isLogin = context.watch<AuthBloc>().state.isAuth;
     final theme = Theme.of(context);
 
+    final body = !isLogin
+        ? _buildNotLoggedIn(context)
+        : RefreshIndicator(
+            onRefresh: _loadData,
+            child: CustomScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: _buildBalanceCard(context)),
+                SliverToBoxAdapter(child: _buildActionBar(context)),
+                SliverToBoxAdapter(child: _buildSectionHeader(context)),
+                if (_transactions.isEmpty && !_isLoading)
+                  SliverToBoxAdapter(child: _buildEmpty(context))
+                else
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (ctx, i) => _WalletTxItem(tx: _transactions[i]),
+                      childCount: _transactions.length,
+                    ),
+                  ),
+                if (_isLoading)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Center(
+                        child: SpinKitFadingCircle(
+                          color: AppTheme.primary,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                  ),
+                SliverPadding(
+                  padding: EdgeInsets.only(
+                    bottom: widget.embedInShell ? 24 : 80,
+                  ),
+                ),
+              ],
+            ),
+          );
+
+    if (widget.embedInShell) {
+      return ColoredBox(
+        color: const Color(0xffF9F9F9),
+        child: body,
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
@@ -166,42 +218,7 @@ class _WalletScreenState extends State<WalletScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: !isLogin
-          ? _buildNotLoggedIn(context)
-          : RefreshIndicator(
-              onRefresh: _loadData,
-              child: CustomScrollView(
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  SliverToBoxAdapter(child: _buildBalanceCard(context)),
-                  SliverToBoxAdapter(child: _buildActionBar(context)),
-                  SliverToBoxAdapter(child: _buildSectionHeader(context)),
-                  if (_transactions.isEmpty && !_isLoading)
-                    SliverToBoxAdapter(child: _buildEmpty(context))
-                  else
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (ctx, i) => _WalletTxItem(tx: _transactions[i]),
-                        childCount: _transactions.length,
-                      ),
-                    ),
-                  if (_isLoading)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: SpinKitFadingCircle(
-                            color: AppTheme.primary,
-                            size: 40,
-                          ),
-                        ),
-                      ),
-                    ),
-                  const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
-                ],
-              ),
-            ),
+      body: body,
       drawer: Theme(
         data: theme.copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
