@@ -138,7 +138,7 @@ void main() {
           );
       expect(passwordEditable().obscureText, isTrue);
 
-      await tester.tap(find.byIcon(Icons.visibility));
+      await tester.tap(find.byIcon(Icons.visibility_outlined));
       await tester.pump();
 
       expect(passwordEditable().obscureText, isFalse);

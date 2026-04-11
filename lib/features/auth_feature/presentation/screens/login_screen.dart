@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
-import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 
 /// Login screen: email + password, same flow and API as main Recycle Origin app.
 class LoginScreen extends StatefulWidget {
@@ -18,65 +16,108 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static const double _spacingMd = 16;
+  static const double _spacingLg = 24;
+  static const double _spacingXl = 32;
+
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
+      resizeToAvoidBottomInset: true,
       drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
+        data: theme.copyWith(canvasColor: Colors.transparent),
+        child: const MainDrawer(),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: deviceSize.height,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/login_bg.png'),
-              fit: BoxFit.cover,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/login_bg.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withValues(alpha: 0.28),
+                Colors.black.withValues(alpha: 0.62),
+              ],
             ),
           ),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: deviceSize.height * 0.1,
-                child: SizedBox(
-                  height: deviceSize.height * 0.99,
-                  width: deviceSize.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0,
-                            vertical: 30,
-                          ),
-                          child: Text(
-                            context.l10n.wasteManagementSystemTitle,
-                            style: TextStyle(
-                              fontFamily: 'BFarnaz',
-                              fontWeight: FontWeight.w900,
-                              color: Colors.green,
-                              fontSize: textScaleFactor * 28.0,
+          child: SafeArea(
+            child: Stack(
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        left: _spacingMd,
+                        right: _spacingMd,
+                        top: _spacingLg,
+                        bottom: _spacingLg + bottomInset,
+                      ),
+                      physics: const ClampingScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight - bottomInset,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              l10n.wasteManagementSystemTitle,
+                              style: theme.textTheme.headlineMedium?.copyWith(
+                                fontFamily: 'BFarnaz',
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                shadows: const [
+                                  Shadow(
+                                    blurRadius: 14,
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                          ),
+                            const SizedBox(height: _spacingXl),
+                            Center(
+                              child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 420),
+                                child: const _AuthCard(),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Flexible(
-                        flex: deviceSize.width > 600 ? 2 : 1,
-                        child: const _AuthCard(),
+                    );
+                  },
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: IconButton(
+                      tooltip: l10n.authOpenMenuTooltip,
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                      icon: const Icon(Icons.menu_rounded),
+                      color: Colors.white,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.white.withValues(alpha: 0.14),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -92,6 +133,15 @@ class _AuthCard extends StatefulWidget {
 }
 
 class _AuthCardState extends State<_AuthCard> {
+  static const double _radiusSm = 12;
+  static const double _radiusMd = 20;
+  static const double _spacingMd = 16;
+  static const double _spacingLg = 24;
+
+  static final RegExp _emailRegex = RegExp(
+    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+  );
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -106,15 +156,21 @@ class _AuthCardState extends State<_AuthCard> {
   }
 
   void _showErrorDialog(String message) {
+    final l10n = context.l10n;
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.l10n.loginErrorTitle),
+        icon: Icon(
+          Icons.error_outline,
+          color: Theme.of(ctx).colorScheme.error,
+          size: 32,
+        ),
+        title: Text(l10n.loginErrorTitle),
         content: Text(message),
-        actions: <Widget>[
-          FilledButton(
+        actions: [
+          TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(context.l10n.confirmLabel),
+            child: Text(l10n.confirmLabel),
           ),
         ],
       ),
@@ -122,7 +178,10 @@ class _AuthCardState extends State<_AuthCard> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
@@ -130,7 +189,9 @@ class _AuthCardState extends State<_AuthCard> {
             _emailController.text.trim(),
             _passwordController.text,
           );
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       if (success) {
         Navigator.of(context).pushReplacementNamed(
           NavigationBottomScreen.routeName,
@@ -149,135 +210,186 @@ class _AuthCardState extends State<_AuthCard> {
     }
   }
 
+  String? _validateEmail(String? value) {
+    final l10n = context.l10n;
+    final v = value?.trim() ?? '';
+    if (v.isEmpty) {
+      return l10n.enterEmailValidationMessage;
+    }
+    if (!_emailRegex.hasMatch(v)) {
+      return l10n.authEmailInvalid;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
+    final textTheme = theme.textTheme;
+    const subtitleColor = Color(0xFF6B7280);
 
-    return Container(
-      width: deviceSize.width * 0.85,
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildEmailField(textScaleFactor, deviceSize),
-              _buildPasswordField(textScaleFactor, deviceSize),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? SpinKitFadingCircle(
-                      itemBuilder: (BuildContext context, int index) {
-                        return const DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                        );
+    final fieldTheme = theme.copyWith(
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: _spacingMd,
+          vertical: _spacingMd,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_radiusSm),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_radiusSm),
+          borderSide: BorderSide(
+            color: colorScheme.outline.withValues(alpha: 0.45),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_radiusSm),
+          borderSide: BorderSide(color: colorScheme.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_radiusSm),
+          borderSide: BorderSide(color: colorScheme.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_radiusSm),
+          borderSide: BorderSide(color: colorScheme.error, width: 2),
+        ),
+        labelStyle: textTheme.bodyMedium,
+        floatingLabelStyle: textTheme.bodyMedium?.copyWith(
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w600,
+        ),
+        hintStyle: textTheme.bodyMedium?.copyWith(
+          color: subtitleColor,
+        ),
+      ),
+    );
+
+    return Theme(
+      data: fieldTheme,
+      child: Card(
+        elevation: 0,
+        color: colorScheme.surface.withValues(alpha: 0.98),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_radiusMd),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(_spacingLg),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  l10n.authWelcomeBackTitle,
+                  style: textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colorScheme.onSurface,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.loginToAccountLabel,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: subtitleColor,
+                    height: 1.35,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: _spacingLg),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: l10n.emailLabel,
+                    hintText: l10n.emailHint,
+                    prefixIcon: Icon(
+                      Icons.alternate_email_rounded,
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  autocorrect: false,
+                  autofillHints: const [AutofillHints.email],
+                  validator: _validateEmail,
+                ),
+                const SizedBox(height: _spacingMd),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: l10n.passwordHint,
+                    hintText: l10n.passwordHint,
+                    prefixIcon: Icon(
+                      Icons.lock_outline_rounded,
+                      color: colorScheme.primary,
+                    ),
+                    suffixIcon: IconButton(
+                      tooltip: _obscurePassword
+                          ? l10n.authShowPassword
+                          : l10n.authHidePassword,
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      onPressed: () {
+                        setState(() => _obscurePassword = !_obscurePassword);
                       },
-                    )
-                  : SizedBox(
-                      height: deviceSize.height * 0.055,
-                      width: deviceSize.width * 0.6,
-                      child: FilledButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          _submit();
-                        },
-                        child: Text(
-                          context.l10n.loginLabel,
-                          style: TextStyle(
-                            color: AppTheme.bg,
-                            fontSize: textScaleFactor * 13.0,
-                          ),
-                        ),
+                    ),
+                  ),
+                  obscureText: _obscurePassword,
+                  autofillHints: const [AutofillHints.password],
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) {
+                    if (!_isLoading) {
+                      _submit();
+                    }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return l10n.enterPasswordValidationMessage;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: _spacingLg),
+                SizedBox(
+                  height: 48,
+                  child: FilledButton(
+                    onPressed: _isLoading ? null : _submit,
+                    style: FilledButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(_radiusSm),
                       ),
                     ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmailField(double textScaleFactor, Size deviceSize) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Center(
-        child: SizedBox(
-          height: deviceSize.height * 0.055,
-          width: deviceSize.width * 0.6,
-          child: TextFormField(
-            controller: _emailController,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              hintText: context.l10n.emailHint,
-              hintStyle: const TextStyle(
-                color: Colors.grey,
-                fontSize: 11,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return context.l10n.enterEmailValidationMessage;
-              }
-              return null;
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPasswordField(double textScaleFactor, Size deviceSize) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Center(
-        child: SizedBox(
-          height: deviceSize.height * 0.055,
-          width: deviceSize.width * 0.6,
-          child: TextFormField(
-            controller: _passwordController,
-            textAlign: TextAlign.center,
-            obscureText: _obscurePassword,
-            keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _submit(),
-            decoration: InputDecoration(
-              hintText: context.l10n.passwordHint,
-              hintStyle: const TextStyle(
-                color: Colors.grey,
-                fontSize: 11,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey,
+                    child: _isLoading
+                        ? SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: colorScheme.onPrimary,
+                            ),
+                          )
+                        : Text(
+                            l10n.loginLabel,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: colorScheme.onPrimary,
+                            ),
+                          ),
+                  ),
                 ),
-                onPressed: () {
-                  setState(() => _obscurePassword = !_obscurePassword);
-                },
-              ),
+              ],
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.l10n.enterPasswordValidationMessage;
-              }
-              return null;
-            },
           ),
         ),
       ),

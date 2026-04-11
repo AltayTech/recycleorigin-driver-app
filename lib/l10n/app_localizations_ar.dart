@@ -345,6 +345,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterPasswordValidationMessage => 'يرجى إدخال كلمة المرور.';
 
   @override
+  String get authWelcomeBackTitle => 'مرحبًا بعودتك';
+
+  @override
+  String get authEmailInvalid => 'أدخل عنوان بريد إلكتروني صالحًا.';
+
+  @override
+  String get authOpenMenuTooltip => 'فتح القائمة';
+
+  @override
+  String get authShowPassword => 'إظهار كلمة المرور';
+
+  @override
+  String get authHidePassword => 'إخفاء كلمة المرور';
+
+  @override
   String get vehicleTypeLabel => 'نوع المركبة';
 
   @override

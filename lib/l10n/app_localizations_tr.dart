@@ -347,6 +347,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get enterPasswordValidationMessage => 'Lutfen sifre girin.';
 
   @override
+  String get authWelcomeBackTitle => 'Tekrar hos geldiniz';
+
+  @override
+  String get authEmailInvalid => 'Gecerli bir e-posta adresi girin.';
+
+  @override
+  String get authOpenMenuTooltip => 'Menuyu ac';
+
+  @override
+  String get authShowPassword => 'Sifreyi goster';
+
+  @override
+  String get authHidePassword => 'Sifreyi gizle';
+
+  @override
   String get vehicleTypeLabel => 'Arac turu';
 
   @override

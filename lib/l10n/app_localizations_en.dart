@@ -346,6 +346,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterPasswordValidationMessage => 'Please enter your password.';
 
   @override
+  String get authWelcomeBackTitle => 'Welcome back';
+
+  @override
+  String get authEmailInvalid => 'Enter a valid email address.';
+
+  @override
+  String get authOpenMenuTooltip => 'Open menu';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
   String get vehicleTypeLabel => 'Vehicle type';
 
   @override
