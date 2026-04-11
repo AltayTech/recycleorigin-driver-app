@@ -115,7 +115,7 @@ class PickupLocationPreviewCard extends StatelessWidget {
                               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                           maxNativeZoom: 19,
                           tileProvider: CancellableNetworkTileProvider(
-                            headers: const {
+                            headers: {
                               'User-Agent':
                                   'flutter_map (com.recycleorigin.recycleorigindriver)',
                             },

@@ -244,7 +244,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                           maxNativeZoom: 19,
                           tileProvider: CancellableNetworkTileProvider(
-                            headers: const {
+                            headers: {
                               'User-Agent':
                                   'flutter_map (com.recycleorigin.recycleorigindriver)',
                             },
