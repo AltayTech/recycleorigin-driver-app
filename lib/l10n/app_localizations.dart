@@ -1251,6 +1251,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OpenStreetMap'**
   String get openStreetMapAttributionShort;
+
+  /// No description provided for @driverSessionDateCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Jalali date'**
+  String get driverSessionDateCaption;
+
+  /// No description provided for @driverSessionTimeCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Device time'**
+  String get driverSessionTimeCaption;
+
+  /// No description provided for @driverSessionHeaderSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Jalali date {date}, device time {time}'**
+  String driverSessionHeaderSemantic(String date, String time);
 }
 
 class _AppLocalizationsDelegate

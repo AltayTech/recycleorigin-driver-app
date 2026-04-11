@@ -191,5 +191,18 @@
   "gpsCoordinatesLabel": "GPS",
   "pickupLocationMarkerTitle": "الاستلام",
   "mapScreenMyLocation": "موقعي",
-  "openStreetMapAttributionShort": "OpenStreetMap"
+  "openStreetMapAttributionShort": "OpenStreetMap",
+  "driverSessionDateCaption": "التاريخ (جلالي)",
+  "driverSessionTimeCaption": "وقت الجهاز",
+  "driverSessionHeaderSemantic": "التاريخ الجلالي {date}، وقت الجهاز {time}",
+  "@driverSessionHeaderSemantic": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -596,4 +596,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openStreetMapAttributionShort => 'OpenStreetMap';
+
+  @override
+  String get driverSessionDateCaption => 'التاريخ (جلالي)';
+
+  @override
+  String get driverSessionTimeCaption => 'وقت الجهاز';
+
+  @override
+  String driverSessionHeaderSemantic(String date, String time) {
+    return 'التاريخ الجلالي $date، وقت الجهاز $time';
+  }
 }

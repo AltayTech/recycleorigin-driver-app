@@ -191,6 +191,19 @@
   "gpsCoordinatesLabel": "GPS",
   "pickupLocationMarkerTitle": "Toplama",
   "mapScreenMyLocation": "Konumum",
-  "openStreetMapAttributionShort": "OpenStreetMap"
+  "openStreetMapAttributionShort": "OpenStreetMap",
+  "driverSessionDateCaption": "Tarih (Jalali)",
+  "driverSessionTimeCaption": "Saat",
+  "driverSessionHeaderSemantic": "Jalali tarihi {date}, saat {time}",
+  "@driverSessionHeaderSemantic": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }
 

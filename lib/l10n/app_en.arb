@@ -191,5 +191,18 @@
   "gpsCoordinatesLabel": "GPS",
   "pickupLocationMarkerTitle": "Pickup",
   "mapScreenMyLocation": "My location",
-  "openStreetMapAttributionShort": "OpenStreetMap"
+  "openStreetMapAttributionShort": "OpenStreetMap",
+  "driverSessionDateCaption": "Jalali date",
+  "driverSessionTimeCaption": "Device time",
+  "driverSessionHeaderSemantic": "Jalali date {date}, device time {time}",
+  "@driverSessionHeaderSemantic": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }
