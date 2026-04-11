@@ -192,9 +192,9 @@
   "pickupLocationMarkerTitle": "Toplama",
   "mapScreenMyLocation": "Konumum",
   "openStreetMapAttributionShort": "OpenStreetMap",
-  "driverSessionDateCaption": "Tarih (Jalali)",
+  "driverSessionDateCaption": "Tarih",
   "driverSessionTimeCaption": "Saat",
-  "driverSessionHeaderSemantic": "Jalali tarihi {date}, saat {time}",
+  "driverSessionHeaderSemantic": "Tarih {date}, saat {time}",
   "@driverSessionHeaderSemantic": {
     "placeholders": {
       "date": {

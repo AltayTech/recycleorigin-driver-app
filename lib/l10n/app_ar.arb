@@ -192,9 +192,9 @@
   "pickupLocationMarkerTitle": "الاستلام",
   "mapScreenMyLocation": "موقعي",
   "openStreetMapAttributionShort": "OpenStreetMap",
-  "driverSessionDateCaption": "التاريخ (جلالي)",
+  "driverSessionDateCaption": "التاريخ (ميلادي)",
   "driverSessionTimeCaption": "وقت الجهاز",
-  "driverSessionHeaderSemantic": "التاريخ الجلالي {date}، وقت الجهاز {time}",
+  "driverSessionHeaderSemantic": "التاريخ الميلادي {date}، وقت الجهاز {time}",
   "@driverSessionHeaderSemantic": {
     "placeholders": {
       "date": {

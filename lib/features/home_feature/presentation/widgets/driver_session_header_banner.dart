@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
-/// Jalali calendar date and live device clock for warehouse / collection tabs.
+/// Gregorian (Christian) calendar date and live device clock for warehouse /
+/// collection tabs.
 ///
 /// Updates periodically while visible, refreshes on app resume, and exposes a
 /// single merged semantics label for assistive tech.
@@ -52,8 +52,9 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
 
   static String _twoDigits(int n) => n.toString().padLeft(2, '0');
 
-  static String _formatJalali(Jalali j) =>
-      '${j.year}/${_twoDigits(j.month)}/${_twoDigits(j.day)}';
+  /// Local Gregorian date, year-month-day (numeric).
+  static String _formatGregorianDate(DateTime local) =>
+      '${local.year}/${_twoDigits(local.month)}/${_twoDigits(local.day)}';
 
   static String _formatTime(DateTime now) =>
       '${_twoDigits(now.hour)}:${_twoDigits(now.minute)}';
@@ -67,8 +68,7 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
     final textScaler = MediaQuery.textScalerOf(context);
 
     final now = DateTime.now();
-    final jalali = Jalali.fromDateTime(now);
-    final dateRaw = _formatJalali(jalali);
+    final dateRaw = _formatGregorianDate(now);
     final timeRaw = _formatTime(now);
     final dateStr = EnArConvertor.localize(context, dateRaw);
     final timeStr = EnArConvertor.localize(context, timeRaw);

@@ -598,13 +598,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openStreetMapAttributionShort => 'OpenStreetMap';
 
   @override
-  String get driverSessionDateCaption => 'التاريخ (جلالي)';
+  String get driverSessionDateCaption => 'التاريخ (ميلادي)';
 
   @override
   String get driverSessionTimeCaption => 'وقت الجهاز';
 
   @override
   String driverSessionHeaderSemantic(String date, String time) {
-    return 'التاريخ الجلالي $date، وقت الجهاز $time';
+    return 'التاريخ الميلادي $date، وقت الجهاز $time';
   }
 }

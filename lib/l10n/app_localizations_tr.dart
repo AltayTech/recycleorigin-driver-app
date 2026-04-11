@@ -600,13 +600,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get openStreetMapAttributionShort => 'OpenStreetMap';
 
   @override
-  String get driverSessionDateCaption => 'Tarih (Jalali)';
+  String get driverSessionDateCaption => 'Tarih';
 
   @override
   String get driverSessionTimeCaption => 'Saat';
 
   @override
   String driverSessionHeaderSemantic(String date, String time) {
-    return 'Jalali tarihi $date, saat $time';
+    return 'Tarih $date, saat $time';
   }
 }

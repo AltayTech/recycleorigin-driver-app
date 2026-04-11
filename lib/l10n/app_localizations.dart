@@ -1255,7 +1255,7 @@ abstract class AppLocalizations {
   /// No description provided for @driverSessionDateCaption.
   ///
   /// In en, this message translates to:
-  /// **'Jalali date'**
+  /// **'Date'**
   String get driverSessionDateCaption;
 
   /// No description provided for @driverSessionTimeCaption.
@@ -1267,7 +1267,7 @@ abstract class AppLocalizations {
   /// No description provided for @driverSessionHeaderSemantic.
   ///
   /// In en, this message translates to:
-  /// **'Jalali date {date}, device time {time}'**
+  /// **'Date {date}, device time {time}'**
   String driverSessionHeaderSemantic(String date, String time);
 }
 

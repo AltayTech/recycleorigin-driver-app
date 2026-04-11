@@ -192,9 +192,9 @@
   "pickupLocationMarkerTitle": "Pickup",
   "mapScreenMyLocation": "My location",
   "openStreetMapAttributionShort": "OpenStreetMap",
-  "driverSessionDateCaption": "Jalali date",
+  "driverSessionDateCaption": "Date",
   "driverSessionTimeCaption": "Device time",
-  "driverSessionHeaderSemantic": "Jalali date {date}, device time {time}",
+  "driverSessionHeaderSemantic": "Date {date}, device time {time}",
   "@driverSessionHeaderSemantic": {
     "placeholders": {
       "date": {
