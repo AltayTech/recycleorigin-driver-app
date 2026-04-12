@@ -8,7 +8,7 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/shop.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 
 class ContactWithUs extends StatefulWidget {
   static const routeName = '/ContactWithUs';
@@ -85,6 +85,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.contactUsLabel,
           style: TextStyle(
@@ -272,14 +273,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                 ),
               ),
             ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

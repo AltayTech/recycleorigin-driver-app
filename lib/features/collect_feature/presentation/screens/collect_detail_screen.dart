@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/pickup_location_preview_card.dart';
@@ -130,14 +130,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(l10n.requestDetailTitle,
             style: const TextStyle(color: AppTheme.appBarIconColor)),
         centerTitle: true,
@@ -145,10 +141,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
       ),
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: _buildBody(context),
     );
   }

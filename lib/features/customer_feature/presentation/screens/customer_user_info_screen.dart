@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_detail_info_screen.dart';
@@ -29,6 +29,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         title: Text(
           context.l10n.personalInfoLabel,
@@ -48,10 +49,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
           ),
         ],
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: CustomerDetailInfoScreen(),
     );
   }

@@ -6,7 +6,7 @@ import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/models/personal_data.dart';
 import 'package:recycleorigindriver/core/models/status.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -158,6 +158,7 @@ class _CustomerDetailInfoEditScreenState
     final textScale = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         title: Text(
           context.l10n.editProfileLabel,
@@ -166,10 +167,7 @@ class _CustomerDetailInfoEditScreenState
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: !_typesLoaded
           ? const Center(child: CircularProgressIndicator())
           : Form(

@@ -21,7 +21,7 @@ import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/currency_input_formatter.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 
 class ClearScreen extends StatefulWidget {
@@ -149,10 +149,7 @@ class _ClearScreenState extends State<ClearScreen>
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.settlementRequestTitle,
           style: TextStyle(),
@@ -667,14 +664,7 @@ class _ClearScreenState extends State<ClearScreen>
           );
         },
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

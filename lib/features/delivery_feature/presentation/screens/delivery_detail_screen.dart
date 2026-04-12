@@ -17,7 +17,7 @@ import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/custom_dialog_profile.dart';
 
@@ -275,10 +275,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.requestDetailTitle,
           style: TextStyle(
@@ -607,14 +604,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
           ),
         );
       }),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

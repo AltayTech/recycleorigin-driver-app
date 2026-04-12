@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/models/customer.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/profile_view.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,16 +23,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        leading: const DrawerOrBackLeading(),
       ),
-
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      drawer: mainDrawerIfRootRoute(context),
       body: ProfileView(),
     );
   }

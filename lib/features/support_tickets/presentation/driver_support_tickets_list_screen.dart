@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/data/driver_support_ticket_models.dart';
@@ -68,6 +68,7 @@ class _DriverSupportTicketsListScreenState
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           'Support tickets',
           style: TextStyle(color: AppTheme.bg),
@@ -84,7 +85,7 @@ class _DriverSupportTicketsListScreenState
             ),
         ],
       ),
-      drawer:  MainDrawer(),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: authState.isAuth
           ? FloatingActionButton(
               onPressed: () async {

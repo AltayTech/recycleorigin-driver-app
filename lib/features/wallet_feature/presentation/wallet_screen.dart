@@ -10,7 +10,7 @@ import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/screens/clear_screen.dart';
@@ -155,7 +155,6 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     final isLogin = context.watch<AuthBloc>().state.isAuth;
-    final theme = Theme.of(context);
 
     final body = !isLogin
         ? _buildNotLoggedIn(context)
@@ -208,10 +207,7 @@ class _WalletScreenState extends State<WalletScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(context.l10n.walletLabel),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
@@ -219,10 +215,7 @@ class _WalletScreenState extends State<WalletScreen> {
         centerTitle: true,
       ),
       body: body,
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 

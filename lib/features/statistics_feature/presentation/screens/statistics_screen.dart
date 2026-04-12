@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/utils/gregorian_date_format.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistic_list_screen.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -80,10 +80,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.statisticsLabel,
           style: TextStyle(
@@ -184,14 +181,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           ),
         );
       }),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

@@ -11,7 +11,6 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 
 class StatisticsListScreen extends StatefulWidget {
@@ -269,14 +268,6 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                   ],
                 ),
               ),
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
       ),
     );
   }

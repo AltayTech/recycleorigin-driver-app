@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/store_collect_list_screen.dart';
@@ -34,6 +34,8 @@ class NavigationBottomScreen extends StatefulWidget {
 }
 
 class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   /// Collection is the default landing tab.
   int _selectedIndex = _DriverShellTab.collection.index;
   bool _authEffectsScheduled = false;
@@ -159,10 +161,16 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         }
       },
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           elevation: 2,
           shadowColor: Colors.black.withValues(alpha: 0.06),
           surfaceTintColor: Colors.transparent,
+          iconTheme: IconThemeData(color: AppTheme.bg),
+          leading: DrawerOrBackLeading(
+            scaffoldKey: _scaffoldKey,
+            iconColor: AppTheme.bg,
+          ),
           title: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             switchInCurve: Curves.easeOutCubic,
@@ -189,12 +197,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             ),
           ),
         ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.transparent,
-          ),
-          child: const MainDrawer(),
-        ),
+        drawer: mainDrawerIfRootRoute(context),
         body: IndexedStack(
           index: _selectedIndex,
           children: const <Widget>[

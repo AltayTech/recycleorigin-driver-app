@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -16,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   static const double _spacingMd = 16;
   static const double _spacingLg = 24;
   static const double _spacingXl = 32;
@@ -27,11 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: const MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -105,13 +105,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   left: 0,
                   child: Material(
                     type: MaterialType.transparency,
-                    child: IconButton(
-                      tooltip: l10n.authOpenMenuTooltip,
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      icon: const Icon(Icons.menu_rounded),
-                      color: Colors.white,
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withValues(alpha: 0.14),
+                    child: IconButtonTheme(
+                      data: IconButtonThemeData(
+                        style: IconButton.styleFrom(
+                          backgroundColor:
+                              Colors.white.withValues(alpha: 0.14),
+                        ),
+                      ),
+                      child: DrawerOrBackLeading(
+                        scaffoldKey: _scaffoldKey,
+                        iconColor: Colors.white,
                       ),
                     ),
                   ),

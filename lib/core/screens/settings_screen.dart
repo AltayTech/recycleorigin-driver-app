@@ -6,7 +6,7 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 import '../app_locale_controller.dart';
 import '../theme/app_theme.dart';
 import '../utils/app_info_service.dart';
-import '../widgets/main_drawer.dart';
+import '../widgets/drawer_or_back_leading.dart';
 
 /// Application settings: language preference and read-only app metadata.
 ///
@@ -23,10 +23,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -39,10 +36,7 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: ValueListenableBuilder<Locale>(
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
