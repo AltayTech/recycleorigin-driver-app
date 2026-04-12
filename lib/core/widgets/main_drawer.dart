@@ -565,6 +565,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, authState) {
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _buildSectionTitle(
                               authState.isAuth

@@ -10,7 +10,6 @@ import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
-import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 
@@ -365,40 +364,175 @@ class _CollectListScreenState extends State<CollectListScreen> {
     await _reloadFromFirstPage();
   }
 
-  Widget _buildSortFilterRow(AppLocalizations l10n) {
+  Widget _buildListToolbar(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final disabled = _isLoading;
+    final hasFilter = _filterSlug.isNotEmpty;
+    final showSummary = _items.isNotEmpty;
+    final borderColor = colorScheme.outlineVariant.withValues(alpha: 0.65);
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-      child: Row(
-        children: [
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: disabled ? null : () => _showSortSheet(l10n),
-              icon: Icon(
-                Icons.swap_vert_rounded,
-                size: 20,
-                color: disabled ? null : AppTheme.primary,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Material(
+        color: colorScheme.surface,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: borderColor),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (showSummary) ...[
+                _buildToolbarSummary(l10n, theme),
+                const SizedBox(height: 12),
+              ],
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: disabled ? null : () => _showSortSheet(l10n),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.onSurface,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        side: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.sort_rounded,
+                        size: 20,
+                        color: disabled ? null : colorScheme.primary,
+                      ),
+                      label: Text(
+                        _sortOptionLabel(l10n),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed:
+                          disabled ? null : () => _showFilterSheet(l10n),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.onSurface,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        side: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      icon: Badge(
+                        isLabelVisible: hasFilter,
+                        smallSize: 8,
+                        child: Icon(
+                          Icons.filter_list_rounded,
+                          size: 20,
+                          color: disabled ? null : colorScheme.primary,
+                        ),
+                      ),
+                      label: Text(
+                        hasFilter
+                            ? _filterSelectionLabel(l10n)
+                            : l10n.collectListFilterTooltip,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              label: Text(l10n.collectListSortTooltip),
-            ),
+            ],
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: disabled ? null : () => _showFilterSheet(l10n),
-              icon: Badge(
-                isLabelVisible: _filterSlug.isNotEmpty,
-                smallSize: 8,
-                child: Icon(
-                  Icons.filter_list_rounded,
-                  size: 20,
-                  color: disabled ? null : AppTheme.primary,
-                ),
-              ),
-              label: Text(l10n.collectListFilterTooltip),
+        ),
+      ),
+    );
+  }
+
+  String _sortOptionLabel(AppLocalizations l10n) {
+    return switch (_sort) {
+      _CollectListSort.newestFirst => l10n.collectListSortNewestFirst,
+      _CollectListSort.oldestFirst => l10n.collectListSortOldestFirst,
+      _CollectListSort.idHighToLow => l10n.collectListSortIdDesc,
+      _CollectListSort.idLowToHigh => l10n.collectListSortIdAsc,
+    };
+  }
+
+  String _filterSelectionLabel(AppLocalizations l10n) {
+    return switch (_filterSlug) {
+      '' => l10n.collectListFilterAll,
+      'needs_accept' => l10n.collectListFilterNeedsAction,
+      'in_progress' => l10n.collectRequestStatusInProgress,
+      'picked_up' => l10n.collectRequestStatusPickedUp,
+      'collected' => l10n.collectRequestStatusCollected,
+      'cancelled' => l10n.collectRequestStatusCancelled,
+      _ => l10n.collectListFilterTooltip,
+    };
+  }
+
+  Widget _buildToolbarSummary(AppLocalizations l10n, ThemeData theme) {
+    final colorScheme = theme.colorScheme;
+    final loaded = EnArConvertor.localize(
+      context,
+      _items.length.toString(),
+    );
+    final total = EnArConvertor.localize(
+      context,
+      _searchDetail.total.toString(),
+    );
+    final labelStyle = theme.textTheme.bodySmall?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    );
+    final valueStyle = theme.textTheme.titleSmall?.copyWith(
+      color: colorScheme.primary,
+      fontWeight: FontWeight.w700,
+      height: 1.25,
+    );
+    final sepStyle = theme.textTheme.bodySmall?.copyWith(
+      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.45),
+    );
+
+    final semantic = StringBuffer()
+      ..write('${l10n.countWithColon} $loaded')
+      ..write(', ${l10n.ofLabel} $total');
+
+    return Semantics(
+      label: semantic.toString(),
+      container: true,
+      child: ExcludeSemantics(
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: l10n.countWithColon, style: labelStyle),
+                TextSpan(text: ' ', style: labelStyle),
+                TextSpan(text: loaded, style: valueStyle),
+                TextSpan(text: ' \u00b7 ', style: sepStyle),
+                TextSpan(text: l10n.ofLabel, style: labelStyle),
+                TextSpan(text: ' ', style: labelStyle),
+                TextSpan(text: total, style: valueStyle),
+              ],
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
+        ),
       ),
     );
   }
@@ -479,8 +613,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          SliverToBoxAdapter(child: _buildSortFilterRow(l10n)),
-          if (_items.isNotEmpty) SliverToBoxAdapter(child: _buildStatsRow()),
+          SliverToBoxAdapter(child: _buildListToolbar(l10n)),
           _buildRequestsList(),
           if (_isLoading && _items.isNotEmpty)
             const SliverToBoxAdapter(
@@ -490,32 +623,6 @@ class _CollectListScreenState extends State<CollectListScreen> {
               ),
             ),
           const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatsRow() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _StatChip(
-            label: context.l10n.countWithColon,
-            value: EnArConvertor.localize(
-              context,
-              _items.length.toString(),
-            ),
-          ),
-          const SizedBox(width: 10),
-          _StatChip(
-            label: context.l10n.ofLabel,
-            value: EnArConvertor.localize(
-              context,
-              _searchDetail.total.toString(),
-            ),
-          ),
         ],
       ),
     );
@@ -554,47 +661,6 @@ class _CollectListScreenState extends State<CollectListScreen> {
           ),
         ),
         childCount: _items.length,
-      ),
-    );
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-            ),
-          ),
-        ],
       ),
     );
   }
