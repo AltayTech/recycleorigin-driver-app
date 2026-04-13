@@ -29,6 +29,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     on<WastesAcceptCollectRequested>(_onAcceptCollect);
     on<WastesRejectCollectRequested>(_onRejectCollect);
     on<WastesConfirmPickupRequested>(_onConfirmPickup);
+    on<WastesRateCustomerRequested>(_onRateCustomer);
     on<WastesRequestWasteItemReplace>(_onReplaceRequestWasteItem);
   }
 
@@ -135,6 +136,17 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   ) {
     final c = Completer<void>();
     add(WastesConfirmPickupRequested(collectId, items, completer: c));
+    return c.future;
+  }
+
+  /// Driver rates the customer for this collect request.
+  Future<void> submitCustomerRating(
+    int collectId,
+    int score,
+    String comment,
+  ) {
+    final c = Completer<void>();
+    add(WastesRateCustomerRequested(collectId, score, comment, completer: c));
     return c.future;
   }
 
@@ -497,6 +509,55 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       throw Exception(body.isNotEmpty ? body : 'Pickup confirmation failed');
     }
     emit(state.copyWith(token: token));
+    event.completer?.complete();
+  }
+
+  Future<void> _onRateCustomer(
+    WastesRateCustomerRequested event,
+    Emitter<WastesState> emit,
+  ) async {
+    final token = await SecureStorage.getToken();
+    if (token == null || token.isEmpty) {
+      throw StateError('No auth token');
+    }
+    final url = Urls.rootUrl + Urls.driverCollectRatePath(event.collectId);
+    final response = await post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'score': event.score,
+        'comment': event.comment,
+      }),
+    );
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      final body = response.body.isNotEmpty
+          ? json.decode(response.body)
+          : null;
+      final message = body is Map && body['error'] != null
+          ? body['error'].toString()
+          : 'Rating failed (${response.statusCode})';
+      throw Exception(message);
+    }
+    final getUrl =
+        Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final getResp = await get(
+      Uri.parse(getUrl),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (getResp.statusCode != 200) {
+      throw Exception('Failed to reload request');
+    }
+    final data = json.decode(getResp.body) as Map<String, dynamic>;
+    final item = RequestWasteItem.fromJson(data);
+    emit(state.copyWith(requestWasteItem: item, token: token));
     event.completer?.complete();
   }
 }

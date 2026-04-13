@@ -112,6 +112,15 @@ final class WastesConfirmPickupRequested extends WastesEvent {
   final Completer<void>? completer;
 }
 
+final class WastesRateCustomerRequested extends WastesEvent {
+  WastesRateCustomerRequested(this.collectId, this.score, this.comment,
+      {this.completer});
+  final int collectId;
+  final int score;
+  final String comment;
+  final Completer<void>? completer;
+}
+
 /// Replaces [WastesBloc.state.requestWasteItem] (legacy setter).
 final class WastesRequestWasteItemReplace extends WastesEvent {
   WastesRequestWasteItemReplace(this.value);

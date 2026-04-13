@@ -204,5 +204,12 @@
         "type": "String"
       }
     }
-  }
+  },
+  "customerAverageRatingLabel": "Customer average rating",
+  "rateCustomerTitle": "Rate this customer",
+  "rateCustomerHint": "How was this pickup experience with the customer?",
+  "ratingCommentLabel": "Comment (optional)",
+  "submitRatingLabel": "Submit rating",
+  "yourRatingSubmitted": "Thanks for your feedback",
+  "ratingsSectionLabel": "Ratings"
 }

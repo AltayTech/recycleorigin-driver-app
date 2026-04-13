@@ -609,4 +609,25 @@ class AppLocalizationsTr extends AppLocalizations {
   String driverSessionHeaderSemantic(String date, String time) {
     return 'Tarih $date, saat $time';
   }
+
+  @override
+  String get customerAverageRatingLabel => 'Musteri ortalama puani';
+
+  @override
+  String get rateCustomerTitle => 'Musteriyi degerlendirin';
+
+  @override
+  String get rateCustomerHint => 'Bu musteriyle toplama deneyiminiz nasildi?';
+
+  @override
+  String get ratingCommentLabel => 'Yorum (istege bagli)';
+
+  @override
+  String get submitRatingLabel => 'Degerlendirmeyi gonder';
+
+  @override
+  String get yourRatingSubmitted => 'Geri bildiriminiz icin tesekkurler';
+
+  @override
+  String get ratingsSectionLabel => 'Degerlendirmeler';
 }

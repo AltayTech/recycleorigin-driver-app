@@ -1269,6 +1269,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Date {date}, device time {time}'**
   String driverSessionHeaderSemantic(String date, String time);
+
+  /// No description provided for @customerAverageRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer average rating'**
+  String get customerAverageRatingLabel;
+
+  /// No description provided for @rateCustomerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this customer'**
+  String get rateCustomerTitle;
+
+  /// No description provided for @rateCustomerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this pickup experience with the customer?'**
+  String get rateCustomerHint;
+
+  /// No description provided for @ratingCommentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (optional)'**
+  String get ratingCommentLabel;
+
+  /// No description provided for @submitRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit rating'**
+  String get submitRatingLabel;
+
+  /// No description provided for @yourRatingSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your feedback'**
+  String get yourRatingSubmitted;
+
+  /// No description provided for @ratingsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings'**
+  String get ratingsSectionLabel;
 }
 
 class _AppLocalizationsDelegate

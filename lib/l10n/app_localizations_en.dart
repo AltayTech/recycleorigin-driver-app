@@ -609,4 +609,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String driverSessionHeaderSemantic(String date, String time) {
     return 'Date $date, device time $time';
   }
+
+  @override
+  String get customerAverageRatingLabel => 'Customer average rating';
+
+  @override
+  String get rateCustomerTitle => 'Rate this customer';
+
+  @override
+  String get rateCustomerHint =>
+      'How was this pickup experience with the customer?';
+
+  @override
+  String get ratingCommentLabel => 'Comment (optional)';
+
+  @override
+  String get submitRatingLabel => 'Submit rating';
+
+  @override
+  String get yourRatingSubmitted => 'Thanks for your feedback';
+
+  @override
+  String get ratingsSectionLabel => 'Ratings';
 }

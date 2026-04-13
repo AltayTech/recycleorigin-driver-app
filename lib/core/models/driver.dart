@@ -12,6 +12,7 @@ class Driver with ChangeNotifier {
   final DriverData driver_data;
   final List<Pasmand> stores;
   final String money;
+  final double? averageRating;
 
   Driver({
     required this.status,
@@ -21,6 +22,7 @@ class Driver with ChangeNotifier {
     required this.driver_data,
     required this.stores,
     required this.money,
+    this.averageRating,
   });
 
   factory Driver.fromJson(Map<String, dynamic>? parsedJson) {
@@ -44,6 +46,7 @@ class Driver with ChangeNotifier {
         ),
         stores: const [],
         money: '0',
+        averageRating: null,
       );
     }
     final storeList = parsedJson['stores'];
@@ -87,7 +90,15 @@ class Driver with ChangeNotifier {
       driver_data: driverData,
       stores: storeRaw,
       money: parsedJson['money'] != null ? parsedJson['money'] as String : '0',
+      averageRating: _parseAvg(parsedJson['average_rating']),
     );
+  }
+
+  static double? _parseAvg(dynamic v) {
+    if (v == null) return null;
+    if (v is num) return v.toDouble();
+    if (v is String) return double.tryParse(v);
+    return null;
   }
 
   Map<String, dynamic> toJson() {

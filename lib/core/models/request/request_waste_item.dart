@@ -8,6 +8,7 @@ import 'address.dart';
 import 'collect.dart';
 import 'collect_status.dart';
 import 'collect_time.dart';
+import 'rating_out.dart';
 
 class RequestWasteItem with ChangeNotifier {
   final int id;
@@ -25,6 +26,10 @@ class RequestWasteItem with ChangeNotifier {
   final bool? driverAccepted;
   final String requestStatusKey;
   final String requestStatusLabel;
+  final RatingOut? customerRating;
+  final RatingOut? driverRating;
+  final bool hasRated;
+  final double? customerAverageRating;
 
   RequestWasteItem(
       {required this.id,
@@ -39,7 +44,11 @@ class RequestWasteItem with ChangeNotifier {
       required this.driver,
       this.driverAccepted,
       this.requestStatusKey = '',
-      this.requestStatusLabel = ''});
+      this.requestStatusLabel = '',
+      this.customerRating,
+      this.driverRating,
+      this.hasRated = false,
+      this.customerAverageRating});
 
   /// True when API explicitly requires accept/reject (new assignment flow).
   bool get needsDriverAcceptOrReject => driverAccepted == false;
@@ -116,6 +125,9 @@ class RequestWasteItem with ChangeNotifier {
     final dynamic daRaw = parsedJson['driver_accepted'];
     final bool? driverAccepted = daRaw is bool ? daRaw : null;
 
+    final cr = parsedJson['customer_rating'];
+    final dr = parsedJson['driver_rating'];
+
     return RequestWasteItem(
       id: parsedJson['id'] is int
           ? parsedJson['id'] as int
@@ -153,6 +165,14 @@ class RequestWasteItem with ChangeNotifier {
       driverAccepted: driverAccepted,
       requestStatusKey: parsedJson['request_status_key'] as String? ?? '',
       requestStatusLabel: parsedJson['request_status_label'] as String? ?? '',
+      customerRating: cr is Map<String, dynamic>
+          ? RatingOut.fromJson(cr)
+          : null,
+      driverRating:
+          dr is Map<String, dynamic> ? RatingOut.fromJson(dr) : null,
+      hasRated: parsedJson['has_rated'] as bool? ?? false,
+      customerAverageRating:
+          parseAverageRating(parsedJson['customer_average_rating']),
     );
   }
 

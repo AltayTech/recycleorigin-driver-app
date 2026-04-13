@@ -15,6 +15,10 @@ class Urls {
 
   /// Collects assigned to the logged-in driver (use this in driver app for "my requests").
   static const driverCollectsEndPoint = '/driver/collects';
+
+  /// POST `{ "score": 1-5, "comment": "optional" }` after pickup.
+  static String driverCollectRatePath(int collectId) =>
+      '$driverCollectsEndPoint/$collectId/rate';
   static const checkCompletedEndPoint = '/customer/completed';
   static const driverEndPoint = '/driver';
   static const deliveriesEndPoint = '/deliveries';

@@ -204,6 +204,13 @@
         "type": "String"
       }
     }
-  }
+  },
+  "customerAverageRatingLabel": "Musteri ortalama puani",
+  "rateCustomerTitle": "Musteriyi degerlendirin",
+  "rateCustomerHint": "Bu musteriyle toplama deneyiminiz nasildi?",
+  "ratingCommentLabel": "Yorum (istege bagli)",
+  "submitRatingLabel": "Degerlendirmeyi gonder",
+  "yourRatingSubmitted": "Geri bildiriminiz icin tesekkurler",
+  "ratingsSectionLabel": "Degerlendirmeler"
 }
 

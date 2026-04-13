@@ -204,5 +204,12 @@
         "type": "String"
       }
     }
-  }
+  },
+  "customerAverageRatingLabel": "متوسط تقييم العميل",
+  "rateCustomerTitle": "قيّم هذا العميل",
+  "rateCustomerHint": "كيف كانت تجربة الاستلام مع هذا العميل؟",
+  "ratingCommentLabel": "تعليق (اختياري)",
+  "submitRatingLabel": "إرسال التقييم",
+  "yourRatingSubmitted": "شكرًا لملاحظاتك",
+  "ratingsSectionLabel": "التقييمات"
 }

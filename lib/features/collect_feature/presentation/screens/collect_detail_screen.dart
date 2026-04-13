@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/widgets/star_rating_widget.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
@@ -147,6 +148,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
+    final l10n = context.l10n;
     if (_error != null) return _ErrorView(error: _error!, onRetry: _load);
     if (_loading || _collect == null) {
       return const Center(child: CircularProgressIndicator());
@@ -172,6 +174,19 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                 const SizedBox(height: 16),
               ],
               _RequestInfoCard(collect: _collect!),
+              if (_canDriverRateCustomer(_collect!)) ...[
+                const SizedBox(height: 16),
+                _SectionCard(
+                  title: l10n.rateCustomerTitle,
+                  icon: Icons.star_rounded,
+                  children: [
+                    _RateCustomerPanel(
+                      collect: _collect!,
+                      onRated: _load,
+                    ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 16),
               _SummaryCard(
                   items: context.watch<WastesBloc>().state.wasteCartItems),
@@ -408,6 +423,173 @@ class _RequestInfoCard extends StatelessWidget {
           icon: Icons.flag_outlined,
           label: l10n.statusLabel,
           value: collect.requestStatusDisplay(l10n),
+        ),
+        if (collect.customerAverageRating != null) ...[
+          const SizedBox(height: 8),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.star_rounded, size: 20, color: AppTheme.grey),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.customerAverageRatingLabel,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    StarRatingDisplay(
+                      value: collect.customerAverageRating!,
+                    ),
+                    Text(
+                      collect.customerAverageRating!.toStringAsFixed(1),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+bool _canDriverRateCustomer(RequestWasteItem c) {
+  final k = c.requestStatusKey;
+  return k == 'picked_up' || k == 'collected';
+}
+
+class _RateCustomerPanel extends StatefulWidget {
+  const _RateCustomerPanel({
+    required this.collect,
+    required this.onRated,
+  });
+
+  final RequestWasteItem collect;
+  final Future<void> Function() onRated;
+
+  @override
+  State<_RateCustomerPanel> createState() => _RateCustomerPanelState();
+}
+
+class _RateCustomerPanelState extends State<_RateCustomerPanel> {
+  int _stars = 0;
+  late final TextEditingController _comment;
+  bool _submitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _comment = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _comment.dispose();
+    super.dispose();
+  }
+
+  bool get _alreadyRated {
+    final d = widget.collect.driverRating;
+    return widget.collect.hasRated || (d != null && d.score > 0);
+  }
+
+  Future<void> _submit() async {
+    if (_stars < 1) return;
+    setState(() => _submitting = true);
+    try {
+      await context.read<WastesBloc>().submitCustomerRating(
+            widget.collect.id,
+            _stars,
+            _comment.text.trim(),
+          );
+      if (!mounted) return;
+      await widget.onRated();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$e')),
+      );
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    if (_alreadyRated) {
+      final r = widget.collect.driverRating;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.yourRatingSubmitted,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          if (r != null && r.score > 0) ...[
+            const SizedBox(height: 8),
+            StarRatingDisplay(value: r.score.toDouble()),
+            if (r.comment.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(r.comment),
+            ],
+          ],
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.rateCustomerHint,
+          style: TextStyle(fontSize: 13, color: AppTheme.grey),
+        ),
+        const SizedBox(height: 12),
+        StarRatingInput(
+          value: _stars,
+          onChanged: (int v) => setState(() => _stars = v),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          controller: _comment,
+          maxLines: 3,
+          maxLength: 500,
+          decoration: InputDecoration(
+            labelText: l10n.ratingCommentLabel,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _submitting || _stars < 1 ? null : _submit,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+            child: _submitting
+                ? const SizedBox(
+                    height: 22,
+                    width: 22,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(l10n.submitRatingLabel),
+          ),
         ),
       ],
     );
