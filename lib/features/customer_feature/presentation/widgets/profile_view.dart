@@ -53,45 +53,46 @@ class _ProfileViewState extends State<ProfileView> {
     super.didChangeDependencies();
   }
 
+  static int _profileGridCrossAxisCount(double width) {
+    if (width >= 900) {
+      return 4;
+    }
+    if (width >= 600) {
+      return 3;
+    }
+    return 2;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLogin = context.watch<AuthBloc>().state.isAuth;
-
-    final mediaQuery = MediaQuery.of(context);
-    final deviceSizeWidth = mediaQuery.size.width;
-    final deviceSizeHeight = mediaQuery.size.height;
-    final textScaleFactor = mediaQuery.textScaleFactor;
+    final textScaler = MediaQuery.textScalerOf(context);
 
     if (!isLogin) {
       return Center(
-        child: Wrap(
-          direction: Axis.vertical,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                context.l10n.notLoggedInLabel,
-                textAlign: TextAlign.center,
-              ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  context.l10n.notLoggedInLabel,
+                  textAlign: TextAlign.center,
+                  textScaler: textScaler,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                  },
+                  child: Text(context.l10n.loginToAccountLabel),
+                ),
+              ],
             ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppTheme.primary,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  context.l10n.loginToAccountLabel,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            )
-          ],
+          ),
         ),
       );
     }
@@ -104,88 +105,107 @@ class _ProfileViewState extends State<ProfileView> {
       );
     }
 
-    return SizedBox(
-      width: deviceSizeWidth,
-      height: deviceSizeHeight,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: deviceSizeHeight * 0,
-            width: deviceSizeWidth,
-            child: TopBar(),
-          ),
-          Positioned(
-            top: deviceSizeHeight * 0.070,
-            width: deviceSizeWidth * 0.6,
-            right: 20,
-            child: Text(
-              context.l10n.userProfileTitle,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppTheme.bg,
-                fontSize: textScaleFactor * 24.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Positioned(
-            top: deviceSizeHeight * 0.250,
-            right: 0,
-            left: 0,
-            child: SizedBox(
-              height: deviceSizeHeight * 0.7,
-              width: deviceSizeWidth * 0.9,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
+    return ColoredBox(
+      color: AppTheme.bg,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final maxW = constraints.maxWidth;
+          final topBarHeight = (maxW * 0.42).clamp(120.0, 200.0);
+          final crossCount = _profileGridCrossAxisCount(maxW);
+          final horizontalPad = (maxW * 0.04).clamp(12.0, 24.0);
+
+          return CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: topBarHeight,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    clipBehavior: Clip.hardEdge,
+                    children: <Widget>[
+                      TopBar(height: topBarHeight),
+                      Positioned(
+                        left: horizontalPad,
+                        right: horizontalPad,
+                        bottom: 16,
+                        child: Text(
+                          context.l10n.userProfileTitle,
+                          textAlign: TextAlign.center,
+                          textScaler: textScaler,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            shadows: const <Shadow>[
+                              Shadow(
+                                blurRadius: 8,
+                                color: Colors.black26,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  children: <Widget>[
-                    _ProfileMenuItem(
-                      imagePath: 'assets/images/orders_list.png',
-                      label: context.l10n.statisticsLabel,
-                      textScaleFactor: textScaleFactor,
-                      onTap: () {
-                        // TODO: Navigate to statistics screen for driver.
-                      },
-                    ),
-                    _ProfileMenuItem(
-                      imagePath: 'assets/images/user_Icon.png',
-                      label: context.l10n.personalInfoLabel,
-                      textScaleFactor: textScaleFactor,
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          CustomerUserInfoScreen.routeName,
-                        );
-                      },
-                    ),
-                    _ProfileMenuItem(
-                      imagePath: 'assets/images/message_icon.png',
-                      label: '',
-                      textScaleFactor: textScaleFactor,
-                      onTap: () {
-                        // TODO: Navigate to driver messages when implemented.
-                      },
-                    ),
-                    _ProfileMenuItem(
-                      imagePath: 'assets/images/main_page_request_ic.png',
-                      label: context.l10n.requestTabLabel,
-                      textScaleFactor: textScaleFactor,
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(CollectListScreen.routeName);
-                      },
-                    ),
-                  ],
                 ),
               ),
-            ),
-          ),
-        ],
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(
+                  horizontalPad,
+                  16,
+                  horizontalPad,
+                  24,
+                ),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossCount,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 1,
+                  ),
+                  delegate: SliverChildListDelegate(
+                    <Widget>[
+                      _ProfileMenuItem(
+                        imagePath: 'assets/images/orders_list.png',
+                        label: context.l10n.statisticsLabel,
+                        onTap: () {
+                          // TODO: Navigate to statistics screen for driver.
+                        },
+                      ),
+                      _ProfileMenuItem(
+                        imagePath: 'assets/images/user_Icon.png',
+                        label: context.l10n.personalInfoLabel,
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            CustomerUserInfoScreen.routeName,
+                          );
+                        },
+                      ),
+                      _ProfileMenuItem(
+                        imagePath: 'assets/images/message_icon.png',
+                        label: '',
+                        onTap: () {
+                          // TODO: Navigate to driver messages when implemented.
+                        },
+                      ),
+                      _ProfileMenuItem(
+                        imagePath: 'assets/images/main_page_request_ic.png',
+                        label: context.l10n.requestTabLabel,
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(CollectListScreen.routeName);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -204,57 +224,75 @@ class _ProfileMenuItem extends StatelessWidget {
   const _ProfileMenuItem({
     required this.imagePath,
     required this.label,
-    required this.textScaleFactor,
     required this.onTap,
   });
 
   final String imagePath;
   final String label;
-  final double textScaleFactor;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.all(
-          MediaQuery.of(context).size.width * 0.03,
-        ),
-        child: Container(
+    final textScaler = MediaQuery.textScalerOf(context);
+    final pad = (MediaQuery.sizeOf(context).width * 0.02).clamp(6.0, 14.0);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Ink(
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: <BoxShadow>[
               BoxShadow(
-                color: AppTheme.primary.withOpacity(0.08),
-                blurRadius: 10.1,
-                spreadRadius: 10.51,
-                offset: const Offset(0, 0),
-              )
-            ],
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                imagePath,
-                fit: BoxFit.contain,
+                color: AppTheme.primary.withValues(alpha: 0.08),
+                blurRadius: 10,
+                spreadRadius: 0,
+                offset: const Offset(0, 4),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FittedBox(
-                  child: Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppTheme.black,
-                      fontSize: textScaleFactor * 16.0,
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(pad),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 2,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          label,
+                          textAlign: TextAlign.center,
+                          textScaler: textScaler,
+                          maxLines: 2,
+                          style:
+                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    color: AppTheme.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

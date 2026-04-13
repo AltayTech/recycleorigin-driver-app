@@ -17,7 +17,7 @@ class ButtonBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaler = MediaQuery.textScalerOf(context);
 
     return Container(
       width: width,
@@ -42,12 +42,15 @@ class ButtonBottom extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: TextStyle(
+          textScaler: textScaler,
+          style: const TextStyle(
             color: Colors.white,
-            fontSize: textScaleFactor * 16.0,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
           textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

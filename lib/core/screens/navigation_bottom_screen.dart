@@ -148,6 +148,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     final textTheme = Theme.of(context).textTheme;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final appBarTitle = _appBarTitle(l10n);
+    final narrowNav = MediaQuery.sizeOf(context).width < 360;
 
     return PopScope(
       canPop: false,
@@ -249,7 +250,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
               child: NavigationBar(
                 selectedIndex: _selectedIndex,
                 onDestinationSelected: _onDestinationSelected,
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                labelBehavior: narrowNav
+                    ? NavigationDestinationLabelBehavior.onlyShowSelected
+                    : NavigationDestinationLabelBehavior.alwaysShow,
                 destinations: <Widget>[
                   NavigationDestination(
                     icon: const Icon(Icons.local_shipping_outlined),
