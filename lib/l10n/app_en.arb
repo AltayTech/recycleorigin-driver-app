@@ -22,6 +22,8 @@
   "loginLabel": "Login",
   "userProfileLabel": "Profile",
   "welcomeTitle": "Welcome",
+  "loginSuccessSnack": "Welcome back",
+  "logoutSuccessSnack": "You've been signed out",
   "confirmLabel": "Confirm",
   "goToProfileDescription": "Please complete your profile information first.",
   "dearUserTitle": "Dear user",

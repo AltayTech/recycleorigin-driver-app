@@ -75,6 +75,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get welcomeTitle => 'Hos geldiniz';
 
   @override
+  String get loginSuccessSnack => 'Tekrar hos geldiniz';
+
+  @override
+  String get logoutSuccessSnack => 'Oturumunuz kapatildi';
+
+  @override
   String get confirmLabel => 'Tamam';
 
   @override

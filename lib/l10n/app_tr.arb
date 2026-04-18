@@ -22,6 +22,8 @@
   "loginLabel": "Giris",
   "userProfileLabel": "Profil",
   "welcomeTitle": "Hos geldiniz",
+  "loginSuccessSnack": "Tekrar hos geldiniz",
+  "logoutSuccessSnack": "Oturumunuz kapatildi",
   "confirmLabel": "Tamam",
   "goToProfileDescription": "Devam etmek icin once profil bilgilerinizi tamamlayin.",
   "dearUserTitle": "Sayin kullanici",

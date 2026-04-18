@@ -22,6 +22,8 @@
   "loginLabel": "تسجيل الدخول",
   "userProfileLabel": "الملف الشخصي",
   "welcomeTitle": "مرحباً",
+  "loginSuccessSnack": "مرحباً بعودتك",
+  "logoutSuccessSnack": "تم تسجيل خروجك",
   "confirmLabel": "تأكيد",
   "goToProfileDescription": "يرجى إكمال معلومات ملفك الشخصي أولاً.",
   "dearUserTitle": "عزيزي المستخدم",

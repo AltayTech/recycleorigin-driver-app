@@ -75,6 +75,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeTitle => 'مرحباً';
 
   @override
+  String get loginSuccessSnack => 'مرحباً بعودتك';
+
+  @override
+  String get logoutSuccessSnack => 'تم تسجيل خروجك';
+
+  @override
   String get confirmLabel => 'تأكيد';
 
   @override

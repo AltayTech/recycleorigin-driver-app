@@ -175,6 +175,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           state.copyWith(
             token: tokenStr,
             isFirstLogin: true,
+            isFirstLogout: false,
             isLoggedIn: true,
             tokenResponseModel: tokenResponseModel,
           ),
@@ -208,6 +209,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       state.copyWith(
         token: '',
         isLoggedIn: false,
+        isFirstLogin: false,
         tokenResponseModel: TokenResponseModel(),
       ),
     );
