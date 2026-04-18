@@ -43,15 +43,23 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // [BlocListener] only runs when first-login / first-logout *change* between
+    // emissions. After a fresh login, [getToken] reloads storage while
+    // [isFirstLogin] stays true, so listenWhen is false and the listener never
+    // fires. Consume flags once after token load when the shell first mounts.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) {
         return;
       }
-      context.read<AuthBloc>().getToken();
+      await context.read<AuthBloc>().getToken();
+      if (!mounted) {
+        return;
+      }
+      _consumeAuthSnackFlags(context, context.read<AuthBloc>().state);
     });
   }
 
-  void _onAuthSnackFlags(BuildContext context, AuthState state) {
+  void _consumeAuthSnackFlags(BuildContext context, AuthState state) {
     if (state.isFirstLogin) {
       showDriverLoginSuccessSnackBar(context, context.l10n);
       context.read<AuthBloc>().isFirstLogin = false;
@@ -122,7 +130,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       listenWhen: (AuthState previous, AuthState current) =>
           previous.isFirstLogin != current.isFirstLogin ||
           previous.isFirstLogout != current.isFirstLogout,
-      listener: _onAuthSnackFlags,
+      listener: (BuildContext context, AuthState state) {
+        _consumeAuthSnackFlags(context, state);
+      },
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) async {
