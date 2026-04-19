@@ -1,6 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
+import 'package:recycleorigindriver/core/navigation/app_navigator.dart';
+import 'package:recycleorigindriver/core/notifications/fcm_background.dart';
+import 'package:recycleorigindriver/core/notifications/firebase_bootstrap.dart';
 import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
@@ -23,6 +27,8 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/scree
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/delivery_detail_screen.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/send_delivery_screen.dart';
+import 'package:recycleorigindriver/features/driver_notifications/driver_notification_preferences_screen.dart';
+import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/home_screen.dart';
 import 'package:recycleorigindriver/features/map_feature/presentation/map_screen.dart';
@@ -40,6 +46,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppLocaleController.instance.load();
   await AppInfoService.instance.initialize();
+  await FirebaseBootstrap.initialize();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 
@@ -82,6 +90,7 @@ class MyApp extends StatelessWidget {
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
           return MaterialApp(
+            navigatorKey: appNavigatorKey,
             onGenerateTitle: (context) => context.l10n.appTitle,
             // Arabic uses RTL; English and Turkish stay LTR. App locale (not
             // only the device locale) controls direction.
@@ -147,6 +156,10 @@ class MyApp extends StatelessWidget {
                   const DriverSupportTicketCreateScreen(),
               DriverSupportTicketDetailScreen.routeName: (ctx) =>
                   const DriverSupportTicketDetailScreen(),
+              DriverNotificationScreen.routeName: (ctx) =>
+                  const DriverNotificationScreen(),
+              DriverNotificationPreferencesScreen.routeName: (ctx) =>
+                  const DriverNotificationPreferencesScreen(),
               SettingsScreen.routeName: (ctx) => const SettingsScreen(),
               CustomerDetailInfoEditScreen.routeName: (ctx) =>
                   CustomerDetailInfoEditScreen(),
