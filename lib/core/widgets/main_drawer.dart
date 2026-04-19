@@ -12,6 +12,7 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -582,6 +583,19 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(
                         DriverSupportTicketsListScreen.routeName,
+                      ),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.notifications_outlined,
+                        title: 'Notifications',
+                        routeName: DriverNotificationScreen.routeName,
+                      ),
+                      selected: currentRouteName ==
+                          DriverNotificationScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(
+                        DriverNotificationScreen.routeName,
                       ),
                     ),
                     _buildDestinationTile(

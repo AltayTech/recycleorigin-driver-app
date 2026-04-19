@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_event.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
+import 'package:recycleorigindriver/core/notifications/driver_push_notification_controller.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/models/region.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
@@ -119,6 +120,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final token = await SecureStorage.getToken() ?? '';
       final loggedIn = await SecureStorage.getLoginStatus() && token.isNotEmpty;
       emit(state.copyWith(token: token, isLoggedIn: loggedIn));
+      if (loggedIn) {
+        unawaited(DriverPushNotificationController.instance.syncAfterLogin());
+      }
       event.completer?.complete();
     } catch (e) {
       emit(state.copyWith(token: '', isLoggedIn: false));
@@ -180,6 +184,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             tokenResponseModel: tokenResponseModel,
           ),
         );
+        unawaited(DriverPushNotificationController.instance.syncAfterLogin());
         event.completer?.complete(true);
         return;
       }
@@ -203,6 +208,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthRemoveTokenRequested event,
     Emitter<AuthState> emit,
   ) async {
+    await DriverPushNotificationController.instance.onLogout();
     await SecureStorage.deleteToken();
     await SecureStorage.saveLoginStatus(false);
     emit(

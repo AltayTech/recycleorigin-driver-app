@@ -47,5 +47,9 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your location to show where you are on the map when adding an address.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
