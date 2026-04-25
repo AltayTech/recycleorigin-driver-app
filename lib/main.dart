@@ -1,11 +1,8 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigindriver/app_bootstrap.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
 import 'package:recycleorigindriver/core/navigation/app_navigator.dart';
-import 'package:recycleorigindriver/core/notifications/fcm_background.dart';
-import 'package:recycleorigindriver/core/notifications/firebase_bootstrap.dart';
-import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -43,12 +40,7 @@ import 'core/screens/settings_screen.dart';
 /// The app wires domain providers at the root and exposes a single Material
 /// theme used by all collection, delivery, and profile flows.
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await AppLocaleController.instance.load();
-  await AppInfoService.instance.initialize();
-  await FirebaseBootstrap.initialize();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  runApp(const MyApp());
+  await bootstrapDriverApp('assets/env/.env.dev');
 }
 
 /// Root widget for the driver application.

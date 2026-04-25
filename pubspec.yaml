@@ -32,6 +32,7 @@ dependencies:
   firebase_messaging: ^16.2.0
   flutter_local_notifications: ^21.0.0
   permission_handler: ^12.0.1
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -43,10 +44,14 @@ dev_dependencies:
 
 
 flutter:
+  default-flavor: dev
   generate: true
 
   uses-material-design: true
   assets:
+    - assets/env/.env.dev
+    - assets/env/.env.staging
+    - assets/env/.env.prod
     - assets/images/splash_main.png
     - assets/images/
     - assets/images/main_page_header.png

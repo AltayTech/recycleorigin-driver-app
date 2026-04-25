@@ -1,9 +1,11 @@
+import 'package:recycleorigindriver/core/config/app_config.dart';
+
 /// API URL constants. Same auth contract as main Recycle Origin app (JWT).
 class Urls {
   /// Base URL for the backend (no trailing path).
   /// Local: Android emulator uses 10.0.2.2 to reach host; physical device use your PC IP (e.g. http://192.168.1.100:8080/).
   /// Production: use https://recycleorigin.com/
-  static const String apiBaseUrl = 'http://10.0.2.2:8080/';
+  static String get apiBaseUrl => AppConfig.apiBaseUrl;
 
   /// REST API root (pasmands v1).
   static String get rootUrl => apiBaseUrl + 'rest/pasmands/v1';
