@@ -173,8 +173,16 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
           'Accept': 'application/json',
         },
       );
+      if (response.statusCode == 401) {
+        await SecureStorage.deleteToken();
+        await SecureStorage.saveLoginStatus(false);
+        emit(state.copyWith(driver: driverZero, token: ''));
+        event.completer?.complete();
+        return;
+      }
       if (response.statusCode != 200) {
-        throw Exception('HTTP ${response.statusCode}');
+        event.completer?.complete();
+        return;
       }
       final decoded = json.decode(response.body);
       if (decoded is! Map<String, dynamic>) {
@@ -185,7 +193,6 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       event.completer?.complete();
     } catch (error, st) {
       event.completer?.completeError(error, st);
-      rethrow;
     }
   }
 

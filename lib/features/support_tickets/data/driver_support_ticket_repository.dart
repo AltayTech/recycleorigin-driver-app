@@ -10,10 +10,10 @@ Map<String, dynamic>? _decodeJsonMap(String body) {
   return o is Map<String, dynamic> ? o : null;
 }
 
-/// HTTP client for driver app support tickets (`rest/pasmands/v1/tickets`).
+/// HTTP client for driver app support tickets (`pasmands/v1/tickets`).
 class DriverSupportTicketRepository {
   static String get _root =>
-      '${Urls.apiBaseUrl}rest/pasmands/v1/tickets';
+      '${Urls.apiBaseUrl}pasmands/v1/tickets';
 
   Future<Map<String, String>> _headers() async {
     final token = await SecureStorage.getToken();

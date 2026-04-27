@@ -8,7 +8,7 @@ class Urls {
   static String get apiBaseUrl => AppConfig.apiBaseUrl;
 
   /// REST API root (pasmands v1).
-  static String get rootUrl => apiBaseUrl + 'rest/pasmands/v1';
+  static String get rootUrl => apiBaseUrl + 'pasmands/v1';
 
   static const pasmandsEndPoint = '/pasmands';
   static const addressEndPoint = '/customer/address';
