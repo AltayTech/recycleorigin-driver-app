@@ -35,4 +35,17 @@ class Urls {
 
   /// JWT login path (POST with query: username, password). Same as main app.
   static const String loginPath = 'jwt-auth/v1/token';
+
+  /// POST { id_token } - exchange Firebase ID token for backend tokens.
+  static const String firebaseExchangePath = 'pasmands/v1/auth/firebase';
+
+  /// POST { refresh_token } - rotate refresh + access tokens.
+  static const String refreshTokenPath = 'pasmands/v1/auth/refresh';
+
+  /// POST { refresh_token, all? } - revoke session.
+  static const String logoutPath = 'pasmands/v1/auth/logout';
+
+  /// GET - currently authenticated user (requires JWT).
+  static const String mePath = 'pasmands/v1/auth/me';
 }
+

@@ -69,3 +69,40 @@ final class AuthFirstLogoutSet extends AuthEvent {
   AuthFirstLogoutSet(this.value);
   final bool value;
 }
+
+final class AuthRegisterRequested extends AuthEvent {
+  AuthRegisterRequested({
+    required this.email,
+    required this.password,
+    this.firstName,
+    this.lastName,
+    this.completer,
+  });
+
+  final String email;
+  final String password;
+  final String? firstName;
+  final String? lastName;
+  final Completer<bool>? completer;
+}
+
+final class AuthGoogleSignInRequested extends AuthEvent {
+  AuthGoogleSignInRequested({this.completer});
+  final Completer<bool>? completer;
+}
+
+final class AuthForgotPasswordRequested extends AuthEvent {
+  AuthForgotPasswordRequested(this.email, {this.completer});
+  final String email;
+  final Completer<void>? completer;
+}
+
+final class AuthEmailVerificationResendRequested extends AuthEvent {
+  AuthEmailVerificationResendRequested({this.completer});
+  final Completer<void>? completer;
+}
+
+final class AuthEmailVerificationCheckRequested extends AuthEvent {
+  AuthEmailVerificationCheckRequested({this.completer});
+  final Completer<bool>? completer;
+}

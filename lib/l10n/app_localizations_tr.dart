@@ -636,4 +636,110 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ratingsSectionLabel => 'Degerlendirmeler';
+
+  @override
+  String get authForgotPasswordLink => 'Sifremi unuttum?';
+
+  @override
+  String get authContinueWithGoogle => 'Google ile devam et';
+
+  @override
+  String get authOrDivider => 'veya';
+
+  @override
+  String get authForgotPasswordTitle => 'Sifrenizi sifirlayin';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Hesabiniza bagli e-posta adresini girin, size sifre sifirlama talimatlarini gonderelim.';
+
+  @override
+  String get authForgotPasswordSendButton => 'Sifirlama baglantisi gonder';
+
+  @override
+  String get authForgotPasswordSentTitle => 'Gelen kutunuzu kontrol edin';
+
+  @override
+  String authForgotPasswordSentBody(String email) {
+    return '$email adresine sifre sifirlama talimatlarini gonderdik. Yeni bir sifre belirlemek icin e-postadaki baglantiyi izleyin.';
+  }
+
+  @override
+  String get authBackToLogin => 'Girise don';
+
+  @override
+  String get authVerifyEmailTitle => 'E-postanizi dogrulayin';
+
+  @override
+  String authVerifyEmailSubtitle(String email) {
+    return '$email adresine bir dogrulama baglantisi gonderdik. Hesabinizi etkinlestirmek icin baglantiyi acin.';
+  }
+
+  @override
+  String get authVerifyEmailIveVerified => 'Dogruladim';
+
+  @override
+  String get authVerifyEmailResend => 'E-postayi tekrar gonder';
+
+  @override
+  String authVerifyEmailResendIn(int seconds) {
+    return '$seconds sn sonra tekrar gonder';
+  }
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'E-postaniz hala dogrulanmadi. Lutfen gelen kutunuzu kontrol edin.';
+
+  @override
+  String get authVerifyEmailResentSuccess =>
+      'Dogrulama e-postasi yeniden gonderildi.';
+
+  @override
+  String get authVerifyEmailLogout => 'Cikis yap';
+
+  @override
+  String get authGoogleSignInFailed =>
+      'Google girisi basarisiz. Lutfen tekrar deneyin.';
+
+  @override
+  String get authNetworkError => 'Ag hatasi. Lutfen baglantinizi kontrol edin.';
+
+  @override
+  String get authGenericError => 'Istek tamamlanamadi. Lutfen tekrar deneyin.';
+
+  @override
+  String get authEmailRequired => 'Lutfen e-postanizi girin';
+
+  @override
+  String get authEmailAlreadyRegistered =>
+      'Bu e-posta ile bir hesap zaten mevcut.';
+
+  @override
+  String get authPasswordTooShort => 'Sifre en az 8 karakter olmalidir.';
+
+  @override
+  String get authRegisterButton => 'Kaydol';
+
+  @override
+  String get authFirstNameRequired => 'Lutfen adinizi girin';
+
+  @override
+  String get authLastNameRequired => 'Lutfen soyadinizi girin';
+
+  @override
+  String get authNotRegisteredPrompt => 'Hesabiniz yok mu? Kaydolun';
+
+  @override
+  String get authSwitchToLoginPrompt => 'Hesabiniz var mi? Giris yapin';
+
+  @override
+  String get authCreateAccountTitle => 'Hesabinizi olusturun';
+
+  @override
+  String get authSubtitleSignIn =>
+      'Surucu hesabinize erismek icin giris yapin.';
+
+  @override
+  String get authSubtitleSignUp =>
+      'Teslimata baslamak icin bir hesap olusturun.';
 }

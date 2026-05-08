@@ -1323,6 +1323,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ratings'**
   String get ratingsSectionLabel;
+
+  /// No description provided for @authForgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPasswordLink;
+
+  /// No description provided for @authContinueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueWithGoogle;
+
+  /// No description provided for @authOrDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOrDivider;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the email address linked to your account and we\'ll send you instructions to reset your password.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authForgotPasswordSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get authForgotPasswordSendButton;
+
+  /// No description provided for @authForgotPasswordSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authForgotPasswordSentTitle;
+
+  /// No description provided for @authForgotPasswordSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent password-reset instructions to {email}. Follow the link in the email to choose a new password.'**
+  String authForgotPasswordSentBody(String email);
+
+  /// No description provided for @authBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authBackToLogin;
+
+  /// No description provided for @authVerifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get authVerifyEmailTitle;
+
+  /// No description provided for @authVerifyEmailSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to {email}. Please open the link to activate your account.'**
+  String authVerifyEmailSubtitle(String email);
+
+  /// No description provided for @authVerifyEmailIveVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve verified'**
+  String get authVerifyEmailIveVerified;
+
+  /// No description provided for @authVerifyEmailResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get authVerifyEmailResend;
+
+  /// No description provided for @authVerifyEmailResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String authVerifyEmailResendIn(int seconds);
+
+  /// No description provided for @authVerifyEmailNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is still not verified. Please check your inbox.'**
+  String get authVerifyEmailNotYet;
+
+  /// No description provided for @authVerifyEmailResentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email resent.'**
+  String get authVerifyEmailResentSuccess;
+
+  /// No description provided for @authVerifyEmailLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authVerifyEmailLogout;
+
+  /// No description provided for @authGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get authGoogleSignInFailed;
+
+  /// No description provided for @authNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your connection.'**
+  String get authNetworkError;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete the request. Please try again.'**
+  String get authGenericError;
+
+  /// No description provided for @authEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get authEmailRequired;
+
+  /// No description provided for @authEmailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists.'**
+  String get authEmailAlreadyRegistered;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters.'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authRegisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get authRegisterButton;
+
+  /// No description provided for @authFirstNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get authFirstNameRequired;
+
+  /// No description provided for @authLastNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your last name'**
+  String get authLastNameRequired;
+
+  /// No description provided for @authNotRegisteredPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up'**
+  String get authNotRegisteredPrompt;
+
+  /// No description provided for @authSwitchToLoginPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get authSwitchToLoginPrompt;
+
+  /// No description provided for @authCreateAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get authCreateAccountTitle;
+
+  /// No description provided for @authSubtitleSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to access your driver account.'**
+  String get authSubtitleSignIn;
+
+  /// No description provided for @authSubtitleSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account to start delivering.'**
+  String get authSubtitleSignUp;
 }
 
 class _AppLocalizationsDelegate

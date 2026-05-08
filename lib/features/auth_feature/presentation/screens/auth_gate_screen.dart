@@ -5,6 +5,7 @@ import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -31,13 +32,18 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
     final auth = context.read<AuthBloc>();
     await auth.loadStoredToken();
     if (!mounted) return;
-    if (auth.state.isAuth) {
-      Navigator.of(context).pushReplacementNamed(
-        NavigationBottomScreen.routeName,
-      );
-    } else {
+    if (!auth.state.isAuth) {
       Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+      return;
     }
+    if (!auth.state.emailVerified) {
+      Navigator.of(context)
+          .pushReplacementNamed(EmailVerificationScreen.routeName);
+      return;
+    }
+    Navigator.of(context).pushReplacementNamed(
+      NavigationBottomScreen.routeName,
+    );
   }
 
   @override

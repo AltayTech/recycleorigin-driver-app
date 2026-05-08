@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
+import 'package:recycleorigindriver/features/auth_feature/data/firebase_auth_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/forgot_password_screen.dart';
+import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Login screen: email + password, same flow and API as main Recycle Origin app.
@@ -187,20 +191,23 @@ class _AuthCardState extends State<_AuthCard> {
 
     setState(() => _isLoading = true);
 
+    final authBloc = context.read<AuthBloc>();
     try {
-      final success = await context.read<AuthBloc>().login(
-            _emailController.text.trim(),
-            _passwordController.text,
-          );
+      final success = await authBloc.login(
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
       if (!mounted) {
         return;
       }
       if (success) {
-        Navigator.of(context).pushReplacementNamed(
-          NavigationBottomScreen.routeName,
-        );
+        _routePostLogin(authBloc.state.emailVerified);
       } else {
         _showErrorDialog(context.l10n.invalidCredentialsMessage);
+      }
+    } on AuthException catch (error) {
+      if (mounted) {
+        _showErrorDialog(_mapAuthError(error, context.l10n));
       }
     } catch (_) {
       if (mounted) {
@@ -210,6 +217,54 @@ class _AuthCardState extends State<_AuthCard> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    setState(() => _isLoading = true);
+    final authBloc = context.read<AuthBloc>();
+    try {
+      final ok = await authBloc.signInWithGoogle();
+      if (!mounted || !ok) return;
+      _routePostLogin(authBloc.state.emailVerified);
+    } on AuthException catch (error) {
+      if (mounted) {
+        _showErrorDialog(_mapAuthError(error, context.l10n));
+      }
+    } catch (_) {
+      if (mounted) {
+        _showErrorDialog(context.l10n.authGoogleSignInFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _routePostLogin(bool emailVerified) {
+    if (!emailVerified) {
+      Navigator.of(context)
+          .pushReplacementNamed(EmailVerificationScreen.routeName);
+      return;
+    }
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
+  }
+
+  String _mapAuthError(AuthException error, AppLocalizations l10n) {
+    switch (error.code) {
+      case AuthErrorCodes.wrongPassword:
+      case AuthErrorCodes.userNotFound:
+        return l10n.invalidCredentialsMessage;
+      case AuthErrorCodes.invalidEmail:
+        return l10n.authEmailInvalid;
+      case AuthErrorCodes.networkRequestFailed:
+        return l10n.authNetworkError;
+      case AuthErrorCodes.cancelled:
+        return l10n.authGenericError;
+      default:
+        return l10n.authGenericError;
     }
   }
 
@@ -364,7 +419,18 @@ class _AuthCardState extends State<_AuthCard> {
                     return null;
                   },
                 ),
-                const SizedBox(height: _spacingLg),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () => Navigator.of(context).pushNamed(
+                              ForgotPasswordScreen.routeName,
+                            ),
+                    child: Text(l10n.authForgotPasswordLink),
+                  ),
+                ),
+                const SizedBox(height: _spacingMd),
                 SizedBox(
                   height: 48,
                   child: FilledButton(
@@ -389,6 +455,52 @@ class _AuthCardState extends State<_AuthCard> {
                               color: colorScheme.onPrimary,
                             ),
                           ),
+                  ),
+                ),
+                const SizedBox(height: _spacingMd),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.outline.withValues(alpha: 0.4),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        l10n.authOrDivider,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: subtitleColor,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.outline.withValues(alpha: 0.4),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: _spacingMd),
+                SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: _isLoading ? null : _signInWithGoogle,
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(_radiusSm),
+                      ),
+                      side: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 0.6),
+                      ),
+                    ),
+                    icon: const Icon(Icons.g_mobiledata_rounded, size: 28),
+                    label: Text(
+                      l10n.authContinueWithGoogle,
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
                   ),
                 ),
               ],

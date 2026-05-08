@@ -12,6 +12,8 @@ import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/auth_gate_screen.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/forgot_password_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/screens/clear_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
@@ -140,6 +142,10 @@ class MyApp extends StatelessWidget {
                   const NavigationBottomScreen(),
               HomeScreen.routeName: (ctx) => const HomeScreen(),
               LoginScreen.routeName: (ctx) => LoginScreen(),
+              ForgotPasswordScreen.routeName: (ctx) =>
+                  const ForgotPasswordScreen(),
+              EmailVerificationScreen.routeName: (ctx) =>
+                  const EmailVerificationScreen(),
               AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
               ContactWithUs.routeName: (ctx) => ContactWithUs(),
               DriverSupportTicketsListScreen.routeName: (ctx) =>

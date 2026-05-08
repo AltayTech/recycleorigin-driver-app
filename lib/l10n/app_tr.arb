@@ -213,6 +213,58 @@
   "ratingCommentLabel": "Yorum (istege bagli)",
   "submitRatingLabel": "Degerlendirmeyi gonder",
   "yourRatingSubmitted": "Geri bildiriminiz icin tesekkurler",
-  "ratingsSectionLabel": "Degerlendirmeler"
+  "ratingsSectionLabel": "Degerlendirmeler",
+  "authForgotPasswordLink": "Sifremi unuttum?",
+  "authContinueWithGoogle": "Google ile devam et",
+  "authOrDivider": "veya",
+  "authForgotPasswordTitle": "Sifrenizi sifirlayin",
+  "authForgotPasswordSubtitle": "Hesabiniza bagli e-posta adresini girin, size sifre sifirlama talimatlarini gonderelim.",
+  "authForgotPasswordSendButton": "Sifirlama baglantisi gonder",
+  "authForgotPasswordSentTitle": "Gelen kutunuzu kontrol edin",
+  "authForgotPasswordSentBody": "{email} adresine sifre sifirlama talimatlarini gonderdik. Yeni bir sifre belirlemek icin e-postadaki baglantiyi izleyin.",
+  "@authForgotPasswordSentBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authBackToLogin": "Girise don",
+  "authVerifyEmailTitle": "E-postanizi dogrulayin",
+  "authVerifyEmailSubtitle": "{email} adresine bir dogrulama baglantisi gonderdik. Hesabinizi etkinlestirmek icin baglantiyi acin.",
+  "@authVerifyEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerifyEmailIveVerified": "Dogruladim",
+  "authVerifyEmailResend": "E-postayi tekrar gonder",
+  "authVerifyEmailResendIn": "{seconds} sn sonra tekrar gonder",
+  "@authVerifyEmailResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authVerifyEmailNotYet": "E-postaniz hala dogrulanmadi. Lutfen gelen kutunuzu kontrol edin.",
+  "authVerifyEmailResentSuccess": "Dogrulama e-postasi yeniden gonderildi.",
+  "authVerifyEmailLogout": "Cikis yap",
+  "authGoogleSignInFailed": "Google girisi basarisiz. Lutfen tekrar deneyin.",
+  "authNetworkError": "Ag hatasi. Lutfen baglantinizi kontrol edin.",
+  "authGenericError": "Istek tamamlanamadi. Lutfen tekrar deneyin.",
+  "authEmailRequired": "Lutfen e-postanizi girin",
+  "authEmailAlreadyRegistered": "Bu e-posta ile bir hesap zaten mevcut.",
+  "authPasswordTooShort": "Sifre en az 8 karakter olmalidir.",
+  "authRegisterButton": "Kaydol",
+  "authFirstNameRequired": "Lutfen adinizi girin",
+  "authLastNameRequired": "Lutfen soyadinizi girin",
+  "authNotRegisteredPrompt": "Hesabiniz yok mu? Kaydolun",
+  "authSwitchToLoginPrompt": "Hesabiniz var mi? Giris yapin",
+  "authCreateAccountTitle": "Hesabinizi olusturun",
+  "authSubtitleSignIn": "Surucu hesabinize erismek icin giris yapin.",
+  "authSubtitleSignUp": "Teslimata baslamak icin bir hesap olusturun."
 }
 

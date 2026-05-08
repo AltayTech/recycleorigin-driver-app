@@ -637,4 +637,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ratingsSectionLabel => 'Ratings';
+
+  @override
+  String get authForgotPasswordLink => 'Forgot password?';
+
+  @override
+  String get authContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get authOrDivider => 'or';
+
+  @override
+  String get authForgotPasswordTitle => 'Reset your password';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter the email address linked to your account and we\'ll send you instructions to reset your password.';
+
+  @override
+  String get authForgotPasswordSendButton => 'Send reset link';
+
+  @override
+  String get authForgotPasswordSentTitle => 'Check your inbox';
+
+  @override
+  String authForgotPasswordSentBody(String email) {
+    return 'We\'ve sent password-reset instructions to $email. Follow the link in the email to choose a new password.';
+  }
+
+  @override
+  String get authBackToLogin => 'Back to sign in';
+
+  @override
+  String get authVerifyEmailTitle => 'Verify your email';
+
+  @override
+  String authVerifyEmailSubtitle(String email) {
+    return 'We\'ve sent a verification link to $email. Please open the link to activate your account.';
+  }
+
+  @override
+  String get authVerifyEmailIveVerified => 'I\'ve verified';
+
+  @override
+  String get authVerifyEmailResend => 'Resend email';
+
+  @override
+  String authVerifyEmailResendIn(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'Your email is still not verified. Please check your inbox.';
+
+  @override
+  String get authVerifyEmailResentSuccess => 'Verification email resent.';
+
+  @override
+  String get authVerifyEmailLogout => 'Sign out';
+
+  @override
+  String get authGoogleSignInFailed =>
+      'Google sign-in failed. Please try again.';
+
+  @override
+  String get authNetworkError => 'Network error. Please check your connection.';
+
+  @override
+  String get authGenericError =>
+      'Could not complete the request. Please try again.';
+
+  @override
+  String get authEmailRequired => 'Please enter your email';
+
+  @override
+  String get authEmailAlreadyRegistered =>
+      'An account with this email already exists.';
+
+  @override
+  String get authPasswordTooShort => 'Password must be at least 8 characters.';
+
+  @override
+  String get authRegisterButton => 'Sign up';
+
+  @override
+  String get authFirstNameRequired => 'Please enter your first name';
+
+  @override
+  String get authLastNameRequired => 'Please enter your last name';
+
+  @override
+  String get authNotRegisteredPrompt => 'Don\'t have an account? Sign up';
+
+  @override
+  String get authSwitchToLoginPrompt => 'Already have an account? Sign in';
+
+  @override
+  String get authCreateAccountTitle => 'Create your account';
+
+  @override
+  String get authSubtitleSignIn => 'Sign in to access your driver account.';
+
+  @override
+  String get authSubtitleSignUp => 'Create an account to start delivering.';
 }
