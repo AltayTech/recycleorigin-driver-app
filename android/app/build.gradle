@@ -67,7 +67,6 @@ android {
         }
         staging {
             dimension "environment"
-            applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
             resValue "string", "app_name", "RecycleOrigin Driver Staging"
         }

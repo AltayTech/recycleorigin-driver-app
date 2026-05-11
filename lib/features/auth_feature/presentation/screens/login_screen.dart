@@ -6,6 +6,7 @@ import 'package:recycleorigindriver/features/auth_feature/data/firebase_auth_ser
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/forgot_password_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/register_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -112,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: IconButtonTheme(
                       data: IconButtonThemeData(
                         style: IconButton.styleFrom(
-                          backgroundColor:
-                              Colors.white.withValues(alpha: 0.14),
+                          backgroundColor: Colors.white.withValues(alpha: 0.14),
                         ),
                       ),
                       child: DrawerOrBackLeading(
@@ -500,6 +500,20 @@ class _AuthCardState extends State<_AuthCard> {
                       style: textTheme.labelLarge?.copyWith(
                         color: colorScheme.onSurface,
                       ),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _isLoading
+                      ? null
+                      : () => Navigator.of(context).pushNamed(
+                            RegisterScreen.routeName,
+                          ),
+                  child: Text(
+                    l10n.authNotRegisteredPrompt,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

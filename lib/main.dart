@@ -15,6 +15,7 @@ import 'package:recycleorigindriver/features/about_feature/presentation/about_us
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/forgot_password_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/screens/register_screen.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/screens/clear_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
@@ -42,7 +43,26 @@ import 'core/screens/settings_screen.dart';
 /// The app wires domain providers at the root and exposes a single Material
 /// theme used by all collection, delivery, and profile flows.
 void main() async {
-  await bootstrapDriverApp('assets/env/.env.dev');
+  const environment = String.fromEnvironment(
+    'FLUTTER_ENV',
+    defaultValue: 'prod',
+  );
+  await bootstrapDriverApp(_envFileFor(environment));
+}
+
+String _envFileFor(String environment) {
+  switch (environment.trim().toLowerCase()) {
+    case 'dev':
+    case 'development':
+      return 'assets/env/.env.dev';
+    case 'staging':
+      return 'assets/env/.env.staging';
+    case 'prod':
+    case 'production':
+      return 'assets/env/.env.prod';
+    default:
+      return 'assets/env/.env.prod';
+  }
 }
 
 /// Root widget for the driver application.
@@ -142,6 +162,7 @@ class MyApp extends StatelessWidget {
                   const NavigationBottomScreen(),
               HomeScreen.routeName: (ctx) => const HomeScreen(),
               LoginScreen.routeName: (ctx) => LoginScreen(),
+              RegisterScreen.routeName: (ctx) => const RegisterScreen(),
               ForgotPasswordScreen.routeName: (ctx) =>
                   const ForgotPasswordScreen(),
               EmailVerificationScreen.routeName: (ctx) =>

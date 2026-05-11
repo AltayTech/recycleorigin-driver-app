@@ -53,12 +53,17 @@ class AuthException implements Exception {
 
 /// Wraps Firebase Auth + Google Sign-In and the backend exchange.
 class FirebaseAuthService {
+  static const String _appType = 'driver';
+  static const String _serverClientId =
+      '975667016332-422b23j24ar2afbrvg0vj9hq7i3k2nj7.apps.googleusercontent.com';
+
   FirebaseAuthService({
     fb.FirebaseAuth? auth,
     GoogleSignIn? googleSignIn,
     Dio? exchangeClient,
   })  : _auth = auth ?? fb.FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn(),
+        _googleSignIn =
+            googleSignIn ?? GoogleSignIn(serverClientId: _serverClientId),
         _exchangeClient = exchangeClient ?? _buildExchangeClient();
 
   final fb.FirebaseAuth _auth;
@@ -223,7 +228,10 @@ class FirebaseAuthService {
     try {
       final response = await _exchangeClient.post<Map<String, dynamic>>(
         Urls.firebaseExchangePath,
-        data: {'id_token': idToken},
+        data: {
+          'id_token': idToken,
+          'app_type': _appType,
+        },
       );
       final body = response.data ?? const <String, dynamic>{};
       final access = (body['access_token'] ?? body['token']) as String? ?? '';
