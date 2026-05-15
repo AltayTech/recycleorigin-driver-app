@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/models/customer.dart';
+import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
+import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/profile_view.dart';
+
+class ProfileScreen extends StatefulWidget {
+  static const routeName = '/profile';
+
+  ProfileScreen();
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: AppTheme.appBarColor,
+        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        leading: const DrawerOrBackLeading(),
+      ),
+      drawer: mainDrawerIfRootRoute(context),
+      body: ProfileView(),
+    );
+  }
+}

@@ -1,11 +1,11 @@
 {
-    "name": "tamizshahrdriver",
-    "short_name": "tamizshahrdriver",
+    "name": "RecycleOrigin Driver",
+    "short_name": "RecycleOrigin",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Tamiz Shahr, Driver Application",
+    "description": "RecycleOrigin driver application",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

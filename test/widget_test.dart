@@ -1,30 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:recycleorigindriver/core/app_locale_controller.dart';
+import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
+/// Root widget smoke test (Flutter default entry under `test/`).
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  group('MyApp smoke', () {
+    setUp(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences.setMockInitialValues({});
+      await AppLocaleController.instance.load();
+      await AppInfoService.instance.initialize();
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    testWidgets('builds Material 3 app shell', (tester) async {
+      await tester.pumpWidget(const MyApp());
+      await tester.pump();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(app.theme?.useMaterial3, isTrue);
+    });
   });
 }

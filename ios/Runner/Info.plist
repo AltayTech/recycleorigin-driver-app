@@ -12,6 +12,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>RecycleOrigin Driver</string>
 	<key>CFBundleName</key>
 	<string>tamizshahrdriver</string>
 	<key>CFBundlePackageType</key>
@@ -43,5 +45,26 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location to show where you are on the map when adding an address.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- TODO(google-sign-in): replace with the REVERSED_CLIENT_ID
+				     value from ios/Runner/GoogleService-Info.plist after
+				     enabling Google Sign-In in the Firebase console. See
+				     docs/native-auth-setup.md for the full procedure. -->
+				<string>com.googleusercontent.apps.REPLACE_WITH_REVERSED_CLIENT_ID</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

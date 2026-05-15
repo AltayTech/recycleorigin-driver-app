@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+
+import 'package:recycleorigindriver/core/theme/app_theme.dart';
+
+class ButtonBottom extends StatelessWidget {
+  const ButtonBottom({
+    required this.width,
+    required this.height,
+    required this.text,
+    this.isActive = false,
+  });
+
+  final double width;
+  final double height;
+  final String text;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    final textScaler = MediaQuery.textScalerOf(context);
+
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+//        boxShadow: [
+//          BoxShadow(
+//            color: Colors.grey,
+//            blurRadius: 1.0,
+//            // has the effect of softening the shadow
+//            spreadRadius: 1,
+//            // has the effect of extending the shadow
+//            offset: Offset(
+//              1.0, // horizontal, move right 10
+//              1.0, // vertical, move down 10
+//            ),
+//          )
+//        ],
+        color: isActive ? AppTheme.primary : AppTheme.grey,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          textScaler: textScaler,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
+}
