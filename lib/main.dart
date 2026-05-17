@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
@@ -43,10 +44,12 @@ import 'core/screens/settings_screen.dart';
 /// The app wires domain providers at the root and exposes a single Material
 /// theme used by all collection, delivery, and profile flows.
 void main() async {
-  const environment = String.fromEnvironment(
-    'FLUTTER_ENV',
-    defaultValue: 'prod',
-  );
+  const fromDefine = String.fromEnvironment('FLUTTER_ENV');
+  // Debug/profile runs from IDE or `flutter run` use dev unless overridden.
+  // Release builds default to prod (use `-t lib/main_prod.dart` for store).
+  final environment = fromDefine.isNotEmpty
+      ? fromDefine
+      : (kDebugMode ? 'dev' : 'prod');
   await bootstrapDriverApp(_envFileFor(environment));
 }
 
