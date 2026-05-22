@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
@@ -13,8 +16,15 @@ class AppConfig {
   }
 
   static String get apiBaseUrl {
-    final url = _env('API_BASE_URL') ?? 'http://10.0.2.2:8080/';
-    return url.endsWith('/') ? url : '$url/';
+    final fromEnv = _env('API_BASE_URL');
+    if (fromEnv != null && fromEnv.isNotEmpty) {
+      return fromEnv.endsWith('/') ? fromEnv : '$fromEnv/';
+    }
+    // Android emulator → host machine; Windows/iOS simulator → localhost.
+    if (!kIsWeb && Platform.isAndroid) {
+      return 'http://10.0.2.2:8080/';
+    }
+    return 'http://127.0.0.1:8080/';
   }
 
   static String get environment {

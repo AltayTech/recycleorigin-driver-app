@@ -11,6 +11,7 @@ import 'package:recycleorigindriver/features/contact_feature/presentation/contac
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
 import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
@@ -550,6 +551,16 @@ class _MainDrawerState extends State<MainDrawer> {
                       selected: currentRouteName == StatisticsScreen.routeName,
                       destructive: false,
                       onTap: () => _navigateToRoute(StatisticsScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: const _DrawerDestination(
+                        icon: Icons.route_rounded,
+                        title: 'My route',
+                        routeName: RouteTodayScreen.routeName,
+                      ),
+                      selected: currentRouteName == RouteTodayScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(RouteTodayScreen.routeName),
                     ),
                     _buildSectionTitle(l10n.guideLabel),
                     _buildDestinationTile(
