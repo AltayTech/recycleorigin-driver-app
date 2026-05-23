@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
@@ -32,6 +33,7 @@ import 'package:recycleorigindriver/features/driver_notifications/driver_notific
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/home_screen.dart';
 import 'package:recycleorigindriver/features/map_feature/presentation/map_screen.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
@@ -43,10 +45,12 @@ import 'core/screens/settings_screen.dart';
 /// The app wires domain providers at the root and exposes a single Material
 /// theme used by all collection, delivery, and profile flows.
 void main() async {
-  const environment = String.fromEnvironment(
-    'FLUTTER_ENV',
-    defaultValue: 'prod',
-  );
+  const fromDefine = String.fromEnvironment('FLUTTER_ENV');
+  // Debug/profile runs from IDE or `flutter run` use dev unless overridden.
+  // Release builds default to prod (use `-t lib/main_prod.dart` for store).
+  final environment = fromDefine.isNotEmpty
+      ? fromDefine
+      : (kDebugMode ? 'dev' : 'prod');
   await bootstrapDriverApp(_envFileFor(environment));
 }
 
@@ -191,6 +195,7 @@ class MyApp extends StatelessWidget {
               CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
               ClearScreen.routeName: (ctx) => ClearScreen(),
               StatisticsScreen.routeName: (ctx) => StatisticsScreen(),
+              RouteTodayScreen.routeName: (ctx) => const RouteTodayScreen(),
               SendDeliveryScreen.routeName: (ctx) => SendDeliveryScreen(),
               DeliveryDetailScreen.routeName: (ctx) => DeliveryDetailScreen(),
             },

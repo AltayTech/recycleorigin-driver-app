@@ -23,6 +23,14 @@ class Urls {
       '$driverCollectsEndPoint/$collectId/rate';
   static const checkCompletedEndPoint = '/customer/completed';
   static const driverEndPoint = '/driver';
+
+  /// Full paths under [rootUrl] (same pattern as [driverCollectsEndPoint]).
+  static String get driverRouteToday => '${rootUrl}/driver/route/today';
+
+  static String get driverRouteRebuild => '${rootUrl}/driver/route/rebuild';
+
+  static String driverRouteStopAction(int stopId, String action) =>
+      '${rootUrl}/driver/route/stops/$stopId/$action';
   static const deliveriesEndPoint = '/deliveries';
   static const clearingEndPoint = '/clearings';
   static const transactionsEndPoint = '/transactions';

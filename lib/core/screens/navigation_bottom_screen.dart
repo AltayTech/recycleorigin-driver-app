@@ -8,6 +8,7 @@ import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/store_collect_list_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/profile_view.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/widgets/driver_session_header_banner.dart';
@@ -180,6 +181,18 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                 ),
               ),
             ),
+            actions: <Widget>[
+              if (_selectedIndex == _DriverShellTab.collection.index)
+                IconButton(
+                  tooltip: 'My route',
+                  icon: const Icon(Icons.route_rounded, color: AppTheme.bg),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      RouteTodayScreen.routeName,
+                    );
+                  },
+                ),
+            ],
           ),
           drawer: mainDrawerIfRootRoute(context),
           body: IndexedStack(
