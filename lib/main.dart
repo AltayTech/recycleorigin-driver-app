@@ -24,11 +24,11 @@ import 'package:recycleorigindriver/features/contact_feature/presentation/contac
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_ticket_create_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_ticket_detail_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/edit_personal_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/vehicle_info_screen.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/delivery_detail_screen.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/screens/send_delivery_screen.dart';
-import 'package:recycleorigindriver/features/driver_notifications/driver_notification_preferences_screen.dart';
 import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/home_screen.dart';
@@ -181,13 +181,11 @@ class MyApp extends StatelessWidget {
                   const DriverSupportTicketDetailScreen(),
               DriverNotificationScreen.routeName: (ctx) =>
                   const DriverNotificationScreen(),
-              DriverNotificationPreferencesScreen.routeName: (ctx) =>
-                  const DriverNotificationPreferencesScreen(),
               SettingsScreen.routeName: (ctx) => const SettingsScreen(),
-              CustomerDetailInfoEditScreen.routeName: (ctx) =>
-                  CustomerDetailInfoEditScreen(),
-              CustomerUserInfoScreen.routeName: (ctx) =>
-                  CustomerUserInfoScreen(),
+              PersonalInfoScreen.routeName: (ctx) => const PersonalInfoScreen(),
+              EditPersonalInfoScreen.routeName: (ctx) =>
+                  const EditPersonalInfoScreen(),
+              VehicleInfoScreen.routeName: (ctx) => const VehicleInfoScreen(),
               GuideScreen.routeName: (ctx) => const GuideScreen(),
               MapScreen.routeName: (ctx) => MapScreen(),
               CollectListScreen.routeName: (ctx) => CollectListScreen(),

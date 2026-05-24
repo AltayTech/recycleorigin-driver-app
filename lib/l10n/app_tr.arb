@@ -311,6 +311,32 @@
         "type": "String"
       }
     }
-  }
+  },
+  "inboxPreferencesSectionTitle": "Gelen kutusu ve tercihler",
+  "basicInfoSectionTitle": "Temel bilgiler",
+  "contactSectionTitle": "Iletisim",
+  "addressSectionTitle": "Adres",
+  "vehicleSectionTitle": "Arac detaylari",
+  "saveLabel": "Kaydet",
+  "mobileLabel": "Cep telefonu",
+  "copyLabel": "Kopyala",
+  "copiedToClipboardMessage": "Panoya kopyalandi",
+  "personalInfoSubtitle": "Hesap bilgilerinizi asagidan goruntuleyip guncelleyebilirsiniz.",
+  "phoneIsLoginIdentifierHint": "Giris icin kullandiginiz telefon numarasi buradan degistirilemez.",
+  "postalCodeHintMessage": "Posta kodu genellikle 5 hanelidir.",
+  "discardChangesTitle": "Degisiklikler silinsin mi?",
+  "discardChangesMessage": "Kaydedilmemis degisiklikler var. Cikmak istiyor musunuz?",
+  "discardLabel": "Sil",
+  "keepEditingLabel": "Duzenlemeye devam",
+  "vehicleContactSupportHint": "Arac bilgileri yoneticiniz tarafindan yonetilir. Bir sorun varsa destek ile iletisime gecin.",
+  "notificationsSectionTitle": "Bildirimler",
+  "notificationsSectionDescription": "Rota guncellemeleri ve kampanya mesajlarini nasil alacaginizi secin.",
+  "notificationCategoryTransactional": "Rota ve hesap guncellemeleri",
+  "notificationCategoryMarketing": "Haberler ve kampanyalar",
+  "notificationChannelPush": "Anlik bildirimler",
+  "notificationChannelInApp": "Uygulama ici gelen kutusu",
+  "notificationPrefsSavedMessage": "Bildirim tercihleri kaydedildi",
+  "notificationPrefsLoadErrorMessage": "Bildirim ayarlari yuklenemedi.",
+  "notificationPrefsSavingLabel": "Kaydediliyor…"
 }
 

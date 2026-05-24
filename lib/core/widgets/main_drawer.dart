@@ -9,11 +9,10 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
-import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -267,7 +266,7 @@ class _MainDrawerState extends State<MainDrawer> {
               _QuickActionChip(
                 icon: Icons.person_rounded,
                 label: l10n.userProfileLabel,
-                onTap: () => _navigateToRoute(CustomerUserInfoScreen.routeName),
+                onTap: () => _navigateToRoute(PersonalInfoScreen.routeName),
               ),
             ],
           ),
@@ -598,19 +597,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
-                        icon: Icons.notifications_outlined,
-                        title: 'Notifications',
-                        routeName: DriverNotificationScreen.routeName,
-                      ),
-                      selected: currentRouteName ==
-                          DriverNotificationScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(
-                        DriverNotificationScreen.routeName,
-                      ),
-                    ),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
                         icon: Icons.info_outline_rounded,
                         title: l10n.aboutUsLabel,
                         routeName: AboutUsScreen.routeName,
@@ -638,17 +624,17 @@ class _MainDrawerState extends State<MainDrawer> {
                                     ? l10n.userProfileLabel
                                     : l10n.loginLabel,
                                 routeName: authState.isAuth
-                                    ? CustomerUserInfoScreen.routeName
+                                    ? PersonalInfoScreen.routeName
                                     : LoginScreen.routeName,
                               ),
                               selected: currentRouteName ==
                                   (authState.isAuth
-                                      ? CustomerUserInfoScreen.routeName
+                                      ? PersonalInfoScreen.routeName
                                       : LoginScreen.routeName),
                               destructive: false,
                               onTap: () => _navigateToRoute(
                                 authState.isAuth
-                                    ? CustomerUserInfoScreen.routeName
+                                    ? PersonalInfoScreen.routeName
                                     : LoginScreen.routeName,
                               ),
                             ),

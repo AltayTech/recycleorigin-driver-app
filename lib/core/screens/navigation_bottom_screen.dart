@@ -10,7 +10,7 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/store_collect_list_screen.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/profile_view.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/profile_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/widgets/driver_session_header_banner.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
@@ -341,6 +341,6 @@ class _ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProfileView();
+    return const ProfileScreen();
   }
 }

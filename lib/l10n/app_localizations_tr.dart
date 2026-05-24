@@ -797,4 +797,89 @@ class AppLocalizationsTr extends AppLocalizations {
   String profileCopyrightLabel(String year, String appName) {
     return '© $year $appName';
   }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'Gelen kutusu ve tercihler';
+
+  @override
+  String get basicInfoSectionTitle => 'Temel bilgiler';
+
+  @override
+  String get contactSectionTitle => 'Iletisim';
+
+  @override
+  String get addressSectionTitle => 'Adres';
+
+  @override
+  String get vehicleSectionTitle => 'Arac detaylari';
+
+  @override
+  String get saveLabel => 'Kaydet';
+
+  @override
+  String get mobileLabel => 'Cep telefonu';
+
+  @override
+  String get copyLabel => 'Kopyala';
+
+  @override
+  String get copiedToClipboardMessage => 'Panoya kopyalandi';
+
+  @override
+  String get personalInfoSubtitle =>
+      'Hesap bilgilerinizi asagidan goruntuleyip guncelleyebilirsiniz.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Giris icin kullandiginiz telefon numarasi buradan degistirilemez.';
+
+  @override
+  String get postalCodeHintMessage => 'Posta kodu genellikle 5 hanelidir.';
+
+  @override
+  String get discardChangesTitle => 'Degisiklikler silinsin mi?';
+
+  @override
+  String get discardChangesMessage =>
+      'Kaydedilmemis degisiklikler var. Cikmak istiyor musunuz?';
+
+  @override
+  String get discardLabel => 'Sil';
+
+  @override
+  String get keepEditingLabel => 'Duzenlemeye devam';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'Arac bilgileri yoneticiniz tarafindan yonetilir. Bir sorun varsa destek ile iletisime gecin.';
+
+  @override
+  String get notificationsSectionTitle => 'Bildirimler';
+
+  @override
+  String get notificationsSectionDescription =>
+      'Rota guncellemeleri ve kampanya mesajlarini nasil alacaginizi secin.';
+
+  @override
+  String get notificationCategoryTransactional =>
+      'Rota ve hesap guncellemeleri';
+
+  @override
+  String get notificationCategoryMarketing => 'Haberler ve kampanyalar';
+
+  @override
+  String get notificationChannelPush => 'Anlik bildirimler';
+
+  @override
+  String get notificationChannelInApp => 'Uygulama ici gelen kutusu';
+
+  @override
+  String get notificationPrefsSavedMessage => 'Bildirim tercihleri kaydedildi';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'Bildirim ayarlari yuklenemedi.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'Kaydediliyor…';
 }

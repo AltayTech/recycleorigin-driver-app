@@ -796,4 +796,88 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileCopyrightLabel(String year, String appName) {
     return '© $year $appName';
   }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'Inbox & preferences';
+
+  @override
+  String get basicInfoSectionTitle => 'Basic information';
+
+  @override
+  String get contactSectionTitle => 'Contact';
+
+  @override
+  String get addressSectionTitle => 'Address';
+
+  @override
+  String get vehicleSectionTitle => 'Vehicle details';
+
+  @override
+  String get saveLabel => 'Save';
+
+  @override
+  String get mobileLabel => 'Mobile';
+
+  @override
+  String get copyLabel => 'Copy';
+
+  @override
+  String get copiedToClipboardMessage => 'Copied to clipboard';
+
+  @override
+  String get personalInfoSubtitle =>
+      'View and update your account details below.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Your mobile number is used to sign in and cannot be changed here.';
+
+  @override
+  String get postalCodeHintMessage => 'Postal code is usually 5 digits.';
+
+  @override
+  String get discardChangesTitle => 'Discard changes?';
+
+  @override
+  String get discardChangesMessage =>
+      'You have unsaved changes. Discard them and leave?';
+
+  @override
+  String get discardLabel => 'Discard';
+
+  @override
+  String get keepEditingLabel => 'Keep editing';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'Vehicle details are managed by your administrator. Contact support if something looks incorrect.';
+
+  @override
+  String get notificationsSectionTitle => 'Notifications';
+
+  @override
+  String get notificationsSectionDescription =>
+      'Choose how you receive route updates and promotional messages.';
+
+  @override
+  String get notificationCategoryTransactional => 'Route & account updates';
+
+  @override
+  String get notificationCategoryMarketing => 'News & promotions';
+
+  @override
+  String get notificationChannelPush => 'Push notifications';
+
+  @override
+  String get notificationChannelInApp => 'In-app inbox';
+
+  @override
+  String get notificationPrefsSavedMessage => 'Notification preferences saved';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'Could not load notification settings.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'Saving…';
 }

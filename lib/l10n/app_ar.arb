@@ -259,5 +259,31 @@
         "type": "String"
       }
     }
-  }
+  },
+  "inboxPreferencesSectionTitle": "البريد والتفضيلات",
+  "basicInfoSectionTitle": "المعلومات الأساسية",
+  "contactSectionTitle": "جهة الاتصال",
+  "addressSectionTitle": "العنوان",
+  "vehicleSectionTitle": "تفاصيل المركبة",
+  "saveLabel": "حفظ",
+  "mobileLabel": "الجوال",
+  "copyLabel": "نسخ",
+  "copiedToClipboardMessage": "تم النسخ إلى الحافظة",
+  "personalInfoSubtitle": "اعرض وحدّث بيانات حسابك أدناه.",
+  "phoneIsLoginIdentifierHint": "يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.",
+  "postalCodeHintMessage": "عادةً ما يتكون الرمز البريدي من 5 أرقام.",
+  "discardChangesTitle": "تجاهل التغييرات؟",
+  "discardChangesMessage": "لديك تغييرات غير محفوظة. هل تريد تجاهلها والمغادرة؟",
+  "discardLabel": "تجاهل",
+  "keepEditingLabel": "متابعة التحرير",
+  "vehicleContactSupportHint": "تُدار تفاصيل المركبة من قبل المسؤول. تواصل مع الدعم إذا كان هناك خطأ.",
+  "notificationsSectionTitle": "الإشعارات",
+  "notificationsSectionDescription": "اختر كيفية استلام تحديثات المسار والرسائل الترويجية.",
+  "notificationCategoryTransactional": "تحديثات المسار والحساب",
+  "notificationCategoryMarketing": "الأخبار والعروض",
+  "notificationChannelPush": "إشعارات الدفع",
+  "notificationChannelInApp": "صندوق الوارد داخل التطبيق",
+  "notificationPrefsSavedMessage": "تم حفظ تفضيلات الإشعارات",
+  "notificationPrefsLoadErrorMessage": "تعذر تحميل إعدادات الإشعارات.",
+  "notificationPrefsSavingLabel": "جارٍ الحفظ…"
 }

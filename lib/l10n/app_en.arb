@@ -311,5 +311,31 @@
         "type": "String"
       }
     }
-  }
+  },
+  "inboxPreferencesSectionTitle": "Inbox & preferences",
+  "basicInfoSectionTitle": "Basic information",
+  "contactSectionTitle": "Contact",
+  "addressSectionTitle": "Address",
+  "vehicleSectionTitle": "Vehicle details",
+  "saveLabel": "Save",
+  "mobileLabel": "Mobile",
+  "copyLabel": "Copy",
+  "copiedToClipboardMessage": "Copied to clipboard",
+  "personalInfoSubtitle": "View and update your account details below.",
+  "phoneIsLoginIdentifierHint": "Your mobile number is used to sign in and cannot be changed here.",
+  "postalCodeHintMessage": "Postal code is usually 5 digits.",
+  "discardChangesTitle": "Discard changes?",
+  "discardChangesMessage": "You have unsaved changes. Discard them and leave?",
+  "discardLabel": "Discard",
+  "keepEditingLabel": "Keep editing",
+  "vehicleContactSupportHint": "Vehicle details are managed by your administrator. Contact support if something looks incorrect.",
+  "notificationsSectionTitle": "Notifications",
+  "notificationsSectionDescription": "Choose how you receive route updates and promotional messages.",
+  "notificationCategoryTransactional": "Route & account updates",
+  "notificationCategoryMarketing": "News & promotions",
+  "notificationChannelPush": "Push notifications",
+  "notificationChannelInApp": "In-app inbox",
+  "notificationPrefsSavedMessage": "Notification preferences saved",
+  "notificationPrefsLoadErrorMessage": "Could not load notification settings.",
+  "notificationPrefsSavingLabel": "Saving…"
 }

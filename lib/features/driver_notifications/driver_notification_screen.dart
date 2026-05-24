@@ -7,7 +7,8 @@ import 'package:recycleorigindriver/core/notifications/notification_deep_link.da
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/driver_notifications/driver_notification_models.dart';
-import 'package:recycleorigindriver/features/driver_notifications/driver_notification_preferences_screen.dart';
+import 'package:recycleorigindriver/core/screens/settings_screen.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class DriverNotificationScreen extends StatefulWidget {
   static const routeName = '/driverNotifications';
@@ -88,12 +89,13 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: const Text('Notifications'),
+        title: Text(context.l10n.notificationsLabel),
         actions: [
           IconButton(
+            tooltip: context.l10n.settingsTitle,
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => Navigator.of(context).pushNamed(
-              DriverNotificationPreferencesScreen.routeName,
+              SettingsScreen.routeName,
             ),
           ),
           TextButton(

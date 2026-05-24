@@ -1605,6 +1605,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'© {year} {appName}'**
   String profileCopyrightLabel(String year, String appName);
+
+  /// No description provided for @inboxPreferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox & preferences'**
+  String get inboxPreferencesSectionTitle;
+
+  /// No description provided for @basicInfoSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get basicInfoSectionTitle;
+
+  /// No description provided for @contactSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactSectionTitle;
+
+  /// No description provided for @addressSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressSectionTitle;
+
+  /// No description provided for @vehicleSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle details'**
+  String get vehicleSectionTitle;
+
+  /// No description provided for @saveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveLabel;
+
+  /// No description provided for @mobileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile'**
+  String get mobileLabel;
+
+  /// No description provided for @copyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copyLabel;
+
+  /// No description provided for @copiedToClipboardMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get copiedToClipboardMessage;
+
+  /// No description provided for @personalInfoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View and update your account details below.'**
+  String get personalInfoSubtitle;
+
+  /// No description provided for @phoneIsLoginIdentifierHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mobile number is used to sign in and cannot be changed here.'**
+  String get phoneIsLoginIdentifierHint;
+
+  /// No description provided for @postalCodeHintMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code is usually 5 digits.'**
+  String get postalCodeHintMessage;
+
+  /// No description provided for @discardChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChangesTitle;
+
+  /// No description provided for @discardChangesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Discard them and leave?'**
+  String get discardChangesMessage;
+
+  /// No description provided for @discardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discardLabel;
+
+  /// No description provided for @keepEditingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditingLabel;
+
+  /// No description provided for @vehicleContactSupportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle details are managed by your administrator. Contact support if something looks incorrect.'**
+  String get vehicleContactSupportHint;
+
+  /// No description provided for @notificationsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsSectionTitle;
+
+  /// No description provided for @notificationsSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you receive route updates and promotional messages.'**
+  String get notificationsSectionDescription;
+
+  /// No description provided for @notificationCategoryTransactional.
+  ///
+  /// In en, this message translates to:
+  /// **'Route & account updates'**
+  String get notificationCategoryTransactional;
+
+  /// No description provided for @notificationCategoryMarketing.
+  ///
+  /// In en, this message translates to:
+  /// **'News & promotions'**
+  String get notificationCategoryMarketing;
+
+  /// No description provided for @notificationChannelPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications'**
+  String get notificationChannelPush;
+
+  /// No description provided for @notificationChannelInApp.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app inbox'**
+  String get notificationChannelInApp;
+
+  /// No description provided for @notificationPrefsSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification preferences saved'**
+  String get notificationPrefsSavedMessage;
+
+  /// No description provided for @notificationPrefsLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load notification settings.'**
+  String get notificationPrefsLoadErrorMessage;
+
+  /// No description provided for @notificationPrefsSavingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get notificationPrefsSavingLabel;
 }
 
 class _AppLocalizationsDelegate

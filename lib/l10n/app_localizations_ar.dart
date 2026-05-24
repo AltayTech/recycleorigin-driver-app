@@ -793,4 +793,88 @@ class AppLocalizationsAr extends AppLocalizations {
   String profileCopyrightLabel(String year, String appName) {
     return '© $year $appName';
   }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'البريد والتفضيلات';
+
+  @override
+  String get basicInfoSectionTitle => 'المعلومات الأساسية';
+
+  @override
+  String get contactSectionTitle => 'جهة الاتصال';
+
+  @override
+  String get addressSectionTitle => 'العنوان';
+
+  @override
+  String get vehicleSectionTitle => 'تفاصيل المركبة';
+
+  @override
+  String get saveLabel => 'حفظ';
+
+  @override
+  String get mobileLabel => 'الجوال';
+
+  @override
+  String get copyLabel => 'نسخ';
+
+  @override
+  String get copiedToClipboardMessage => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get personalInfoSubtitle => 'اعرض وحدّث بيانات حسابك أدناه.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.';
+
+  @override
+  String get postalCodeHintMessage =>
+      'عادةً ما يتكون الرمز البريدي من 5 أرقام.';
+
+  @override
+  String get discardChangesTitle => 'تجاهل التغييرات؟';
+
+  @override
+  String get discardChangesMessage =>
+      'لديك تغييرات غير محفوظة. هل تريد تجاهلها والمغادرة؟';
+
+  @override
+  String get discardLabel => 'تجاهل';
+
+  @override
+  String get keepEditingLabel => 'متابعة التحرير';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'تُدار تفاصيل المركبة من قبل المسؤول. تواصل مع الدعم إذا كان هناك خطأ.';
+
+  @override
+  String get notificationsSectionTitle => 'الإشعارات';
+
+  @override
+  String get notificationsSectionDescription =>
+      'اختر كيفية استلام تحديثات المسار والرسائل الترويجية.';
+
+  @override
+  String get notificationCategoryTransactional => 'تحديثات المسار والحساب';
+
+  @override
+  String get notificationCategoryMarketing => 'الأخبار والعروض';
+
+  @override
+  String get notificationChannelPush => 'إشعارات الدفع';
+
+  @override
+  String get notificationChannelInApp => 'صندوق الوارد داخل التطبيق';
+
+  @override
+  String get notificationPrefsSavedMessage => 'تم حفظ تفضيلات الإشعارات';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'تعذر تحميل إعدادات الإشعارات.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'جارٍ الحفظ…';
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 
@@ -77,7 +77,7 @@ class CustomDialogProfile extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context)
-                          .popAndPushNamed(CustomerUserInfoScreen.routeName);
+                          .popAndPushNamed(PersonalInfoScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,
