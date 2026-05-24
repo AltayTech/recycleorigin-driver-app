@@ -265,5 +265,51 @@
   "authSwitchToLoginPrompt": "Already have an account? Sign in",
   "authCreateAccountTitle": "Create your account",
   "authSubtitleSignIn": "Sign in to access your driver account.",
-  "authSubtitleSignUp": "Create an account to start delivering."
+  "authSubtitleSignUp": "Create an account to start delivering.",
+  "driverRoleLabel": "Driver",
+  "myVehicleLabel": "My vehicle",
+  "myRouteLabel": "My route",
+  "notificationsLabel": "Notifications",
+  "accountSectionTitle": "Account",
+  "activitySectionTitle": "Activity",
+  "preferencesSectionTitle": "Preferences",
+  "supportSectionTitle": "Support",
+  "walletBalanceLabel": "Wallet balance",
+  "ratingLabel": "Rating",
+  "noRatingLabel": "No rating yet",
+  "appVersionLabel": "Version {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "vehicleSummaryLabel": "{vehicle} · {color} · {plate}",
+  "@vehicleSummaryLabel": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "plate": {
+        "type": "String"
+      }
+    }
+  },
+  "storesCountLabel": "Stores",
+  "profileLoadErrorMessage": "Could not load your profile. Check your connection and try again.",
+  "profileCopyrightLabel": "© {year} {appName}",
+  "@profileCopyrightLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "appName": {
+        "type": "String"
+      }
+    }
+  }
 }

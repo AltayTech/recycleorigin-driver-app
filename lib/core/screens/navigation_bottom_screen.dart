@@ -341,6 +341,6 @@ class _ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileView();
+    return const ProfileView();
   }
 }

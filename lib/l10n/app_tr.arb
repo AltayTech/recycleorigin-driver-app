@@ -265,6 +265,52 @@
   "authSwitchToLoginPrompt": "Hesabiniz var mi? Giris yapin",
   "authCreateAccountTitle": "Hesabinizi olusturun",
   "authSubtitleSignIn": "Surucu hesabinize erismek icin giris yapin.",
-  "authSubtitleSignUp": "Teslimata baslamak icin bir hesap olusturun."
+  "authSubtitleSignUp": "Teslimata baslamak icin bir hesap olusturun.",
+  "driverRoleLabel": "Surucu",
+  "myVehicleLabel": "Aracim",
+  "myRouteLabel": "Rotam",
+  "notificationsLabel": "Bildirimler",
+  "accountSectionTitle": "Hesap",
+  "activitySectionTitle": "Etkinlik",
+  "preferencesSectionTitle": "Tercihler",
+  "supportSectionTitle": "Destek",
+  "walletBalanceLabel": "Cuzdan bakiyesi",
+  "ratingLabel": "Puan",
+  "noRatingLabel": "Henuz puan yok",
+  "appVersionLabel": "Surum {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "vehicleSummaryLabel": "{vehicle} · {color} · {plate}",
+  "@vehicleSummaryLabel": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "plate": {
+        "type": "String"
+      }
+    }
+  },
+  "storesCountLabel": "Magazalar",
+  "profileLoadErrorMessage": "Profiliniz yuklenemedi. Baglantinizi kontrol edip tekrar deneyin.",
+  "profileCopyrightLabel": "© {year} {appName}",
+  "@profileCopyrightLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "appName": {
+        "type": "String"
+      }
+    }
+  }
 }
 

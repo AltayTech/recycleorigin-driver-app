@@ -742,4 +742,59 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get authSubtitleSignUp =>
       'Teslimata baslamak icin bir hesap olusturun.';
+
+  @override
+  String get driverRoleLabel => 'Surucu';
+
+  @override
+  String get myVehicleLabel => 'Aracim';
+
+  @override
+  String get myRouteLabel => 'Rotam';
+
+  @override
+  String get notificationsLabel => 'Bildirimler';
+
+  @override
+  String get accountSectionTitle => 'Hesap';
+
+  @override
+  String get activitySectionTitle => 'Etkinlik';
+
+  @override
+  String get preferencesSectionTitle => 'Tercihler';
+
+  @override
+  String get supportSectionTitle => 'Destek';
+
+  @override
+  String get walletBalanceLabel => 'Cuzdan bakiyesi';
+
+  @override
+  String get ratingLabel => 'Puan';
+
+  @override
+  String get noRatingLabel => 'Henuz puan yok';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'Surum $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'Magazalar';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'Profiliniz yuklenemedi. Baglantinizi kontrol edip tekrar deneyin.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
 }

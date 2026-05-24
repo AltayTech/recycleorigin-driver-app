@@ -1509,6 +1509,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create an account to start delivering.'**
   String get authSubtitleSignUp;
+
+  /// No description provided for @driverRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driverRoleLabel;
+
+  /// No description provided for @myVehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My vehicle'**
+  String get myVehicleLabel;
+
+  /// No description provided for @myRouteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My route'**
+  String get myRouteLabel;
+
+  /// No description provided for @notificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsLabel;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
+  /// No description provided for @activitySectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activitySectionTitle;
+
+  /// No description provided for @preferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferencesSectionTitle;
+
+  /// No description provided for @supportSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportSectionTitle;
+
+  /// No description provided for @walletBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet balance'**
+  String get walletBalanceLabel;
+
+  /// No description provided for @ratingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get ratingLabel;
+
+  /// No description provided for @noRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No rating yet'**
+  String get noRatingLabel;
+
+  /// No description provided for @appVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String appVersionLabel(String version);
+
+  /// No description provided for @vehicleSummaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{vehicle} · {color} · {plate}'**
+  String vehicleSummaryLabel(String vehicle, String color, String plate);
+
+  /// No description provided for @storesCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get storesCountLabel;
+
+  /// No description provided for @profileLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your profile. Check your connection and try again.'**
+  String get profileLoadErrorMessage;
+
+  /// No description provided for @profileCopyrightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'© {year} {appName}'**
+  String profileCopyrightLabel(String year, String appName);
 }
 
 class _AppLocalizationsDelegate

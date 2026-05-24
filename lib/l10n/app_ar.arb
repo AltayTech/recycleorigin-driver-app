@@ -213,5 +213,51 @@
   "ratingCommentLabel": "تعليق (اختياري)",
   "submitRatingLabel": "إرسال التقييم",
   "yourRatingSubmitted": "شكرًا لملاحظاتك",
-  "ratingsSectionLabel": "التقييمات"
+  "ratingsSectionLabel": "التقييمات",
+  "driverRoleLabel": "سائق",
+  "myVehicleLabel": "مركبتي",
+  "myRouteLabel": "مساري",
+  "notificationsLabel": "الإشعارات",
+  "accountSectionTitle": "الحساب",
+  "activitySectionTitle": "النشاط",
+  "preferencesSectionTitle": "التفضيلات",
+  "supportSectionTitle": "الدعم",
+  "walletBalanceLabel": "رصيد المحفظة",
+  "ratingLabel": "التقييم",
+  "noRatingLabel": "لا يوجد تقييم بعد",
+  "appVersionLabel": "الإصدار {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "vehicleSummaryLabel": "{vehicle} · {color} · {plate}",
+  "@vehicleSummaryLabel": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "plate": {
+        "type": "String"
+      }
+    }
+  },
+  "storesCountLabel": "المتاجر",
+  "profileLoadErrorMessage": "تعذر تحميل ملفك الشخصي. تحقق من الاتصال وحاول مرة أخرى.",
+  "profileCopyrightLabel": "© {year} {appName}",
+  "@profileCopyrightLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "appName": {
+        "type": "String"
+      }
+    }
+  }
 }

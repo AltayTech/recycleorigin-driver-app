@@ -741,4 +741,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSubtitleSignUp => 'Create an account to start delivering.';
+
+  @override
+  String get driverRoleLabel => 'Driver';
+
+  @override
+  String get myVehicleLabel => 'My vehicle';
+
+  @override
+  String get myRouteLabel => 'My route';
+
+  @override
+  String get notificationsLabel => 'Notifications';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
+  String get activitySectionTitle => 'Activity';
+
+  @override
+  String get preferencesSectionTitle => 'Preferences';
+
+  @override
+  String get supportSectionTitle => 'Support';
+
+  @override
+  String get walletBalanceLabel => 'Wallet balance';
+
+  @override
+  String get ratingLabel => 'Rating';
+
+  @override
+  String get noRatingLabel => 'No rating yet';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'Stores';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'Could not load your profile. Check your connection and try again.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
 }

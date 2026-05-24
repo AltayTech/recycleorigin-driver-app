@@ -738,4 +738,59 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authSubtitleSignUp => 'Create an account to start delivering.';
+
+  @override
+  String get driverRoleLabel => 'سائق';
+
+  @override
+  String get myVehicleLabel => 'مركبتي';
+
+  @override
+  String get myRouteLabel => 'مساري';
+
+  @override
+  String get notificationsLabel => 'الإشعارات';
+
+  @override
+  String get accountSectionTitle => 'الحساب';
+
+  @override
+  String get activitySectionTitle => 'النشاط';
+
+  @override
+  String get preferencesSectionTitle => 'التفضيلات';
+
+  @override
+  String get supportSectionTitle => 'الدعم';
+
+  @override
+  String get walletBalanceLabel => 'رصيد المحفظة';
+
+  @override
+  String get ratingLabel => 'التقييم';
+
+  @override
+  String get noRatingLabel => 'لا يوجد تقييم بعد';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'المتاجر';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'تعذر تحميل ملفك الشخصي. تحقق من الاتصال وحاول مرة أخرى.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
 }
