@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/auth_snackbars.dart';
-import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
+import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
@@ -148,13 +148,16 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 2,
             shadowColor: Colors.black.withValues(alpha: 0.06),
             surfaceTintColor: Colors.transparent,
             iconTheme: IconThemeData(color: AppTheme.bg),
-            leading: DrawerOrBackLeading(
-              scaffoldKey: _scaffoldKey,
-              iconColor: AppTheme.bg,
+            leading: IconButton(
+              icon: const Icon(Icons.menu_rounded),
+              color: AppTheme.bg,
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
             title: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
@@ -194,7 +197,10 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                 ),
             ],
           ),
-          drawer: mainDrawerIfRootRoute(context),
+          drawer: Theme(
+            data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+            child: const MainDrawer(),
+          ),
           body: IndexedStack(
             index: _selectedIndex,
             children: const <Widget>[
