@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/core/models/request/pasmand.dart';
+import 'package:recycleorigindriver/core/models/request/waste_ref.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
@@ -25,8 +25,8 @@ class CustomDialogSendDelivery extends StatefulWidget {
 class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
   var storeValue;
   List<String> storeValueList = [];
-  List<Pasmand> storeList = [];
-  late Pasmand selectedStore;
+  List<WasteRef> storeList = [];
+  late WasteRef selectedStore;
 
   @override
   void didChangeDependencies() {

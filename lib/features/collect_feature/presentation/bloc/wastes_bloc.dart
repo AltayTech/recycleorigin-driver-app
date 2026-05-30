@@ -204,7 +204,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.wasteCart.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
           .isAdded = event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
@@ -224,7 +224,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         final c = event.wastesCart[i];
         list.add(
           WasteCart(
-            pasmand: c.pasmand,
+            waste: c.waste,
             estimated_weight: c.estimated_weight,
             estimated_price: c.estimated_price,
             exact_price: event.isCollected ? c.exact_price : c.estimated_price,
@@ -249,10 +249,10 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .exact_weight = event.exactWeight;
       next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .isAdded = event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
@@ -269,7 +269,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
         state.wasteCartItems
-            .firstWhere((prod) => prod.pasmand.id == event.wasteId),
+            .firstWhere((prod) => prod.waste.id == event.wasteId),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();

@@ -7,10 +7,10 @@ class Urls {
   /// Production: use https://recycleorigin.com/
   static String get apiBaseUrl => AppConfig.apiBaseUrl;
 
-  /// REST API root (pasmands v1).
-  static String get rootUrl => apiBaseUrl + 'pasmands/v1';
+  /// REST API root (recycleorigin v1).
+  static String get rootUrl => apiBaseUrl + 'recycleorigin/v1';
 
-  static const pasmandsEndPoint = '/pasmands';
+  static const wastesEndPoint = '/wastes';
   static const addressEndPoint = '/customer/address';
   static const regionEndPoint = '/customer/regions';
   static const collectsEndPoint = '/collects';
@@ -45,15 +45,15 @@ class Urls {
   static const String loginPath = 'jwt-auth/v1/token';
 
   /// POST { id_token } - exchange Firebase ID token for backend tokens.
-  static const String firebaseExchangePath = 'pasmands/v1/auth/firebase';
+  static const String firebaseExchangePath = 'recycleorigin/v1/auth/firebase';
 
   /// POST { refresh_token } - rotate refresh + access tokens.
-  static const String refreshTokenPath = 'pasmands/v1/auth/refresh';
+  static const String refreshTokenPath = 'recycleorigin/v1/auth/refresh';
 
   /// POST { refresh_token, all? } - revoke session.
-  static const String logoutPath = 'pasmands/v1/auth/logout';
+  static const String logoutPath = 'recycleorigin/v1/auth/logout';
 
   /// GET - currently authenticated user (requires JWT).
-  static const String mePath = 'pasmands/v1/auth/me';
+  static const String mePath = 'recycleorigin/v1/auth/me';
 }
 

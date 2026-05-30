@@ -21,7 +21,7 @@ import 'package:recycleorigindriver/core/network/urls.dart';
 ///
 /// Login goes through Firebase ([FirebaseAuthService]): credentials are
 /// validated against Firebase Auth, then the resulting ID token is exchanged
-/// at `POST /pasmands/v1/auth/firebase` for a backend access + refresh
+/// at `POST /recycleorigin/v1/auth/firebase` for a backend access + refresh
 /// token pair. Google sign-in follows the same exchange.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({FirebaseAuthService? firebaseAuthService})

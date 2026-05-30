@@ -1,4 +1,4 @@
-/// Support ticket models (same JSON shape as backend `/pasmands/v1/tickets`).
+/// Support ticket models (same JSON shape as backend `/recycleorigin/v1/tickets`).
 class SupportTicket {
   const SupportTicket({
     required this.id,

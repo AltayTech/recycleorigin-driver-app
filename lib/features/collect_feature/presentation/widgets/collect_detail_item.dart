@@ -50,7 +50,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
       _isLoading = true;
     });
     await context.read<WastesBloc>().removeWasteCart(
-          widget.wasteItem.pasmand.id,
+          widget.wasteItem.waste.id,
         );
 
     widget.function();
@@ -132,8 +132,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            widget.wasteItem.pasmand.post_title != null
-                                ? widget.wasteItem.pasmand.post_title
+                            widget.wasteItem.waste.post_title != null
+                                ? widget.wasteItem.waste.post_title
                                 : context.l10n.noneLabel,
                             style: TextStyle(
                               color: AppTheme.black,

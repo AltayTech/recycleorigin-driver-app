@@ -82,8 +82,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.collectItem.pasmand.post_title != null
-                                ? widget.collectItem.pasmand.post_title
+                            widget.collectItem.waste.post_title != null
+                                ? widget.collectItem.waste.post_title
                                 : l10n.noneLabel,
                             style: TextStyle(
                               color: AppTheme.black,

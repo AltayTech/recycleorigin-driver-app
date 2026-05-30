@@ -98,7 +98,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
 
   void _initWeightControllers(List<WasteCart> items) {
     for (final item in items) {
-      final id = item.pasmand.id;
+      final id = item.waste.id;
       if (!_weightControllers.containsKey(id)) {
         _weightControllers[id] = TextEditingController(
           text: _formatWeight(item.exact_weight),
@@ -223,10 +223,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
     );
   }
 
-  void _onWeightChanged(int pasmandId, String value) {
+  void _onWeightChanged(int wasteId, String value) {
     final bloc = context.read<WastesBloc>();
     final items = bloc.state.wasteCartItems;
-    final item = items.where((e) => e.pasmand.id == pasmandId).firstOrNull;
+    final item = items.where((e) => e.waste.id == wasteId).firstOrNull;
     if (item == null) return;
     final weight = double.tryParse(value)?.toStringAsFixed(3) ?? '0.000';
     bloc.updateWasteCart(item, weight, item.isAdded);
@@ -274,7 +274,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
     try {
       final payload = items
           .map((e) => {
-                'pasmand_id': e.pasmand.id,
+                'waste_id': e.waste.id,
                 'exact_weight': e.exact_weight,
               })
           .toList();
@@ -692,7 +692,7 @@ class _WasteItemsList extends StatelessWidget {
   final List<WasteCart> items;
   final Map<int, TextEditingController> controllers;
   final bool editable;
-  final void Function(int pasmandId, String value) onWeightChanged;
+  final void Function(int wasteId, String value) onWeightChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -715,9 +715,9 @@ class _WasteItemsList extends StatelessWidget {
           if (i > 0) const Divider(height: 1),
           _WasteItemTile(
             item: items[i],
-            controller: controllers[items[i].pasmand.id],
+            controller: controllers[items[i].waste.id],
             editable: editable,
-            onChanged: (v) => onWeightChanged(items[i].pasmand.id, v),
+            onChanged: (v) => onWeightChanged(items[i].waste.id, v),
           ),
         ],
       ],
@@ -765,8 +765,8 @@ class _WasteItemTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.pasmand.post_title.isNotEmpty
-                          ? item.pasmand.post_title
+                      item.waste.post_title.isNotEmpty
+                          ? item.waste.post_title
                           : l10n.noneLabel,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
@@ -1059,7 +1059,7 @@ class _ConfirmPickupDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        item.pasmand.post_title,
+                        item.waste.post_title,
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ),

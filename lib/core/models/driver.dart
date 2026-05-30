@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/models/status.dart';
 
 import 'package:recycleorigindriver/core/models/driver_data.dart';
-import 'request/pasmand.dart';
+import 'request/waste_ref.dart';
 
 class Driver with ChangeNotifier {
   final Status status;
@@ -10,7 +10,7 @@ class Driver with ChangeNotifier {
   final Status car_color;
   final String car_number;
   final DriverData driver_data;
-  final List<Pasmand> stores;
+  final List<WasteRef> stores;
   final String money;
   final double? averageRating;
 
@@ -50,12 +50,12 @@ class Driver with ChangeNotifier {
       );
     }
     final storeList = parsedJson['stores'];
-    final List<Pasmand> storeRaw = storeList is List
+    final List<WasteRef> storeRaw = storeList is List
         ? (storeList)
-            .map<Pasmand>(
-                (dynamic i) => Pasmand.fromJson(i as Map<String, dynamic>))
+            .map<WasteRef>(
+                (dynamic i) => WasteRef.fromJson(i as Map<String, dynamic>))
             .toList()
-        : <Pasmand>[];
+        : <WasteRef>[];
 
     final driverDataJson = parsedJson['driver_data'];
     final driverData = driverDataJson is Map<String, dynamic>

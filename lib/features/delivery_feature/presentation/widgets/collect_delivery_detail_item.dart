@@ -47,7 +47,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //      _isLoading = true;
 //    });
 //    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
-//      widget.wasteItem.pasmand.id,
+//      widget.wasteItem.waste.id,
 //    );
 //
 //    widget.function();
@@ -161,8 +161,8 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              widget.wasteItem.pasmand.post_title != null
-                                  ? widget.wasteItem.pasmand.post_title
+                              widget.wasteItem.waste.post_title != null
+                                  ? widget.wasteItem.waste.post_title
                                   : context.l10n.noneLabel,
                               style: TextStyle(
                                 color: AppTheme.black,
