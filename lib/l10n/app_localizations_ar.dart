@@ -579,6 +579,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String get collectListFilterNeedsAction => 'يتطلب إجراءً منك';
 
   @override
+  String get collectListDateAll => 'كل التواريخ';
+
+  @override
+  String get collectListDateToday => 'اليوم';
+
+  @override
+  String get collectListDateThisWeek => 'هذا الأسبوع';
+
+  @override
+  String get collectListDateThisMonth => 'هذا الشهر';
+
+  @override
+  String get collectListDateCustom => 'مخصص';
+
+  @override
+  String get collectListDateSheetTitle => 'اختر نطاق التاريخ';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
   String get pickupLocationMapTitle => 'موقع الاستلام';
 
   @override

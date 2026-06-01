@@ -1216,6 +1216,48 @@ abstract class AppLocalizations {
   /// **'Needs your action'**
   String get collectListFilterNeedsAction;
 
+  /// No description provided for @collectListDateAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All dates'**
+  String get collectListDateAll;
+
+  /// No description provided for @collectListDateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get collectListDateToday;
+
+  /// No description provided for @collectListDateThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get collectListDateThisWeek;
+
+  /// No description provided for @collectListDateThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get collectListDateThisMonth;
+
+  /// No description provided for @collectListDateCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get collectListDateCustom;
+
+  /// No description provided for @collectListDateSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date range'**
+  String get collectListDateSheetTitle;
+
+  /// No description provided for @collectListDateRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String collectListDateRangeLabel(String start, String end);
+
   /// No description provided for @pickupLocationMapTitle.
   ///
   /// In en, this message translates to:

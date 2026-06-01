@@ -15,6 +15,8 @@ final class WastesSearchParamsChanged extends WastesEvent {
     this.sOrder,
     this.sOrderBy,
     this.sCategory,
+    this.sDateFrom,
+    this.sDateTo,
   });
 
   final String? searchKey;
@@ -23,6 +25,8 @@ final class WastesSearchParamsChanged extends WastesEvent {
   final String? sOrder;
   final String? sOrderBy;
   final Object? sCategory;
+  final String? sDateFrom;
+  final String? sDateTo;
 }
 
 final class WastesSearchBuilderApplied extends WastesEvent {
@@ -84,6 +88,27 @@ final class WastesSendRequestRequested extends WastesEvent {
 
 final class WastesSearchCollectItemsRequested extends WastesEvent {
   WastesSearchCollectItemsRequested({this.completer});
+  final Completer<void>? completer;
+}
+
+/// Applies list query params, builds the endpoint, and fetches in one handler.
+final class WastesCollectListQueryRequested extends WastesEvent {
+  WastesCollectListQueryRequested({
+    required this.page,
+    required this.order,
+    required this.orderBy,
+    required this.category,
+    required this.dateFrom,
+    required this.dateTo,
+    this.completer,
+  });
+
+  final int page;
+  final String order;
+  final String orderBy;
+  final String category;
+  final String dateFrom;
+  final String dateTo;
   final Completer<void>? completer;
 }
 

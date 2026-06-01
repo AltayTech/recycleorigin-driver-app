@@ -186,6 +186,23 @@
   "collectListSortIdAsc": "Request ID (low to high)",
   "collectListFilterAll": "All",
   "collectListFilterNeedsAction": "Needs your action",
+  "collectListDateAll": "All dates",
+  "collectListDateToday": "Today",
+  "collectListDateThisWeek": "This week",
+  "collectListDateThisMonth": "This month",
+  "collectListDateCustom": "Custom",
+  "collectListDateSheetTitle": "Select date range",
+  "collectListDateRangeLabel": "{start} – {end}",
+  "@collectListDateRangeLabel": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
   "pickupLocationMapTitle": "Pickup location",
   "openInMapsAppLabel": "Open in Maps",
   "openMapsAppFailed": "Could not open a maps app.",

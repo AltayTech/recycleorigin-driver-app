@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
@@ -30,6 +31,14 @@ enum _CollectListSort {
   idLowToHigh,
 }
 
+enum _DatePreset {
+  all,
+  today,
+  thisWeek,
+  thisMonth,
+  custom,
+}
+
 class _CollectListScreenState extends State<CollectListScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isInit = true;
@@ -40,6 +49,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
   final List<RequestWasteItem> _items = [];
 
   _CollectListSort _sort = _CollectListSort.newestFirst;
+  _DatePreset _datePreset = _DatePreset.today;
+  DateTimeRange? _customRange;
 
   /// API [category] query: '' = all; see backend `applyDriverCollectListFilter`.
   String _filterSlug = '';
@@ -88,19 +99,148 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return c.toString();
   }
 
-  void _applySortToBloc(WastesBloc bloc, _CollectListSort sort) {
-    final (String order, String orderBy) = switch (sort) {
+  static DateTime _dateOnly(DateTime d) =>
+      DateTime(d.year, d.month, d.day);
+
+  static String _apiDate(DateTime d) =>
+      intl.DateFormat('yyyy-MM-dd').format(d);
+
+  (String order, String orderBy) _sortQueryParams() {
+    return switch (_sort) {
       _CollectListSort.newestFirst => ('desc', 'date'),
       _CollectListSort.oldestFirst => ('asc', 'date'),
       _CollectListSort.idHighToLow => ('desc', 'id'),
       _CollectListSort.idLowToHigh => ('asc', 'id'),
     };
-    bloc.sOrder = order;
-    bloc.sOrderBy = orderBy;
   }
 
-  void _applyFilterToBloc(WastesBloc bloc, String slug) {
-    bloc.sCategory = slug.isEmpty ? '' : slug;
+  /// Maps the active date preset to API [date_from]/[date_to] (YYYY-MM-DD).
+  (String from, String to) _dateQueryParams() {
+    final now = DateTime.now();
+    final today = _dateOnly(now);
+    return switch (_datePreset) {
+      _DatePreset.all => ('', ''),
+      _DatePreset.today => (_apiDate(today), _apiDate(today)),
+      _DatePreset.thisWeek => (
+          _apiDate(today.subtract(Duration(days: today.weekday - 1))),
+          _apiDate(today),
+        ),
+      _DatePreset.thisMonth => (
+          _apiDate(DateTime(today.year, today.month, 1)),
+          _apiDate(today),
+        ),
+      _DatePreset.custom => () {
+          final range = _customRange;
+          if (range == null) {
+            return ('', '');
+          }
+          return (
+            _apiDate(_dateOnly(range.start)),
+            _apiDate(_dateOnly(range.end)),
+          );
+        }(),
+    };
+  }
+
+  Future<void> _fetchCollectPage(int page) async {
+    final bloc = context.read<WastesBloc>();
+    final (order, orderBy) = _sortQueryParams();
+    final (dateFrom, dateTo) = _dateQueryParams();
+    await bloc.fetchCollectListPage(
+      page: page,
+      order: order,
+      orderBy: orderBy,
+      category: _filterSlug,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+    );
+  }
+
+  Future<void> _onDatePresetSelected(_DatePreset preset) async {
+    if (_isLoading) {
+      return;
+    }
+    if (preset == _DatePreset.custom) {
+      final picked = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(2020),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+        initialDateRange: _customRange ??
+            DateTimeRange(
+              start: _dateOnly(DateTime.now()),
+              end: _dateOnly(DateTime.now()),
+            ),
+        helpText: context.l10n.collectListDateSheetTitle,
+      );
+      if (!mounted || picked == null) {
+        return;
+      }
+      setState(() {
+        _datePreset = _DatePreset.custom;
+        _customRange = DateTimeRange(
+          start: _dateOnly(picked.start),
+          end: _dateOnly(picked.end),
+        );
+      });
+      await _reloadFromFirstPage();
+      return;
+    }
+    if (preset == _datePreset) {
+      return;
+    }
+    setState(() {
+      _datePreset = preset;
+      if (preset != _DatePreset.custom) {
+        _customRange = null;
+      }
+    });
+    await _reloadFromFirstPage();
+  }
+
+  String _dateChipLabel(AppLocalizations l10n, _DatePreset preset) {
+    if (preset == _DatePreset.custom && _customRange != null) {
+      final start = intl.DateFormat.MMMd().format(_customRange!.start);
+      final end = intl.DateFormat.MMMd().format(_customRange!.end);
+      final label = l10n.collectListDateRangeLabel(start, end);
+      return EnArConvertor.localize(context, label);
+    }
+    return switch (preset) {
+      _DatePreset.all => l10n.collectListDateAll,
+      _DatePreset.today => l10n.collectListDateToday,
+      _DatePreset.thisWeek => l10n.collectListDateThisWeek,
+      _DatePreset.thisMonth => l10n.collectListDateThisMonth,
+      _DatePreset.custom => l10n.collectListDateCustom,
+    };
+  }
+
+  Widget _buildDateFilterChips(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final disabled = _isLoading;
+    const presets = _DatePreset.values;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (final preset in presets)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: 8),
+              child: ChoiceChip(
+                label: Text(
+                  _dateChipLabel(l10n, preset),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                selected: _datePreset == preset,
+                onSelected: disabled
+                    ? null
+                    : (_) => _onDatePresetSelected(preset),
+                labelStyle: theme.textTheme.labelMedium,
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   void _onScroll() {
@@ -124,11 +264,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
     try {
       final bloc = context.read<WastesBloc>();
-      bloc.sPage = 1;
-      _applySortToBloc(bloc, _sort);
-      _applyFilterToBloc(bloc, _filterSlug);
-      bloc.searchBuilder();
-      await bloc.searchCollectItems();
+      await _fetchCollectPage(1);
       if (!mounted || generation != _loadGeneration) {
         return;
       }
@@ -158,11 +294,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     setState(() => _isLoading = true);
     try {
       final bloc = context.read<WastesBloc>();
-      bloc.sPage = nextPage;
-      _applySortToBloc(bloc, _sort);
-      _applyFilterToBloc(bloc, _filterSlug);
-      bloc.searchBuilder();
-      await bloc.searchCollectItems();
+      await _fetchCollectPage(nextPage);
       if (!mounted || generation != _loadGeneration) {
         return;
       }
@@ -616,25 +748,36 @@ class _CollectListScreenState extends State<CollectListScreen> {
       );
     }
 
-    return RefreshIndicator(
-      onRefresh: _reloadFromFirstPage,
-      color: AppTheme.primary,
-      child: CustomScrollView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(child: _buildListToolbar(l10n)),
-          _buildRequestsList(),
-          if (_isLoading && _items.isNotEmpty)
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: _buildDateFilterChips(l10n),
+        ),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: _reloadFromFirstPage,
+            color: AppTheme.primary,
+            child: CustomScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: _buildListToolbar(l10n)),
+                _buildRequestsList(),
+                if (_isLoading && _items.isNotEmpty)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+              ],
             ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 

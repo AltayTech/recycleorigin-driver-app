@@ -581,6 +581,29 @@ class AppLocalizationsTr extends AppLocalizations {
   String get collectListFilterNeedsAction => 'Islem gerekiyor';
 
   @override
+  String get collectListDateAll => 'Tum tarihler';
+
+  @override
+  String get collectListDateToday => 'Bugun';
+
+  @override
+  String get collectListDateThisWeek => 'Bu hafta';
+
+  @override
+  String get collectListDateThisMonth => 'Bu ay';
+
+  @override
+  String get collectListDateCustom => 'Ozel';
+
+  @override
+  String get collectListDateSheetTitle => 'Tarih araligi sec';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
   String get pickupLocationMapTitle => 'Toplama konumu';
 
   @override

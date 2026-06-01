@@ -581,6 +581,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get collectListFilterNeedsAction => 'Needs your action';
 
   @override
+  String get collectListDateAll => 'All dates';
+
+  @override
+  String get collectListDateToday => 'Today';
+
+  @override
+  String get collectListDateThisWeek => 'This week';
+
+  @override
+  String get collectListDateThisMonth => 'This month';
+
+  @override
+  String get collectListDateCustom => 'Custom';
+
+  @override
+  String get collectListDateSheetTitle => 'Select date range';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
   String get pickupLocationMapTitle => 'Pickup location';
 
   @override

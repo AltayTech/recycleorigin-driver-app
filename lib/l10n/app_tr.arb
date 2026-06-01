@@ -186,6 +186,23 @@
   "collectListSortIdAsc": "Talep no (kucukten buyuge)",
   "collectListFilterAll": "Tumu",
   "collectListFilterNeedsAction": "Islem gerekiyor",
+  "collectListDateAll": "Tum tarihler",
+  "collectListDateToday": "Bugun",
+  "collectListDateThisWeek": "Bu hafta",
+  "collectListDateThisMonth": "Bu ay",
+  "collectListDateCustom": "Ozel",
+  "collectListDateSheetTitle": "Tarih araligi sec",
+  "collectListDateRangeLabel": "{start} – {end}",
+  "@collectListDateRangeLabel": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
   "pickupLocationMapTitle": "Toplama konumu",
   "openInMapsAppLabel": "Haritada ac",
   "openMapsAppFailed": "Harita uygulamasi acilamadi.",
