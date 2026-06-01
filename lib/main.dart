@@ -109,6 +109,8 @@ class MyApp extends StatelessWidget {
         builder: (context, locale, _) {
           return MaterialApp(
             navigatorKey: appNavigatorKey,
+            debugShowCheckedModeBanner:false,
+
             onGenerateTitle: (context) => context.l10n.appTitle,
             // Arabic uses RTL; English and Turkish stay LTR. App locale (not
             // only the device locale) controls direction.
@@ -118,6 +120,7 @@ class MyApp extends StatelessWidget {
                   : TextDirection.ltr,
               child: child ?? const SizedBox.shrink(),
             ),
+
             theme: ThemeData(
               useMaterial3: true,
               colorScheme: colorScheme,
