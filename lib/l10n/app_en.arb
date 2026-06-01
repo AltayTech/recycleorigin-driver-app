@@ -339,5 +339,41 @@
   "notificationChannelInApp": "In-app inbox",
   "notificationPrefsSavedMessage": "Notification preferences saved",
   "notificationPrefsLoadErrorMessage": "Could not load notification settings.",
-  "notificationPrefsSavingLabel": "Saving…"
+  "notificationPrefsSavingLabel": "Saving…",
+  "performanceTitle": "Performance",
+  "performanceHeroTitle": "Your performance",
+  "performancePickupsLabel": "Completed",
+  "performanceWeightLabel": "Weight hauled",
+  "performanceEarningsLabel": "Earnings",
+  "performanceXpLabel": "{current} XP · {toNext} to next",
+  "@performanceXpLabel": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "toNext": { "type": "int" }
+    }
+  },
+  "performanceStreakTitle": "Streak",
+  "performanceStreakValue": "{current} wk · best {longest}",
+  "@performanceStreakValue": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "longest": { "type": "int" }
+    }
+  },
+  "performanceGoalTitle": "Monthly goal",
+  "performanceTrendTitle": "Pickup trend",
+  "performanceBadgesTitle": "Achievements",
+  "performanceLeaderboardTitle": "Leaderboard",
+  "performanceRankSummary": "Rank #{position} of {total} · top {percentile}%",
+  "@performanceRankSummary": {
+    "placeholders": {
+      "position": { "type": "int" },
+      "total": { "type": "int" },
+      "percentile": { "type": "double" }
+    }
+  },
+  "performanceRange7d": "Last 7 days",
+  "performanceRange30d": "Last 30 days",
+  "performanceRange90d": "Last 90 days",
+  "performanceLoadError": "Could not load performance data."
 }

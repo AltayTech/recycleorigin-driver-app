@@ -287,5 +287,22 @@
   "notificationChannelInApp": "صندوق الوارد داخل التطبيق",
   "notificationPrefsSavedMessage": "تم حفظ تفضيلات الإشعارات",
   "notificationPrefsLoadErrorMessage": "تعذر تحميل إعدادات الإشعارات.",
-  "notificationPrefsSavingLabel": "جارٍ الحفظ…"
+  "notificationPrefsSavingLabel": "جارٍ الحفظ…",
+  "performanceTitle": "الأداء",
+  "performanceHeroTitle": "أداؤك",
+  "performancePickupsLabel": "مكتمل",
+  "performanceWeightLabel": "الوزن المنقول",
+  "performanceEarningsLabel": "الأرباح",
+  "performanceXpLabel": "{current} XP · {toNext} للمستوى التالي",
+  "performanceStreakTitle": "سلسلة",
+  "performanceStreakValue": "{current} أسبوع · الأفضل {longest}",
+  "performanceGoalTitle": "الهدف الشهري",
+  "performanceTrendTitle": "اتجاه الجمع",
+  "performanceBadgesTitle": "الإنجازات",
+  "performanceLeaderboardTitle": "لوحة المتصدرين",
+  "performanceRankSummary": "المرتبة #{position} من {total}",
+  "performanceRange7d": "آخر 7 أيام",
+  "performanceRange30d": "آخر 30 يومًا",
+  "performanceRange90d": "آخر 90 يومًا",
+  "performanceLoadError": "تعذر تحميل بيانات الأداء."
 }

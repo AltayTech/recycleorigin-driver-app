@@ -888,4 +888,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationPrefsSavingLabel => 'Saving…';
+
+  @override
+  String get performanceTitle => 'Performance';
+
+  @override
+  String get performanceHeroTitle => 'Your performance';
+
+  @override
+  String get performancePickupsLabel => 'Completed';
+
+  @override
+  String get performanceWeightLabel => 'Weight hauled';
+
+  @override
+  String get performanceEarningsLabel => 'Earnings';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · $toNext to next';
+  }
+
+  @override
+  String get performanceStreakTitle => 'Streak';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current wk · best $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'Monthly goal';
+
+  @override
+  String get performanceTrendTitle => 'Pickup trend';
+
+  @override
+  String get performanceBadgesTitle => 'Achievements';
+
+  @override
+  String get performanceLeaderboardTitle => 'Leaderboard';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return 'Rank #$position of $total · top $percentile%';
+  }
+
+  @override
+  String get performanceRange7d => 'Last 7 days';
+
+  @override
+  String get performanceRange30d => 'Last 30 days';
+
+  @override
+  String get performanceRange90d => 'Last 90 days';
+
+  @override
+  String get performanceLoadError => 'Could not load performance data.';
 }

@@ -36,6 +36,7 @@ import 'package:recycleorigindriver/features/guide_feature/presentation/guide_sc
 import 'package:recycleorigindriver/features/home_feature/presentation/home_screen.dart';
 import 'package:recycleorigindriver/features/map_feature/presentation/map_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
@@ -211,7 +212,8 @@ class MyApp extends StatelessWidget {
               WalletScreen.routeName: (ctx) => const WalletScreen(),
               CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
               ClearScreen.routeName: (ctx) => ClearScreen(),
-              StatisticsScreen.routeName: (ctx) => StatisticsScreen(),
+              StatisticsScreen.routeName: (ctx) => const StatisticsScreen(),
+              PerformanceScreen.routeName: (ctx) => const PerformanceScreen(),
               RouteTodayScreen.routeName: (ctx) => const RouteTodayScreen(),
               SendDeliveryScreen.routeName: (ctx) => SendDeliveryScreen(),
               DeliveryDetailScreen.routeName: (ctx) => DeliveryDetailScreen(),

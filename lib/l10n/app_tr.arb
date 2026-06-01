@@ -339,6 +339,23 @@
   "notificationChannelInApp": "Uygulama ici gelen kutusu",
   "notificationPrefsSavedMessage": "Bildirim tercihleri kaydedildi",
   "notificationPrefsLoadErrorMessage": "Bildirim ayarlari yuklenemedi.",
-  "notificationPrefsSavingLabel": "Kaydediliyor…"
+  "notificationPrefsSavingLabel": "Kaydediliyor…",
+  "performanceTitle": "Performans",
+  "performanceHeroTitle": "Performansınız",
+  "performancePickupsLabel": "Tamamlanan",
+  "performanceWeightLabel": "Taşınan ağırlık",
+  "performanceEarningsLabel": "Kazanç",
+  "performanceXpLabel": "{current} XP · sonraki {toNext}",
+  "performanceStreakTitle": "Seri",
+  "performanceStreakValue": "{current} hf · en iyi {longest}",
+  "performanceGoalTitle": "Aylık hedef",
+  "performanceTrendTitle": "Toplama trendi",
+  "performanceBadgesTitle": "Başarılar",
+  "performanceLeaderboardTitle": "Sıralama",
+  "performanceRankSummary": "#{position} / {total} · üst %{percentile}",
+  "performanceRange7d": "Son 7 gün",
+  "performanceRange30d": "Son 30 gün",
+  "performanceRange90d": "Son 90 gün",
+  "performanceLoadError": "Performans verileri yüklenemedi."
 }
 

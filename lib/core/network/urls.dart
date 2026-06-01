@@ -37,6 +37,8 @@ class Urls {
   static const walletEndPoint = '/wallet';
   static const walletTransactionsEndPoint = '/wallet/transactions';
   static const walletWithdrawEndPoint = '/wallet/withdraw';
+  static const statsImpactEndPoint = '/stats/impact';
+  static const statsLeaderboardEndPoint = '/stats/leaderboard';
   static const provincesEndPoint = '/provinces';
   static const typesEndPoint = '/customer/types';
   static const shopEndPoint = '/info';

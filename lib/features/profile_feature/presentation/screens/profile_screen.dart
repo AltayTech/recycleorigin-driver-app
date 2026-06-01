@@ -22,7 +22,7 @@ import 'package:recycleorigindriver/features/profile_feature/presentation/widget
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_section_card.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_skeleton.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
-import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -182,7 +182,7 @@ class _ProfileScrollContent extends StatelessWidget {
                       title: l10n.statisticsLabel,
                       onTap: () => _openRoute(
                         context,
-                        StatisticsScreen.routeName,
+                        PerformanceScreen.routeName,
                       ),
                     ),
                     ProfileTile(

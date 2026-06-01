@@ -890,4 +890,61 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notificationPrefsSavingLabel => 'Kaydediliyor…';
+
+  @override
+  String get performanceTitle => 'Performans';
+
+  @override
+  String get performanceHeroTitle => 'Performansınız';
+
+  @override
+  String get performancePickupsLabel => 'Tamamlanan';
+
+  @override
+  String get performanceWeightLabel => 'Taşınan ağırlık';
+
+  @override
+  String get performanceEarningsLabel => 'Kazanç';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · sonraki $toNext';
+  }
+
+  @override
+  String get performanceStreakTitle => 'Seri';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current hf · en iyi $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'Aylık hedef';
+
+  @override
+  String get performanceTrendTitle => 'Toplama trendi';
+
+  @override
+  String get performanceBadgesTitle => 'Başarılar';
+
+  @override
+  String get performanceLeaderboardTitle => 'Sıralama';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return '#$position / $total · üst %$percentile';
+  }
+
+  @override
+  String get performanceRange7d => 'Son 7 gün';
+
+  @override
+  String get performanceRange30d => 'Son 30 gün';
+
+  @override
+  String get performanceRange90d => 'Son 90 gün';
+
+  @override
+  String get performanceLoadError => 'Performans verileri yüklenemedi.';
 }

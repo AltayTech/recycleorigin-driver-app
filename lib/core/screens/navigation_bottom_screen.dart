@@ -12,14 +12,16 @@ import 'package:recycleorigindriver/features/route_feature/presentation/screens/
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/store_collect_list_screen.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/profile_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/widgets/driver_session_header_banner.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
-/// Tab order: collection (default), warehouse, wallet, profile.
+/// Tab order: collection, warehouse, performance, wallet, profile.
 enum _DriverShellTab {
   collection,
   warehouse,
+  performance,
   wallet,
   profile,
 }
@@ -104,6 +106,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         return l10n.collectionLabel;
       case _DriverShellTab.warehouse:
         return l10n.warehouseDeliveryLabel;
+      case _DriverShellTab.performance:
+        return l10n.performanceTitle;
       case _DriverShellTab.wallet:
         return l10n.walletLabel;
       case _DriverShellTab.profile:
@@ -206,6 +210,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             children: const <Widget>[
               _CollectionTab(),
               _WarehouseTab(),
+              _PerformanceTab(),
               _WalletTab(),
               _ProfileTab(),
             ],
@@ -270,6 +275,12 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                       tooltip: l10n.warehouseDeliveryLabel,
                     ),
                     NavigationDestination(
+                      icon: const Icon(Icons.insights_outlined),
+                      selectedIcon: const Icon(Icons.insights_rounded),
+                      label: l10n.performanceTitle,
+                      tooltip: l10n.performanceTitle,
+                    ),
+                    NavigationDestination(
                       icon: const Icon(Icons.account_balance_wallet_outlined),
                       selectedIcon:
                           const Icon(Icons.account_balance_wallet_rounded),
@@ -324,6 +335,15 @@ class _CollectionTab extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _PerformanceTab extends StatelessWidget {
+  const _PerformanceTab();
+
+  @override
+  Widget build(BuildContext context) {
+    return const PerformanceScreen(embedInShell: true);
   }
 }
 

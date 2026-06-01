@@ -12,6 +12,7 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -513,11 +514,12 @@ class _MainDrawerState extends State<MainDrawer> {
                       destination: _DrawerDestination(
                         icon: Icons.bar_chart_rounded,
                         title: l10n.statisticsLabel,
-                        routeName: StatisticsScreen.routeName,
+                        routeName: PerformanceScreen.routeName,
                       ),
-                      selected: currentRouteName == StatisticsScreen.routeName,
+                      selected: currentRouteName == PerformanceScreen.routeName ||
+                          currentRouteName == StatisticsScreen.routeName,
                       destructive: false,
-                      onTap: () => _navigateToRoute(StatisticsScreen.routeName),
+                      onTap: () => _navigateToRoute(PerformanceScreen.routeName),
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(

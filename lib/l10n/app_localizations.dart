@@ -1773,6 +1773,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saving…'**
   String get notificationPrefsSavingLabel;
+
+  /// No description provided for @performanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get performanceTitle;
+
+  /// No description provided for @performanceHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your performance'**
+  String get performanceHeroTitle;
+
+  /// No description provided for @performancePickupsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get performancePickupsLabel;
+
+  /// No description provided for @performanceWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight hauled'**
+  String get performanceWeightLabel;
+
+  /// No description provided for @performanceEarningsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get performanceEarningsLabel;
+
+  /// No description provided for @performanceXpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} XP · {toNext} to next'**
+  String performanceXpLabel(int current, int toNext);
+
+  /// No description provided for @performanceStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get performanceStreakTitle;
+
+  /// No description provided for @performanceStreakValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} wk · best {longest}'**
+  String performanceStreakValue(int current, int longest);
+
+  /// No description provided for @performanceGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly goal'**
+  String get performanceGoalTitle;
+
+  /// No description provided for @performanceTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup trend'**
+  String get performanceTrendTitle;
+
+  /// No description provided for @performanceBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get performanceBadgesTitle;
+
+  /// No description provided for @performanceLeaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get performanceLeaderboardTitle;
+
+  /// No description provided for @performanceRankSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank #{position} of {total} · top {percentile}%'**
+  String performanceRankSummary(int position, int total, double percentile);
+
+  /// No description provided for @performanceRange7d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get performanceRange7d;
+
+  /// No description provided for @performanceRange30d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get performanceRange30d;
+
+  /// No description provided for @performanceRange90d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get performanceRange90d;
+
+  /// No description provided for @performanceLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load performance data.'**
+  String get performanceLoadError;
 }
 
 class _AppLocalizationsDelegate

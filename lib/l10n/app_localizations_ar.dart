@@ -885,4 +885,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notificationPrefsSavingLabel => 'جارٍ الحفظ…';
+
+  @override
+  String get performanceTitle => 'الأداء';
+
+  @override
+  String get performanceHeroTitle => 'أداؤك';
+
+  @override
+  String get performancePickupsLabel => 'مكتمل';
+
+  @override
+  String get performanceWeightLabel => 'الوزن المنقول';
+
+  @override
+  String get performanceEarningsLabel => 'الأرباح';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · $toNext للمستوى التالي';
+  }
+
+  @override
+  String get performanceStreakTitle => 'سلسلة';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current أسبوع · الأفضل $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'الهدف الشهري';
+
+  @override
+  String get performanceTrendTitle => 'اتجاه الجمع';
+
+  @override
+  String get performanceBadgesTitle => 'الإنجازات';
+
+  @override
+  String get performanceLeaderboardTitle => 'لوحة المتصدرين';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return 'المرتبة #$position من $total';
+  }
+
+  @override
+  String get performanceRange7d => 'آخر 7 أيام';
+
+  @override
+  String get performanceRange30d => 'آخر 30 يومًا';
+
+  @override
+  String get performanceRange90d => 'آخر 90 يومًا';
+
+  @override
+  String get performanceLoadError => 'تعذر تحميل بيانات الأداء.';
 }
