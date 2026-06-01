@@ -21,6 +21,10 @@ final class AuthRemoveTokenRequested extends AuthEvent {
   final Completer<void>? completer;
 }
 
+/// Fired by the network layer when token refresh fails — clears in-memory
+/// auth state without making any HTTP calls.
+final class AuthSessionInvalidated extends AuthEvent {}
+
 final class AuthCheckCompletedRequested extends AuthEvent {
   AuthCheckCompletedRequested({this.completer});
   final Completer<void>? completer;

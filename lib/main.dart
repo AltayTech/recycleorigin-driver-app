@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
 import 'package:recycleorigindriver/core/navigation/app_navigator.dart';
+import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
@@ -98,13 +100,27 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+        BlocProvider<AuthBloc>(
+          create: (_) {
+            final bloc = AuthBloc();
+            ApiProvider.init(onUnauthorized: bloc.invalidateSession);
+            return bloc;
+          },
+        ),
         BlocProvider<CustomerInfoBloc>(create: (_) => CustomerInfoBloc()),
         BlocProvider<WastesBloc>(create: (_) => WastesBloc()),
         BlocProvider<DeliveriesBloc>(create: (_) => DeliveriesBloc()),
         BlocProvider<ClearingsBloc>(create: (_) => ClearingsBloc()),
       ],
-      child: ValueListenableBuilder<Locale>(
+      child: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (prev, curr) => prev.isLoggedIn && !curr.isLoggedIn,
+        listener: (context, state) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            LoginScreen.routeName,
+            (route) => false,
+          );
+        },
+        child: ValueListenableBuilder<Locale>(
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
           return MaterialApp(
@@ -202,6 +218,7 @@ class MyApp extends StatelessWidget {
             },
           );
         },
+        ),
       ),
     );
   }

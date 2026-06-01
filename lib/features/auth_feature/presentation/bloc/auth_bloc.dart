@@ -35,6 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEmailVerificationResendRequested>(_onResendVerification);
     on<AuthEmailVerificationCheckRequested>(_onCheckVerification);
     on<AuthRemoveTokenRequested>(_onRemoveToken);
+    on<AuthSessionInvalidated>(_onSessionInvalidated);
     on<AuthCheckCompletedRequested>(_onCheckCompleted);
     on<AuthGetAddressesRequested>(_onGetAddresses);
     on<AuthUpdateAddressRequested>(_onUpdateAddress);
@@ -106,6 +107,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     add(AuthRemoveTokenRequested(completer: c));
     return c.future;
   }
+
+  /// Clears in-memory auth when the network layer invalidates the session.
+  void invalidateSession() => add(AuthSessionInvalidated());
 
   Future<void> getToken() => loadStoredToken();
 
@@ -355,6 +359,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e, st) {
       event.completer?.completeError(e, st);
     }
+  }
+
+  Future<void> _onSessionInvalidated(
+    AuthSessionInvalidated event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (!state.isLoggedIn && state.token.isEmpty) {
+      return;
+    }
+    developer.log(
+      'Session invalidated by network layer',
+      name: 'driver.auth',
+    );
+    try {
+      await _firebase.signOut();
+    } catch (_) {}
+    _setLoggedOut(emit);
   }
 
   Future<void> _onRemoveToken(
