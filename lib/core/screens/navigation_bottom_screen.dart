@@ -187,7 +187,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             actions: <Widget>[
               if (_selectedIndex == _DriverShellTab.collection.index)
                 IconButton(
-                  tooltip: 'My route',
+                  tooltip: l10n.myRouteLabel,
                   icon: const Icon(Icons.route_rounded, color: AppTheme.bg),
                   onPressed: () {
                     Navigator.of(context).pushNamed(

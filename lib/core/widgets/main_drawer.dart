@@ -67,22 +67,23 @@ class _MainDrawerState extends State<MainDrawer> {
     final l10n = context.l10n;
 
     if (!isAuthenticated) {
-      return Container(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: <Color>[AppTheme.primary, _heroGradientEnd],
-          ),
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _navigateToRoute(LoginScreen.routeName),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[AppTheme.primary, _heroGradientEnd],
+              ),
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(24),
+              ),
+            ),
+            child: Row(
               children: [
                 Container(
                   height: 56,
@@ -131,26 +132,14 @@ class _MainDrawerState extends State<MainDrawer> {
                     ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _QuickActionChip(
-                  icon: Icons.settings_rounded,
-                  label: l10n.settingsTitle,
-                  onTap: () => _navigateToRoute(SettingsScreen.routeName),
-                ),
-                _QuickActionChip(
-                  icon: Icons.login_rounded,
-                  label: l10n.loginLabel,
-                  onTap: () => _navigateToRoute(LoginScreen.routeName),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: Colors.white.withValues(alpha: 0.7),
+                  size: 24,
                 ),
               ],
             ),
-          ],
+          ),
         ),
       );
     }
@@ -176,22 +165,23 @@ class _MainDrawerState extends State<MainDrawer> {
             ? mobile
             : l10n.settingsScreenIntro;
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[AppTheme.primary, _heroGradientEnd],
-        ),
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _navigateToRoute(PersonalInfoScreen.routeName),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[AppTheme.primary, _heroGradientEnd],
+            ),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(24),
+            ),
+          ),
+          child: Row(
             children: [
               Container(
                 height: 56,
@@ -251,26 +241,14 @@ class _MainDrawerState extends State<MainDrawer> {
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _QuickActionChip(
-                icon: Icons.settings_rounded,
-                label: l10n.settingsTitle,
-                onTap: () => _navigateToRoute(SettingsScreen.routeName),
-              ),
-              _QuickActionChip(
-                icon: Icons.person_rounded,
-                label: l10n.userProfileLabel,
-                onTap: () => _navigateToRoute(PersonalInfoScreen.routeName),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white.withValues(alpha: 0.7),
+                size: 24,
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -513,7 +491,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _buildSectionTitle(l10n.homeTabLabel),
+                    _buildSectionTitle(l10n.activitySectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.home_rounded,
@@ -533,16 +511,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
-                        icon: Icons.settings_rounded,
-                        title: l10n.settingsTitle,
-                        routeName: SettingsScreen.routeName,
-                      ),
-                      selected: currentRouteName == SettingsScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(SettingsScreen.routeName),
-                    ),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
                         icon: Icons.bar_chart_rounded,
                         title: l10n.statisticsLabel,
                         routeName: StatisticsScreen.routeName,
@@ -552,16 +520,27 @@ class _MainDrawerState extends State<MainDrawer> {
                       onTap: () => _navigateToRoute(StatisticsScreen.routeName),
                     ),
                     _buildDestinationTile(
-                      destination: const _DrawerDestination(
+                      destination: _DrawerDestination(
                         icon: Icons.route_rounded,
-                        title: 'My route',
+                        title: l10n.myRouteLabel,
                         routeName: RouteTodayScreen.routeName,
                       ),
                       selected: currentRouteName == RouteTodayScreen.routeName,
                       destructive: false,
                       onTap: () => _navigateToRoute(RouteTodayScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.guideLabel),
+                    _buildSectionTitle(l10n.preferencesSectionTitle),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.settings_rounded,
+                        title: l10n.settingsTitle,
+                        routeName: SettingsScreen.routeName,
+                      ),
+                      selected: currentRouteName == SettingsScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(SettingsScreen.routeName),
+                    ),
+                    _buildSectionTitle(l10n.supportSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.menu_book_rounded,
@@ -610,34 +589,20 @@ class _MainDrawerState extends State<MainDrawer> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildSectionTitle(
-                              authState.isAuth
-                                  ? l10n.userProfileLabel
-                                  : l10n.loginLabel,
-                            ),
-                            _buildDestinationTile(
-                              destination: _DrawerDestination(
-                                icon: authState.isAuth
-                                    ? Icons.person_rounded
-                                    : Icons.login_rounded,
-                                title: authState.isAuth
-                                    ? l10n.userProfileLabel
-                                    : l10n.loginLabel,
-                                routeName: authState.isAuth
-                                    ? PersonalInfoScreen.routeName
-                                    : LoginScreen.routeName,
+                            _buildSectionTitle(l10n.accountSectionTitle),
+                            if (!authState.isAuth)
+                              _buildDestinationTile(
+                                destination: _DrawerDestination(
+                                  icon: Icons.login_rounded,
+                                  title: l10n.loginLabel,
+                                  routeName: LoginScreen.routeName,
+                                ),
+                                selected: currentRouteName ==
+                                    LoginScreen.routeName,
+                                destructive: false,
+                                onTap: () =>
+                                    _navigateToRoute(LoginScreen.routeName),
                               ),
-                              selected: currentRouteName ==
-                                  (authState.isAuth
-                                      ? PersonalInfoScreen.routeName
-                                      : LoginScreen.routeName),
-                              destructive: false,
-                              onTap: () => _navigateToRoute(
-                                authState.isAuth
-                                    ? PersonalInfoScreen.routeName
-                                    : LoginScreen.routeName,
-                              ),
-                            ),
                             if (authState.isAuth)
                               _buildDestinationTile(
                                 destination: _DrawerDestination(
@@ -685,48 +650,6 @@ class _MainDrawerState extends State<MainDrawer> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickActionChip extends StatelessWidget {
-  const _QuickActionChip({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withValues(alpha: 0.16),
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: Colors.white, size: 16),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
