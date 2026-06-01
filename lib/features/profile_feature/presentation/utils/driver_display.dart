@@ -2,9 +2,41 @@ import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 
+/// Collect-request status slugs/names — not valid account user types.
+const Set<String> _requestStatusTokens = <String>{
+  'pending',
+  'in_progress',
+  'picked_up',
+  'collected',
+  'cancelled',
+  'accepted',
+  'rejected',
+  'completed',
+  'processing',
+  'delivered',
+  'active',
+};
+
 /// Display helpers for driver identity on profile screens.
 class DriverDisplay {
   DriverDisplay._();
+
+  /// Account user type for profile (driver role), not collect request status.
+  static String userTypeLabel(Driver driver, AppLocalizations l10n) {
+    final name = driver.status.name.trim();
+    final slug = driver.status.slug.trim().toLowerCase();
+    if (name.isNotEmpty && !_isRequestStatusToken(name.toLowerCase())) {
+      return name;
+    }
+    if (slug.isNotEmpty && !_isRequestStatusToken(slug)) {
+      return slug;
+    }
+    return l10n.driverRoleLabel;
+  }
+
+  static bool _isRequestStatusToken(String value) {
+    return _requestStatusTokens.contains(value);
+  }
 
   static String name(Driver driver, AppLocalizations l10n) {
     final fname = driver.driver_data.fname.trim();

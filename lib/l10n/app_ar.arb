@@ -271,6 +271,8 @@
   "copiedToClipboardMessage": "تم النسخ إلى الحافظة",
   "personalInfoSubtitle": "اعرض وحدّث بيانات حسابك أدناه.",
   "phoneIsLoginIdentifierHint": "يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.",
+  "emailIsLoginCredentialHint": "عنوان بريدك الإلكتروني مستخدم لتسجيل الدخول ولا يمكن تغييره من هنا.",
+  "userTypeReadOnlyHint": "نوع حسابك يحدده المسؤول ولا يمكن تغييره من هنا.",
   "postalCodeHintMessage": "عادةً ما يتكون الرمز البريدي من 5 أرقام.",
   "discardChangesTitle": "تجاهل التغييرات؟",
   "discardChangesMessage": "لديك تغييرات غير محفوظة. هل تريد تجاهلها والمغادرة؟",

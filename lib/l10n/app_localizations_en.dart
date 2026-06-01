@@ -833,6 +833,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your mobile number is used to sign in and cannot be changed here.';
 
   @override
+  String get emailIsLoginCredentialHint =>
+      'Your email address is used to sign in and cannot be changed here.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'Your account type is assigned by your administrator and cannot be changed here.';
+
+  @override
   String get postalCodeHintMessage => 'Postal code is usually 5 digits.';
 
   @override

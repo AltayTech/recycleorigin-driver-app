@@ -1672,6 +1672,18 @@ abstract class AppLocalizations {
   /// **'Your mobile number is used to sign in and cannot be changed here.'**
   String get phoneIsLoginIdentifierHint;
 
+  /// No description provided for @emailIsLoginCredentialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email address is used to sign in and cannot be changed here.'**
+  String get emailIsLoginCredentialHint;
+
+  /// No description provided for @userTypeReadOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account type is assigned by your administrator and cannot be changed here.'**
+  String get userTypeReadOnlyHint;
+
   /// No description provided for @postalCodeHintMessage.
   ///
   /// In en, this message translates to:

@@ -323,6 +323,8 @@
   "copiedToClipboardMessage": "Panoya kopyalandi",
   "personalInfoSubtitle": "Hesap bilgilerinizi asagidan goruntuleyip guncelleyebilirsiniz.",
   "phoneIsLoginIdentifierHint": "Giris icin kullandiginiz telefon numarasi buradan degistirilemez.",
+  "emailIsLoginCredentialHint": "E-posta adresiniz giris icin kullanilir ve buradan degistirilemez.",
+  "userTypeReadOnlyHint": "Hesap turunuz yoneticiniz tarafindan atanir ve buradan degistirilemez.",
   "postalCodeHintMessage": "Posta kodu genellikle 5 hanelidir.",
   "discardChangesTitle": "Degisiklikler silinsin mi?",
   "discardChangesMessage": "Kaydedilmemis degisiklikler var. Cikmak istiyor musunuz?",

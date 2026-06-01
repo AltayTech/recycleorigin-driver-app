@@ -834,6 +834,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Giris icin kullandiginiz telefon numarasi buradan degistirilemez.';
 
   @override
+  String get emailIsLoginCredentialHint =>
+      'E-posta adresiniz giris icin kullanilir ve buradan degistirilemez.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'Hesap turunuz yoneticiniz tarafindan atanir ve buradan degistirilemez.';
+
+  @override
   String get postalCodeHintMessage => 'Posta kodu genellikle 5 hanelidir.';
 
   @override

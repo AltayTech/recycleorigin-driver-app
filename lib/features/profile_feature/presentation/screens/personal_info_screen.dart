@@ -5,6 +5,7 @@ import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/edit_personal_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/utils/driver_display.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_hero.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_info_row.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_section_card.dart';
@@ -115,7 +116,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                             ),
                             ProfileInfoRow(
                               label: l10n.userTypeLabel,
-                              value: driver.status.name,
+                              value: DriverDisplay.userTypeLabel(driver, l10n),
                             ),
                           ],
                         ),

@@ -829,6 +829,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.';
 
   @override
+  String get emailIsLoginCredentialHint =>
+      'عنوان بريدك الإلكتروني مستخدم لتسجيل الدخول ولا يمكن تغييره من هنا.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'نوع حسابك يحدده المسؤول ولا يمكن تغييره من هنا.';
+
+  @override
   String get postalCodeHintMessage =>
       'عادةً ما يتكون الرمز البريدي من 5 أرقام.';
 

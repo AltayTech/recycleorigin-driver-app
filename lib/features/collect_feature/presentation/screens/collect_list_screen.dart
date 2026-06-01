@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
@@ -43,6 +43,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
   /// API [category] query: '' = all; see backend `applyDriverCollectListFilter`.
   String _filterSlug = '';
+
+  /// Bumped on full reload so stale pagination requests are ignored.
+  int _loadGeneration = 0;
 
   @override
   void initState() {
@@ -111,6 +114,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
   }
 
   Future<void> _reloadFromFirstPage() async {
+    final generation = ++_loadGeneration;
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -125,7 +129,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
       _applyFilterToBloc(bloc, _filterSlug);
       bloc.searchBuilder();
       await bloc.searchCollectItems();
-      if (!mounted) {
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
       _searchDetail =
@@ -135,33 +139,39 @@ class _CollectListScreenState extends State<CollectListScreen> {
         ..addAll(bloc.state.collectItems);
       _page = 1;
     } catch (e) {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         _hasError = true;
       }
     } finally {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         setState(() => _isLoading = false);
       }
     }
   }
 
   Future<void> _loadMoreItems() async {
+    if (_isLoading) {
+      return;
+    }
+    final generation = _loadGeneration;
+    final nextPage = _page + 1;
     setState(() => _isLoading = true);
     try {
-      _page++;
       final bloc = context.read<WastesBloc>();
-      bloc.sPage = _page;
+      bloc.sPage = nextPage;
+      _applySortToBloc(bloc, _sort);
+      _applyFilterToBloc(bloc, _filterSlug);
       bloc.searchBuilder();
       await bloc.searchCollectItems();
-      if (!mounted) {
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
+      _page = nextPage;
       _items.addAll(bloc.state.collectItems);
       _searchDetail =
           bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
     } catch (e) {
-      _page--;
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.noRequestAvailable),
@@ -173,7 +183,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         );
       }
     } finally {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         setState(() => _isLoading = false);
       }
     }
@@ -653,14 +663,23 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-          child: ChangeNotifierProvider.value(
-            value: _items[index],
-            child: const CollectItemCollectsScreen(),
-          ),
-        ),
+        (context, index) {
+          final item = _items[index];
+          return Padding(
+            key: ValueKey<int>(item.id),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+            child: CollectItemCollectsScreen(collect: item),
+          );
+        },
         childCount: _items.length,
+        findChildIndexCallback: (Key key) {
+          if (key is! ValueKey<int>) {
+            return null;
+          }
+          final id = key.value;
+          final index = _items.indexWhere((item) => item.id == id);
+          return index >= 0 ? index : null;
+        },
       ),
     );
   }

@@ -1,17 +1,17 @@
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/customer.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/models/personal_data.dart';
-import 'package:recycleorigindriver/core/models/status.dart';
 import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/utils/driver_display.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_form_field.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/widgets/profile_section_card.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
-
-final RegExp _emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
 /// Editable driver personal information form.
 class EditPersonalInfoScreen extends StatefulWidget {
@@ -27,26 +27,24 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _familyController = TextEditingController();
-  final _emailController = TextEditingController();
   final _ostanController = TextEditingController();
   final _cityController = TextEditingController();
   final _postCodeController = TextEditingController();
+  final _emailDisplayController = TextEditingController();
   final _phoneDisplayController = TextEditingController();
+  final _userTypeDisplayController = TextEditingController();
 
   final _fnName = FocusNode();
   final _fnFamily = FocusNode();
-  final _fnEmail = FocusNode();
   final _fnOstan = FocusNode();
   final _fnCity = FocusNode();
   final _fnPost = FocusNode();
+  final _fnEmail = FocusNode(canRequestFocus: false);
   final _fnPhone = FocusNode(canRequestFocus: false);
+  final _fnUserType = FocusNode(canRequestFocus: false);
 
   Driver _driver = Driver.fromJson(null);
-  List<Status> _types = [];
-  bool _typesLoaded = false;
-  bool _typesLoadFailed = false;
   bool _saving = false;
-  late Status _selectedType;
 
   late String _initialSnapshot;
 
@@ -56,14 +54,14 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _bootstrap());
   }
 
-  Future<void> _bootstrap() async {
-    final bloc = context.read<CustomerInfoBloc>();
-    final d = bloc.state.driver;
+  void _bootstrap() {
+    final d = context.read<CustomerInfoBloc>().state.driver;
+    final l10n = context.l10n;
     _driver = d;
-    _selectedType = d.status;
     _nameController.text = d.driver_data.fname;
     _familyController.text = d.driver_data.lname;
-    _emailController.text = d.driver_data.email;
+    _emailDisplayController.text = d.driver_data.email;
+    _userTypeDisplayController.text = DriverDisplay.userTypeLabel(d, l10n);
     _ostanController.text = d.driver_data.ostan;
     _cityController.text = d.driver_data.city;
     _postCodeController.text = d.driver_data.postcode;
@@ -72,51 +70,18 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
         : d.driver_data.phone.trim();
     _phoneDisplayController.text = phoneDisplay;
     _initialSnapshot = _snapshot();
-
-    try {
-      await bloc.getTypes();
-      if (!mounted) {
-        return;
-      }
-      final types = bloc.state.typesItems;
-      setState(() {
-        _types = types;
-        _typesLoaded = true;
-        _typesLoadFailed = false;
-        _selectedType = _resolveType(d.status, types);
-        _initialSnapshot = _snapshot();
-      });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _typesLoaded = true;
-        _typesLoadFailed = true;
-      });
+    if (mounted) {
+      setState(() {});
     }
-  }
-
-  Status _resolveType(Status current, List<Status> types) {
-    if (types.isEmpty) {
-      return current;
-    }
-    final idx = types.indexWhere((t) => t.term_id == current.term_id);
-    if (idx >= 0) {
-      return types[idx];
-    }
-    return types.first;
   }
 
   String _snapshot() {
     return [
       _nameController.text.trim(),
       _familyController.text.trim(),
-      _emailController.text.trim(),
       _ostanController.text.trim(),
       _cityController.text.trim(),
       _postCodeController.text.trim(),
-      _selectedType.term_id.toString(),
     ].join('|');
   }
 
@@ -152,25 +117,24 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
   void dispose() {
     _nameController.dispose();
     _familyController.dispose();
-    _emailController.dispose();
     _ostanController.dispose();
     _cityController.dispose();
     _postCodeController.dispose();
+    _emailDisplayController.dispose();
     _phoneDisplayController.dispose();
+    _userTypeDisplayController.dispose();
     _fnName.dispose();
     _fnFamily.dispose();
-    _fnEmail.dispose();
     _fnOstan.dispose();
     _fnCity.dispose();
     _fnPost.dispose();
+    _fnEmail.dispose();
     _fnPhone.dispose();
+    _fnUserType.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
-    if (!_typesLoaded) {
-      return;
-    }
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
@@ -180,12 +144,12 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
       final customer = Customer(
         id: 0,
         status: _driver.status,
-        type: _selectedType,
+        type: _driver.status,
         personalData: PersonalData(
           phone: _driver.driver_data.phone,
           first_name: _nameController.text.trim(),
           last_name: _familyController.text.trim(),
-          email: _emailController.text.trim(),
+          email: _driver.driver_data.email,
           ostan: _ostanController.text.trim(),
           city: _cityController.text.trim(),
           postcode: _postCodeController.text.trim(),
@@ -201,7 +165,14 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
         SnackBar(content: Text(context.l10n.infoEditedSuccess)),
       );
       Navigator.of(context).pop();
-    } catch (_) {
+    } catch (error, stackTrace) {
+      developer.log(
+        'Failed to save driver profile',
+        name: 'recycleorigindriver.profile',
+        level: 1000,
+        error: error,
+        stackTrace: stackTrace,
+      );
       if (!mounted) {
         return;
       }
@@ -213,17 +184,6 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
         setState(() => _saving = false);
       }
     }
-  }
-
-  int? get _typeDropdownValue {
-    if (_types.isEmpty) {
-      return null;
-    }
-    final has = _types.any((t) => t.term_id == _selectedType.term_id);
-    if (has) {
-      return _selectedType.term_id;
-    }
-    return _types.first.term_id;
   }
 
   @override
@@ -274,180 +234,113 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
                       ),
                     )
                   : FilledButton.tonal(
-                      onPressed: _typesLoaded ? _submit : null,
+                      onPressed: _submit,
                       child: Text(l10n.saveLabel),
                     ),
             ),
           ],
         ),
         drawer: mainDrawerIfRootRoute(context),
-        body: !_typesLoaded
-            ? const Center(child: CircularProgressIndicator())
-            : _typesLoadFailed
-                ? Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(l10n.connectionRetryMessage),
-                        const SizedBox(height: 16),
-                        FilledButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              _typesLoaded = false;
-                              _typesLoadFailed = false;
-                            });
-                            _bootstrap();
-                          },
-                          icon: const Icon(Icons.refresh_rounded),
-                          label: Text(l10n.retryLabel),
-                        ),
-                      ],
-                    ),
-                  )
-                : Form(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: ListView(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-                      children: <Widget>[
-                        ProfileSectionCard(
-                          title: l10n.basicInfoSectionTitle,
-                          children: <Widget>[
-                            ProfileFormField(
-                              label: l10n.firstNameLabel,
-                              controller: _nameController,
-                              focusNode: _fnName,
-                              nextFocus: _fnFamily,
-                              validator: (String? v) {
-                                if (v == null || v.trim().isEmpty) {
-                                  return l10n.profileNameRequiredMessage;
-                                }
-                                return null;
-                              },
-                            ),
-                            ProfileFormField(
-                              label: l10n.lastNameLabel,
-                              controller: _familyController,
-                              focusNode: _fnFamily,
-                              nextFocus: _fnEmail,
-                              validator: (String? v) {
-                                if (v == null || v.trim().isEmpty) {
-                                  return l10n.profileNameRequiredMessage;
-                                }
-                                return null;
-                              },
-                            ),
-                            if (_types.isEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Text(
-                                  l10n.profileTypesListEmptyHint,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: AppTheme.grey),
-                                ),
-                              )
-                            else
-                              DropdownButtonFormField<int>(
-                                key: ValueKey<int?>(_typeDropdownValue),
-                                initialValue: _typeDropdownValue,
-                                decoration: InputDecoration(
-                                  labelText: l10n.userTypeLabel,
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                items: _types
-                                    .map(
-                                      (Status t) => DropdownMenuItem<int>(
-                                        value: t.term_id,
-                                        child: Text(t.name),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: (int? id) {
-                                  if (id == null) {
-                                    return;
-                                  }
-                                  final Status t = _types.firstWhere(
-                                    (Status e) => e.term_id == id,
-                                  );
-                                  setState(() => _selectedType = t);
-                                },
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        ProfileSectionCard(
-                          title: l10n.contactSectionTitle,
-                          children: <Widget>[
-                            ProfileFormField(
-                              label: l10n.emailLabel,
-                              controller: _emailController,
-                              focusNode: _fnEmail,
-                              nextFocus: _fnOstan,
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (String? v) {
-                                final s = v?.trim() ?? '';
-                                if (s.isEmpty) {
-                                  return null;
-                                }
-                                if (!_emailPattern.hasMatch(s)) {
-                                  return l10n.enterEmailValidationMessage;
-                                }
-                                return null;
-                              },
-                            ),
-                            ProfileFormField(
-                              label: l10n.mobileLabel,
-                              controller: _phoneDisplayController,
-                              focusNode: _fnPhone,
-                              readOnly: true,
-                              helperText: l10n.phoneIsLoginIdentifierHint,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        ProfileSectionCard(
-                          title: l10n.addressSectionTitle,
-                          children: <Widget>[
-                            ProfileFormField(
-                              label: l10n.provinceLabel,
-                              controller: _ostanController,
-                              focusNode: _fnOstan,
-                              nextFocus: _fnCity,
-                            ),
-                            ProfileFormField(
-                              label: l10n.cityLabel,
-                              controller: _cityController,
-                              focusNode: _fnCity,
-                              nextFocus: _fnPost,
-                            ),
-                            ProfileFormField(
-                              label: l10n.postalCodeLabel,
-                              controller: _postCodeController,
-                              focusNode: _fnPost,
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.done,
-                              validator: (String? v) {
-                                final s = v?.trim() ?? '';
-                                if (s.isEmpty) {
-                                  return null;
-                                }
-                                if (s.length != 5) {
-                                  return l10n.postalCodeHintMessage;
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+        body: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            children: <Widget>[
+              ProfileSectionCard(
+                title: l10n.basicInfoSectionTitle,
+                children: <Widget>[
+                  ProfileFormField(
+                    label: l10n.firstNameLabel,
+                    controller: _nameController,
+                    focusNode: _fnName,
+                    nextFocus: _fnFamily,
+                    validator: (String? v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return l10n.profileNameRequiredMessage;
+                      }
+                      return null;
+                    },
                   ),
+                  ProfileFormField(
+                    label: l10n.lastNameLabel,
+                    controller: _familyController,
+                    focusNode: _fnFamily,
+                    nextFocus: _fnOstan,
+                    validator: (String? v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return l10n.profileNameRequiredMessage;
+                      }
+                      return null;
+                    },
+                  ),
+                  ProfileFormField(
+                    label: l10n.userTypeLabel,
+                    controller: _userTypeDisplayController,
+                    focusNode: _fnUserType,
+                    readOnly: true,
+                    helperText: l10n.userTypeReadOnlyHint,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ProfileSectionCard(
+                title: l10n.contactSectionTitle,
+                children: <Widget>[
+                  ProfileFormField(
+                    label: l10n.emailLabel,
+                    controller: _emailDisplayController,
+                    focusNode: _fnEmail,
+                    readOnly: true,
+                    helperText: l10n.emailIsLoginCredentialHint,
+                  ),
+                  ProfileFormField(
+                    label: l10n.mobileLabel,
+                    controller: _phoneDisplayController,
+                    focusNode: _fnPhone,
+                    readOnly: true,
+                    helperText: l10n.phoneIsLoginIdentifierHint,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ProfileSectionCard(
+                title: l10n.addressSectionTitle,
+                children: <Widget>[
+                  ProfileFormField(
+                    label: l10n.provinceLabel,
+                    controller: _ostanController,
+                    focusNode: _fnOstan,
+                    nextFocus: _fnCity,
+                  ),
+                  ProfileFormField(
+                    label: l10n.cityLabel,
+                    controller: _cityController,
+                    focusNode: _fnCity,
+                    nextFocus: _fnPost,
+                  ),
+                  ProfileFormField(
+                    label: l10n.postalCodeLabel,
+                    controller: _postCodeController,
+                    focusNode: _fnPost,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    validator: (String? v) {
+                      final s = v?.trim() ?? '';
+                      if (s.isEmpty) {
+                        return null;
+                      }
+                      if (s.length != 5) {
+                        return l10n.postalCodeHintMessage;
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

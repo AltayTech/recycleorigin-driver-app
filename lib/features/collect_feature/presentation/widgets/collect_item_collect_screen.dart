@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
@@ -10,12 +9,12 @@ import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart'
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
-  const CollectItemCollectsScreen({super.key});
+  const CollectItemCollectsScreen({super.key, required this.collect});
+
+  final RequestWasteItem collect;
 
   @override
   Widget build(BuildContext context) {
-    final collect =
-        Provider.of<RequestWasteItem>(context, listen: false);
     final l10n = context.l10n;
     final (statusColor, statusIcon) =
         _statusVisuals(collect.requestStatusKey);

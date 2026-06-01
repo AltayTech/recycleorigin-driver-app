@@ -323,6 +323,8 @@
   "copiedToClipboardMessage": "Copied to clipboard",
   "personalInfoSubtitle": "View and update your account details below.",
   "phoneIsLoginIdentifierHint": "Your mobile number is used to sign in and cannot be changed here.",
+  "emailIsLoginCredentialHint": "Your email address is used to sign in and cannot be changed here.",
+  "userTypeReadOnlyHint": "Your account type is assigned by your administrator and cannot be changed here.",
   "postalCodeHintMessage": "Postal code is usually 5 digits.",
   "discardChangesTitle": "Discard changes?",
   "discardChangesMessage": "You have unsaved changes. Discard them and leave?",
