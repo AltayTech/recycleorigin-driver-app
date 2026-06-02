@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/config/app_config.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/route_feature/data/models/driver_route.dart';
 import 'package:recycleorigindriver/features/route_feature/data/repositories/route_repository.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/bloc/route_bloc.dart';
@@ -88,7 +88,7 @@ class _RouteTodayView extends StatelessWidget {
               title: 'No route yet',
               body: state.hint ??
                   'Assign collection requests to your driver account, '
-                  'then enable routing in the admin panel.',
+                      'then enable routing in the admin panel.',
               action: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -136,7 +136,7 @@ class _RouteTodayView extends StatelessWidget {
                           value: route.stops.isEmpty
                               ? 0
                               : completed / route.stops.length,
-                          color: AppTheme.primary,
+                          color: context.brandPrimary,
                         ),
                       ],
                     ),
@@ -174,7 +174,7 @@ class _MessagePanel extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Icon(icon, size: 48, color: AppTheme.grey),
+            Icon(icon, size: 48, color: context.secondaryText),
             const SizedBox(height: 16),
             Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),

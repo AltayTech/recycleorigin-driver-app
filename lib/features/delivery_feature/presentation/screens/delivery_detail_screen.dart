@@ -13,7 +13,7 @@ import 'package:recycleorigindriver/features/delivery_feature/presentation/widge
 import 'package:recycleorigindriver/core/widgets/custom_dialog_send_request.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
@@ -272,19 +272,13 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
     bool isLogin = context.read<AuthBloc>().state.isAuth;
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.requestDetailTitle,
-          style: TextStyle(
-            color: AppTheme.white,
-          ),
-        ),
+        title: Text(context.l10n.requestDetailTitle),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
         return Padding(
@@ -300,7 +294,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                       Container(
                         height: deviceHeight * 0.15,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
+                            color: scheme.surface,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
@@ -324,14 +318,14 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         loadedCollect.length.toString(),
                                       ),
                                       style: TextStyle(
-                                        color: AppTheme.h1,
+                                        color: context.primaryText,
                                         fontSize: textScaleFactor * 18,
                                       ),
                                     ),
                                     Text(
                                       context.l10n.countLabel,
                                       style: TextStyle(
-                                        color: AppTheme.grey,
+                                        color: context.secondaryText,
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -344,7 +338,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                     Expanded(
                                       child: Icon(
                                         Icons.monetization_on,
-                                        color: AppTheme.primary,
+                                        color: context.brandPrimary,
                                         size: 40,
                                       ),
                                     ),
@@ -367,7 +361,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                   '0',
                                                 ),
                                           style: TextStyle(
-                                            color: AppTheme.h1,
+                                            color: context.primaryText,
                                             fontSize: textScaleFactor * 18,
                                           ),
                                         );
@@ -376,7 +370,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                     Text(
                                       context.l10n.tomanLabel,
                                       style: TextStyle(
-                                        color: AppTheme.grey,
+                                        color: context.secondaryText,
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -399,14 +393,14 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                         totalWeight.toString(),
                                       ),
                                       style: TextStyle(
-                                        color: AppTheme.h1,
+                                        color: context.primaryText,
                                         fontSize: textScaleFactor * 18,
                                       ),
                                     ),
                                     Text(
                                       context.l10n.kilogramLabel,
                                       style: TextStyle(
-                                        color: AppTheme.grey,
+                                        color: context.secondaryText,
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -423,89 +417,88 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                           buildWhen: (p, c) =>
                               p.toDeliveryCollectItems !=
                               c.toDeliveryCollectItems,
-                          builder: (_, deliveryState) =>
-                              deliveryState.toDeliveryCollectItems.length != 0
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.white,
-                                        borderRadius: BorderRadius.circular(2),
+                          builder: (_, deliveryState) => deliveryState
+                                      .toDeliveryCollectItems.length !=
+                                  0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: scheme.surface,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.typeLabel,
+                                                style: TextStyle(
+                                                  color: context.secondaryText,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.weightKgLabel,
+                                                style: TextStyle(
+                                                  color: context.secondaryText,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                context.l10n.priceTomanLabel,
+                                                style: TextStyle(
+                                                  color: context.secondaryText,
+                                                  fontSize:
+                                                      textScaleFactor * 12,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Text(
-                                                    context.l10n.typeLabel,
-                                                    style: TextStyle(
-                                                      color: AppTheme.grey,
-                                                      fontSize:
-                                                          textScaleFactor * 12,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    context.l10n.weightKgLabel,
-                                                    style: TextStyle(
-                                                      color: AppTheme.grey,
-                                                      fontSize:
-                                                          textScaleFactor * 12,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    context
-                                                        .l10n.priceTomanLabel,
-                                                    style: TextStyle(
-                                                      color: AppTheme.grey,
-                                                      fontSize:
-                                                          textScaleFactor * 12,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: deviceHeight * 0.6,
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(2),
-                                            ),
-                                            child: ListView.builder(
+                                      Container(
+                                        height: deviceHeight * 0.6,
+                                        decoration: BoxDecoration(
+                                          color: scheme.surface,
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                        ),
+                                        child: ListView.builder(
 //                                        shrinkWrap: true,
 //                                        physics:
 //                                            const NeverScrollableScrollPhysics(),
-                                              itemCount: deliveryState
-                                                  .toDeliveryCollectItems
-                                                  .length,
-                                              itemBuilder: (ctx, i) =>
-                                                  CollectDeliveryDetailItem(
-                                                wasteItem: deliveryState
-                                                    .toDeliveryCollectItems[i],
-                                                function: getWasteItems,
-                                              ),
-                                            ),
+                                          itemCount: deliveryState
+                                              .toDeliveryCollectItems.length,
+                                          itemBuilder: (ctx, i) =>
+                                              CollectDeliveryDetailItem(
+                                            wasteItem: deliveryState
+                                                .toDeliveryCollectItems[i],
+                                            function: getWasteItems,
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    )
-                                  : Container(
-                                      height: deviceHeight * 0.7,
-                                      child: Center(
-                                        child: Text(context.l10n.noWasteAdded),
-                                      ),
-                                    ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  height: deviceHeight * 0.7,
+                                  child: Center(
+                                    child: Text(context.l10n.noWasteAdded),
+                                  ),
+                                ),
                         ),
                       ),
                       SizedBox(

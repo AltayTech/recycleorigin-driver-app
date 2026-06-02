@@ -278,7 +278,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthRegisterRequested event,
     Emitter<AuthState> emit,
   ) async {
-    final displayName = '${event.firstName ?? ''} ${event.lastName ?? ''}'.trim();
+    final displayName =
+        '${event.firstName ?? ''} ${event.lastName ?? ''}'.trim();
     try {
       final result = await _firebase.registerWithEmail(
         email: event.email,

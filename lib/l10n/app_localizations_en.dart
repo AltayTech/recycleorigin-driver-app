@@ -465,7 +465,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Language updates apply immediately and are saved on this device.';
+      'Preferences apply immediately and are saved on this device.';
+
+  @override
+  String get appearanceTitle => 'Appearance';
+
+  @override
+  String get appearanceSectionDescription =>
+      'Choose how the app looks on this device.';
+
+  @override
+  String get themeModeSystemLabel => 'System default';
+
+  @override
+  String get themeModeLightLabel => 'Light';
+
+  @override
+  String get themeModeDarkLabel => 'Dark';
 
   @override
   String get appInformationSectionTitle => 'App information';

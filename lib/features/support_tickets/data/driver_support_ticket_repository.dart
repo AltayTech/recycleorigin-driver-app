@@ -12,8 +12,7 @@ Map<String, dynamic>? _decodeJsonMap(String body) {
 
 /// HTTP client for driver app support tickets (`recycleorigin/v1/tickets`).
 class DriverSupportTicketRepository {
-  static String get _root =>
-      '${Urls.apiBaseUrl}recycleorigin/v1/tickets';
+  static String get _root => '${Urls.apiBaseUrl}recycleorigin/v1/tickets';
 
   Future<Map<String, String>> _headers() async {
     final token = await SecureStorage.getToken();

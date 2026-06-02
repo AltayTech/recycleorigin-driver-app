@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -19,19 +19,15 @@ class VehicleInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
           l10n.myVehicleLabel,
-          style: const TextStyle(
-            color: AppTheme.appBarIconColor,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),
@@ -71,7 +67,7 @@ class VehicleInfoScreen extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium
-                                ?.copyWith(color: AppTheme.grey),
+                                ?.copyWith(color: context.secondaryText),
                           ),
                           const SizedBox(height: 4),
                           Text(
@@ -82,7 +78,7 @@ class VehicleInfoScreen extends StatelessWidget {
                                 ?.copyWith(
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 2,
-                                  color: AppTheme.h1,
+                                  color: context.primaryText,
                                 ),
                           ),
                         ],
@@ -109,7 +105,7 @@ class VehicleInfoScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Card(
-                  color: AppTheme.secondary.withValues(alpha: 0.4),
+                  color: scheme.surfaceContainerHighest,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -131,7 +127,7 @@ class VehicleInfoScreen extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(
-                                  color: AppTheme.h1,
+                                  color: context.primaryText,
                                   height: 1.45,
                                 ),
                           ),

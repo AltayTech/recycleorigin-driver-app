@@ -10,7 +10,8 @@ class RouteRepository {
 
   final ApiClient _client;
 
-  Future<Result<TodayRouteResult>> fetchTodayRoute({bool rebuild = false}) async {
+  Future<Result<TodayRouteResult>> fetchTodayRoute(
+      {bool rebuild = false}) async {
     if (rebuild) {
       final rebuildResult = await _client.post<void>(
         Urls.driverRouteRebuild,
@@ -31,21 +32,21 @@ class RouteRepository {
         final dynamic id = data['route_id'];
         if (id == null) {
           return TodayRouteResult(
-            emptyMessage: data['message'] as String? ??
-                'No route available yet',
+            emptyMessage:
+                data['message'] as String? ?? 'No route available yet',
           );
         }
         if (id is num && id == 0) {
           return TodayRouteResult(
-            emptyMessage: data['message'] as String? ??
-                'No route available yet',
+            emptyMessage:
+                data['message'] as String? ?? 'No route available yet',
           );
         }
         final route = DriverRoute.fromJson(data);
         if (route.stops.isEmpty) {
           return TodayRouteResult(
-            emptyMessage: data['message'] as String? ??
-                'No stops on this route',
+            emptyMessage:
+                data['message'] as String? ?? 'No stops on this route',
           );
         }
         return TodayRouteResult(route: route);
@@ -53,11 +54,9 @@ class RouteRepository {
     );
   }
 
-  Future<Result<void>> markArrived(int stopId) =>
-      _mark(stopId, 'arrived');
+  Future<Result<void>> markArrived(int stopId) => _mark(stopId, 'arrived');
 
-  Future<Result<void>> markCompleted(int stopId) =>
-      _mark(stopId, 'completed');
+  Future<Result<void>> markCompleted(int stopId) => _mark(stopId, 'completed');
 
   Future<Result<void>> markFailed(int stopId, {String reason = ''}) =>
       _mark(stopId, 'failed', body: <String, dynamic>{'reason': reason});

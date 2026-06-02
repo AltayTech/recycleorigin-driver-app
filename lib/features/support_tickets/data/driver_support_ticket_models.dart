@@ -103,8 +103,7 @@ class SupportTicketMessage {
     );
   }
 
-  bool get isFromUser =>
-      senderRole == 'user' || senderRole == 'driver';
+  bool get isFromUser => senderRole == 'user' || senderRole == 'driver';
   bool get isFromStaff => senderRole == 'admin';
 }
 
@@ -126,8 +125,7 @@ class PagedTickets {
     return PagedTickets(
       items: raw
           .map(
-            (dynamic e) =>
-                SupportTicket.fromJson(e as Map<String, dynamic>),
+            (dynamic e) => SupportTicket.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
       total: (map['total'] as num?)?.toInt() ?? 0,

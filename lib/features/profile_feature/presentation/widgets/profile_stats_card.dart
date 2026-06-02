@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Wallet / rating / stores summary card overlapping the profile hero.
@@ -36,7 +36,7 @@ class ProfileStatsCard extends StatelessWidget {
             Container(
               width: 1,
               height: 36,
-              color: AppTheme.secondary,
+              color: Theme.of(context).colorScheme.outlineVariant,
             ),
             Expanded(
               child: _HeroStatChip(
@@ -48,7 +48,7 @@ class ProfileStatsCard extends StatelessWidget {
             Container(
               width: 1,
               height: 36,
-              color: AppTheme.secondary,
+              color: Theme.of(context).colorScheme.outlineVariant,
             ),
             Expanded(
               child: _HeroStatChip(
@@ -91,7 +91,7 @@ class _HeroStatChip extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: AppTheme.h1,
+                color: context.primaryText,
               ),
         ),
         const SizedBox(height: 2),
@@ -101,7 +101,7 @@ class _HeroStatChip extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppTheme.grey,
+                color: context.secondaryText,
               ),
         ),
       ],

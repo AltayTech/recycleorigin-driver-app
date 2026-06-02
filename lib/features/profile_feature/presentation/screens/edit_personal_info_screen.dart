@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/customer.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/models/personal_data.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/utils/driver_display.dart';
@@ -201,10 +200,8 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppTheme.bg,
         appBar: AppBar(
           leading: BackButton(
-            color: AppTheme.appBarIconColor,
             onPressed: () async {
               if (await _confirmDiscard() && context.mounted) {
                 Navigator.of(context).pop();
@@ -212,14 +209,9 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
             },
           ),
           centerTitle: true,
-          backgroundColor: AppTheme.appBarColor,
-          iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
           title: Text(
             l10n.editProfileLabel,
-            style: const TextStyle(
-              color: AppTheme.appBarIconColor,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           actions: <Widget>[
             Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
@@ -46,18 +46,12 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
           l10n.personalInfoLabel,
-          style: const TextStyle(
-            color: AppTheme.appBarIconColor,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),
@@ -91,13 +85,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       <Widget>[
                         Text(
                           l10n.personalInfoSubtitle,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                color: AppTheme.grey,
-                                height: 1.45,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: context.secondaryText,
+                                    height: 1.45,
+                                  ),
                         ),
                         const SizedBox(height: 16),
                         ProfileSectionCard(

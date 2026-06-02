@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Section title + elevated card with optional dividers between children.
 class ProfileSection extends StatelessWidget {
@@ -14,6 +14,8 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -22,7 +24,7 @@ class ProfileSection extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppTheme.grey,
+                  color: context.secondaryText,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.4,
                 ),
@@ -35,23 +37,27 @@ class ProfileSection extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          color: AppTheme.white,
+          color: scheme.surface,
           child: Column(
-            children: _interleaveDividers(children),
+            children: _interleaveDividers(context, children),
           ),
         ),
       ],
     );
   }
 
-  static List<Widget> _interleaveDividers(List<Widget> tiles) {
+  static List<Widget> _interleaveDividers(
+    BuildContext context,
+    List<Widget> tiles,
+  ) {
     if (tiles.isEmpty) {
       return tiles;
     }
+    final dividerColor = Theme.of(context).colorScheme.outlineVariant;
     final result = <Widget>[tiles.first];
     for (var i = 1; i < tiles.length; i++) {
       result.add(
-        const Divider(height: 1, indent: 56, color: AppTheme.secondary),
+        Divider(height: 1, indent: 56, color: dividerColor),
       );
       result.add(tiles[i]);
     }
@@ -100,8 +106,8 @@ class ProfileTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
-                    color: AppTheme.h1,
+                  style: TextStyle(
+                    color: context.primaryText,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),
@@ -115,7 +121,7 @@ class ProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppTheme.grey,
+                          color: context.secondaryText,
                         ),
                   ),
                 ),
@@ -123,7 +129,7 @@ class ProfileTile extends StatelessWidget {
               ],
               Icon(
                 Icons.chevron_right_rounded,
-                color: AppTheme.grey.withValues(alpha: 0.8),
+                color: context.secondaryText.withValues(alpha: 0.8),
                 size: 22,
               ),
             ],
@@ -149,6 +155,8 @@ class ProfileSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Card(
       elevation: 2,
       shadowColor: Colors.black26,
@@ -156,7 +164,7 @@ class ProfileSectionCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      color: AppTheme.white,
+      color: scheme.surface,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
         child: Column(
@@ -168,7 +176,7 @@ class ProfileSectionCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: AppTheme.h1,
+                          color: context.primaryText,
                           fontWeight: FontWeight.w600,
                         ),
                   ),

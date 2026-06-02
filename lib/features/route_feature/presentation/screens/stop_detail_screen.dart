@@ -26,7 +26,8 @@ class StopDetailScreen extends StatelessWidget {
           Text(stop.customer.name),
           if (stop.customer.phone.isNotEmpty)
             TextButton.icon(
-              onPressed: () => launchUrl(Uri.parse('tel:${stop.customer.phone}')),
+              onPressed: () =>
+                  launchUrl(Uri.parse('tel:${stop.customer.phone}')),
               icon: const Icon(Icons.phone),
               label: Text(stop.customer.phone),
             ),

@@ -40,7 +40,8 @@ class NotificationPreferencesService {
   }
 
   /// Default preferences when the API returns nothing.
-  static Map<String, Map<String, bool>> defaultPrefs() => <String, Map<String, bool>>{
+  static Map<String, Map<String, bool>> defaultPrefs() =>
+      <String, Map<String, bool>>{
         'transactional': <String, bool>{'push': true, 'inapp': true},
         'marketing': <String, bool>{'push': true, 'inapp': true},
       };

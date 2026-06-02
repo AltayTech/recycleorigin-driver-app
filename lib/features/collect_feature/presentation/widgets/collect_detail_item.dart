@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
@@ -91,6 +92,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final scheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -99,7 +101,11 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
         width: deviceWidth,
         child: LayoutBuilder(
           builder: (_, constraints) => Container(
-            decoration: AppTheme.listItemBox,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: scheme.surface,
+              border: Border.all(color: scheme.outlineVariant, width: 0.3),
+            ),
             child: Stack(
               children: <Widget>[
                 Positioned(
@@ -136,7 +142,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                 ? widget.wasteItem.waste.post_title
                                 : context.l10n.noneLabel,
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.primaryText,
                               fontWeight: FontWeight.w500,
                               fontSize: textScaleFactor * 18,
                             ),
@@ -152,7 +158,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                             widget.wasteItem.estimated_weight.toString(),
                           ),
                           style: TextStyle(
-                            color: AppTheme.black,
+                            color: context.primaryText,
                             fontSize: textScaleFactor * 14,
                           ),
                           textAlign: TextAlign.center,
@@ -216,12 +222,13 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? AppTheme.accent.withOpacity(0.7)
-                                        : AppTheme.grey,
+                                        ? context.brandPrimary
+                                            .withValues(alpha: 0.7)
+                                        : context.secondaryText,
                                   ),
                                   child: Icon(
                                     Icons.add,
-                                    color: AppTheme.bg,
+                                    color: context.pageBackground,
                                   )),
                             )),
                             Expanded(
@@ -236,7 +243,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                         .toStringAsFixed(3),
                                   ),
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 14,
                                   ),
                                   textAlign: TextAlign.center,
@@ -303,12 +310,13 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? AppTheme.accent.withOpacity(0.7)
-                                        : AppTheme.grey,
+                                        ? context.brandPrimary
+                                            .withValues(alpha: 0.7)
+                                        : context.secondaryText,
                                   ),
                                   child: Icon(
                                     Icons.remove,
-                                    color: AppTheme.bg,
+                                    color: context.pageBackground,
                                   ),
                                 ),
                               ),
@@ -373,12 +381,12 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? AppTheme.accent
-                                        : AppTheme.grey,
+                                        ? context.brandPrimary
+                                        : context.secondaryText,
                                   ),
                                   child: Icon(
                                     Icons.add,
-                                    color: AppTheme.bg,
+                                    color: context.pageBackground,
                                   )),
                             )),
                             Expanded(
@@ -391,7 +399,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                         .toStringAsFixed(0),
                                   ),
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 14,
                                   ),
                                   textAlign: TextAlign.center,
@@ -460,12 +468,12 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? AppTheme.accent
-                                        : AppTheme.grey,
+                                        ? context.brandPrimary
+                                        : context.secondaryText,
                                   ),
                                   child: Icon(
                                     Icons.remove,
-                                    color: AppTheme.bg,
+                                    color: context.pageBackground,
                                   ),
                                 ),
                               ),

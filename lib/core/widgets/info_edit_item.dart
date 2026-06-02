@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class InfoEditItem extends StatelessWidget {
@@ -32,6 +32,8 @@ class InfoEditItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -50,13 +52,13 @@ class InfoEditItem extends StatelessWidget {
                 child: Text(
                   '$title : ',
                   style: TextStyle(
-                    color: AppTheme.h1,
+                    color: context.primaryText,
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
               ),
               Container(
-                color: Colors.white,
+                color: scheme.surface,
                 height: fieldHeight,
                 child: Form(
                   child: TextFormField(
@@ -70,7 +72,7 @@ class InfoEditItem extends StatelessWidget {
                       return null;
                     },
                     style: TextStyle(
-                      color: AppTheme.h1,
+                      color: context.primaryText,
                       fontSize: textScaleFactor * 14.0,
                     ),
                     onFieldSubmitted: (_) =>
@@ -83,7 +85,7 @@ class InfoEditItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         borderSide: BorderSide(
                           width: 0,
-                          color: Colors.white,
+                          color: scheme.surface,
                         ),
                       ),
                       labelStyle: TextStyle(

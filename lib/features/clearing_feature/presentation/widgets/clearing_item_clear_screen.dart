@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/core/models/clearing.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class ClearingItemClearScreen extends StatelessWidget {
@@ -14,13 +14,15 @@ class ClearingItemClearScreen extends StatelessWidget {
     final transaction = Provider.of<Clearing>(context, listen: false);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
         height: widthDevice * 0.1,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: AppTheme.white,
+          color: scheme.surface,
         ),
         child: LayoutBuilder(
           builder: (ctx, constraints) {
@@ -41,7 +43,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       transaction.status.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: context.primaryText,
                         fontSize: textScaleFactor * 14.0,
                       ),
                     ),

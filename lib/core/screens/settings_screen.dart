@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:recycleorigindriver/core/app_theme_controller.dart';
 import 'package:recycleorigindriver/core/notifications/notification_preferences_controller.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 import '../app_locale_controller.dart';
-import '../theme/app_theme.dart';
+import '../theme/theme_context.dart';
 import '../utils/app_info_service.dart';
 import '../widgets/drawer_or_back_leading.dart';
 
-/// Application settings: language, notifications, and app metadata.
+/// Application settings: appearance, language, notifications, and metadata.
 class SettingsScreen extends StatelessWidget {
   static const routeName = '/settings';
 
@@ -18,22 +19,12 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colors;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
-        title: Text(
-          l10n.settingsTitle,
-          style: const TextStyle(
-            color: AppTheme.appBarIconColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: Text(l10n.settingsTitle),
       ),
       drawer: mainDrawerIfRootRoute(context),
       body: ValueListenableBuilder<Locale>(
@@ -48,11 +39,73 @@ class SettingsScreen extends StatelessWidget {
                 Text(
                   l10n.settingsScreenIntro,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.grey,
+                        color: context.secondaryText,
                         height: 1.45,
                       ),
                 ),
                 const SizedBox(height: 20),
+                ValueListenableBuilder<ThemeMode>(
+                  valueListenable:
+                      AppThemeController.instance.themeModeNotifier,
+                  builder: (context, themeMode, _) {
+                    return _SettingsSectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _SectionHeader(
+                            title: l10n.appearanceTitle,
+                            icon: Icons.palette_outlined,
+                            iconColor: colorScheme.primary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.appearanceSectionDescription,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: context.secondaryText,
+                                      height: 1.45,
+                                    ),
+                          ),
+                          const SizedBox(height: 16),
+                          Semantics(
+                            label: l10n.appearanceTitle,
+                            child: Column(
+                              children: [
+                                _ThemeModeOptionTile(
+                                  selected: themeMode == ThemeMode.system,
+                                  title: l10n.themeModeSystemLabel,
+                                  onTap: () => AppThemeController.instance
+                                      .setThemeMode(ThemeMode.system),
+                                ),
+                                Divider(
+                                  height: 1,
+                                  color: colorScheme.outlineVariant,
+                                ),
+                                _ThemeModeOptionTile(
+                                  selected: themeMode == ThemeMode.light,
+                                  title: l10n.themeModeLightLabel,
+                                  onTap: () => AppThemeController.instance
+                                      .setThemeMode(ThemeMode.light),
+                                ),
+                                Divider(
+                                  height: 1,
+                                  color: colorScheme.outlineVariant,
+                                ),
+                                _ThemeModeOptionTile(
+                                  selected: themeMode == ThemeMode.dark,
+                                  title: l10n.themeModeDarkLabel,
+                                  onTap: () => AppThemeController.instance
+                                      .setThemeMode(ThemeMode.dark),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
                 _SettingsSectionCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,16 +113,12 @@ class SettingsScreen extends StatelessWidget {
                       _SectionHeader(
                         title: l10n.languageTitle,
                         icon: Icons.translate_rounded,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                       ),
                       const SizedBox(height: 16),
                       Text(
                         l10n.applicationLanguageLabel,
-                        style: const TextStyle(
-                          color: AppTheme.h1,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                       const SizedBox(height: 4),
                       Semantics(
@@ -82,14 +131,20 @@ class SettingsScreen extends StatelessWidget {
                               onTap: () => AppLocaleController.instance
                                   .setLocaleCode('en'),
                             ),
-                            const Divider(height: 1, color: AppTheme.secondary),
+                            Divider(
+                              height: 1,
+                              color: colorScheme.outlineVariant,
+                            ),
                             _LanguageOptionTile(
                               selected: locale.languageCode == 'tr',
                               title: l10n.turkishLabel,
                               onTap: () => AppLocaleController.instance
                                   .setLocaleCode('tr'),
                             ),
-                            const Divider(height: 1, color: AppTheme.secondary),
+                            Divider(
+                              height: 1,
+                              color: colorScheme.outlineVariant,
+                            ),
                             _LanguageOptionTile(
                               selected: locale.languageCode == 'ar',
                               title: l10n.arabicLabel,
@@ -112,7 +167,7 @@ class SettingsScreen extends StatelessWidget {
                       _SectionHeader(
                         title: l10n.appInformationSectionTitle,
                         icon: Icons.info_outline_rounded,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                       ),
                       const SizedBox(height: 16),
                       _AppMetaBlock(l10n: l10n),
@@ -137,11 +192,6 @@ class _SettingsSectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: Colors.black26,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      color: AppTheme.white,
       margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -178,11 +228,7 @@ class _SectionHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(
-              color: AppTheme.h1,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
       ],
@@ -190,8 +236,8 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-class _LanguageOptionTile extends StatelessWidget {
-  const _LanguageOptionTile({
+class _ThemeModeOptionTile extends StatelessWidget {
+  const _ThemeModeOptionTile({
     required this.selected,
     required this.title,
     required this.onTap,
@@ -203,6 +249,8 @@ class _LanguageOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colors;
+
     return Material(
       color: Colors.transparent,
       child: Semantics(
@@ -220,17 +268,73 @@ class _LanguageOptionTile extends StatelessWidget {
                   selected
                       ? Icons.radio_button_checked_rounded
                       : Icons.radio_button_off_rounded,
-                  color: selected ? AppTheme.primary : AppTheme.grey,
+                  color: selected
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant,
                   size: 24,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
-                      color: AppTheme.h1,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOptionTile extends StatelessWidget {
+  const _LanguageOptionTile({
+    required this.selected,
+    required this.title,
+    required this.onTap,
+  });
+
+  final bool selected;
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colors;
+
+    return Material(
+      color: Colors.transparent,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: title,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+            child: Row(
+              children: [
+                Icon(
+                  selected
+                      ? Icons.radio_button_checked_rounded
+                      : Icons.radio_button_off_rounded,
+                  color: selected
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                 ),
               ],
@@ -281,6 +385,7 @@ class _NotificationPreferencesSectionState
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colors;
 
     return ListenableBuilder(
       listenable: _controller,
@@ -295,7 +400,7 @@ class _NotificationPreferencesSectionState
                     child: _SectionHeader(
                       title: l10n.notificationsSectionTitle,
                       icon: Icons.notifications_active_outlined,
-                      iconColor: AppTheme.primary,
+                      iconColor: colorScheme.primary,
                     ),
                   ),
                   if (_controller.saving)
@@ -307,7 +412,7 @@ class _NotificationPreferencesSectionState
                   else if (_controller.savedFlash)
                     Icon(
                       Icons.check_circle_rounded,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: colorScheme.primary,
                       size: 22,
                     ),
                 ],
@@ -316,7 +421,7 @@ class _NotificationPreferencesSectionState
               Text(
                 l10n.notificationsSectionDescription,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.grey,
+                      color: context.secondaryText,
                       height: 1.45,
                     ),
               ),
@@ -332,7 +437,7 @@ class _NotificationPreferencesSectionState
                     children: <Widget>[
                       Text(
                         l10n.notificationPrefsLoadErrorMessage,
-                        style: TextStyle(color: AppTheme.grey),
+                        style: TextStyle(color: context.secondaryText),
                       ),
                       const SizedBox(height: 12),
                       TextButton.icon(
@@ -350,7 +455,7 @@ class _NotificationPreferencesSectionState
                     child: Text(
                       l10n.connectionRetryMessage,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
+                        color: colorScheme.error,
                         fontSize: 13,
                       ),
                     ),
@@ -361,7 +466,7 @@ class _NotificationPreferencesSectionState
                     child: Text(
                       l10n.notificationPrefsSavingLabel,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppTheme.grey,
+                            color: context.secondaryText,
                           ),
                     ),
                   ),
@@ -369,11 +474,7 @@ class _NotificationPreferencesSectionState
                   const SizedBox(height: 12),
                   Text(
                     _categoryLabel(l10n, cat),
-                    style: const TextStyle(
-                      color: AppTheme.h1,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
@@ -392,7 +493,7 @@ class _NotificationPreferencesSectionState
                     },
                   ),
                   if (cat != _controller.prefs.keys.last)
-                    const Divider(height: 1, color: AppTheme.secondary),
+                    Divider(height: 1, color: colorScheme.outlineVariant),
                 ],
               ],
             ],
@@ -419,17 +520,13 @@ class _AppMetaBlock extends StatelessWidget {
       children: [
         Text(
           name,
-          style: const TextStyle(
-            color: AppTheme.h1,
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 6),
         Text(
           versionLine,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.grey,
+                color: context.secondaryText,
               ),
         ),
       ],

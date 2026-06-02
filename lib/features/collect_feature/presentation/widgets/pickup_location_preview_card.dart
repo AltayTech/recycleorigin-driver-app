@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/utils/external_maps.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,6 +56,7 @@ class PickupLocationPreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final (lat, lng) = ExternalMaps.parseCoordinates(latitude, longitude);
     if (lat == null || lng == null) {
       return const SizedBox.shrink();
@@ -67,10 +68,10 @@ class PickupLocationPreviewCard extends StatelessWidget {
       label: l10n.pickupMapPreviewSemantics,
       button: true,
       child: Material(
-        color: Colors.white,
+        color: scheme.surface,
         borderRadius: BorderRadius.circular(16),
         elevation: 1,
-        shadowColor: Colors.black26,
+        shadowColor: scheme.shadow.withValues(alpha: 0.2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -78,14 +79,17 @@ class PickupLocationPreviewCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
               child: Row(
                 children: [
-                  Icon(Icons.map_rounded, size: 20, color: AppTheme.primary),
+                  Icon(
+                    Icons.map_rounded,
+                    size: 20,
+                    color: context.brandPrimary,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       l10n.pickupLocationMapTitle,
-                      style: const TextStyle(
+                      style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
-                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -131,7 +135,7 @@ class PickupLocationPreviewCard extends StatelessWidget {
                               child: Icon(
                                 Icons.location_on_rounded,
                                 size: 44,
-                                color: theme.colorScheme.error,
+                                color: scheme.error,
                               ),
                             ),
                           ],
@@ -140,7 +144,7 @@ class PickupLocationPreviewCard extends StatelessWidget {
                           source: Text(
                             l10n.openStreetMapAttributionShort,
                             style: TextStyle(
-                              color: theme.colorScheme.primary,
+                              color: scheme.primary,
                               fontSize: 10,
                               decoration: TextDecoration.underline,
                             ),
@@ -161,7 +165,7 @@ class PickupLocationPreviewCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppTheme.grey,
+                    color: context.secondaryText,
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class CustomDialogSendRequest extends StatelessWidget {
   final String title, description, buttonText;
@@ -26,6 +26,8 @@ class CustomDialogSendRequest extends StatelessWidget {
   }
 
   dialogContent(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Stack(
       children: <Widget>[
         Container(
@@ -37,8 +39,8 @@ class CustomDialogSendRequest extends StatelessWidget {
             right: Consts.padding,
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: scheme.surface,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),
             boxShadow: [
@@ -75,7 +77,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppTheme.h1,
+                  color: context.primaryText,
                   fontSize: MediaQuery.of(context).textScaleFactor * 15,
                 ),
               ),
@@ -95,7 +97,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.06,
                     width: MediaQuery.of(context).size.width * 0.4,
                     decoration: BoxDecoration(
-                      color: AppTheme.primary,
+                      color: context.brandPrimary,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Center(

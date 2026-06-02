@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/app_theme_extensions.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -31,8 +32,6 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   static const double _horizontalPadding = 14;
   static const double _tileRadius = 16;
-  static const Color _heroGradientEnd = Color(0xFF1F8B61);
-
   String _appVersion = 'v1.0.0';
 
   @override
@@ -66,6 +65,8 @@ class _MainDrawerState extends State<MainDrawer> {
     required Driver? driver,
   }) {
     final l10n = context.l10n;
+    final driverColors = context.driverColors;
+    final primary = context.brandPrimary;
 
     if (!isAuthenticated) {
       return Material(
@@ -78,7 +79,7 @@ class _MainDrawerState extends State<MainDrawer> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: <Color>[AppTheme.primary, _heroGradientEnd],
+                colors: <Color>[primary, driverColors.heroGradientEnd],
               ),
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(24),
@@ -176,7 +177,7 @@ class _MainDrawerState extends State<MainDrawer> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[AppTheme.primary, _heroGradientEnd],
+              colors: <Color>[primary, driverColors.heroGradientEnd],
             ),
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(24),
@@ -373,9 +374,8 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().driver = parentContext
-                    .read<CustomerInfoBloc>()
-                    .driverZero;
+                parentContext.read<CustomerInfoBloc>().driver =
+                    parentContext.read<CustomerInfoBloc>().driverZero;
                 await parentContext.read<AuthBloc>().removeToken();
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
@@ -462,6 +462,8 @@ class _MainDrawerState extends State<MainDrawer> {
     final currentRouteName = ModalRoute.of(context)?.settings.name ?? '';
     final l10n = context.l10n;
 
+    final primary = context.brandPrimary;
+
     return Drawer(
       elevation: 0,
       child: Container(
@@ -470,8 +472,8 @@ class _MainDrawerState extends State<MainDrawer> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              AppTheme.primary,
-              AppTheme.primary.withValues(alpha: 0.92),
+              primary,
+              primary.withValues(alpha: 0.92),
             ],
           ),
         ),
@@ -516,10 +518,12 @@ class _MainDrawerState extends State<MainDrawer> {
                         title: l10n.statisticsLabel,
                         routeName: PerformanceScreen.routeName,
                       ),
-                      selected: currentRouteName == PerformanceScreen.routeName ||
-                          currentRouteName == StatisticsScreen.routeName,
+                      selected:
+                          currentRouteName == PerformanceScreen.routeName ||
+                              currentRouteName == StatisticsScreen.routeName,
                       destructive: false,
-                      onTap: () => _navigateToRoute(PerformanceScreen.routeName),
+                      onTap: () =>
+                          _navigateToRoute(PerformanceScreen.routeName),
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
@@ -599,8 +603,8 @@ class _MainDrawerState extends State<MainDrawer> {
                                   title: l10n.loginLabel,
                                   routeName: LoginScreen.routeName,
                                 ),
-                                selected: currentRouteName ==
-                                    LoginScreen.routeName,
+                                selected:
+                                    currentRouteName == LoginScreen.routeName,
                                 destructive: false,
                                 onTap: () =>
                                     _navigateToRoute(LoginScreen.routeName),

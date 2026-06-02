@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Read-only label/value row for profile detail screens.
@@ -29,7 +29,7 @@ class ProfileInfoRow extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(
-              color: AppTheme.grey,
+              color: context.secondaryText,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -40,7 +40,7 @@ class ProfileInfoRow extends StatelessWidget {
                 child: Text(
                   display,
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: AppTheme.h1,
+                    color: context.primaryText,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

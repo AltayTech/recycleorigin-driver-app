@@ -58,4 +58,3 @@ class Urls {
   /// GET - currently authenticated user (requires JWT).
   static const String mePath = 'recycleorigin/v1/auth/me';
 }
-

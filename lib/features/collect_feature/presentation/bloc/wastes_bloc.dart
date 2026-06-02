@@ -143,8 +143,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }
@@ -260,8 +259,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         event.completer?.complete();
         return;
       }
-      final url =
-          Urls.rootUrl + Urls.driverCollectsEndPoint + searchEndPoint;
+      final url = Urls.rootUrl + Urls.driverCollectsEndPoint + searchEndPoint;
       final response = await get(
         Uri.parse(url),
         headers: {
@@ -402,9 +400,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       next
           .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .exact_weight = event.exactWeight;
-      next
-          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
-          .isAdded = event.isAdded;
+      next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -685,16 +682,13 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       }),
     );
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      final body = response.body.isNotEmpty
-          ? json.decode(response.body)
-          : null;
+      final body = response.body.isNotEmpty ? json.decode(response.body) : null;
       final message = body is Map && body['error'] != null
           ? body['error'].toString()
           : 'Rating failed (${response.statusCode})';
       throw Exception(message);
     }
-    final getUrl =
-        Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final getUrl = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
     final getResp = await get(
       Uri.parse(getUrl),
       headers: {

@@ -9,7 +9,7 @@ import 'package:recycleorigindriver/core/models/request/request_waste_item.dart'
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/collect_item_collect_screen.dart';
@@ -99,11 +99,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return c.toString();
   }
 
-  static DateTime _dateOnly(DateTime d) =>
-      DateTime(d.year, d.month, d.day);
+  static DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
 
-  static String _apiDate(DateTime d) =>
-      intl.DateFormat('yyyy-MM-dd').format(d);
+  static String _apiDate(DateTime d) => intl.DateFormat('yyyy-MM-dd').format(d);
 
   (String order, String orderBy) _sortQueryParams() {
     return switch (_sort) {
@@ -232,9 +230,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 selected: _datePreset == preset,
-                onSelected: disabled
-                    ? null
-                    : (_) => _onDatePresetSelected(preset),
+                onSelected:
+                    disabled ? null : (_) => _onDatePresetSelected(preset),
                 labelStyle: theme.textTheme.labelMedium,
               ),
             ),
@@ -564,8 +561,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed:
-                          disabled ? null : () => _showFilterSheet(l10n),
+                      onPressed: disabled ? null : () => _showFilterSheet(l10n),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: colorScheme.onSurface,
                         padding: const EdgeInsets.symmetric(
@@ -692,27 +688,29 @@ class _CollectListScreenState extends State<CollectListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lock_outline, size: 64, color: Colors.grey.shade400),
+          Icon(
+            Icons.lock_outline,
+            size: 64,
+            color: context.secondaryText.withValues(alpha: 0.6),
+          ),
           const SizedBox(height: 16),
           Text(
             l10n.notLoggedInLabel,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: context.secondaryText,
+                ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(LoginScreen.routeName),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text(
-              l10n.loginToAccountLabel,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(l10n.loginToAccountLabel),
           ),
         ],
       ),
@@ -725,23 +723,23 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Theme.of(context).colorScheme.error,
+            ),
             const SizedBox(height: 16),
             Text(
               l10n.noRequestAvailable,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: context.secondaryText,
+                  ),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _reloadFromFirstPage,
-              icon: const Icon(Icons.refresh, color: Colors.white),
-              label: Text(
-                l10n.retryLabel,
-                style: const TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-              ),
+              icon: const Icon(Icons.refresh),
+              label: Text(l10n.retryLabel),
             ),
           ],
         ),
@@ -758,7 +756,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _reloadFromFirstPage,
-            color: AppTheme.primary,
+            color: context.brandPrimary,
             child: CustomScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -793,11 +791,17 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              Icon(
+                Icons.inbox_outlined,
+                size: 64,
+                color: context.secondaryText.withValues(alpha: 0.6),
+              ),
               const SizedBox(height: 16),
               Text(
                 context.l10n.noRequestAvailable,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: context.secondaryText,
+                    ),
               ),
             ],
           ),

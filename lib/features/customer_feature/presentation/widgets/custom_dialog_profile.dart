@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class CustomDialogProfile extends StatelessWidget {
   final String title, description, buttonText;
@@ -83,7 +83,7 @@ class CustomDialogProfile extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color: AppTheme.primary,
+                        color: context.brandPrimary,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(

@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recycleorigindriver/core/models/region.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/info_edit_item.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -195,14 +195,11 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
     final deviceHeight = MediaQuery.sizeOf(context).height;
     final deviceWidth = MediaQuery.sizeOf(context).width;
     final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          context.l10n.newAddressLabel,
-          style: const TextStyle(),
-        ),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
+        title: Text(context.l10n.newAddressLabel),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -260,7 +257,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                               child: Icon(
                                 Icons.location_on_rounded,
                                 size: 44,
-                                color: AppTheme.primary,
+                                color: context.brandPrimary,
                               ),
                             ),
                           ],
@@ -283,14 +280,14 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                         top: 8,
                         right: 8,
                         child: Material(
-                          color: Colors.white,
+                          color: scheme.surface,
                           elevation: 2,
                           shape: const CircleBorder(),
                           child: IconButton(
                             tooltip: context.l10n.mapScreenMyLocation,
                             icon: Icon(
                               Icons.my_location_rounded,
-                              color: AppTheme.primary,
+                              color: context.brandPrimary,
                             ),
                             onPressed: _centerOnDeviceLocation,
                           ),
@@ -303,7 +300,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
             InfoEditItem(
               title: context.l10n.addressNameLabel,
               controller: nameController,
-              bgColor: AppTheme.bg,
+              bgColor: context.pageBackground,
               iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
@@ -317,7 +314,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                 child: Text(
                   context.l10n.areasLabel,
                   style: TextStyle(
-                    color: AppTheme.h1,
+                    color: context.primaryText,
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
@@ -333,17 +330,16 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                   alignment: Alignment.centerRight,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: AppTheme.white,
-                    border: Border.all(color: AppTheme.h1, width: 0.6),
+                    color: scheme.surface,
+                    border: Border.all(color: scheme.outline, width: 0.6),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(right: 8.0, left: 8, top: 6),
+                    padding: const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                     child: DropdownButton<String>(
                       hint: Text(
                         context.l10n.selectAreaMessage,
                         style: TextStyle(
-                          color: AppTheme.grey,
+                          color: context.secondaryText,
                           fontSize: textScaleFactor * 13.0,
                         ),
                       ),
@@ -353,13 +349,13 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Icon(
                           Icons.arrow_drop_down,
-                          color: AppTheme.black,
+                          color: scheme.onSurface,
                           size: 20,
                         ),
                       ),
-                      dropdownColor: AppTheme.white,
+                      dropdownColor: scheme.surface,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: scheme.onSurface,
                         fontSize: textScaleFactor * 13.0,
                       ),
                       isDense: true,
@@ -383,7 +379,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                                 value,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: scheme.onSurface,
                                   fontSize: textScaleFactor * 13.0,
                                 ),
                               ),
@@ -399,7 +395,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
             InfoEditItem(
               title: context.l10n.addressLabel,
               controller: addressController,
-              bgColor: AppTheme.bg,
+              bgColor: context.pageBackground,
               iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.2,
@@ -419,10 +415,10 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
               Navigator.of(context).pop();
             }
           },
-          backgroundColor: AppTheme.primary,
+          backgroundColor: context.brandPrimary,
           child: Icon(
             Icons.check,
-            color: AppTheme.white,
+            color: scheme.onPrimary,
           ),
         ),
       ),

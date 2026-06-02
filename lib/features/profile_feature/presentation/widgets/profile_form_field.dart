@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Material 3 text field used on profile edit screens.
 class ProfileFormField extends StatelessWidget {
@@ -28,6 +28,8 @@ class ProfileFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
@@ -36,9 +38,7 @@ class ProfileFormField extends StatelessWidget {
         readOnly: readOnly,
         keyboardType: keyboardType,
         textInputAction: textInputAction ??
-            (nextFocus != null
-                ? TextInputAction.next
-                : TextInputAction.done),
+            (nextFocus != null ? TextInputAction.next : TextInputAction.done),
         onFieldSubmitted: (_) {
           if (nextFocus != null) {
             FocusScope.of(context).requestFocus(nextFocus);
@@ -46,22 +46,20 @@ class ProfileFormField extends StatelessWidget {
         },
         validator: validator,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppTheme.h1,
+              color: context.primaryText,
             ),
         decoration: InputDecoration(
           labelText: label,
           helperText: helperText,
           filled: true,
-          fillColor: readOnly
-              ? AppTheme.secondary.withValues(alpha: 0.35)
-              : Colors.white,
+          fillColor: readOnly ? scheme.surfaceContainerHighest : scheme.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
-              color: AppTheme.grey.withValues(alpha: 0.35),
+              color: scheme.outlineVariant,
             ),
           ),
           contentPadding: const EdgeInsets.symmetric(

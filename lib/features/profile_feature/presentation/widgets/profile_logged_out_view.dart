@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -13,7 +13,7 @@ class ProfileLoggedOutView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ColoredBox(
-      color: AppTheme.bg,
+      color: context.pageBackground,
       child: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -33,7 +33,7 @@ class ProfileLoggedOutView extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppTheme.h1,
+                        color: context.primaryText,
                       ),
                 ),
                 const SizedBox(height: 8),
@@ -41,7 +41,7 @@ class ProfileLoggedOutView extends StatelessWidget {
                   l10n.loginRequiredDescription,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.grey,
+                        color: context.secondaryText,
                         height: 1.4,
                       ),
                 ),

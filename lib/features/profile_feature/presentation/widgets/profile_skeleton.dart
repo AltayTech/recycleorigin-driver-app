@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Loading placeholder for the profile tab.
 class ProfileSkeleton extends StatelessWidget {
@@ -8,7 +8,7 @@ class ProfileSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppTheme.bg,
+      color: context.pageBackground,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
         physics: const NeverScrollableScrollPhysics(),
@@ -49,7 +49,7 @@ class _SkeletonBox extends StatelessWidget {
       height: height,
       width: width ?? double.infinity,
       decoration: BoxDecoration(
-        color: AppTheme.secondary,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );

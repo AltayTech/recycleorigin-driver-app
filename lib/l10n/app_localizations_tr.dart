@@ -465,7 +465,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Dil değişiklikleri hemen uygulanır ve bu cihazda kaydedilir.';
+      'Tercihler hemen uygulanır ve bu cihazda kaydedilir.';
+
+  @override
+  String get appearanceTitle => 'Görünüm';
+
+  @override
+  String get appearanceSectionDescription =>
+      'Uygulamanın bu cihazda nasıl görüneceğini seçin.';
+
+  @override
+  String get themeModeSystemLabel => 'Sistem varsayılanı';
+
+  @override
+  String get themeModeLightLabel => 'Açık';
+
+  @override
+  String get themeModeDarkLabel => 'Koyu';
 
   @override
   String get appInformationSectionTitle => 'Uygulama bilgisi';

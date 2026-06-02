@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/auth_snackbars.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -126,7 +125,10 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    final navTheme = theme.navigationBarTheme;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final appBarTitle = _appBarTitle(l10n);
     final narrowNav = MediaQuery.sizeOf(context).width < 360;
@@ -154,12 +156,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             elevation: 2,
-            shadowColor: Colors.black.withValues(alpha: 0.06),
-            surfaceTintColor: Colors.transparent,
-            iconTheme: IconThemeData(color: AppTheme.bg),
+            shadowColor: colorScheme.shadow.withValues(alpha: 0.08),
             leading: IconButton(
               icon: const Icon(Icons.menu_rounded),
-              color: AppTheme.bg,
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
@@ -183,7 +182,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                 appBarTitle,
                 key: ValueKey<String>(appBarTitle),
                 style: textTheme.titleLarge?.copyWith(
-                  color: AppTheme.bg,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -192,7 +190,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
               if (_selectedIndex == _DriverShellTab.collection.index)
                 IconButton(
                   tooltip: l10n.myRouteLabel,
-                  icon: const Icon(Icons.route_rounded, color: AppTheme.bg),
+                  icon: const Icon(Icons.route_rounded),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
                       RouteTodayScreen.routeName,
@@ -218,42 +216,18 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           bottomNavigationBar: SafeArea(
             minimum: EdgeInsets.fromLTRB(14, 0, 14, bottomInset > 0 ? 8 : 14),
             child: Material(
-              color: AppTheme.white,
+              color: colorScheme.surface,
               elevation: 8,
-              shadowColor: AppTheme.primary.withValues(alpha: 0.12),
+              shadowColor: colorScheme.primary.withValues(alpha: 0.12),
               surfaceTintColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
               clipBehavior: Clip.antiAlias,
               child: NavigationBarTheme(
-                data: NavigationBarThemeData(
+                data: navTheme.copyWith(
                   height: 72,
                   backgroundColor: Colors.transparent,
-                  indicatorColor: AppTheme.primary.withValues(alpha: 0.2),
-                  labelTextStyle: WidgetStateProperty.resolveWith(
-                    (Set<WidgetState> states) {
-                      final selected = states.contains(WidgetState.selected);
-                      return TextStyle(
-                        fontSize: 11.5,
-                        fontWeight:
-                            selected ? FontWeight.w600 : FontWeight.w500,
-                        color: selected
-                            ? AppTheme.primary
-                            : AppTheme.h1.withValues(alpha: 0.55),
-                        letterSpacing: 0.1,
-                      );
-                    },
-                  ),
-                  iconTheme: WidgetStateProperty.resolveWith(
-                    (Set<WidgetState> states) {
-                      final selected = states.contains(WidgetState.selected);
-                      return IconThemeData(
-                        color: selected ? AppTheme.primary : AppTheme.grey,
-                        size: selected ? 26 : 24,
-                      );
-                    },
-                  ),
                 ),
                 child: NavigationBar(
                   selectedIndex: _selectedIndex,

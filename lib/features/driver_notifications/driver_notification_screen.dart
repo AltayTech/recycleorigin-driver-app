@@ -78,8 +78,7 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
     if (it.isRead) {
       return;
     }
-    final uri =
-        Uri.parse('${Urls.rootUrl}/notifications/${it.id}/read');
+    final uri = Uri.parse('${Urls.rootUrl}/notifications/${it.id}/read');
     await http.post(uri, headers: await _headers());
     await _load();
   }
@@ -127,16 +126,14 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
                         title: Text(
                           it.title,
                           style: TextStyle(
-                            fontWeight: it.isRead
-                                ? FontWeight.normal
-                                : FontWeight.bold,
+                            fontWeight:
+                                it.isRead ? FontWeight.normal : FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(it.body),
                         onTap: () async {
                           await _markRead(it);
-                          if (it.deepLink != null &&
-                              it.deepLink!.isNotEmpty) {
+                          if (it.deepLink != null && it.deepLink!.isNotEmpty) {
                             NotificationDeepLink.openFromData(
                               <String, dynamic>{'deep_link': it.deepLink},
                             );

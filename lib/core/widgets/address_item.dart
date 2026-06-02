@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class AddressItem extends StatefulWidget {
@@ -61,6 +61,8 @@ class _AddressItemState extends State<AddressItem> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -69,9 +71,9 @@ class _AddressItemState extends State<AddressItem> {
           width: deviceWidth,
           decoration: BoxDecoration(
             color: widget.isSelected
-                ? AppTheme.primary.withOpacity(0.1)
-                : AppTheme.white,
-            border: Border.all(color: AppTheme.grey, width: 0.3),
+                ? context.brandPrimary.withValues(alpha: 0.1)
+                : scheme.surface,
+            border: Border.all(color: scheme.outlineVariant, width: 0.3),
             borderRadius: BorderRadius.circular(5),
           ),
           child: LayoutBuilder(
@@ -108,7 +110,7 @@ class _AddressItemState extends State<AddressItem> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 18,
                                   ),
                                 ),
@@ -122,7 +124,7 @@ class _AddressItemState extends State<AddressItem> {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: AppTheme.grey,
+                                  color: context.secondaryText,
                                   fontSize: textScaleFactor * 15,
                                 ),
                               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
+import 'package:recycleorigindriver/core/app_theme_controller.dart';
 import 'package:recycleorigindriver/core/navigation/app_navigator.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -13,7 +14,7 @@ import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/auth_gate_screen.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/driver_app_theme.dart';
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/forgot_password_screen.dart';
@@ -51,9 +52,8 @@ void main() async {
   const fromDefine = String.fromEnvironment('FLUTTER_ENV');
   // Debug/profile runs from IDE or `flutter run` use dev unless overridden.
   // Release builds default to prod (use `-t lib/main_prod.dart` for store).
-  final environment = fromDefine.isNotEmpty
-      ? fromDefine
-      : (kDebugMode ? 'dev' : 'prod');
+  final environment =
+      fromDefine.isNotEmpty ? fromDefine : (kDebugMode ? 'dev' : 'prod');
   await bootstrapDriverApp(_envFileFor(environment));
 }
 
@@ -78,27 +78,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseTheme = ThemeData.light();
-    final baseTextTheme = baseTheme.textTheme;
-
-    final textTheme = baseTextTheme.copyWith(
-      bodyLarge: baseTextTheme.bodyLarge?.copyWith(
-        color: const Color.fromRGBO(20, 51, 51, 1),
-      ),
-      bodyMedium: baseTextTheme.bodyMedium?.copyWith(
-        color: const Color.fromRGBO(20, 51, 51, 1),
-      ),
-      titleLarge: baseTextTheme.titleLarge?.copyWith(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppTheme.primary,
-      brightness: Brightness.light,
-    );
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -121,105 +100,82 @@ class MyApp extends StatelessWidget {
             (route) => false,
           );
         },
-        child: ValueListenableBuilder<Locale>(
-        valueListenable: AppLocaleController.instance.localeNotifier,
-        builder: (context, locale, _) {
-          return MaterialApp(
-            navigatorKey: appNavigatorKey,
-            debugShowCheckedModeBanner:false,
+        child: ValueListenableBuilder<ThemeMode>(
+          valueListenable: AppThemeController.instance.themeModeNotifier,
+          builder: (context, themeMode, _) {
+            return ValueListenableBuilder<Locale>(
+              valueListenable: AppLocaleController.instance.localeNotifier,
+              builder: (context, locale, _) {
+                return MaterialApp(
+                  navigatorKey: appNavigatorKey,
+                  debugShowCheckedModeBanner: false,
+                  theme: DriverAppTheme.light(),
+                  darkTheme: DriverAppTheme.dark(),
+                  themeMode: themeMode,
 
-            onGenerateTitle: (context) => context.l10n.appTitle,
-            // Arabic uses RTL; English and Turkish stay LTR. App locale (not
-            // only the device locale) controls direction.
-            builder: (context, child) => Directionality(
-              textDirection: locale.languageCode == 'ar'
-                  ? TextDirection.rtl
-                  : TextDirection.ltr,
-              child: child ?? const SizedBox.shrink(),
-            ),
+                  onGenerateTitle: (context) => context.l10n.appTitle,
+                  // Arabic uses RTL; English and Turkish stay LTR. App locale (not
+                  // only the device locale) controls direction.
+                  builder: (context, child) => Directionality(
+                    textDirection: locale.languageCode == 'ar'
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
 
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: colorScheme,
-              scaffoldBackgroundColor: AppTheme.bg,
-              appBarTheme: AppBarTheme(
-                backgroundColor: AppTheme.appBarColor,
-                foregroundColor: AppTheme.appBarIconColor,
-                elevation: 0,
-                centerTitle: true,
-                titleTextStyle: textTheme.titleLarge?.copyWith(
-                  color: AppTheme.bg,
-                ),
-              ),
-              textTheme: textTheme,
-              cardTheme: CardThemeData(
-                color: AppTheme.white,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              ),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: AppTheme.bg,
-                selectedItemColor: AppTheme.primary,
-                unselectedItemColor: AppTheme.grey,
-              ),
-              dialogTheme: DialogThemeData(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                titleTextStyle: textTheme.titleLarge?.copyWith(
-                  color: AppTheme.black,
-                ),
-                contentTextStyle: textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.grey,
-                ),
-              ),
-            ),
-            locale: locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: const AuthGateScreen(),
-            routes: {
-              NavigationBottomScreen.routeName: (ctx) =>
-                  const NavigationBottomScreen(),
-              HomeScreen.routeName: (ctx) => const HomeScreen(),
-              LoginScreen.routeName: (ctx) => LoginScreen(),
-              RegisterScreen.routeName: (ctx) => const RegisterScreen(),
-              ForgotPasswordScreen.routeName: (ctx) =>
-                  const ForgotPasswordScreen(),
-              EmailVerificationScreen.routeName: (ctx) =>
-                  const EmailVerificationScreen(),
-              AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-              ContactWithUs.routeName: (ctx) => ContactWithUs(),
-              DriverSupportTicketsListScreen.routeName: (ctx) =>
-                  const DriverSupportTicketsListScreen(),
-              DriverSupportTicketCreateScreen.routeName: (ctx) =>
-                  const DriverSupportTicketCreateScreen(),
-              DriverSupportTicketDetailScreen.routeName: (ctx) =>
-                  const DriverSupportTicketDetailScreen(),
-              DriverNotificationScreen.routeName: (ctx) =>
-                  const DriverNotificationScreen(),
-              SettingsScreen.routeName: (ctx) => const SettingsScreen(),
-              PersonalInfoScreen.routeName: (ctx) => const PersonalInfoScreen(),
-              EditPersonalInfoScreen.routeName: (ctx) =>
-                  const EditPersonalInfoScreen(),
-              VehicleInfoScreen.routeName: (ctx) => const VehicleInfoScreen(),
-              GuideScreen.routeName: (ctx) => const GuideScreen(),
-              MapScreen.routeName: (ctx) => MapScreen(),
-              CollectListScreen.routeName: (ctx) => CollectListScreen(),
-              WalletScreen.routeName: (ctx) => const WalletScreen(),
-              CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
-              ClearScreen.routeName: (ctx) => ClearScreen(),
-              StatisticsScreen.routeName: (ctx) => const StatisticsScreen(),
-              PerformanceScreen.routeName: (ctx) => const PerformanceScreen(),
-              RouteTodayScreen.routeName: (ctx) => const RouteTodayScreen(),
-              SendDeliveryScreen.routeName: (ctx) => SendDeliveryScreen(),
-              DeliveryDetailScreen.routeName: (ctx) => DeliveryDetailScreen(),
-            },
-          );
-        },
+                  locale: locale,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  home: const AuthGateScreen(),
+                  routes: {
+                    NavigationBottomScreen.routeName: (ctx) =>
+                        const NavigationBottomScreen(),
+                    HomeScreen.routeName: (ctx) => const HomeScreen(),
+                    LoginScreen.routeName: (ctx) => LoginScreen(),
+                    RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+                    ForgotPasswordScreen.routeName: (ctx) =>
+                        const ForgotPasswordScreen(),
+                    EmailVerificationScreen.routeName: (ctx) =>
+                        const EmailVerificationScreen(),
+                    AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+                    ContactWithUs.routeName: (ctx) => ContactWithUs(),
+                    DriverSupportTicketsListScreen.routeName: (ctx) =>
+                        const DriverSupportTicketsListScreen(),
+                    DriverSupportTicketCreateScreen.routeName: (ctx) =>
+                        const DriverSupportTicketCreateScreen(),
+                    DriverSupportTicketDetailScreen.routeName: (ctx) =>
+                        const DriverSupportTicketDetailScreen(),
+                    DriverNotificationScreen.routeName: (ctx) =>
+                        const DriverNotificationScreen(),
+                    SettingsScreen.routeName: (ctx) => const SettingsScreen(),
+                    PersonalInfoScreen.routeName: (ctx) =>
+                        const PersonalInfoScreen(),
+                    EditPersonalInfoScreen.routeName: (ctx) =>
+                        const EditPersonalInfoScreen(),
+                    VehicleInfoScreen.routeName: (ctx) =>
+                        const VehicleInfoScreen(),
+                    GuideScreen.routeName: (ctx) => const GuideScreen(),
+                    MapScreen.routeName: (ctx) => MapScreen(),
+                    CollectListScreen.routeName: (ctx) => CollectListScreen(),
+                    WalletScreen.routeName: (ctx) => const WalletScreen(),
+                    CollectDetailScreen.routeName: (ctx) =>
+                        CollectDetailScreen(),
+                    ClearScreen.routeName: (ctx) => ClearScreen(),
+                    StatisticsScreen.routeName: (ctx) =>
+                        const StatisticsScreen(),
+                    PerformanceScreen.routeName: (ctx) =>
+                        const PerformanceScreen(),
+                    RouteTodayScreen.routeName: (ctx) =>
+                        const RouteTodayScreen(),
+                    SendDeliveryScreen.routeName: (ctx) => SendDeliveryScreen(),
+                    DeliveryDetailScreen.routeName: (ctx) =>
+                        DeliveryDetailScreen(),
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
     );

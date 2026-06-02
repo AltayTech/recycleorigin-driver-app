@@ -115,7 +115,8 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
     });
 
-    testWidgets('password visibility toggle changes obscureText', (tester) async {
+    testWidgets('password visibility toggle changes obscureText',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,

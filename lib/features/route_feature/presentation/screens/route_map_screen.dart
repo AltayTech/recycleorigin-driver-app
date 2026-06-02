@@ -15,8 +15,7 @@ class RouteMapScreen extends StatelessWidget {
       LatLng(route.depot.lat, route.depot.lng),
       ...route.stops.map((s) => LatLng(s.lat, s.lng)),
     ];
-    final center =
-        points.isNotEmpty ? points.first : const LatLng(41.0, 29.0);
+    final center = points.isNotEmpty ? points.first : const LatLng(41.0, 29.0);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Route map')),

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/widgets/themed_surface_card.dart';
 import 'package:recycleorigindriver/core/utils/external_maps.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/pickup_location_preview_card.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final (statusColor, statusIcon) =
-        _statusVisuals(collect.requestStatusKey);
+        _statusVisuals(context, collect.requestStatusKey);
     final statusText = collect.requestStatusDisplay(l10n);
 
     final estWeight =
@@ -31,18 +32,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
         CollectDetailScreen.routeName,
         arguments: collect.id,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: ThemedSurfaceCard(
+        borderRadius: 14,
         padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +92,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     },
                     icon: Icon(
                       Icons.map_rounded,
-                      color: AppTheme.primary,
+                      color: context.brandPrimary,
                       size: 22,
                     ),
                   ),
@@ -136,7 +127,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     label: l10n.totalEstimatedWeightLabel,
                     value:
                         '${EnArConvertor.localize(context, estWeight.toStringAsFixed(1))} ${l10n.kilogramLabel}',
-                    color: AppTheme.primary,
+                    color: context.brandPrimary,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -184,21 +175,22 @@ class CollectItemCollectsScreen extends StatelessWidget {
     return v.toStringAsFixed(1);
   }
 
-  (Color, IconData) _statusVisuals(String key) {
+  (Color, IconData) _statusVisuals(BuildContext context, String key) {
+    final accent = Theme.of(context).colorScheme.tertiary;
     return switch (key) {
-      'pending_assignment' =>
-        (Colors.grey, Icons.person_search_rounded),
-      'pending_driver_acceptance' =>
-        (Colors.orange, Icons.hourglass_top_rounded),
-      'driver_accepted' || 'in_progress' =>
-        (AppTheme.primary, Icons.how_to_reg_rounded),
-      'picked_up' =>
-        (Colors.indigo, Icons.inventory_2_rounded),
-      'collected' =>
-        (Colors.green, Icons.check_circle_rounded),
-      'cancelled' =>
-        (Colors.red.shade400, Icons.cancel_rounded),
-      _ => (AppTheme.accent, Icons.drive_eta),
+      'pending_assignment' => (Colors.grey, Icons.person_search_rounded),
+      'pending_driver_acceptance' => (
+          Colors.orange,
+          Icons.hourglass_top_rounded
+        ),
+      'driver_accepted' || 'in_progress' => (
+          context.brandPrimary,
+          Icons.how_to_reg_rounded
+        ),
+      'picked_up' => (Colors.indigo, Icons.inventory_2_rounded),
+      'collected' => (Colors.green, Icons.check_circle_rounded),
+      'cancelled' => (Colors.red.shade400, Icons.cancel_rounded),
+      _ => (accent, Icons.drive_eta),
     };
   }
 }
@@ -213,7 +205,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 15, color: AppTheme.primary),
+        Icon(icon, size: 15, color: context.brandPrimary),
         const SizedBox(width: 4),
         Text(
           text,

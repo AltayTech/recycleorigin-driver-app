@@ -12,7 +12,7 @@ import 'package:recycleorigindriver/features/collect_feature/presentation/widget
 import 'package:recycleorigindriver/core/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
@@ -173,7 +173,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppTheme.primary,
+                        color: context.brandPrimary,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       padding: const EdgeInsets.all(15.0),
@@ -197,10 +197,11 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: AppTheme.bg,
+                            color: context.pageBackground,
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primary.withValues(alpha: 0.08),
+                                color: context.brandPrimary
+                                    .withValues(alpha: 0.08),
                                 blurRadius: 10.10,
                                 spreadRadius: 10,
                                 offset: Offset.zero,

@@ -211,9 +211,8 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
       next
           .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .exact_weight = event.exactWeight.toString();
-      next
-          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
-          .isAdded = event.isAdded;
+      next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {

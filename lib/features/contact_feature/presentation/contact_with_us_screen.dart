@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/shop.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 
 class ContactWithUs extends StatefulWidget {
@@ -81,22 +81,17 @@ class _ContactWithUsState extends State<ContactWithUs> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     shopData = context.watch<CustomerInfoBloc>().state.shop!;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppTheme.white,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.contactUsLabel,
-          style: TextStyle(
-            color: AppTheme.bg,
-            fontSize: textScaleFactor * 18.0,
-          ),
+          style: TextStyle(fontSize: textScaleFactor * 18.0),
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: _isLoading
           ? SpinKitFadingCircle(
@@ -104,7 +99,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                 return DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: index.isEven ? Colors.grey : Colors.grey,
+                    color: scheme.onSurfaceVariant,
                   ),
                 );
               },
@@ -119,7 +114,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                       Container(
                         width: deviceWidth * 0.3,
                         height: deviceWidth * 0.3,
-                        color: AppTheme.bg,
+                        color: context.pageBackground,
                         child: FadeInImage(
                           placeholder: AssetImage('assets/images/circle.gif'),
                           image: NetworkImage(shopData.logo.sizes.medium),
@@ -132,14 +127,14 @@ class _ContactWithUsState extends State<ContactWithUs> {
                         child: Text(
                           shopData.name,
                           style: TextStyle(
-                            color: AppTheme.h1,
+                            color: context.primaryText,
                             fontFamily: 'BFarnaz',
                             fontSize: textScaleFactor * 24.0,
                           ),
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      Divider(),
+                      Divider(color: scheme.outlineVariant),
                       Column(
                         children: <Widget>[
                           Card(
@@ -152,7 +147,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.location_on,
-                                      color: Colors.indigoAccent,
+                                      color: scheme.primary,
                                     ),
                                   ),
                                   Expanded(
@@ -160,7 +155,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     child: Text(
                                       shopData.address,
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: scheme.onSurface,
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       overflow: TextOverflow.clip,
@@ -180,7 +175,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.call,
-                                      color: Colors.indigoAccent,
+                                      color: scheme.primary,
                                     ),
                                   ),
                                   Expanded(
@@ -191,7 +186,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         shopData.support_phone,
                                       ),
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: scheme.onSurface,
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       overflow: TextOverflow.clip,
@@ -211,7 +206,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.smartphone,
-                                      color: Colors.indigoAccent,
+                                      color: scheme.primary,
                                     ),
                                   ),
                                   Expanded(
@@ -222,7 +217,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         shopData.mobile,
                                       ),
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: scheme.onSurface,
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       overflow: TextOverflow.clip,

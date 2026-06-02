@@ -1,7 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/app_theme_extensions.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/performance_feature/data/performance_models.dart';
 import 'package:recycleorigindriver/features/performance_feature/data/performance_repository.dart';
@@ -105,11 +106,10 @@ class _PerformanceView extends StatelessWidget {
     );
 
     if (embedInShell) {
-      return ColoredBox(color: AppTheme.bg, child: body);
+      return ColoredBox(color: context.pageBackground, child: body);
     }
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(l10n.performanceTitle),
@@ -182,11 +182,14 @@ class _PerformanceHero extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
-          colors: [AppTheme.iconColor1, AppTheme.primary],
+          colors: [
+            context.brandPrimary,
+            context.driverColors.heroGradientEnd,
+          ],
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withValues(alpha: 0.25),
+            color: context.brandPrimary.withValues(alpha: 0.25),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -242,7 +245,8 @@ class _Stat extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          Text(label,
+              style: const TextStyle(color: Colors.white70, fontSize: 12)),
           Text(
             value,
             style: const TextStyle(
@@ -252,7 +256,8 @@ class _Stat extends StatelessWidget {
             ),
           ),
           if (trend != null && trend!.isNotEmpty)
-            Text(trend!, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+            Text(trend!,
+                style: const TextStyle(color: Colors.white54, fontSize: 11)),
         ],
       ),
     );
@@ -280,7 +285,7 @@ class _LevelCard extends StatelessWidget {
                 children: [
                   CircularProgressIndicator(
                     value: level.progress.clamp(0, 1),
-                    color: AppTheme.primary,
+                    color: context.brandPrimary,
                   ),
                   Text(
                     '${level.tier}',
@@ -421,11 +426,13 @@ class _TrendChart extends StatelessWidget {
               height: 180,
               child: LineChart(
                 LineChartData(
-                  gridData: const FlGridData(show: true, drawVerticalLine: false),
+                  gridData:
+                      const FlGridData(show: true, drawVerticalLine: false),
                   borderData: FlBorderData(show: false),
                   titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: true, reservedSize: 28),
+                      sideTitles:
+                          SideTitles(showTitles: true, reservedSize: 28),
                     ),
                     bottomTitles: AxisTitles(),
                     topTitles: AxisTitles(),
@@ -437,12 +444,12 @@ class _TrendChart extends StatelessWidget {
                     LineChartBarData(
                       spots: spots,
                       isCurved: true,
-                      color: AppTheme.primary,
+                      color: context.brandPrimary,
                       barWidth: 3,
                       dotData: const FlDotData(show: false),
                       belowBarData: BarAreaData(
                         show: true,
-                        color: AppTheme.primary.withValues(alpha: 0.12),
+                        color: context.brandPrimary.withValues(alpha: 0.12),
                       ),
                     ),
                   ],
@@ -532,7 +539,7 @@ class _LeaderboardCard extends StatelessWidget {
                 title: Text(e.displayName),
                 trailing: Text(e.score.toStringAsFixed(0)),
                 tileColor: e.isSelf
-                    ? AppTheme.primary.withValues(alpha: 0.1)
+                    ? context.brandPrimary.withValues(alpha: 0.1)
                     : null,
               ),
             ),

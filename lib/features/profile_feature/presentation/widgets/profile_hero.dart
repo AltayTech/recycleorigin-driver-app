@@ -145,8 +145,8 @@ class ProfileHero extends StatelessWidget {
                                   Text(
                                     l10n.noRatingLabel,
                                     style: TextStyle(
-                                      color: Colors.white
-                                          .withValues(alpha: 0.8),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.8),
                                       fontSize: 12,
                                     ),
                                   ),

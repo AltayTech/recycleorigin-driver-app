@@ -8,13 +8,19 @@ Future<void> pumpLocalizedApp(
   Widget home, {
   Locale locale = const Locale('en'),
   Map<String, WidgetBuilder>? routes,
+  ThemeData? theme,
+  ThemeData? darkTheme,
+  ThemeMode? themeMode,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
       locale: locale,
+      theme: theme,
+      darkTheme: darkTheme,
+      themeMode: themeMode,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routes: routes,
+      routes: routes ?? const <String, WidgetBuilder>{},
       home: home,
     ),
   );

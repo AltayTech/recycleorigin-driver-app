@@ -188,9 +188,8 @@ class _ProfileScrollContent extends StatelessWidget {
                     ProfileTile(
                       icon: Icons.account_balance_wallet_outlined,
                       title: l10n.walletLabel,
-                      trailing: driver.money.trim().isNotEmpty
-                          ? driver.money
-                          : null,
+                      trailing:
+                          driver.money.trim().isNotEmpty ? driver.money : null,
                       onTap: () => _openRoute(
                         context,
                         WalletScreen.routeName,

@@ -463,7 +463,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'تُطبَّق تغييرات اللغة فورًا وتُحفَظ على هذا الجهاز.';
+      'تُطبَّق التفضيلات فورًا وتُحفَظ على هذا الجهاز.';
+
+  @override
+  String get appearanceTitle => 'المظهر';
+
+  @override
+  String get appearanceSectionDescription =>
+      'اختر مظهر التطبيق على هذا الجهاز.';
+
+  @override
+  String get themeModeSystemLabel => 'افتراضي النظام';
+
+  @override
+  String get themeModeLightLabel => 'فاتح';
+
+  @override
+  String get themeModeDarkLabel => 'داكن';
 
   @override
   String get appInformationSectionTitle => 'معلومات التطبيق';

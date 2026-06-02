@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 
@@ -27,6 +27,8 @@ class CustomDialogEnter extends StatelessWidget {
   }
 
   dialogContent(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Stack(
       children: <Widget>[
         Container(
@@ -37,8 +39,8 @@ class CustomDialogEnter extends StatelessWidget {
             right: Consts.padding,
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: scheme.surface,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),
             boxShadow: [
@@ -83,7 +85,7 @@ class CustomDialogEnter extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color: AppTheme.primary,
+                        color: context.brandPrimary,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(

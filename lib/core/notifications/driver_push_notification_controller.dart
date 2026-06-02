@@ -82,8 +82,7 @@ class DriverPushNotificationController {
         _listenersAttached = true;
         _messaging!.onTokenRefresh.listen((t) async {
           _lastToken = null;
-          final locNow =
-              AppLocaleController.instance.localeNotifier.value;
+          final locNow = AppLocaleController.instance.localeNotifier.value;
           final pkgNow = await PackageInfo.fromPlatform();
           final b = jsonEncode(<String, dynamic>{
             'token': t,

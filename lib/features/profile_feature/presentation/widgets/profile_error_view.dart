@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Error state with retry for profile loading.
@@ -14,7 +14,7 @@ class ProfileErrorView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ColoredBox(
-      color: AppTheme.bg,
+      color: context.pageBackground,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -31,7 +31,7 @@ class ProfileErrorView extends StatelessWidget {
                 l10n.profileLoadErrorMessage,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppTheme.h1,
+                      color: context.primaryText,
                     ),
               ),
               const SizedBox(height: 20),
