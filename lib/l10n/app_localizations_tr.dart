@@ -465,7 +465,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Dil değişiklikleri hemen uygulanır ve bu cihazda kaydedilir.';
+      'Tercihler hemen uygulanır ve bu cihazda kaydedilir.';
+
+  @override
+  String get appearanceTitle => 'Görünüm';
+
+  @override
+  String get appearanceSectionDescription =>
+      'Uygulamanın bu cihazda nasıl görüneceğini seçin.';
+
+  @override
+  String get themeModeSystemLabel => 'Sistem varsayılanı';
+
+  @override
+  String get themeModeLightLabel => 'Açık';
+
+  @override
+  String get themeModeDarkLabel => 'Koyu';
 
   @override
   String get appInformationSectionTitle => 'Uygulama bilgisi';
@@ -579,6 +595,29 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'Islem gerekiyor';
+
+  @override
+  String get collectListDateAll => 'Tum tarihler';
+
+  @override
+  String get collectListDateToday => 'Bugun';
+
+  @override
+  String get collectListDateThisWeek => 'Bu hafta';
+
+  @override
+  String get collectListDateThisMonth => 'Bu ay';
+
+  @override
+  String get collectListDateCustom => 'Ozel';
+
+  @override
+  String get collectListDateSheetTitle => 'Tarih araligi sec';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
 
   @override
   String get pickupLocationMapTitle => 'Toplama konumu';
@@ -742,4 +781,209 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get authSubtitleSignUp =>
       'Teslimata baslamak icin bir hesap olusturun.';
+
+  @override
+  String get driverRoleLabel => 'Surucu';
+
+  @override
+  String get myVehicleLabel => 'Aracim';
+
+  @override
+  String get myRouteLabel => 'Rotam';
+
+  @override
+  String get notificationsLabel => 'Bildirimler';
+
+  @override
+  String get accountSectionTitle => 'Hesap';
+
+  @override
+  String get activitySectionTitle => 'Etkinlik';
+
+  @override
+  String get preferencesSectionTitle => 'Tercihler';
+
+  @override
+  String get supportSectionTitle => 'Destek';
+
+  @override
+  String get walletBalanceLabel => 'Cuzdan bakiyesi';
+
+  @override
+  String get ratingLabel => 'Puan';
+
+  @override
+  String get noRatingLabel => 'Henuz puan yok';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'Surum $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'Magazalar';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'Profiliniz yuklenemedi. Baglantinizi kontrol edip tekrar deneyin.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'Gelen kutusu ve tercihler';
+
+  @override
+  String get basicInfoSectionTitle => 'Temel bilgiler';
+
+  @override
+  String get contactSectionTitle => 'Iletisim';
+
+  @override
+  String get addressSectionTitle => 'Adres';
+
+  @override
+  String get vehicleSectionTitle => 'Arac detaylari';
+
+  @override
+  String get saveLabel => 'Kaydet';
+
+  @override
+  String get mobileLabel => 'Cep telefonu';
+
+  @override
+  String get copyLabel => 'Kopyala';
+
+  @override
+  String get copiedToClipboardMessage => 'Panoya kopyalandi';
+
+  @override
+  String get personalInfoSubtitle =>
+      'Hesap bilgilerinizi asagidan goruntuleyip guncelleyebilirsiniz.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Giris icin kullandiginiz telefon numarasi buradan degistirilemez.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'E-posta adresiniz giris icin kullanilir ve buradan degistirilemez.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'Hesap turunuz yoneticiniz tarafindan atanir ve buradan degistirilemez.';
+
+  @override
+  String get postalCodeHintMessage => 'Posta kodu genellikle 5 hanelidir.';
+
+  @override
+  String get discardChangesTitle => 'Degisiklikler silinsin mi?';
+
+  @override
+  String get discardChangesMessage =>
+      'Kaydedilmemis degisiklikler var. Cikmak istiyor musunuz?';
+
+  @override
+  String get discardLabel => 'Sil';
+
+  @override
+  String get keepEditingLabel => 'Duzenlemeye devam';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'Arac bilgileri yoneticiniz tarafindan yonetilir. Bir sorun varsa destek ile iletisime gecin.';
+
+  @override
+  String get notificationsSectionTitle => 'Bildirimler';
+
+  @override
+  String get notificationsSectionDescription =>
+      'Rota guncellemeleri ve kampanya mesajlarini nasil alacaginizi secin.';
+
+  @override
+  String get notificationCategoryTransactional =>
+      'Rota ve hesap guncellemeleri';
+
+  @override
+  String get notificationCategoryMarketing => 'Haberler ve kampanyalar';
+
+  @override
+  String get notificationChannelPush => 'Anlik bildirimler';
+
+  @override
+  String get notificationChannelInApp => 'Uygulama ici gelen kutusu';
+
+  @override
+  String get notificationPrefsSavedMessage => 'Bildirim tercihleri kaydedildi';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'Bildirim ayarlari yuklenemedi.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'Kaydediliyor…';
+
+  @override
+  String get performanceTitle => 'Performans';
+
+  @override
+  String get performanceHeroTitle => 'Performansınız';
+
+  @override
+  String get performancePickupsLabel => 'Tamamlanan';
+
+  @override
+  String get performanceWeightLabel => 'Taşınan ağırlık';
+
+  @override
+  String get performanceEarningsLabel => 'Kazanç';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · sonraki $toNext';
+  }
+
+  @override
+  String get performanceStreakTitle => 'Seri';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current hf · en iyi $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'Aylık hedef';
+
+  @override
+  String get performanceTrendTitle => 'Toplama trendi';
+
+  @override
+  String get performanceBadgesTitle => 'Başarılar';
+
+  @override
+  String get performanceLeaderboardTitle => 'Sıralama';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return '#$position / $total · üst %$percentile';
+  }
+
+  @override
+  String get performanceRange7d => 'Son 7 gün';
+
+  @override
+  String get performanceRange30d => 'Son 30 gün';
+
+  @override
+  String get performanceRange90d => 'Son 90 gün';
+
+  @override
+  String get performanceLoadError => 'Performans verileri yüklenemedi.';
 }

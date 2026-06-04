@@ -8,7 +8,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -182,7 +182,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       padding: const EdgeInsets.all(16),
                       child: Center(
                         child: SpinKitFadingCircle(
-                          color: AppTheme.primary,
+                          color: context.brandPrimary,
                           size: 40,
                         ),
                       ),
@@ -199,20 +199,15 @@ class _WalletScreenState extends State<WalletScreen> {
 
     if (widget.embedInShell) {
       return ColoredBox(
-        color: const Color(0xffF9F9F9),
+        color: context.pageBackground,
         child: body,
       );
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(context.l10n.walletLabel),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
-        elevation: 0,
-        centerTitle: true,
       ),
       body: body,
       drawer: mainDrawerIfRootRoute(context),
@@ -220,6 +215,7 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Widget _buildBalanceCard(BuildContext context) {
+    final primary = context.brandPrimary;
     final parsed = double.tryParse(_wallet.balance) ?? 0;
     final formatted = intl.NumberFormat.currency(
       symbol: '',
@@ -237,14 +233,14 @@ class _WalletScreenState extends State<WalletScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppTheme.primary,
-              AppTheme.primary.withOpacity(0.8),
+              primary,
+              primary.withValues(alpha: 0.8),
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primary.withOpacity(0.3),
+              color: primary.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -336,16 +332,16 @@ class _WalletScreenState extends State<WalletScreen> {
         children: [
           Text(
             'Transaction History',
-            style: TextStyle(
-              color: AppTheme.h1,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           if (_transactions.isNotEmpty)
             Text(
               '${_transactions.length} items',
-              style: TextStyle(color: AppTheme.grey, fontSize: 14),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: context.secondaryText,
+                  ),
             ),
         ],
       ),
@@ -358,11 +354,17 @@ class _WalletScreenState extends State<WalletScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          Icon(Icons.receipt_long_outlined, size: 64, color: Colors.grey[300]),
+          Icon(
+            Icons.receipt_long_outlined,
+            size: 64,
+            color: context.secondaryText.withValues(alpha: 0.5),
+          ),
           const SizedBox(height: 16),
           Text(
             context.l10n.noTransactionAvailable,
-            style: TextStyle(color: AppTheme.grey, fontSize: 16),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: context.secondaryText,
+                ),
           ),
         ],
       ),
@@ -377,23 +379,26 @@ class _WalletScreenState extends State<WalletScreen> {
           Icon(
             Icons.account_balance_wallet_outlined,
             size: 80,
-            color: Colors.grey[300],
+            color: context.secondaryText.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 24),
-          Text(context.l10n.notLoggedInLabel,
-              style: const TextStyle(fontSize: 18, color: Colors.grey)),
+          Text(
+            context.l10n.notLoggedInLabel,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: context.secondaryText,
+                ),
+          ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(LoginScreen.routeName),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: Text(context.l10n.loginToAccountLabel,
-                style: const TextStyle(color: Colors.white, fontSize: 16)),
+            child: Text(context.l10n.loginToAccountLabel),
           ),
         ],
       ),
@@ -427,6 +432,7 @@ class _WalletTxItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final parsed = double.tryParse(tx.amount) ?? 0;
     final formatted = intl.NumberFormat.currency(
       symbol: '',
@@ -437,11 +443,13 @@ class _WalletTxItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: scheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: scheme.shadow.withValues(
+              alpha: scheme.brightness == Brightness.light ? 0.06 : 0.3,
+            ),
             offset: const Offset(0, 2),
             blurRadius: 8,
           ),
@@ -449,16 +457,14 @@ class _WalletTxItem extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: _color.withOpacity(0.1),
+          backgroundColor: _color.withValues(alpha: 0.1),
           child: Icon(_icon, color: _color, size: 20),
         ),
         title: Text(
           tx.typeLabel,
-          style: TextStyle(
-            color: AppTheme.h1,
-            fontWeight: FontWeight.w600,
-            fontSize: 15,
-          ),
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -466,17 +472,16 @@ class _WalletTxItem extends StatelessWidget {
             if (tx.description.isNotEmpty)
               Text(
                 tx.description,
-                style: TextStyle(color: AppTheme.grey, fontSize: 13),
+                style: Theme.of(context).textTheme.bodySmall,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             if (tx.createdAt.isNotEmpty)
               Text(
                 _formatDate(tx.createdAt),
-                style: TextStyle(
-                  color: AppTheme.grey.withOpacity(0.7),
-                  fontSize: 12,
-                ),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
               ),
           ],
         ),

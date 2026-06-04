@@ -991,8 +991,38 @@ abstract class AppLocalizations {
   /// No description provided for @settingsScreenIntro.
   ///
   /// In en, this message translates to:
-  /// **'Language updates apply immediately and are saved on this device.'**
+  /// **'Preferences apply immediately and are saved on this device.'**
   String get settingsScreenIntro;
+
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearanceTitle;
+
+  /// No description provided for @appearanceSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how the app looks on this device.'**
+  String get appearanceSectionDescription;
+
+  /// No description provided for @themeModeSystemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get themeModeSystemLabel;
+
+  /// No description provided for @themeModeLightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeModeLightLabel;
+
+  /// No description provided for @themeModeDarkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeModeDarkLabel;
 
   /// No description provided for @appInformationSectionTitle.
   ///
@@ -1215,6 +1245,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Needs your action'**
   String get collectListFilterNeedsAction;
+
+  /// No description provided for @collectListDateAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All dates'**
+  String get collectListDateAll;
+
+  /// No description provided for @collectListDateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get collectListDateToday;
+
+  /// No description provided for @collectListDateThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get collectListDateThisWeek;
+
+  /// No description provided for @collectListDateThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get collectListDateThisMonth;
+
+  /// No description provided for @collectListDateCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get collectListDateCustom;
+
+  /// No description provided for @collectListDateSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date range'**
+  String get collectListDateSheetTitle;
+
+  /// No description provided for @collectListDateRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String collectListDateRangeLabel(String start, String end);
 
   /// No description provided for @pickupLocationMapTitle.
   ///
@@ -1509,6 +1581,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create an account to start delivering.'**
   String get authSubtitleSignUp;
+
+  /// No description provided for @driverRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driverRoleLabel;
+
+  /// No description provided for @myVehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My vehicle'**
+  String get myVehicleLabel;
+
+  /// No description provided for @myRouteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My route'**
+  String get myRouteLabel;
+
+  /// No description provided for @notificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsLabel;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
+  /// No description provided for @activitySectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activitySectionTitle;
+
+  /// No description provided for @preferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferencesSectionTitle;
+
+  /// No description provided for @supportSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportSectionTitle;
+
+  /// No description provided for @walletBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet balance'**
+  String get walletBalanceLabel;
+
+  /// No description provided for @ratingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get ratingLabel;
+
+  /// No description provided for @noRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No rating yet'**
+  String get noRatingLabel;
+
+  /// No description provided for @appVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String appVersionLabel(String version);
+
+  /// No description provided for @vehicleSummaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{vehicle} · {color} · {plate}'**
+  String vehicleSummaryLabel(String vehicle, String color, String plate);
+
+  /// No description provided for @storesCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get storesCountLabel;
+
+  /// No description provided for @profileLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your profile. Check your connection and try again.'**
+  String get profileLoadErrorMessage;
+
+  /// No description provided for @profileCopyrightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'© {year} {appName}'**
+  String profileCopyrightLabel(String year, String appName);
+
+  /// No description provided for @inboxPreferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox & preferences'**
+  String get inboxPreferencesSectionTitle;
+
+  /// No description provided for @basicInfoSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get basicInfoSectionTitle;
+
+  /// No description provided for @contactSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactSectionTitle;
+
+  /// No description provided for @addressSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressSectionTitle;
+
+  /// No description provided for @vehicleSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle details'**
+  String get vehicleSectionTitle;
+
+  /// No description provided for @saveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveLabel;
+
+  /// No description provided for @mobileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile'**
+  String get mobileLabel;
+
+  /// No description provided for @copyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copyLabel;
+
+  /// No description provided for @copiedToClipboardMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get copiedToClipboardMessage;
+
+  /// No description provided for @personalInfoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View and update your account details below.'**
+  String get personalInfoSubtitle;
+
+  /// No description provided for @phoneIsLoginIdentifierHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mobile number is used to sign in and cannot be changed here.'**
+  String get phoneIsLoginIdentifierHint;
+
+  /// No description provided for @emailIsLoginCredentialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email address is used to sign in and cannot be changed here.'**
+  String get emailIsLoginCredentialHint;
+
+  /// No description provided for @userTypeReadOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account type is assigned by your administrator and cannot be changed here.'**
+  String get userTypeReadOnlyHint;
+
+  /// No description provided for @postalCodeHintMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code is usually 5 digits.'**
+  String get postalCodeHintMessage;
+
+  /// No description provided for @discardChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChangesTitle;
+
+  /// No description provided for @discardChangesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Discard them and leave?'**
+  String get discardChangesMessage;
+
+  /// No description provided for @discardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discardLabel;
+
+  /// No description provided for @keepEditingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditingLabel;
+
+  /// No description provided for @vehicleContactSupportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle details are managed by your administrator. Contact support if something looks incorrect.'**
+  String get vehicleContactSupportHint;
+
+  /// No description provided for @notificationsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsSectionTitle;
+
+  /// No description provided for @notificationsSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you receive route updates and promotional messages.'**
+  String get notificationsSectionDescription;
+
+  /// No description provided for @notificationCategoryTransactional.
+  ///
+  /// In en, this message translates to:
+  /// **'Route & account updates'**
+  String get notificationCategoryTransactional;
+
+  /// No description provided for @notificationCategoryMarketing.
+  ///
+  /// In en, this message translates to:
+  /// **'News & promotions'**
+  String get notificationCategoryMarketing;
+
+  /// No description provided for @notificationChannelPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications'**
+  String get notificationChannelPush;
+
+  /// No description provided for @notificationChannelInApp.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app inbox'**
+  String get notificationChannelInApp;
+
+  /// No description provided for @notificationPrefsSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification preferences saved'**
+  String get notificationPrefsSavedMessage;
+
+  /// No description provided for @notificationPrefsLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load notification settings.'**
+  String get notificationPrefsLoadErrorMessage;
+
+  /// No description provided for @notificationPrefsSavingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get notificationPrefsSavingLabel;
+
+  /// No description provided for @performanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get performanceTitle;
+
+  /// No description provided for @performanceHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your performance'**
+  String get performanceHeroTitle;
+
+  /// No description provided for @performancePickupsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get performancePickupsLabel;
+
+  /// No description provided for @performanceWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight hauled'**
+  String get performanceWeightLabel;
+
+  /// No description provided for @performanceEarningsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get performanceEarningsLabel;
+
+  /// No description provided for @performanceXpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} XP · {toNext} to next'**
+  String performanceXpLabel(int current, int toNext);
+
+  /// No description provided for @performanceStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get performanceStreakTitle;
+
+  /// No description provided for @performanceStreakValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} wk · best {longest}'**
+  String performanceStreakValue(int current, int longest);
+
+  /// No description provided for @performanceGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly goal'**
+  String get performanceGoalTitle;
+
+  /// No description provided for @performanceTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup trend'**
+  String get performanceTrendTitle;
+
+  /// No description provided for @performanceBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get performanceBadgesTitle;
+
+  /// No description provided for @performanceLeaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get performanceLeaderboardTitle;
+
+  /// No description provided for @performanceRankSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank #{position} of {total} · top {percentile}%'**
+  String performanceRankSummary(int position, int total, double percentile);
+
+  /// No description provided for @performanceRange7d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get performanceRange7d;
+
+  /// No description provided for @performanceRange30d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get performanceRange30d;
+
+  /// No description provided for @performanceRange90d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get performanceRange90d;
+
+  /// No description provided for @performanceLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load performance data.'**
+  String get performanceLoadError;
 }
 
 class _AppLocalizationsDelegate

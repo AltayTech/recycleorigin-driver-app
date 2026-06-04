@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/utils/gregorian_date_format.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -76,13 +75,13 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
       height: 1.2,
     );
     final timeValueStyle = textTheme.titleLarge?.copyWith(
-      color: AppTheme.h1,
+      color: colorScheme.onSurface,
       fontWeight: FontWeight.w700,
       height: 1.15,
       fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
     );
 
-    final iconBg = AppTheme.primary.withValues(alpha: 0.12);
+    final iconBg = colorScheme.primary.withValues(alpha: 0.12);
     final borderColor = colorScheme.outlineVariant.withValues(alpha: 0.45);
 
     return Semantics(
@@ -118,7 +117,7 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
                       _SessionSegment(
                         icon: Icons.calendar_month_rounded,
                         iconBackground: iconBg,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                         caption: l10n.driverSessionDateCaption,
                         captionStyle: captionStyle,
                         value: dateStr,
@@ -132,7 +131,7 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
                       _SessionSegment(
                         icon: Icons.schedule_rounded,
                         iconBackground: iconBg,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                         caption: l10n.driverSessionTimeCaption,
                         captionStyle: captionStyle,
                         value: timeStr,
@@ -152,7 +151,7 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
                       child: _SessionSegment(
                         icon: Icons.calendar_month_rounded,
                         iconBackground: iconBg,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                         caption: l10n.driverSessionDateCaption,
                         captionStyle: captionStyle,
                         value: dateStr,
@@ -176,7 +175,7 @@ class _DriverSessionHeaderBannerState extends State<DriverSessionHeaderBanner>
                       child: _SessionSegment(
                         icon: Icons.schedule_rounded,
                         iconBackground: iconBg,
-                        iconColor: AppTheme.primary,
+                        iconColor: colorScheme.primary,
                         caption: l10n.driverSessionTimeCaption,
                         captionStyle: captionStyle,
                         value: timeStr,

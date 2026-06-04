@@ -148,7 +148,12 @@
   "englishLabel": "الإنجليزية",
   "turkishLabel": "التركية",
   "arabicLabel": "العربية",
-  "settingsScreenIntro": "تُطبَّق تغييرات اللغة فورًا وتُحفَظ على هذا الجهاز.",
+  "settingsScreenIntro": "تُطبَّق التفضيلات فورًا وتُحفَظ على هذا الجهاز.",
+  "appearanceTitle": "المظهر",
+  "appearanceSectionDescription": "اختر مظهر التطبيق على هذا الجهاز.",
+  "themeModeSystemLabel": "افتراضي النظام",
+  "themeModeLightLabel": "فاتح",
+  "themeModeDarkLabel": "داكن",
   "appInformationSectionTitle": "معلومات التطبيق",
   "version": "الإصدار",
   "retryLabel": "إعادة المحاولة",
@@ -186,6 +191,23 @@
   "collectListSortIdAsc": "رقم الطلب (من الأدنى إلى الأعلى)",
   "collectListFilterAll": "الكل",
   "collectListFilterNeedsAction": "يتطلب إجراءً منك",
+  "collectListDateAll": "كل التواريخ",
+  "collectListDateToday": "اليوم",
+  "collectListDateThisWeek": "هذا الأسبوع",
+  "collectListDateThisMonth": "هذا الشهر",
+  "collectListDateCustom": "مخصص",
+  "collectListDateSheetTitle": "اختر نطاق التاريخ",
+  "collectListDateRangeLabel": "{start} – {end}",
+  "@collectListDateRangeLabel": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
   "pickupLocationMapTitle": "موقع الاستلام",
   "openInMapsAppLabel": "فتح في الخرائط",
   "openMapsAppFailed": "تعذر فتح تطبيق الخرائط.",
@@ -213,5 +235,96 @@
   "ratingCommentLabel": "تعليق (اختياري)",
   "submitRatingLabel": "إرسال التقييم",
   "yourRatingSubmitted": "شكرًا لملاحظاتك",
-  "ratingsSectionLabel": "التقييمات"
+  "ratingsSectionLabel": "التقييمات",
+  "driverRoleLabel": "سائق",
+  "myVehicleLabel": "مركبتي",
+  "myRouteLabel": "مساري",
+  "notificationsLabel": "الإشعارات",
+  "accountSectionTitle": "الحساب",
+  "activitySectionTitle": "النشاط",
+  "preferencesSectionTitle": "التفضيلات",
+  "supportSectionTitle": "الدعم",
+  "walletBalanceLabel": "رصيد المحفظة",
+  "ratingLabel": "التقييم",
+  "noRatingLabel": "لا يوجد تقييم بعد",
+  "appVersionLabel": "الإصدار {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "vehicleSummaryLabel": "{vehicle} · {color} · {plate}",
+  "@vehicleSummaryLabel": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "plate": {
+        "type": "String"
+      }
+    }
+  },
+  "storesCountLabel": "المتاجر",
+  "profileLoadErrorMessage": "تعذر تحميل ملفك الشخصي. تحقق من الاتصال وحاول مرة أخرى.",
+  "profileCopyrightLabel": "© {year} {appName}",
+  "@profileCopyrightLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "inboxPreferencesSectionTitle": "البريد والتفضيلات",
+  "basicInfoSectionTitle": "المعلومات الأساسية",
+  "contactSectionTitle": "جهة الاتصال",
+  "addressSectionTitle": "العنوان",
+  "vehicleSectionTitle": "تفاصيل المركبة",
+  "saveLabel": "حفظ",
+  "mobileLabel": "الجوال",
+  "copyLabel": "نسخ",
+  "copiedToClipboardMessage": "تم النسخ إلى الحافظة",
+  "personalInfoSubtitle": "اعرض وحدّث بيانات حسابك أدناه.",
+  "phoneIsLoginIdentifierHint": "يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.",
+  "emailIsLoginCredentialHint": "عنوان بريدك الإلكتروني مستخدم لتسجيل الدخول ولا يمكن تغييره من هنا.",
+  "userTypeReadOnlyHint": "نوع حسابك يحدده المسؤول ولا يمكن تغييره من هنا.",
+  "postalCodeHintMessage": "عادةً ما يتكون الرمز البريدي من 5 أرقام.",
+  "discardChangesTitle": "تجاهل التغييرات؟",
+  "discardChangesMessage": "لديك تغييرات غير محفوظة. هل تريد تجاهلها والمغادرة؟",
+  "discardLabel": "تجاهل",
+  "keepEditingLabel": "متابعة التحرير",
+  "vehicleContactSupportHint": "تُدار تفاصيل المركبة من قبل المسؤول. تواصل مع الدعم إذا كان هناك خطأ.",
+  "notificationsSectionTitle": "الإشعارات",
+  "notificationsSectionDescription": "اختر كيفية استلام تحديثات المسار والرسائل الترويجية.",
+  "notificationCategoryTransactional": "تحديثات المسار والحساب",
+  "notificationCategoryMarketing": "الأخبار والعروض",
+  "notificationChannelPush": "إشعارات الدفع",
+  "notificationChannelInApp": "صندوق الوارد داخل التطبيق",
+  "notificationPrefsSavedMessage": "تم حفظ تفضيلات الإشعارات",
+  "notificationPrefsLoadErrorMessage": "تعذر تحميل إعدادات الإشعارات.",
+  "notificationPrefsSavingLabel": "جارٍ الحفظ…",
+  "performanceTitle": "الأداء",
+  "performanceHeroTitle": "أداؤك",
+  "performancePickupsLabel": "مكتمل",
+  "performanceWeightLabel": "الوزن المنقول",
+  "performanceEarningsLabel": "الأرباح",
+  "performanceXpLabel": "{current} XP · {toNext} للمستوى التالي",
+  "performanceStreakTitle": "سلسلة",
+  "performanceStreakValue": "{current} أسبوع · الأفضل {longest}",
+  "performanceGoalTitle": "الهدف الشهري",
+  "performanceTrendTitle": "اتجاه الجمع",
+  "performanceBadgesTitle": "الإنجازات",
+  "performanceLeaderboardTitle": "لوحة المتصدرين",
+  "performanceRankSummary": "المرتبة #{position} من {total}",
+  "performanceRange7d": "آخر 7 أيام",
+  "performanceRange30d": "آخر 30 يومًا",
+  "performanceRange90d": "آخر 90 يومًا",
+  "performanceLoadError": "تعذر تحميل بيانات الأداء."
 }

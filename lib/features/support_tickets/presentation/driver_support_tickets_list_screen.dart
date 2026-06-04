@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
@@ -66,22 +66,19 @@ class _DriverSupportTicketsListScreenState
     final l10n = context.l10n;
     final authState = context.watch<AuthBloc>().state;
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          'Support tickets',
-          style: TextStyle(color: AppTheme.bg),
-        ),
+        title: const Text('Support tickets'),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         actions: <Widget>[
           if (authState.isAuth)
             IconButton(
               tooltip: 'Refresh',
               onPressed: _loading ? null : () => _load(),
-              icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
+              icon: const Icon(Icons.refresh),
             ),
         ],
       ),
@@ -94,8 +91,8 @@ class _DriverSupportTicketsListScreenState
                 );
                 _load();
               },
-              backgroundColor: AppTheme.primary,
-              child: const Icon(Icons.add, color: Colors.white),
+              backgroundColor: context.brandPrimary,
+              child: Icon(Icons.add, color: scheme.onPrimary),
             )
           : null,
       body: !authState.isAuth
@@ -127,7 +124,8 @@ class _DriverSupportTicketsListScreenState
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(_error!),
-                          TextButton(onPressed: _load, child: const Text('Retry')),
+                          TextButton(
+                              onPressed: _load, child: const Text('Retry')),
                         ],
                       ),
                     )
@@ -150,7 +148,7 @@ class _DriverSupportTicketsListScreenState
                               itemBuilder: (context, i) {
                                 final t = _page!.items[i];
                                 return ListTile(
-                                  tileColor: AppTheme.white,
+                                  tileColor: scheme.surface,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),

@@ -165,11 +165,9 @@ class RequestWasteItem with ChangeNotifier {
       driverAccepted: driverAccepted,
       requestStatusKey: parsedJson['request_status_key'] as String? ?? '',
       requestStatusLabel: parsedJson['request_status_label'] as String? ?? '',
-      customerRating: cr is Map<String, dynamic>
-          ? RatingOut.fromJson(cr)
-          : null,
-      driverRating:
-          dr is Map<String, dynamic> ? RatingOut.fromJson(dr) : null,
+      customerRating:
+          cr is Map<String, dynamic> ? RatingOut.fromJson(cr) : null,
+      driverRating: dr is Map<String, dynamic> ? RatingOut.fromJson(dr) : null,
       hasRated: parsedJson['has_rated'] as bool? ?? false,
       customerAverageRating:
           parseAverageRating(parsedJson['customer_average_rating']),

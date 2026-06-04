@@ -10,7 +10,7 @@ import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/w
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 
 class StatisticsListScreen extends StatefulWidget {
@@ -130,6 +130,8 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: !isLogin
@@ -137,10 +139,10 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                 height: deviceHeight * 0.4,
                 width: deviceWidth,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: scheme.surface,
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.primary.withOpacity(0.08),
+                        color: context.brandPrimary.withValues(alpha: 0.08),
                         blurRadius: 10.10,
                         spreadRadius: 10.510,
                         offset: Offset(
@@ -170,7 +172,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                           ),
                         ),
                         decoration: BoxDecoration(
-                            color: AppTheme.primary,
+                            color: context.brandPrimary,
                             borderRadius: BorderRadius.circular(5)),
                       ),
                     )
@@ -187,10 +189,11 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
+                              color: scheme.surface,
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.primary.withOpacity(0.08),
+                                  color: context.brandPrimary
+                                      .withValues(alpha: 0.08),
                                   blurRadius: 10.10,
                                   spreadRadius: 10,
                                   offset: Offset(

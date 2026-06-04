@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recycleorigindriver/core/models/request/pasmand.dart';
+import 'package:recycleorigindriver/core/models/request/waste_ref.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_event.dart';
@@ -42,7 +42,7 @@ void main() {
     test('addWasteCart updates matching cart isAdded', () async {
       final bloc = WastesBloc();
       final cart = WasteCart(
-        pasmand: Pasmand(id: 42, post_title: 'Paper'),
+        waste: WasteRef(id: 42, post_title: 'Paper'),
         estimated_weight: '1',
         exact_weight: '1',
         estimated_price: '1',

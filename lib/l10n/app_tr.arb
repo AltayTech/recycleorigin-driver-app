@@ -148,7 +148,12 @@
   "englishLabel": "English",
   "turkishLabel": "Turkce",
   "arabicLabel": "Arapca",
-  "settingsScreenIntro": "Dil değişiklikleri hemen uygulanır ve bu cihazda kaydedilir.",
+  "settingsScreenIntro": "Tercihler hemen uygulanır ve bu cihazda kaydedilir.",
+  "appearanceTitle": "Görünüm",
+  "appearanceSectionDescription": "Uygulamanın bu cihazda nasıl görüneceğini seçin.",
+  "themeModeSystemLabel": "Sistem varsayılanı",
+  "themeModeLightLabel": "Açık",
+  "themeModeDarkLabel": "Koyu",
   "appInformationSectionTitle": "Uygulama bilgisi",
   "version": "Sürüm",
   "retryLabel": "Tekrar dene",
@@ -186,6 +191,23 @@
   "collectListSortIdAsc": "Talep no (kucukten buyuge)",
   "collectListFilterAll": "Tumu",
   "collectListFilterNeedsAction": "Islem gerekiyor",
+  "collectListDateAll": "Tum tarihler",
+  "collectListDateToday": "Bugun",
+  "collectListDateThisWeek": "Bu hafta",
+  "collectListDateThisMonth": "Bu ay",
+  "collectListDateCustom": "Ozel",
+  "collectListDateSheetTitle": "Tarih araligi sec",
+  "collectListDateRangeLabel": "{start} – {end}",
+  "@collectListDateRangeLabel": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
   "pickupLocationMapTitle": "Toplama konumu",
   "openInMapsAppLabel": "Haritada ac",
   "openMapsAppFailed": "Harita uygulamasi acilamadi.",
@@ -265,6 +287,97 @@
   "authSwitchToLoginPrompt": "Hesabiniz var mi? Giris yapin",
   "authCreateAccountTitle": "Hesabinizi olusturun",
   "authSubtitleSignIn": "Surucu hesabinize erismek icin giris yapin.",
-  "authSubtitleSignUp": "Teslimata baslamak icin bir hesap olusturun."
+  "authSubtitleSignUp": "Teslimata baslamak icin bir hesap olusturun.",
+  "driverRoleLabel": "Surucu",
+  "myVehicleLabel": "Aracim",
+  "myRouteLabel": "Rotam",
+  "notificationsLabel": "Bildirimler",
+  "accountSectionTitle": "Hesap",
+  "activitySectionTitle": "Etkinlik",
+  "preferencesSectionTitle": "Tercihler",
+  "supportSectionTitle": "Destek",
+  "walletBalanceLabel": "Cuzdan bakiyesi",
+  "ratingLabel": "Puan",
+  "noRatingLabel": "Henuz puan yok",
+  "appVersionLabel": "Surum {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "vehicleSummaryLabel": "{vehicle} · {color} · {plate}",
+  "@vehicleSummaryLabel": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "plate": {
+        "type": "String"
+      }
+    }
+  },
+  "storesCountLabel": "Magazalar",
+  "profileLoadErrorMessage": "Profiliniz yuklenemedi. Baglantinizi kontrol edip tekrar deneyin.",
+  "profileCopyrightLabel": "© {year} {appName}",
+  "@profileCopyrightLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "inboxPreferencesSectionTitle": "Gelen kutusu ve tercihler",
+  "basicInfoSectionTitle": "Temel bilgiler",
+  "contactSectionTitle": "Iletisim",
+  "addressSectionTitle": "Adres",
+  "vehicleSectionTitle": "Arac detaylari",
+  "saveLabel": "Kaydet",
+  "mobileLabel": "Cep telefonu",
+  "copyLabel": "Kopyala",
+  "copiedToClipboardMessage": "Panoya kopyalandi",
+  "personalInfoSubtitle": "Hesap bilgilerinizi asagidan goruntuleyip guncelleyebilirsiniz.",
+  "phoneIsLoginIdentifierHint": "Giris icin kullandiginiz telefon numarasi buradan degistirilemez.",
+  "emailIsLoginCredentialHint": "E-posta adresiniz giris icin kullanilir ve buradan degistirilemez.",
+  "userTypeReadOnlyHint": "Hesap turunuz yoneticiniz tarafindan atanir ve buradan degistirilemez.",
+  "postalCodeHintMessage": "Posta kodu genellikle 5 hanelidir.",
+  "discardChangesTitle": "Degisiklikler silinsin mi?",
+  "discardChangesMessage": "Kaydedilmemis degisiklikler var. Cikmak istiyor musunuz?",
+  "discardLabel": "Sil",
+  "keepEditingLabel": "Duzenlemeye devam",
+  "vehicleContactSupportHint": "Arac bilgileri yoneticiniz tarafindan yonetilir. Bir sorun varsa destek ile iletisime gecin.",
+  "notificationsSectionTitle": "Bildirimler",
+  "notificationsSectionDescription": "Rota guncellemeleri ve kampanya mesajlarini nasil alacaginizi secin.",
+  "notificationCategoryTransactional": "Rota ve hesap guncellemeleri",
+  "notificationCategoryMarketing": "Haberler ve kampanyalar",
+  "notificationChannelPush": "Anlik bildirimler",
+  "notificationChannelInApp": "Uygulama ici gelen kutusu",
+  "notificationPrefsSavedMessage": "Bildirim tercihleri kaydedildi",
+  "notificationPrefsLoadErrorMessage": "Bildirim ayarlari yuklenemedi.",
+  "notificationPrefsSavingLabel": "Kaydediliyor…",
+  "performanceTitle": "Performans",
+  "performanceHeroTitle": "Performansınız",
+  "performancePickupsLabel": "Tamamlanan",
+  "performanceWeightLabel": "Taşınan ağırlık",
+  "performanceEarningsLabel": "Kazanç",
+  "performanceXpLabel": "{current} XP · sonraki {toNext}",
+  "performanceStreakTitle": "Seri",
+  "performanceStreakValue": "{current} hf · en iyi {longest}",
+  "performanceGoalTitle": "Aylık hedef",
+  "performanceTrendTitle": "Toplama trendi",
+  "performanceBadgesTitle": "Başarılar",
+  "performanceLeaderboardTitle": "Sıralama",
+  "performanceRankSummary": "#{position} / {total} · üst %{percentile}",
+  "performanceRange7d": "Son 7 gün",
+  "performanceRange30d": "Son 30 gün",
+  "performanceRange90d": "Son 90 gün",
+  "performanceLoadError": "Performans verileri yüklenemedi."
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
@@ -8,7 +9,7 @@ import 'package:recycleorigindriver/core/models/request/request_waste_item.dart'
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/widgets/collect_item_collect_screen.dart';
@@ -30,6 +31,14 @@ enum _CollectListSort {
   idLowToHigh,
 }
 
+enum _DatePreset {
+  all,
+  today,
+  thisWeek,
+  thisMonth,
+  custom,
+}
+
 class _CollectListScreenState extends State<CollectListScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isInit = true;
@@ -40,9 +49,14 @@ class _CollectListScreenState extends State<CollectListScreen> {
   final List<RequestWasteItem> _items = [];
 
   _CollectListSort _sort = _CollectListSort.newestFirst;
+  _DatePreset _datePreset = _DatePreset.today;
+  DateTimeRange? _customRange;
 
   /// API [category] query: '' = all; see backend `applyDriverCollectListFilter`.
   String _filterSlug = '';
+
+  /// Bumped on full reload so stale pagination requests are ignored.
+  int _loadGeneration = 0;
 
   @override
   void initState() {
@@ -85,19 +99,145 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return c.toString();
   }
 
-  void _applySortToBloc(WastesBloc bloc, _CollectListSort sort) {
-    final (String order, String orderBy) = switch (sort) {
+  static DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  static String _apiDate(DateTime d) => intl.DateFormat('yyyy-MM-dd').format(d);
+
+  (String order, String orderBy) _sortQueryParams() {
+    return switch (_sort) {
       _CollectListSort.newestFirst => ('desc', 'date'),
       _CollectListSort.oldestFirst => ('asc', 'date'),
       _CollectListSort.idHighToLow => ('desc', 'id'),
       _CollectListSort.idLowToHigh => ('asc', 'id'),
     };
-    bloc.sOrder = order;
-    bloc.sOrderBy = orderBy;
   }
 
-  void _applyFilterToBloc(WastesBloc bloc, String slug) {
-    bloc.sCategory = slug.isEmpty ? '' : slug;
+  /// Maps the active date preset to API [date_from]/[date_to] (YYYY-MM-DD).
+  (String from, String to) _dateQueryParams() {
+    final now = DateTime.now();
+    final today = _dateOnly(now);
+    return switch (_datePreset) {
+      _DatePreset.all => ('', ''),
+      _DatePreset.today => (_apiDate(today), _apiDate(today)),
+      _DatePreset.thisWeek => (
+          _apiDate(today.subtract(Duration(days: today.weekday - 1))),
+          _apiDate(today),
+        ),
+      _DatePreset.thisMonth => (
+          _apiDate(DateTime(today.year, today.month, 1)),
+          _apiDate(today),
+        ),
+      _DatePreset.custom => () {
+          final range = _customRange;
+          if (range == null) {
+            return ('', '');
+          }
+          return (
+            _apiDate(_dateOnly(range.start)),
+            _apiDate(_dateOnly(range.end)),
+          );
+        }(),
+    };
+  }
+
+  Future<void> _fetchCollectPage(int page) async {
+    final bloc = context.read<WastesBloc>();
+    final (order, orderBy) = _sortQueryParams();
+    final (dateFrom, dateTo) = _dateQueryParams();
+    await bloc.fetchCollectListPage(
+      page: page,
+      order: order,
+      orderBy: orderBy,
+      category: _filterSlug,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+    );
+  }
+
+  Future<void> _onDatePresetSelected(_DatePreset preset) async {
+    if (_isLoading) {
+      return;
+    }
+    if (preset == _DatePreset.custom) {
+      final picked = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(2020),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+        initialDateRange: _customRange ??
+            DateTimeRange(
+              start: _dateOnly(DateTime.now()),
+              end: _dateOnly(DateTime.now()),
+            ),
+        helpText: context.l10n.collectListDateSheetTitle,
+      );
+      if (!mounted || picked == null) {
+        return;
+      }
+      setState(() {
+        _datePreset = _DatePreset.custom;
+        _customRange = DateTimeRange(
+          start: _dateOnly(picked.start),
+          end: _dateOnly(picked.end),
+        );
+      });
+      await _reloadFromFirstPage();
+      return;
+    }
+    if (preset == _datePreset) {
+      return;
+    }
+    setState(() {
+      _datePreset = preset;
+      if (preset != _DatePreset.custom) {
+        _customRange = null;
+      }
+    });
+    await _reloadFromFirstPage();
+  }
+
+  String _dateChipLabel(AppLocalizations l10n, _DatePreset preset) {
+    if (preset == _DatePreset.custom && _customRange != null) {
+      final start = intl.DateFormat.MMMd().format(_customRange!.start);
+      final end = intl.DateFormat.MMMd().format(_customRange!.end);
+      final label = l10n.collectListDateRangeLabel(start, end);
+      return EnArConvertor.localize(context, label);
+    }
+    return switch (preset) {
+      _DatePreset.all => l10n.collectListDateAll,
+      _DatePreset.today => l10n.collectListDateToday,
+      _DatePreset.thisWeek => l10n.collectListDateThisWeek,
+      _DatePreset.thisMonth => l10n.collectListDateThisMonth,
+      _DatePreset.custom => l10n.collectListDateCustom,
+    };
+  }
+
+  Widget _buildDateFilterChips(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final disabled = _isLoading;
+    const presets = _DatePreset.values;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (final preset in presets)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: 8),
+              child: ChoiceChip(
+                label: Text(
+                  _dateChipLabel(l10n, preset),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                selected: _datePreset == preset,
+                onSelected:
+                    disabled ? null : (_) => _onDatePresetSelected(preset),
+                labelStyle: theme.textTheme.labelMedium,
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   void _onScroll() {
@@ -111,6 +251,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
   }
 
   Future<void> _reloadFromFirstPage() async {
+    final generation = ++_loadGeneration;
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -120,12 +261,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
     try {
       final bloc = context.read<WastesBloc>();
-      bloc.sPage = 1;
-      _applySortToBloc(bloc, _sort);
-      _applyFilterToBloc(bloc, _filterSlug);
-      bloc.searchBuilder();
-      await bloc.searchCollectItems();
-      if (!mounted) {
+      await _fetchCollectPage(1);
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
       _searchDetail =
@@ -135,33 +272,35 @@ class _CollectListScreenState extends State<CollectListScreen> {
         ..addAll(bloc.state.collectItems);
       _page = 1;
     } catch (e) {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         _hasError = true;
       }
     } finally {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         setState(() => _isLoading = false);
       }
     }
   }
 
   Future<void> _loadMoreItems() async {
+    if (_isLoading) {
+      return;
+    }
+    final generation = _loadGeneration;
+    final nextPage = _page + 1;
     setState(() => _isLoading = true);
     try {
-      _page++;
       final bloc = context.read<WastesBloc>();
-      bloc.sPage = _page;
-      bloc.searchBuilder();
-      await bloc.searchCollectItems();
-      if (!mounted) {
+      await _fetchCollectPage(nextPage);
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
+      _page = nextPage;
       _items.addAll(bloc.state.collectItems);
       _searchDetail =
           bloc.state.searchDetails ?? SearchDetail(total: 0, max_page: 1);
     } catch (e) {
-      _page--;
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.noRequestAvailable),
@@ -173,7 +312,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         );
       }
     } finally {
-      if (mounted) {
+      if (mounted && generation == _loadGeneration) {
         setState(() => _isLoading = false);
       }
     }
@@ -422,8 +561,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed:
-                          disabled ? null : () => _showFilterSheet(l10n),
+                      onPressed: disabled ? null : () => _showFilterSheet(l10n),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: colorScheme.onSurface,
                         padding: const EdgeInsets.symmetric(
@@ -550,27 +688,29 @@ class _CollectListScreenState extends State<CollectListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lock_outline, size: 64, color: Colors.grey.shade400),
+          Icon(
+            Icons.lock_outline,
+            size: 64,
+            color: context.secondaryText.withValues(alpha: 0.6),
+          ),
           const SizedBox(height: 16),
           Text(
             l10n.notLoggedInLabel,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: context.secondaryText,
+                ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(LoginScreen.routeName),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text(
-              l10n.loginToAccountLabel,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(l10n.loginToAccountLabel),
           ),
         ],
       ),
@@ -583,48 +723,59 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Theme.of(context).colorScheme.error,
+            ),
             const SizedBox(height: 16),
             Text(
               l10n.noRequestAvailable,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: context.secondaryText,
+                  ),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _reloadFromFirstPage,
-              icon: const Icon(Icons.refresh, color: Colors.white),
-              label: Text(
-                l10n.retryLabel,
-                style: const TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-              ),
+              icon: const Icon(Icons.refresh),
+              label: Text(l10n.retryLabel),
             ),
           ],
         ),
       );
     }
 
-    return RefreshIndicator(
-      onRefresh: _reloadFromFirstPage,
-      color: AppTheme.primary,
-      child: CustomScrollView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(child: _buildListToolbar(l10n)),
-          _buildRequestsList(),
-          if (_isLoading && _items.isNotEmpty)
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: _buildDateFilterChips(l10n),
+        ),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: _reloadFromFirstPage,
+            color: context.brandPrimary,
+            child: CustomScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: _buildListToolbar(l10n)),
+                _buildRequestsList(),
+                if (_isLoading && _items.isNotEmpty)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+              ],
             ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -640,11 +791,17 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              Icon(
+                Icons.inbox_outlined,
+                size: 64,
+                color: context.secondaryText.withValues(alpha: 0.6),
+              ),
               const SizedBox(height: 16),
               Text(
                 context.l10n.noRequestAvailable,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: context.secondaryText,
+                    ),
               ),
             ],
           ),
@@ -653,14 +810,23 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-          child: ChangeNotifierProvider.value(
-            value: _items[index],
-            child: const CollectItemCollectsScreen(),
-          ),
-        ),
+        (context, index) {
+          final item = _items[index];
+          return Padding(
+            key: ValueKey<int>(item.id),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+            child: CollectItemCollectsScreen(collect: item),
+          );
+        },
         childCount: _items.length,
+        findChildIndexCallback: (Key key) {
+          if (key is! ValueKey<int>) {
+            return null;
+          }
+          final id = key.value;
+          final index = _items.indexWhere((item) => item.id == id);
+          return index >= 0 ? index : null;
+        },
       ),
     );
   }

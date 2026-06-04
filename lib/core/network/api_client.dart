@@ -115,8 +115,7 @@ class ApiClient {
     if (inflight != null) {
       return inflight;
     }
-    final future = _refreshTokens()
-      ..whenComplete(() => _refreshFuture = null);
+    final future = _refreshTokens()..whenComplete(() => _refreshFuture = null);
     _refreshFuture = future;
     return future;
   }
@@ -248,6 +247,16 @@ class ApiClient {
     }
   }
 
+  String? _serverErrorMessage(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      final err = data['error'] ?? data['message'];
+      if (err != null && err.toString().isNotEmpty) {
+        return err.toString();
+      }
+    }
+    return null;
+  }
+
   Result<T> _handleDioError<T>(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
@@ -257,16 +266,23 @@ class ApiClient {
             'Connection timeout. Please check your internet connection.');
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
+        final serverMsg = _serverErrorMessage(error.response?.data);
         if (statusCode == 401) {
-          return const Failure('Authentication failed. Please login again.');
+          return Failure(
+            serverMsg ?? 'Authentication failed. Please login again.',
+          );
         } else if (statusCode == 403) {
-          return const Failure('Access forbidden.');
+          return Failure(serverMsg ?? 'Access forbidden.');
         } else if (statusCode == 404) {
-          return const Failure('Resource not found.');
+          return Failure(serverMsg ?? 'Resource not found.');
         } else if (statusCode != null && statusCode >= 500) {
-          return const Failure('Server error. Please try again later.');
+          return Failure(
+            serverMsg ?? 'Server error. Please try again later.',
+          );
         }
-        return Failure('Request failed with status $statusCode');
+        return Failure(
+          serverMsg ?? 'Request failed with status $statusCode',
+        );
       case DioExceptionType.cancel:
         return const Failure('Request was cancelled.');
       case DioExceptionType.unknown:

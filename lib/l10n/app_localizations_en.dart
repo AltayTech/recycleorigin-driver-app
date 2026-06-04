@@ -465,7 +465,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Language updates apply immediately and are saved on this device.';
+      'Preferences apply immediately and are saved on this device.';
+
+  @override
+  String get appearanceTitle => 'Appearance';
+
+  @override
+  String get appearanceSectionDescription =>
+      'Choose how the app looks on this device.';
+
+  @override
+  String get themeModeSystemLabel => 'System default';
+
+  @override
+  String get themeModeLightLabel => 'Light';
+
+  @override
+  String get themeModeDarkLabel => 'Dark';
 
   @override
   String get appInformationSectionTitle => 'App information';
@@ -579,6 +595,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'Needs your action';
+
+  @override
+  String get collectListDateAll => 'All dates';
+
+  @override
+  String get collectListDateToday => 'Today';
+
+  @override
+  String get collectListDateThisWeek => 'This week';
+
+  @override
+  String get collectListDateThisMonth => 'This month';
+
+  @override
+  String get collectListDateCustom => 'Custom';
+
+  @override
+  String get collectListDateSheetTitle => 'Select date range';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
 
   @override
   String get pickupLocationMapTitle => 'Pickup location';
@@ -741,4 +780,208 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSubtitleSignUp => 'Create an account to start delivering.';
+
+  @override
+  String get driverRoleLabel => 'Driver';
+
+  @override
+  String get myVehicleLabel => 'My vehicle';
+
+  @override
+  String get myRouteLabel => 'My route';
+
+  @override
+  String get notificationsLabel => 'Notifications';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
+  String get activitySectionTitle => 'Activity';
+
+  @override
+  String get preferencesSectionTitle => 'Preferences';
+
+  @override
+  String get supportSectionTitle => 'Support';
+
+  @override
+  String get walletBalanceLabel => 'Wallet balance';
+
+  @override
+  String get ratingLabel => 'Rating';
+
+  @override
+  String get noRatingLabel => 'No rating yet';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'Stores';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'Could not load your profile. Check your connection and try again.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'Inbox & preferences';
+
+  @override
+  String get basicInfoSectionTitle => 'Basic information';
+
+  @override
+  String get contactSectionTitle => 'Contact';
+
+  @override
+  String get addressSectionTitle => 'Address';
+
+  @override
+  String get vehicleSectionTitle => 'Vehicle details';
+
+  @override
+  String get saveLabel => 'Save';
+
+  @override
+  String get mobileLabel => 'Mobile';
+
+  @override
+  String get copyLabel => 'Copy';
+
+  @override
+  String get copiedToClipboardMessage => 'Copied to clipboard';
+
+  @override
+  String get personalInfoSubtitle =>
+      'View and update your account details below.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Your mobile number is used to sign in and cannot be changed here.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'Your email address is used to sign in and cannot be changed here.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'Your account type is assigned by your administrator and cannot be changed here.';
+
+  @override
+  String get postalCodeHintMessage => 'Postal code is usually 5 digits.';
+
+  @override
+  String get discardChangesTitle => 'Discard changes?';
+
+  @override
+  String get discardChangesMessage =>
+      'You have unsaved changes. Discard them and leave?';
+
+  @override
+  String get discardLabel => 'Discard';
+
+  @override
+  String get keepEditingLabel => 'Keep editing';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'Vehicle details are managed by your administrator. Contact support if something looks incorrect.';
+
+  @override
+  String get notificationsSectionTitle => 'Notifications';
+
+  @override
+  String get notificationsSectionDescription =>
+      'Choose how you receive route updates and promotional messages.';
+
+  @override
+  String get notificationCategoryTransactional => 'Route & account updates';
+
+  @override
+  String get notificationCategoryMarketing => 'News & promotions';
+
+  @override
+  String get notificationChannelPush => 'Push notifications';
+
+  @override
+  String get notificationChannelInApp => 'In-app inbox';
+
+  @override
+  String get notificationPrefsSavedMessage => 'Notification preferences saved';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'Could not load notification settings.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'Saving…';
+
+  @override
+  String get performanceTitle => 'Performance';
+
+  @override
+  String get performanceHeroTitle => 'Your performance';
+
+  @override
+  String get performancePickupsLabel => 'Completed';
+
+  @override
+  String get performanceWeightLabel => 'Weight hauled';
+
+  @override
+  String get performanceEarningsLabel => 'Earnings';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · $toNext to next';
+  }
+
+  @override
+  String get performanceStreakTitle => 'Streak';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current wk · best $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'Monthly goal';
+
+  @override
+  String get performanceTrendTitle => 'Pickup trend';
+
+  @override
+  String get performanceBadgesTitle => 'Achievements';
+
+  @override
+  String get performanceLeaderboardTitle => 'Leaderboard';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return 'Rank #$position of $total · top $percentile%';
+  }
+
+  @override
+  String get performanceRange7d => 'Last 7 days';
+
+  @override
+  String get performanceRange30d => 'Last 30 days';
+
+  @override
+  String get performanceRange90d => 'Last 90 days';
+
+  @override
+  String get performanceLoadError => 'Could not load performance data.';
 }

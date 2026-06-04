@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/core/widgets/auth_snackbars.dart';
-import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
+import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_list_screen.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/store_collect_list_screen.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/profile_view.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/profile_screen.dart';
 import 'package:recycleorigindriver/features/home_feature/presentation/widgets/driver_session_header_banner.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
-/// Tab order: collection (default), warehouse, wallet, profile.
+/// Tab order: collection, warehouse, performance, wallet, profile.
 enum _DriverShellTab {
   collection,
   warehouse,
+  performance,
   wallet,
   profile,
 }
@@ -103,6 +105,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         return l10n.collectionLabel;
       case _DriverShellTab.warehouse:
         return l10n.warehouseDeliveryLabel;
+      case _DriverShellTab.performance:
+        return l10n.performanceTitle;
       case _DriverShellTab.wallet:
         return l10n.walletLabel;
       case _DriverShellTab.profile:
@@ -121,7 +125,10 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    final navTheme = theme.navigationBarTheme;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final appBarTitle = _appBarTitle(l10n);
     final narrowNav = MediaQuery.sizeOf(context).width < 360;
@@ -147,13 +154,13 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 2,
-            shadowColor: Colors.black.withValues(alpha: 0.06),
-            surfaceTintColor: Colors.transparent,
-            iconTheme: IconThemeData(color: AppTheme.bg),
-            leading: DrawerOrBackLeading(
-              scaffoldKey: _scaffoldKey,
-              iconColor: AppTheme.bg,
+            shadowColor: colorScheme.shadow.withValues(alpha: 0.08),
+            leading: IconButton(
+              icon: const Icon(Icons.menu_rounded),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
             title: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
@@ -175,18 +182,33 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                 appBarTitle,
                 key: ValueKey<String>(appBarTitle),
                 style: textTheme.titleLarge?.copyWith(
-                  color: AppTheme.bg,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
+            actions: <Widget>[
+              if (_selectedIndex == _DriverShellTab.collection.index)
+                IconButton(
+                  tooltip: l10n.myRouteLabel,
+                  icon: const Icon(Icons.route_rounded),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      RouteTodayScreen.routeName,
+                    );
+                  },
+                ),
+            ],
           ),
-          drawer: mainDrawerIfRootRoute(context),
+          drawer: Theme(
+            data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+            child: const MainDrawer(),
+          ),
           body: IndexedStack(
             index: _selectedIndex,
             children: const <Widget>[
               _CollectionTab(),
               _WarehouseTab(),
+              _PerformanceTab(),
               _WalletTab(),
               _ProfileTab(),
             ],
@@ -194,42 +216,18 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           bottomNavigationBar: SafeArea(
             minimum: EdgeInsets.fromLTRB(14, 0, 14, bottomInset > 0 ? 8 : 14),
             child: Material(
-              color: AppTheme.white,
+              color: colorScheme.surface,
               elevation: 8,
-              shadowColor: AppTheme.primary.withValues(alpha: 0.12),
+              shadowColor: colorScheme.primary.withValues(alpha: 0.12),
               surfaceTintColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
               clipBehavior: Clip.antiAlias,
               child: NavigationBarTheme(
-                data: NavigationBarThemeData(
+                data: navTheme.copyWith(
                   height: 72,
                   backgroundColor: Colors.transparent,
-                  indicatorColor: AppTheme.primary.withValues(alpha: 0.2),
-                  labelTextStyle: WidgetStateProperty.resolveWith(
-                    (Set<WidgetState> states) {
-                      final selected = states.contains(WidgetState.selected);
-                      return TextStyle(
-                        fontSize: 11.5,
-                        fontWeight:
-                            selected ? FontWeight.w600 : FontWeight.w500,
-                        color: selected
-                            ? AppTheme.primary
-                            : AppTheme.h1.withValues(alpha: 0.55),
-                        letterSpacing: 0.1,
-                      );
-                    },
-                  ),
-                  iconTheme: WidgetStateProperty.resolveWith(
-                    (Set<WidgetState> states) {
-                      final selected = states.contains(WidgetState.selected);
-                      return IconThemeData(
-                        color: selected ? AppTheme.primary : AppTheme.grey,
-                        size: selected ? 26 : 24,
-                      );
-                    },
-                  ),
                 ),
                 child: NavigationBar(
                   selectedIndex: _selectedIndex,
@@ -249,6 +247,12 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                       selectedIcon: const Icon(Icons.store_rounded),
                       label: l10n.warehouseDeliveryLabel,
                       tooltip: l10n.warehouseDeliveryLabel,
+                    ),
+                    NavigationDestination(
+                      icon: const Icon(Icons.insights_outlined),
+                      selectedIcon: const Icon(Icons.insights_rounded),
+                      label: l10n.performanceTitle,
+                      tooltip: l10n.performanceTitle,
                     ),
                     NavigationDestination(
                       icon: const Icon(Icons.account_balance_wallet_outlined),
@@ -308,6 +312,15 @@ class _CollectionTab extends StatelessWidget {
   }
 }
 
+class _PerformanceTab extends StatelessWidget {
+  const _PerformanceTab();
+
+  @override
+  Widget build(BuildContext context) {
+    return const PerformanceScreen(embedInShell: true);
+  }
+}
+
 class _WalletTab extends StatelessWidget {
   const _WalletTab();
 
@@ -322,6 +335,6 @@ class _ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileView();
+    return const ProfileScreen();
   }
 }

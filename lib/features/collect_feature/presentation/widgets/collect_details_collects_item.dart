@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 
 import 'package:recycleorigindriver/core/models/request/price_weight.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -59,6 +59,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -66,8 +68,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
         width: deviceWidth,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: AppTheme.white,
-            border: Border.all(color: AppTheme.grey, width: 0.3)),
+            color: scheme.surface,
+            border: Border.all(color: scheme.outlineVariant, width: 0.3)),
         child: LayoutBuilder(
           builder: (_, constraints) => Stack(
             children: <Widget>[
@@ -82,11 +84,11 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.collectItem.pasmand.post_title != null
-                                ? widget.collectItem.pasmand.post_title
+                            widget.collectItem.waste.post_title != null
+                                ? widget.collectItem.waste.post_title
                                 : l10n.noneLabel,
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.primaryText,
                               fontWeight: FontWeight.w700,
                               fontSize: textScaleFactor * 16,
                             ),
@@ -109,7 +111,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                       .toString(),
                                 ),
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.primaryText,
                                   fontSize: textScaleFactor * 16,
                                 ),
                               ),
@@ -149,7 +151,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   )
                                 : EnArConvertor.localize(context, '0'),
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.primaryText,
                               fontSize: textScaleFactor * 16,
                             ),
                           ),
@@ -180,7 +182,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   )
                                 : EnArConvertor.localize(context, '0'),
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.primaryText,
                               fontSize: textScaleFactor * 18,
                             ),
                           ),

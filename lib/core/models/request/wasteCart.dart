@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'pasmand.dart';
+import 'waste_ref.dart';
 
 class WasteCart with ChangeNotifier {
-  final Pasmand pasmand;
+  final WasteRef waste;
   final String estimated_weight;
   String exact_weight;
   final String estimated_price;
@@ -11,7 +11,7 @@ class WasteCart with ChangeNotifier {
   bool isAdded;
 
   WasteCart({
-    required this.pasmand,
+    required this.waste,
     required this.estimated_weight,
     required this.exact_weight,
     required this.estimated_price,
@@ -37,16 +37,16 @@ class WasteCart with ChangeNotifier {
           parsedJson['exact_price'] != null || parsedJson['exact_price'] != ''
               ? parsedJson['exact_price']
               : '0',
-      pasmand: Pasmand.fromJson(parsedJson['pasmand']),
+      waste: WasteRef.fromJson(parsedJson['waste']),
       isAdded: false,
     );
   }
 
   Map<String, dynamic> toJson() {
-    Map pasmand = this.pasmand.toJson();
+    final Map<String, dynamic> wasteJson = this.waste.toJson();
 
     return {
-      'pasmand': pasmand,
+      'waste': wasteJson,
       'estimated_weight': estimated_weight,
       'exact_weight': exact_weight,
       'estimated_price': estimated_price,

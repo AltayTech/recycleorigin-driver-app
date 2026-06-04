@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
 import 'package:recycleorigindriver/features/support_tickets/data/driver_support_ticket_repository.dart';
+
 /// Create a support ticket (driver).
 class DriverSupportTicketCreateScreen extends StatefulWidget {
   const DriverSupportTicketCreateScreen({super.key});
@@ -67,13 +67,8 @@ class _DriverSupportTicketCreateScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'New ticket',
-          style: TextStyle(color: AppTheme.bg),
-        ),
+        title: const Text('New ticket'),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Form(
         key: _formKey,

@@ -25,6 +25,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     on<WastesRemoveWasteCartRequested>(_onRemoveWasteCart);
     on<WastesSendRequestRequested>(_onSendRequest);
     on<WastesSearchCollectItemsRequested>(_onSearchCollectItems);
+    on<WastesCollectListQueryRequested>(_onCollectListQueryRequested);
     on<WastesRetrieveCollectItemRequested>(_onRetrieveCollectItem);
     on<WastesAcceptCollectRequested>(_onAcceptCollect);
     on<WastesRejectCollectRequested>(_onRejectCollect);
@@ -48,6 +49,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   set sOrderBy(String value) => add(WastesSearchParamsChanged(sOrderBy: value));
   set sCategory(Object? value) =>
       add(WastesSearchParamsChanged(sCategory: value));
+  set sDateFrom(String value) =>
+      add(WastesSearchParamsChanged(sDateFrom: value));
+  set sDateTo(String value) => add(WastesSearchParamsChanged(sDateTo: value));
 
   set requestWasteItem(RequestWasteItem value) {
     add(WastesRequestWasteItemReplace(value));
@@ -111,6 +115,56 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     return c.future;
   }
 
+  /// Atomically applies query params, builds [searchEndPoint], and fetches.
+  Future<void> fetchCollectListPage({
+    required int page,
+    required String order,
+    required String orderBy,
+    required String category,
+    required String dateFrom,
+    required String dateTo,
+  }) {
+    final c = Completer<void>();
+    add(
+      WastesCollectListQueryRequested(
+        page: page,
+        order: order,
+        orderBy: orderBy,
+        category: category,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        completer: c,
+      ),
+    );
+    return c.future;
+  }
+
+  String _buildSearchEndPoint(WastesState s) {
+    var searchEndPoint = '';
+    if (s.searchKey != '') {
+      searchEndPoint = '?search=${s.searchKey}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+    } else {
+      searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
+    }
+    if (s.sOrder != '') {
+      searchEndPoint = '$searchEndPoint&order=${s.sOrder}';
+    }
+    if (s.sOrderBy != '') {
+      searchEndPoint = '$searchEndPoint&orderby=${s.sOrderBy}';
+    }
+    if (!(s.sCategory == '' || s.sCategory == null)) {
+      searchEndPoint = '$searchEndPoint&category=${s.sCategory}';
+    }
+    if (s.sDateFrom.isNotEmpty) {
+      searchEndPoint = '$searchEndPoint&date_from=${s.sDateFrom}';
+    }
+    if (s.sDateTo.isNotEmpty) {
+      searchEndPoint = '$searchEndPoint&date_to=${s.sDateTo}';
+    }
+    return searchEndPoint;
+  }
+
   Future<void> retrieveCollectItem(int collectId) {
     final c = Completer<void>();
     add(WastesRetrieveCollectItemRequested(collectId, completer: c));
@@ -162,6 +216,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         sOrder: event.sOrder ?? state.sOrder,
         sOrderBy: event.sOrderBy ?? state.sOrderBy,
         sCategory: event.sCategory ?? state.sCategory,
+        sDateFrom: event.sDateFrom ?? state.sDateFrom,
+        sDateTo: event.sDateTo ?? state.sDateTo,
       ),
     );
   }
@@ -170,24 +226,117 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     WastesSearchBuilderApplied event,
     Emitter<WastesState> emit,
   ) {
-    final s = state;
-    var searchEndPoint = '';
-    if (s.searchKey != '') {
-      searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
-    } else {
-      searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
+    emit(state.copyWith(searchEndPoint: _buildSearchEndPoint(state)));
+  }
+
+  Future<void> _onCollectListQueryRequested(
+    WastesCollectListQueryRequested event,
+    Emitter<WastesState> emit,
+  ) async {
+    final category = event.category.isEmpty ? '' : event.category;
+    var next = state.copyWith(
+      sPage: event.page,
+      sOrder: event.order,
+      sOrderBy: event.orderBy,
+      sCategory: category,
+      sDateFrom: event.dateFrom,
+      sDateTo: event.dateTo,
+    );
+    final searchEndPoint = _buildSearchEndPoint(next);
+    next = next.copyWith(searchEndPoint: searchEndPoint);
+    emit(next);
+
+    try {
+      final token = await SecureStorage.getToken();
+      if (token == null || token.isEmpty) {
+        emit(
+          next.copyWith(
+            collectItems: [],
+            searchDetails: null,
+            clearSearchDetails: true,
+          ),
+        );
+        event.completer?.complete();
+        return;
+      }
+      final url = Urls.rootUrl + Urls.driverCollectsEndPoint + searchEndPoint;
+      final response = await get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>?;
+        if (extractedData == null) {
+          emit(
+            next.copyWith(
+              collectItems: [],
+              searchDetails: null,
+              token: token,
+              clearSearchDetails: true,
+            ),
+          );
+          event.completer?.complete();
+          return;
+        }
+        final dataList = extractedData['data'];
+        final detailsJson = extractedData['details'];
+        List<RequestWasteItem> items = [];
+        if (dataList is List) {
+          items = dataList
+              .map<RequestWasteItem>(
+                (dynamic e) =>
+                    RequestWasteItem.fromJson(e as Map<String, dynamic>),
+              )
+              .toList();
+        }
+        SearchDetail? details;
+        if (detailsJson != null && detailsJson is Map<String, dynamic>) {
+          final total = detailsJson['total'];
+          final maxPages = detailsJson['max_pages'];
+          details = SearchDetail(
+            total: total is int ? total : items.length,
+            max_page: maxPages is int ? maxPages : 1,
+          );
+        } else {
+          details = SearchDetail(
+            total: items.length,
+            max_page: items.isEmpty ? 1 : 1,
+          );
+        }
+        emit(
+          next.copyWith(
+            collectItems: items,
+            searchDetails: details,
+            token: token,
+          ),
+        );
+      } else {
+        emit(
+          next.copyWith(
+            collectItems: [],
+            searchDetails: null,
+            clearSearchDetails: true,
+          ),
+        );
+      }
+      event.completer?.complete();
+    } catch (error, st) {
+      emit(
+        next.copyWith(
+          collectItems: [],
+          searchDetails: null,
+          clearSearchDetails: true,
+        ),
+      );
+      event.completer?.completeError(error, st);
+      rethrow;
     }
-    if (s.sOrder != '') {
-      searchEndPoint = '$searchEndPoint&order=${s.sOrder}';
-    }
-    if (s.sOrderBy != '') {
-      searchEndPoint = '$searchEndPoint&orderby=${s.sOrderBy}';
-    }
-    if (!(s.sCategory == '' || s.sCategory == null)) {
-      searchEndPoint = '$searchEndPoint&category=${s.sCategory}';
-    }
-    emit(s.copyWith(searchEndPoint: searchEndPoint));
   }
 
   void _onWasteCartItemsSet(
@@ -204,7 +353,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.wasteCart.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
           .isAdded = event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
@@ -224,7 +373,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         final c = event.wastesCart[i];
         list.add(
           WasteCart(
-            pasmand: c.pasmand,
+            waste: c.waste,
             estimated_weight: c.estimated_weight,
             estimated_price: c.estimated_price,
             exact_price: event.isCollected ? c.exact_price : c.estimated_price,
@@ -249,11 +398,10 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .exact_weight = event.exactWeight;
-      next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
-          .isAdded = event.isAdded;
+      next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -269,7 +417,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
         state.wasteCartItems
-            .firstWhere((prod) => prod.pasmand.id == event.wasteId),
+            .firstWhere((prod) => prod.waste.id == event.wasteId),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();
@@ -534,16 +682,13 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       }),
     );
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      final body = response.body.isNotEmpty
-          ? json.decode(response.body)
-          : null;
+      final body = response.body.isNotEmpty ? json.decode(response.body) : null;
       final message = body is Map && body['error'] != null
           ? body['error'].toString()
           : 'Rating failed (${response.statusCode})';
       throw Exception(message);
     }
-    final getUrl =
-        Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final getUrl = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
     final getResp = await get(
       Uri.parse(getUrl),
       headers: {

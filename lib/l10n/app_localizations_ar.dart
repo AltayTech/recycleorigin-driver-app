@@ -463,7 +463,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'تُطبَّق تغييرات اللغة فورًا وتُحفَظ على هذا الجهاز.';
+      'تُطبَّق التفضيلات فورًا وتُحفَظ على هذا الجهاز.';
+
+  @override
+  String get appearanceTitle => 'المظهر';
+
+  @override
+  String get appearanceSectionDescription =>
+      'اختر مظهر التطبيق على هذا الجهاز.';
+
+  @override
+  String get themeModeSystemLabel => 'افتراضي النظام';
+
+  @override
+  String get themeModeLightLabel => 'فاتح';
+
+  @override
+  String get themeModeDarkLabel => 'داكن';
 
   @override
   String get appInformationSectionTitle => 'معلومات التطبيق';
@@ -577,6 +593,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get collectListFilterNeedsAction => 'يتطلب إجراءً منك';
+
+  @override
+  String get collectListDateAll => 'كل التواريخ';
+
+  @override
+  String get collectListDateToday => 'اليوم';
+
+  @override
+  String get collectListDateThisWeek => 'هذا الأسبوع';
+
+  @override
+  String get collectListDateThisMonth => 'هذا الشهر';
+
+  @override
+  String get collectListDateCustom => 'مخصص';
+
+  @override
+  String get collectListDateSheetTitle => 'اختر نطاق التاريخ';
+
+  @override
+  String collectListDateRangeLabel(String start, String end) {
+    return '$start – $end';
+  }
 
   @override
   String get pickupLocationMapTitle => 'موقع الاستلام';
@@ -738,4 +777,208 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authSubtitleSignUp => 'Create an account to start delivering.';
+
+  @override
+  String get driverRoleLabel => 'سائق';
+
+  @override
+  String get myVehicleLabel => 'مركبتي';
+
+  @override
+  String get myRouteLabel => 'مساري';
+
+  @override
+  String get notificationsLabel => 'الإشعارات';
+
+  @override
+  String get accountSectionTitle => 'الحساب';
+
+  @override
+  String get activitySectionTitle => 'النشاط';
+
+  @override
+  String get preferencesSectionTitle => 'التفضيلات';
+
+  @override
+  String get supportSectionTitle => 'الدعم';
+
+  @override
+  String get walletBalanceLabel => 'رصيد المحفظة';
+
+  @override
+  String get ratingLabel => 'التقييم';
+
+  @override
+  String get noRatingLabel => 'لا يوجد تقييم بعد';
+
+  @override
+  String appVersionLabel(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
+  String vehicleSummaryLabel(String vehicle, String color, String plate) {
+    return '$vehicle · $color · $plate';
+  }
+
+  @override
+  String get storesCountLabel => 'المتاجر';
+
+  @override
+  String get profileLoadErrorMessage =>
+      'تعذر تحميل ملفك الشخصي. تحقق من الاتصال وحاول مرة أخرى.';
+
+  @override
+  String profileCopyrightLabel(String year, String appName) {
+    return '© $year $appName';
+  }
+
+  @override
+  String get inboxPreferencesSectionTitle => 'البريد والتفضيلات';
+
+  @override
+  String get basicInfoSectionTitle => 'المعلومات الأساسية';
+
+  @override
+  String get contactSectionTitle => 'جهة الاتصال';
+
+  @override
+  String get addressSectionTitle => 'العنوان';
+
+  @override
+  String get vehicleSectionTitle => 'تفاصيل المركبة';
+
+  @override
+  String get saveLabel => 'حفظ';
+
+  @override
+  String get mobileLabel => 'الجوال';
+
+  @override
+  String get copyLabel => 'نسخ';
+
+  @override
+  String get copiedToClipboardMessage => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get personalInfoSubtitle => 'اعرض وحدّث بيانات حسابك أدناه.';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'يُستخدم رقم جوالك لتسجيل الدخول ولا يمكن تغييره من هنا.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'عنوان بريدك الإلكتروني مستخدم لتسجيل الدخول ولا يمكن تغييره من هنا.';
+
+  @override
+  String get userTypeReadOnlyHint =>
+      'نوع حسابك يحدده المسؤول ولا يمكن تغييره من هنا.';
+
+  @override
+  String get postalCodeHintMessage =>
+      'عادةً ما يتكون الرمز البريدي من 5 أرقام.';
+
+  @override
+  String get discardChangesTitle => 'تجاهل التغييرات؟';
+
+  @override
+  String get discardChangesMessage =>
+      'لديك تغييرات غير محفوظة. هل تريد تجاهلها والمغادرة؟';
+
+  @override
+  String get discardLabel => 'تجاهل';
+
+  @override
+  String get keepEditingLabel => 'متابعة التحرير';
+
+  @override
+  String get vehicleContactSupportHint =>
+      'تُدار تفاصيل المركبة من قبل المسؤول. تواصل مع الدعم إذا كان هناك خطأ.';
+
+  @override
+  String get notificationsSectionTitle => 'الإشعارات';
+
+  @override
+  String get notificationsSectionDescription =>
+      'اختر كيفية استلام تحديثات المسار والرسائل الترويجية.';
+
+  @override
+  String get notificationCategoryTransactional => 'تحديثات المسار والحساب';
+
+  @override
+  String get notificationCategoryMarketing => 'الأخبار والعروض';
+
+  @override
+  String get notificationChannelPush => 'إشعارات الدفع';
+
+  @override
+  String get notificationChannelInApp => 'صندوق الوارد داخل التطبيق';
+
+  @override
+  String get notificationPrefsSavedMessage => 'تم حفظ تفضيلات الإشعارات';
+
+  @override
+  String get notificationPrefsLoadErrorMessage =>
+      'تعذر تحميل إعدادات الإشعارات.';
+
+  @override
+  String get notificationPrefsSavingLabel => 'جارٍ الحفظ…';
+
+  @override
+  String get performanceTitle => 'الأداء';
+
+  @override
+  String get performanceHeroTitle => 'أداؤك';
+
+  @override
+  String get performancePickupsLabel => 'مكتمل';
+
+  @override
+  String get performanceWeightLabel => 'الوزن المنقول';
+
+  @override
+  String get performanceEarningsLabel => 'الأرباح';
+
+  @override
+  String performanceXpLabel(int current, int toNext) {
+    return '$current XP · $toNext للمستوى التالي';
+  }
+
+  @override
+  String get performanceStreakTitle => 'سلسلة';
+
+  @override
+  String performanceStreakValue(int current, int longest) {
+    return '$current أسبوع · الأفضل $longest';
+  }
+
+  @override
+  String get performanceGoalTitle => 'الهدف الشهري';
+
+  @override
+  String get performanceTrendTitle => 'اتجاه الجمع';
+
+  @override
+  String get performanceBadgesTitle => 'الإنجازات';
+
+  @override
+  String get performanceLeaderboardTitle => 'لوحة المتصدرين';
+
+  @override
+  String performanceRankSummary(int position, int total, double percentile) {
+    return 'المرتبة #$position من $total';
+  }
+
+  @override
+  String get performanceRange7d => 'آخر 7 أيام';
+
+  @override
+  String get performanceRange30d => 'آخر 30 يومًا';
+
+  @override
+  String get performanceRange90d => 'آخر 90 يومًا';
+
+  @override
+  String get performanceLoadError => 'تعذر تحميل بيانات الأداء.';
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class ButtonBottom extends StatelessWidget {
   const ButtonBottom({
@@ -18,33 +18,21 @@ class ButtonBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScaler = MediaQuery.textScalerOf(context);
+    final scheme = Theme.of(context).colorScheme;
 
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-//        boxShadow: [
-//          BoxShadow(
-//            color: Colors.grey,
-//            blurRadius: 1.0,
-//            // has the effect of softening the shadow
-//            spreadRadius: 1,
-//            // has the effect of extending the shadow
-//            offset: Offset(
-//              1.0, // horizontal, move right 10
-//              1.0, // vertical, move down 10
-//            ),
-//          )
-//        ],
-        color: isActive ? AppTheme.primary : AppTheme.grey,
+        color: isActive ? context.brandPrimary : scheme.onSurfaceVariant,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Center(
         child: Text(
           text,
           textScaler: textScaler,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: scheme.onPrimary,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),

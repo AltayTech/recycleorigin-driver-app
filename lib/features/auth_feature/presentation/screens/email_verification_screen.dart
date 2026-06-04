@@ -113,8 +113,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final email = context.select<AuthBloc, String>(
-          (b) => b.state.tokenResponseModel.userEmail ?? '',
-        );
+      (b) => b.state.tokenResponseModel.userEmail ?? '',
+    );
 
     return Scaffold(
       appBar: AppBar(

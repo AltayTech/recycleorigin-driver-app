@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class MainItemButton extends StatelessWidget {
   const MainItemButton({
@@ -24,15 +24,18 @@ class MainItemButton extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
+    final scheme = Theme.of(context).colorScheme;
+    final selected = selectedItem == 1;
+
     return LayoutBuilder(
       builder: (_, constraint) => Padding(
         padding: EdgeInsets.all(deviceWidth * itemPaddingF),
         child: Container(
           decoration: BoxDecoration(
-              color: selectedItem == 1 ? AppTheme.primary : AppTheme.white,
+              color: selected ? context.brandPrimary : scheme.surface,
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.primary.withOpacity(0.08),
+                  color: context.brandPrimary.withValues(alpha: 0.08),
                   blurRadius: 10.10,
                   spreadRadius: 10.510,
                   offset: Offset(
@@ -66,7 +69,7 @@ class MainItemButton extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color:
-                          selectedItem == 1 ? AppTheme.white : Colors.black45,
+                          selected ? scheme.onPrimary : scheme.onSurfaceVariant,
                       fontWeight: FontWeight.w600,
                       fontSize: textScaleFactor * 12.0,
                     ),

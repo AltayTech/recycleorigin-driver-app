@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/support_tickets/data/driver_support_ticket_models.dart';
 import 'package:recycleorigindriver/features/support_tickets/data/driver_support_ticket_repository.dart';
 
@@ -90,20 +90,17 @@ class _DriverSupportTicketDetailScreenState
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Ticket',
-          style: TextStyle(color: AppTheme.bg),
-        ),
+        title: const Text('Ticket'),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         actions: <Widget>[
           IconButton(
             tooltip: 'Refresh',
             onPressed: _loading ? null : () => _load(),
-            icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
+            icon: const Icon(Icons.refresh),
           ),
         ],
       ),
@@ -117,7 +114,7 @@ class _DriverSupportTicketDetailScreenState
                       Padding(
                         padding: const EdgeInsets.all(12),
                         child: Material(
-                          color: AppTheme.white,
+                          color: scheme.surface,
                           borderRadius: BorderRadius.circular(12),
                           child: Padding(
                             padding: const EdgeInsets.all(14),
@@ -137,7 +134,7 @@ class _DriverSupportTicketDetailScreenState
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
-                                      ?.copyWith(color: AppTheme.grey),
+                                      ?.copyWith(color: context.secondaryText),
                                 ),
                               ],
                             ),
@@ -164,8 +161,9 @@ class _DriverSupportTicketDetailScreenState
                               ),
                               decoration: BoxDecoration(
                                 color: fromUser
-                                    ? AppTheme.primary.withValues(alpha: 0.15)
-                                    : AppTheme.grey.withValues(alpha: 0.12),
+                                    ? context.brandPrimary
+                                        .withValues(alpha: 0.15)
+                                    : scheme.surfaceContainerHighest,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(m.content),

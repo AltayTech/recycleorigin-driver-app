@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -47,7 +47,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //      _isLoading = true;
 //    });
 //    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
-//      widget.wasteItem.pasmand.id,
+//      widget.wasteItem.waste.id,
 //    );
 //
 //    widget.function();
@@ -125,12 +125,18 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Container(
+      child: SizedBox(
         height: deviceWidth * 0.25,
         width: deviceWidth,
         child: LayoutBuilder(
           builder: (_, constraints) => Container(
-            decoration: AppTheme.listItemBox,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                width: 0.3,
+              ),
+            ),
             child: Stack(
               children: <Widget>[
 //                Positioned(
@@ -161,11 +167,11 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              widget.wasteItem.pasmand.post_title != null
-                                  ? widget.wasteItem.pasmand.post_title
+                              widget.wasteItem.waste.post_title != null
+                                  ? widget.wasteItem.waste.post_title
                                   : context.l10n.noneLabel,
                               style: TextStyle(
-                                color: AppTheme.black,
+                                color: context.primaryText,
                                 fontWeight: FontWeight.w500,
                                 fontSize: textScaleFactor * 18,
                               ),
@@ -182,7 +188,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                               widget.wasteItem.estimated_weight.toString(),
                             ),
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.primaryText,
                               fontSize: textScaleFactor * 16,
                             ),
                             textAlign: TextAlign.center,
@@ -205,7 +211,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                                     )
                                   : EnArConvertor.localize(context, '0'),
                               style: TextStyle(
-                                color: AppTheme.h1,
+                                color: context.primaryText,
                                 fontSize: textScaleFactor * 18,
                               ),
                               textAlign: TextAlign.center,
@@ -280,7 +286,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //                                      .toString())
 //                                      .toString(),
 //                                  style: TextStyle(
-//                                    color: AppTheme.black,
+//                                    color: context.primaryText,
 //                                    //                                    fontSize: textScaleFactor * 14,
 //                                  ),
 //                                  textAlign: TextAlign.center,
@@ -419,7 +425,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 //                                          .toString())
 //                                      .toString(),
 //                                  style: TextStyle(
-//                                    color: AppTheme.black,
+//                                    color: context.primaryText,
 //                                    //                                    fontSize: textScaleFactor * 14,
 //                                  ),
 //                                  textAlign: TextAlign.center,

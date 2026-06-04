@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/core/models/request/waste.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class WasteItemWastesScreen extends StatelessWidget {
   final Waste waste;
@@ -15,6 +15,7 @@ class WasteItemWastesScreen extends StatelessWidget {
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final scheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(1.0),
@@ -23,10 +24,10 @@ class WasteItemWastesScreen extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: isSelected ? AppTheme.white : AppTheme.white,
+              color: scheme.surface,
               border: isSelected
-                  ? Border.all(width: 3, color: AppTheme.primary)
-                  : Border.all(width: 0.3, color: AppTheme.grey),
+                  ? Border.all(width: 3, color: context.brandPrimary)
+                  : Border.all(width: 0.3, color: scheme.outlineVariant),
             ),
             height: constraints.maxHeight,
             child: Padding(
@@ -55,7 +56,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          color: AppTheme.black,
+                          color: context.primaryText,
                           fontSize: textScaleFactor * 14.0,
                         ),
                       ),

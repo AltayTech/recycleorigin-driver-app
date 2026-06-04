@@ -57,6 +57,7 @@ class PersonalData with ChangeNotifier {
       'email': email,
       'ostan': ostan,
       'city': city,
+      'mobile': mobile,
       'address_data': addresses,
       'postcode': postcode,
     };

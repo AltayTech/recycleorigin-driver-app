@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/core/models/request/pasmand.dart';
+import 'package:recycleorigindriver/core/models/request/waste_ref.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class CustomDialogSendDelivery extends StatefulWidget {
   final int totalWallet;
@@ -25,8 +25,8 @@ class CustomDialogSendDelivery extends StatefulWidget {
 class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
   var storeValue;
   List<String> storeValueList = [];
-  List<Pasmand> storeList = [];
-  late Pasmand selectedStore;
+  List<WasteRef> storeList = [];
+  late WasteRef selectedStore;
 
   @override
   void didChangeDependencies() {
@@ -54,7 +54,8 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final scheme = Theme.of(context).colorScheme;
+
     return LayoutBuilder(
       builder: (_, constraints) => Padding(
         padding: EdgeInsets.only(
@@ -64,8 +65,8 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
           right: Consts.padding,
         ),
         child: Container(
-          decoration: new BoxDecoration(
-            color: AppTheme.bg,
+          decoration: BoxDecoration(
+            color: context.pageBackground,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
@@ -79,17 +80,17 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // To make the card compact
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
+                  child: SizedBox(
                     width: deviceWidth * 0.78,
                     child: Text(
                       context.l10n.selectWarehouseLabel,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppTheme.h1,
+                        color: context.primaryText,
                         fontSize: textScaleFactor * 16.0,
                       ),
                     ),
@@ -104,17 +105,24 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                       height: deviceHeight * 0.05,
                       alignment: Alignment.centerRight,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppTheme.white,
-                          border: Border.all(color: AppTheme.h1, width: 0.6)),
+                        borderRadius: BorderRadius.circular(5),
+                        color: scheme.surface,
+                        border: Border.all(
+                          color: scheme.outline,
+                          width: 0.6,
+                        ),
+                      ),
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 8.0, left: 8, top: 6),
+                        padding: const EdgeInsets.only(
+                          right: 8.0,
+                          left: 8,
+                          top: 6,
+                        ),
                         child: DropdownButton<String>(
                           hint: Text(
                             context.l10n.selectWarehouseMessage,
                             style: TextStyle(
-                              color: AppTheme.grey,
+                              color: context.secondaryText,
                               fontSize: textScaleFactor * 13.0,
                             ),
                           ),
@@ -123,13 +131,13 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: Icon(
                               Icons.arrow_drop_down,
-                              color: AppTheme.black,
+                              color: scheme.onSurface,
                               size: 20,
                             ),
                           ),
-                          dropdownColor: AppTheme.white,
+                          dropdownColor: scheme.surface,
                           style: TextStyle(
-                            color: AppTheme.black,
+                            color: scheme.onSurface,
                             fontSize: textScaleFactor * 13.0,
                           ),
                           isDense: true,
@@ -152,7 +160,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                                     value,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: scheme.onSurface,
                                       fontSize: textScaleFactor * 13.0,
                                     ),
                                   ),
@@ -165,7 +173,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40.0),
+                const SizedBox(height: 40.0),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Builder(
@@ -181,8 +189,8 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                           width: constraints.maxWidth * 0.8,
                           decoration: BoxDecoration(
                             color: selectedStore != null
-                                ? AppTheme.primary
-                                : Colors.grey,
+                                ? context.brandPrimary
+                                : scheme.onSurfaceVariant,
                           ),
                           child: Center(
                             child: Padding(
@@ -190,7 +198,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                               child: Text(
                                 context.l10n.confirmLabel,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: scheme.onPrimary,
                                   fontSize: textScaleFactor * 16,
                                 ),
                               ),

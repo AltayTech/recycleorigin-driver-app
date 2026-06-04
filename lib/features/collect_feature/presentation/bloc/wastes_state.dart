@@ -17,6 +17,8 @@ class WastesState {
     required this.sOrder,
     required this.sOrderBy,
     required this.sCategory,
+    required this.sDateFrom,
+    required this.sDateTo,
   });
 
   final List<WasteCart> wasteCartItems;
@@ -31,6 +33,8 @@ class WastesState {
   final String sOrder;
   final String sOrderBy;
   final Object? sCategory;
+  final String sDateFrom;
+  final String sDateTo;
 
   WastesState copyWith({
     List<WasteCart>? wasteCartItems,
@@ -45,6 +49,8 @@ class WastesState {
     String? sOrder,
     String? sOrderBy,
     Object? sCategory,
+    String? sDateFrom,
+    String? sDateTo,
     bool clearRequestWasteItem = false,
     bool clearSearchDetails = false,
   }) {
@@ -64,6 +70,8 @@ class WastesState {
       sOrder: sOrder ?? this.sOrder,
       sOrderBy: sOrderBy ?? this.sOrderBy,
       sCategory: sCategory ?? this.sCategory,
+      sDateFrom: sDateFrom ?? this.sDateFrom,
+      sDateTo: sDateTo ?? this.sDateTo,
     );
   }
 
@@ -80,5 +88,7 @@ class WastesState {
         sOrder: 'desc',
         sOrderBy: 'date',
         sCategory: null,
+        sDateFrom: '',
+        sDateTo: '',
       );
 }

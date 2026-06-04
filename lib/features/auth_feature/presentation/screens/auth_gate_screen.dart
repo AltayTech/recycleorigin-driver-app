@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/email_verification_screen.dart';
@@ -59,7 +59,6 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
         systemNavigationBarContrastEnforced: false,
       ),
       child: Scaffold(
-        backgroundColor: AppTheme.bg,
         body: LayoutBuilder(
           builder: (context, constraints) {
             final w = constraints.maxWidth;
@@ -109,9 +108,15 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
                           context.l10n.splashTitle,
                           textAlign: TextAlign.center,
                           style: textTheme.headlineSmall?.copyWith(
-                            color: AppTheme.h1,
+                            color: Colors.white,
                             fontWeight: FontWeight.w600,
                             height: 1.25,
+                            shadows: const <Shadow>[
+                              Shadow(
+                                blurRadius: 8,
+                                color: Colors.black54,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -121,7 +126,7 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
                         height: 28,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
-                          color: AppTheme.primary,
+                          color: context.brandPrimary,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -134,7 +139,7 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
                           ),
                           textAlign: TextAlign.center,
                           style: textTheme.bodySmall?.copyWith(
-                            color: AppTheme.h1.withValues(alpha: 0.65),
+                            color: Colors.white.withValues(alpha: 0.85),
                           ),
                         ),
                       ),

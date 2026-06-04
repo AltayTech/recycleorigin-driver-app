@@ -4,38 +4,21 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
 
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class CollectItemStoreCollectsScreen extends StatelessWidget {
-  Widget getStatusIcon(String statusSlug) {
-    Widget icon = Icon(
-      Icons.access_time,
-      color: AppTheme.accent,
-//      size: 35,
-    );
-
-    if (statusSlug == 'delivery_request') {
-      icon = Icon(
-        Icons.access_time,
-        color: AppTheme.accent,
-//        size: 25,
-      );
-    } else if (statusSlug == 'delivery_done') {
-      icon = Icon(
+  Widget getStatusIcon(BuildContext context, String statusSlug) {
+    if (statusSlug == 'delivery_done') {
+      return Icon(
         Icons.check_circle,
-        color: AppTheme.primary,
-//        size: 35,
-      );
-    } else {
-      icon = Icon(
-        Icons.access_time,
-        color: AppTheme.accent,
-//        size: 35,
+        color: context.brandPrimary,
       );
     }
-
-    return icon;
+    return Icon(
+      Icons.access_time,
+      color: Theme.of(context).colorScheme.tertiary,
+    );
   }
 
   @override
@@ -45,6 +28,8 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final collect = Provider.of<DeliveryWasteItem>(context, listen: false);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
+
+    final scheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -60,9 +45,14 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
 //                );
               },
               child: Container(
-                decoration: AppTheme.listItemBox.copyWith(
-                    color: AppTheme.white,
-                    border: Border.all(color: AppTheme.white)),
+                decoration: BoxDecoration(
+                  color: scheme.surface,
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: scheme.outlineVariant,
+                    width: 0.3,
+                  ),
+                ),
                 height: constraints.maxHeight,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -80,7 +70,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                       const EdgeInsets.only(left: 8, bottom: 4),
                                   child: Icon(
                                     Icons.date_range,
-                                    color: AppTheme.primary,
+                                    color: context.brandPrimary,
                                   ),
                                 ),
                                 Text(
@@ -88,7 +78,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                   maxLines: 1,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
@@ -98,7 +88,8 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Center(
-                                child: getStatusIcon(collect.status.slug)),
+                                child: getStatusIcon(
+                                    context, collect.status.slug)),
                           ),
                         ],
                       ),
@@ -119,7 +110,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: AppTheme.black,
+                                        color: context.primaryText,
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                     ),
@@ -129,7 +120,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: AppTheme.grey,
+                                      color: context.secondaryText,
                                       fontSize: textScaleFactor * 10.0,
                                     ),
                                   ),
@@ -153,7 +144,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 15.0,
                                     ),
                                   ),
@@ -162,7 +153,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      color: AppTheme.grey,
+                                      color: context.secondaryText,
                                       fontSize: textScaleFactor * 11.0,
                                     ),
                                   ),
@@ -176,7 +167,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.primaryText,
                                   fontSize: textScaleFactor * 12.0,
                                 ),
                               ),

@@ -165,7 +165,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.wasteCart.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
           .isAdded = event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
@@ -185,7 +185,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
         final c = event.wastesCart[i];
         list.add(
           WasteCart(
-            pasmand: c.pasmand,
+            waste: c.waste,
             estimated_weight: c.estimated_weight,
             estimated_price: c.estimated_price,
             exact_price: c.estimated_price,
@@ -209,11 +209,10 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
+          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
           .exact_weight = event.exactWeight.toString();
-      next
-          .firstWhere((prod) => prod.pasmand.id == event.waste.pasmand.id)
-          .isAdded = event.isAdded;
+      next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -229,7 +228,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
         state.wasteCartItems
-            .firstWhere((prod) => prod.pasmand.id == event.wasteId),
+            .firstWhere((prod) => prod.waste.id == event.wasteId),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();

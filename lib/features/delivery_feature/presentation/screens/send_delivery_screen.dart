@@ -15,7 +15,7 @@ import 'package:recycleorigindriver/core/widgets/custom_dialog_send_request.dart
 import 'package:recycleorigindriver/core/widgets/header_total.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
@@ -273,19 +273,13 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin = context.read<AuthBloc>().state.isAuth;
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.requestDetailTitle,
-          style: TextStyle(
-            color: AppTheme.white,
-          ),
-        ),
+        title: Text(context.l10n.requestDetailTitle),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
         return Padding(
@@ -316,7 +310,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                   0
                               ? Container(
                                   decoration: BoxDecoration(
-                                    color: AppTheme.white,
+                                    color: scheme.surface,
                                     borderRadius: BorderRadius.circular(2),
                                   ),
                                   child: Column(
@@ -332,7 +326,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                               child: Text(
                                                 context.l10n.typeLabel,
                                                 style: TextStyle(
-                                                  color: AppTheme.grey,
+                                                  color: context.secondaryText,
                                                   fontSize:
                                                       textScaleFactor * 12,
                                                 ),
@@ -343,7 +337,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                               child: Text(
                                                 context.l10n.weightKgLabel,
                                                 style: TextStyle(
-                                                  color: AppTheme.grey,
+                                                  color: context.secondaryText,
                                                   fontSize:
                                                       textScaleFactor * 12,
                                                 ),
@@ -354,7 +348,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                               child: Text(
                                                 context.l10n.priceTomanLabel,
                                                 style: TextStyle(
-                                                  color: AppTheme.grey,
+                                                  color: context.secondaryText,
                                                   fontSize:
                                                       textScaleFactor * 12,
                                                 ),
@@ -367,7 +361,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                       Container(
                                         height: deviceHeight * 0.6,
                                         decoration: BoxDecoration(
-                                          color: AppTheme.white,
+                                          color: scheme.surface,
                                           borderRadius:
                                               BorderRadius.circular(2),
                                         ),

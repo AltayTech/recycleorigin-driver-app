@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/screens/collect_detail_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -29,6 +29,8 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
@@ -44,7 +46,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppTheme.black,
+                      color: context.primaryText,
                       fontSize: textScaleFactor * 15.0,
                     ),
                   ),
@@ -58,7 +60,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: AppTheme.white,
+                        color: scheme.surface,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: headColor, width: 1)),
                     height: constraints.maxHeight * 0.650,
@@ -82,7 +84,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
@@ -93,7 +95,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
@@ -104,7 +106,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 12.0,
                                     ),
                                   ),
@@ -124,7 +126,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   maxLines: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),
@@ -135,7 +137,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   maxLines: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),
@@ -146,7 +148,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                                   maxLines: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                 ),

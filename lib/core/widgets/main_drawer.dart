@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/app_theme_extensions.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/features/about_feature/presentation/about_us_screen.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -9,10 +10,11 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/features/contact_feature/presentation/contact_with_us_screen.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
+import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_today_screen.dart';
+import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/screens/statistics_screen.dart';
-import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
 import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -30,8 +32,6 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   static const double _horizontalPadding = 14;
   static const double _tileRadius = 16;
-  static const Color _heroGradientEnd = Color(0xFF1F8B61);
-
   String _appVersion = 'v1.0.0';
 
   @override
@@ -65,24 +65,27 @@ class _MainDrawerState extends State<MainDrawer> {
     required Driver? driver,
   }) {
     final l10n = context.l10n;
+    final driverColors = context.driverColors;
+    final primary = context.brandPrimary;
 
     if (!isAuthenticated) {
-      return Container(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: <Color>[AppTheme.primary, _heroGradientEnd],
-          ),
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _navigateToRoute(LoginScreen.routeName),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[primary, driverColors.heroGradientEnd],
+              ),
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(24),
+              ),
+            ),
+            child: Row(
               children: [
                 Container(
                   height: 56,
@@ -131,26 +134,14 @@ class _MainDrawerState extends State<MainDrawer> {
                     ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _QuickActionChip(
-                  icon: Icons.settings_rounded,
-                  label: l10n.settingsTitle,
-                  onTap: () => _navigateToRoute(SettingsScreen.routeName),
-                ),
-                _QuickActionChip(
-                  icon: Icons.login_rounded,
-                  label: l10n.loginLabel,
-                  onTap: () => _navigateToRoute(LoginScreen.routeName),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: Colors.white.withValues(alpha: 0.7),
+                  size: 24,
                 ),
               ],
             ),
-          ],
+          ),
         ),
       );
     }
@@ -176,22 +167,23 @@ class _MainDrawerState extends State<MainDrawer> {
             ? mobile
             : l10n.settingsScreenIntro;
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[AppTheme.primary, _heroGradientEnd],
-        ),
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _navigateToRoute(PersonalInfoScreen.routeName),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[primary, driverColors.heroGradientEnd],
+            ),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(24),
+            ),
+          ),
+          child: Row(
             children: [
               Container(
                 height: 56,
@@ -251,26 +243,14 @@ class _MainDrawerState extends State<MainDrawer> {
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _QuickActionChip(
-                icon: Icons.settings_rounded,
-                label: l10n.settingsTitle,
-                onTap: () => _navigateToRoute(SettingsScreen.routeName),
-              ),
-              _QuickActionChip(
-                icon: Icons.person_rounded,
-                label: l10n.userProfileLabel,
-                onTap: () => _navigateToRoute(CustomerUserInfoScreen.routeName),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white.withValues(alpha: 0.7),
+                size: 24,
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -394,9 +374,8 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().driver = parentContext
-                    .read<CustomerInfoBloc>()
-                    .driverZero;
+                parentContext.read<CustomerInfoBloc>().driver =
+                    parentContext.read<CustomerInfoBloc>().driverZero;
                 await parentContext.read<AuthBloc>().removeToken();
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
@@ -483,6 +462,8 @@ class _MainDrawerState extends State<MainDrawer> {
     final currentRouteName = ModalRoute.of(context)?.settings.name ?? '';
     final l10n = context.l10n;
 
+    final primary = context.brandPrimary;
+
     return Drawer(
       elevation: 0,
       child: Container(
@@ -491,8 +472,8 @@ class _MainDrawerState extends State<MainDrawer> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              AppTheme.primary,
-              AppTheme.primary.withValues(alpha: 0.92),
+              primary,
+              primary.withValues(alpha: 0.92),
             ],
           ),
         ),
@@ -513,7 +494,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _buildSectionTitle(l10n.homeTabLabel),
+                    _buildSectionTitle(l10n.activitySectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.home_rounded,
@@ -533,6 +514,30 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
+                        icon: Icons.bar_chart_rounded,
+                        title: l10n.statisticsLabel,
+                        routeName: PerformanceScreen.routeName,
+                      ),
+                      selected:
+                          currentRouteName == PerformanceScreen.routeName ||
+                              currentRouteName == StatisticsScreen.routeName,
+                      destructive: false,
+                      onTap: () =>
+                          _navigateToRoute(PerformanceScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.route_rounded,
+                        title: l10n.myRouteLabel,
+                        routeName: RouteTodayScreen.routeName,
+                      ),
+                      selected: currentRouteName == RouteTodayScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(RouteTodayScreen.routeName),
+                    ),
+                    _buildSectionTitle(l10n.preferencesSectionTitle),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
                         icon: Icons.settings_rounded,
                         title: l10n.settingsTitle,
                         routeName: SettingsScreen.routeName,
@@ -541,17 +546,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(SettingsScreen.routeName),
                     ),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
-                        icon: Icons.bar_chart_rounded,
-                        title: l10n.statisticsLabel,
-                        routeName: StatisticsScreen.routeName,
-                      ),
-                      selected: currentRouteName == StatisticsScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(StatisticsScreen.routeName),
-                    ),
-                    _buildSectionTitle(l10n.guideLabel),
+                    _buildSectionTitle(l10n.supportSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.menu_book_rounded,
@@ -587,19 +582,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
-                        icon: Icons.notifications_outlined,
-                        title: 'Notifications',
-                        routeName: DriverNotificationScreen.routeName,
-                      ),
-                      selected: currentRouteName ==
-                          DriverNotificationScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(
-                        DriverNotificationScreen.routeName,
-                      ),
-                    ),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
                         icon: Icons.info_outline_rounded,
                         title: l10n.aboutUsLabel,
                         routeName: AboutUsScreen.routeName,
@@ -613,34 +595,20 @@ class _MainDrawerState extends State<MainDrawer> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildSectionTitle(
-                              authState.isAuth
-                                  ? l10n.userProfileLabel
-                                  : l10n.loginLabel,
-                            ),
-                            _buildDestinationTile(
-                              destination: _DrawerDestination(
-                                icon: authState.isAuth
-                                    ? Icons.person_rounded
-                                    : Icons.login_rounded,
-                                title: authState.isAuth
-                                    ? l10n.userProfileLabel
-                                    : l10n.loginLabel,
-                                routeName: authState.isAuth
-                                    ? CustomerUserInfoScreen.routeName
-                                    : LoginScreen.routeName,
+                            _buildSectionTitle(l10n.accountSectionTitle),
+                            if (!authState.isAuth)
+                              _buildDestinationTile(
+                                destination: _DrawerDestination(
+                                  icon: Icons.login_rounded,
+                                  title: l10n.loginLabel,
+                                  routeName: LoginScreen.routeName,
+                                ),
+                                selected:
+                                    currentRouteName == LoginScreen.routeName,
+                                destructive: false,
+                                onTap: () =>
+                                    _navigateToRoute(LoginScreen.routeName),
                               ),
-                              selected: currentRouteName ==
-                                  (authState.isAuth
-                                      ? CustomerUserInfoScreen.routeName
-                                      : LoginScreen.routeName),
-                              destructive: false,
-                              onTap: () => _navigateToRoute(
-                                authState.isAuth
-                                    ? CustomerUserInfoScreen.routeName
-                                    : LoginScreen.routeName,
-                              ),
-                            ),
                             if (authState.isAuth)
                               _buildDestinationTile(
                                 destination: _DrawerDestination(
@@ -688,48 +656,6 @@ class _MainDrawerState extends State<MainDrawer> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickActionChip extends StatelessWidget {
-  const _QuickActionChip({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withValues(alpha: 0.16),
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: Colors.white, size: 16),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

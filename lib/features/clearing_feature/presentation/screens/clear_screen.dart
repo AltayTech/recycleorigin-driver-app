@@ -10,7 +10,7 @@ import 'package:recycleorigindriver/features/clearing_feature/presentation/widge
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/customer.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_state.dart';
@@ -146,19 +146,15 @@ class _ClearScreenState extends State<ClearScreen>
 
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.settlementRequestTitle,
-          style: TextStyle(),
-        ),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        title: Text(context.l10n.settlementRequestTitle),
         elevation: 0,
         centerTitle: true,
-        actions: <Widget>[],
+        actions: const <Widget>[],
       ),
       body: Builder(
         builder: (context) {
@@ -192,7 +188,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 ),
                                 decoration: BoxDecoration(
-                                    color: AppTheme.primary,
+                                    color: context.brandPrimary,
                                     borderRadius: BorderRadius.circular(5)),
                               ),
                             )
@@ -201,7 +197,7 @@ class _ClearScreenState extends State<ClearScreen>
                       ),
                     )
                   : Container(
-                      color: AppTheme.bg,
+                      color: context.pageBackground,
                       height: deviceHeight * 0.9,
                       child: Stack(
                         children: <Widget>[
@@ -214,11 +210,11 @@ class _ClearScreenState extends State<ClearScreen>
                                       const EdgeInsets.only(top: 10, bottom: 4),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: scheme.surface,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: AppTheme.primary
-                                                .withOpacity(0.08),
+                                            color: context.brandPrimary
+                                                .withValues(alpha: 0.08),
                                             blurRadius: 10.10,
                                             spreadRadius: 10.510,
                                             offset: Offset(
@@ -237,7 +233,7 @@ class _ClearScreenState extends State<ClearScreen>
                                           Text(
                                             context.l10n.pointsLabel,
                                             style: TextStyle(
-                                              color: AppTheme.grey,
+                                              color: context.secondaryText,
                                               fontSize: textScaleFactor * 13.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -259,7 +255,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                   ),
                                                 ),
                                                 style: TextStyle(
-                                                  color: AppTheme.black,
+                                                  color: context.primaryText,
                                                   fontWeight: FontWeight.w700,
                                                   fontSize:
                                                       textScaleFactor * 18.0,
@@ -271,7 +267,7 @@ class _ClearScreenState extends State<ClearScreen>
                                           Text(
                                             context.l10n.tomanLabel,
                                             style: TextStyle(
-                                              color: AppTheme.grey,
+                                              color: context.secondaryText,
                                               fontSize: textScaleFactor * 13.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -288,7 +284,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     context.l10n.shebaNumberLabel,
                                     textDirection: TextDirection.ltr,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -296,7 +292,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 TextFormField(
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: AppTheme.h1,
+                                    color: context.primaryText,
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                   textDirection: TextDirection.ltr,
@@ -315,7 +311,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
                                         width: 0,
-                                        color: Colors.white,
+                                        color: scheme.surface,
                                       ),
                                     ),
                                     labelStyle: TextStyle(
@@ -330,7 +326,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Text(
                                     context.l10n.requestedAmountToman,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -340,7 +336,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: TextFormField(
                                     maxLines: 1,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.primaryText,
                                       fontSize: textScaleFactor * 16.0,
                                     ),
                                     keyboardType: TextInputType.number,
@@ -358,7 +354,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         borderRadius: BorderRadius.circular(30),
                                         borderSide: BorderSide(
                                           width: 0,
-                                          color: Colors.white,
+                                          color: scheme.surface,
                                         ),
                                       ),
                                       labelStyle: TextStyle(
@@ -377,7 +373,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
-                                      color: AppTheme.bg,
+                                      color: context.pageBackground,
                                     ),
                                     child: Column(
                                       children: <Widget>[
@@ -392,7 +388,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                 context.l10n.requestListTitle,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  color: AppTheme.black
+                                                  color: context.primaryText
                                                       .withOpacity(0.5),
                                                   fontSize:
                                                       textScaleFactor * 14.0,
@@ -532,7 +528,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                     context.l10n.statusLabel,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                      color: AppTheme.grey,
+                                                      color:
+                                                          context.secondaryText,
                                                       fontSize:
                                                           textScaleFactor *
                                                               12.0,
@@ -550,7 +547,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                         .l10n.amountTomanLabel,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                      color: AppTheme.grey,
+                                                      color:
+                                                          context.secondaryText,
                                                       fontSize:
                                                           textScaleFactor *
                                                               12.0,
@@ -563,6 +561,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                         Divider(
                                           height: 1,
+                                          color: scheme.outlineVariant,
                                         ),
                                         Container(
                                           width: double.infinity,

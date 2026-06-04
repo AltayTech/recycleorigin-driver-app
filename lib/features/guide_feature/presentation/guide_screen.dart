@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:recycleorigindriver/core/models/shop.dart';
-import 'package:recycleorigindriver/core/theme/app_theme.dart';
+import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -70,7 +70,10 @@ class _GuideScreenState extends State<GuideScreen> {
       _GuideSection(title: l10n.privacyPolicyLabel, html: shop.privacy),
       _GuideSection(title: l10n.howToOrderLabel, html: shop.how_to_order),
       _GuideSection(title: l10n.faqLabel, html: shop.faq),
-      _GuideSection(title: l10n.paymentMethodLabel, html: shop.pay_methods_desc),
+      _GuideSection(
+        title: l10n.paymentMethodLabel,
+        html: shop.pay_methods_desc,
+      ),
     ];
   }
 
@@ -78,23 +81,15 @@ class _GuideScreenState extends State<GuideScreen> {
   Widget build(BuildContext context) {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final shop = context.watch<CustomerInfoBloc>().state.shop;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppTheme.white,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.guideLabel,
-          style: TextStyle(
-            color: AppTheme.bg,
-            fontSize: textScale * 18,
-          ),
-        ),
+        title: Text(context.l10n.guideLabel),
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      body: _buildBody(context, shop, textScale),
+      body: _buildBody(context, shop, textScale, scheme),
       drawer: mainDrawerIfRootRoute(context),
     );
   }
@@ -103,11 +98,12 @@ class _GuideScreenState extends State<GuideScreen> {
     BuildContext context,
     Shop? shop,
     double textScale,
+    ColorScheme scheme,
   ) {
     if (_loading) {
       return Center(
         child: SpinKitFadingCircle(
-          color: AppTheme.bg,
+          color: scheme.primary,
           size: 48,
         ),
       );
@@ -119,7 +115,11 @@ class _GuideScreenState extends State<GuideScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.wifi_off_rounded, size: 48, color: AppTheme.grey),
+              Icon(
+                Icons.wifi_off_rounded,
+                size: 48,
+                color: context.secondaryText,
+              ),
               const SizedBox(height: 16),
               Text(
                 context.l10n.guideLabel,
@@ -130,7 +130,10 @@ class _GuideScreenState extends State<GuideScreen> {
                 const SizedBox(height: 8),
                 Text(
                   _errorMessage!,
-                  style: TextStyle(color: AppTheme.grey, fontSize: textScale * 13),
+                  style: TextStyle(
+                    color: context.secondaryText,
+                    fontSize: textScale * 13,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -151,7 +154,7 @@ class _GuideScreenState extends State<GuideScreen> {
 
     return RefreshIndicator(
       onRefresh: _load,
-      color: AppTheme.bg,
+      color: scheme.primary,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
@@ -170,18 +173,22 @@ class _GuideScreenState extends State<GuideScreen> {
                     errorBuilder: (_, __, ___) => Icon(
                       Icons.storefront_rounded,
                       size: 64,
-                      color: AppTheme.grey,
+                      color: context.secondaryText,
                     ),
                   ),
                 ),
               )
             else
-              Icon(Icons.recycling_rounded, size: 64, color: AppTheme.bg),
+              Icon(
+                Icons.recycling_rounded,
+                size: 64,
+                color: scheme.primary,
+              ),
             const SizedBox(height: 16),
             Text(
               shop.name.isNotEmpty ? shop.name : context.l10n.guideLabel,
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.primaryText,
                 fontFamily: 'BFarnaz',
                 fontSize: textScale * 22,
               ),
@@ -192,7 +199,7 @@ class _GuideScreenState extends State<GuideScreen> {
               Text(
                 shop.subject,
                 style: TextStyle(
-                  color: AppTheme.grey,
+                  color: context.secondaryText,
                   fontSize: textScale * 15,
                 ),
                 textAlign: TextAlign.center,
@@ -208,7 +215,7 @@ class _GuideScreenState extends State<GuideScreen> {
                     title: Text(
                       s.title,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: scheme.onSurface,
                         fontSize: textScale * 15,
                       ),
                     ),
@@ -220,12 +227,14 @@ class _GuideScreenState extends State<GuideScreen> {
                           child: s.html.trim().isEmpty
                               ? Text(
                                   '—',
-                                  style: TextStyle(color: AppTheme.grey),
+                                  style: TextStyle(
+                                    color: context.secondaryText,
+                                  ),
                                 )
                               : HtmlWidget(
                                   s.html,
                                   textStyle: TextStyle(
-                                    color: AppTheme.black,
+                                    color: scheme.onSurface,
                                     fontSize: textScale * 14,
                                     height: 1.45,
                                   ),

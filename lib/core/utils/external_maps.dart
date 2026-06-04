@@ -33,7 +33,8 @@ final class ExternalMaps {
 
     try {
       if (await canLaunchUrl(google)) {
-        final ok = await launchUrl(google, mode: LaunchMode.externalApplication);
+        final ok =
+            await launchUrl(google, mode: LaunchMode.externalApplication);
         if (ok) {
           return true;
         }
