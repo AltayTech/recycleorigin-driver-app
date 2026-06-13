@@ -42,7 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statisticsLabel => 'Statistics';
 
   @override
-  String get guideLabel => 'Guide';
+  String get guideLabel => 'Help';
 
   @override
   String get contactUsLabel => 'Contact us';
@@ -161,6 +161,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howToOrderLabel => 'How to order';
+
+  @override
+  String get guideHowToUseLabel => 'Using the app';
+
+  @override
+  String get guideHowItWorksTitle => 'How it works';
+
+  @override
+  String get guidePoliciesSectionTitle => 'Policies & FAQ';
+
+  @override
+  String get guideLoadErrorMessage =>
+      'Could not load help content. Check your connection and try again.';
+
+  @override
+  String get guideStepCollectionTitle => 'Collection requests';
+
+  @override
+  String get guideStepCollectionSubtitle =>
+      'View and complete assigned pickups from the Collection tab.';
+
+  @override
+  String get guideStepRouteTitle => 'Today\'s route';
+
+  @override
+  String get guideStepRouteSubtitle =>
+      'Follow optimized stops and mark arrivals and completions.';
+
+  @override
+  String get guideStepWarehouseTitle => 'Warehouse delivery';
+
+  @override
+  String get guideStepWarehouseSubtitle =>
+      'Deliver collected waste to the warehouse from the Warehouse tab.';
+
+  @override
+  String get guideStepWalletTitle => 'Wallet & earnings';
+
+  @override
+  String get guideStepWalletSubtitle =>
+      'Track balance and transaction history in Wallet.';
+
+  @override
+  String get guideStepPerformanceTitle => 'Performance';
+
+  @override
+  String get guideStepPerformanceSubtitle =>
+      'View stats, goals, and achievements on the Performance tab.';
+
+  @override
+  String get guideStepSupportTitle => 'Support';
+
+  @override
+  String get guideStepSupportSubtitle =>
+      'Open a ticket when you need help from the team.';
 
   @override
   String get faqLabel => 'Frequently asked questions';

@@ -42,7 +42,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statisticsLabel => 'الإحصائيات';
 
   @override
-  String get guideLabel => 'الدليل';
+  String get guideLabel => 'المساعدة';
 
   @override
   String get contactUsLabel => 'اتصل بنا';
@@ -161,6 +161,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get howToOrderLabel => 'كيفية الطلب';
+
+  @override
+  String get guideHowToUseLabel => 'استخدام التطبيق';
+
+  @override
+  String get guideHowItWorksTitle => 'كيف يعمل';
+
+  @override
+  String get guidePoliciesSectionTitle => 'السياسات والأسئلة الشائعة';
+
+  @override
+  String get guideLoadErrorMessage =>
+      'تعذر تحميل محتوى المساعدة. تحقق من الاتصال وحاول مرة أخرى.';
+
+  @override
+  String get guideStepCollectionTitle => 'طلبات الجمع';
+
+  @override
+  String get guideStepCollectionSubtitle =>
+      'اعرض وأكمل عمليات الاستلام المعينة من تبويب الجمع.';
+
+  @override
+  String get guideStepRouteTitle => 'مسار اليوم';
+
+  @override
+  String get guideStepRouteSubtitle =>
+      'اتبع المحطات المحسّنة وسجّل الوصول والإكمال.';
+
+  @override
+  String get guideStepWarehouseTitle => 'التسليم للمستودع';
+
+  @override
+  String get guideStepWarehouseSubtitle =>
+      'سلّم النفايات المجمّعة من تبويب المستودع.';
+
+  @override
+  String get guideStepWalletTitle => 'المحفظة والأرباح';
+
+  @override
+  String get guideStepWalletSubtitle =>
+      'تتبع الرصيد وسجل المعاملات في المحفظة.';
+
+  @override
+  String get guideStepPerformanceTitle => 'الأداء';
+
+  @override
+  String get guideStepPerformanceSubtitle =>
+      'اعرض الإحصائيات والأهداف والإنجازات في تبويب الأداء.';
+
+  @override
+  String get guideStepSupportTitle => 'الدعم';
+
+  @override
+  String get guideStepSupportSubtitle =>
+      'افتح تذكرة عندما تحتاج مساعدة من الفريق.';
 
   @override
   String get faqLabel => 'الأسئلة الشائعة';

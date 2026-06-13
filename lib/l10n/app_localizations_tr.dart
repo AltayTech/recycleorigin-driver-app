@@ -42,7 +42,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get statisticsLabel => 'Istatistik';
 
   @override
-  String get guideLabel => 'Rehber';
+  String get guideLabel => 'Yardim';
 
   @override
   String get contactUsLabel => 'Bize ulasin';
@@ -163,6 +163,61 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get howToOrderLabel => 'Nasil siparis verilir';
+
+  @override
+  String get guideHowToUseLabel => 'Uygulamayi kullanma';
+
+  @override
+  String get guideHowItWorksTitle => 'Nasil calisir';
+
+  @override
+  String get guidePoliciesSectionTitle => 'Politikalar ve SSS';
+
+  @override
+  String get guideLoadErrorMessage =>
+      'Yardim icerigi yuklenemedi. Baglantinizi kontrol edip tekrar deneyin.';
+
+  @override
+  String get guideStepCollectionTitle => 'Toplama talepleri';
+
+  @override
+  String get guideStepCollectionSubtitle =>
+      'Toplama sekmesinden atanan alimlari goruntuleyin ve tamamlayin.';
+
+  @override
+  String get guideStepRouteTitle => 'Gunluk rota';
+
+  @override
+  String get guideStepRouteSubtitle =>
+      'Optimize duraklari takip edin; varis ve tamamlamayi isaretleyin.';
+
+  @override
+  String get guideStepWarehouseTitle => 'Depoya teslim';
+
+  @override
+  String get guideStepWarehouseSubtitle =>
+      'Toplanan atigi Depo sekmesinden teslim edin.';
+
+  @override
+  String get guideStepWalletTitle => 'Cuzdan ve kazanc';
+
+  @override
+  String get guideStepWalletSubtitle =>
+      'Bakiye ve islem gecmisini Cuzdan\'da takip edin.';
+
+  @override
+  String get guideStepPerformanceTitle => 'Performans';
+
+  @override
+  String get guideStepPerformanceSubtitle =>
+      'Istatistik, hedef ve basarilari Performans sekmesinde gorun.';
+
+  @override
+  String get guideStepSupportTitle => 'Destek';
+
+  @override
+  String get guideStepSupportSubtitle =>
+      'Ekibden yardim gerektiginde destek talebi acin.';
 
   @override
   String get faqLabel => 'Sik sorulan sorular';

@@ -169,7 +169,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideLabel.
   ///
   /// In en, this message translates to:
-  /// **'Guide'**
+  /// **'Help'**
   String get guideLabel;
 
   /// No description provided for @contactUsLabel.
@@ -405,6 +405,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How to order'**
   String get howToOrderLabel;
+
+  /// No description provided for @guideHowToUseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Using the app'**
+  String get guideHowToUseLabel;
+
+  /// No description provided for @guideHowItWorksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get guideHowItWorksTitle;
+
+  /// No description provided for @guidePoliciesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Policies & FAQ'**
+  String get guidePoliciesSectionTitle;
+
+  /// No description provided for @guideLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load help content. Check your connection and try again.'**
+  String get guideLoadErrorMessage;
+
+  /// No description provided for @guideStepCollectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection requests'**
+  String get guideStepCollectionTitle;
+
+  /// No description provided for @guideStepCollectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View and complete assigned pickups from the Collection tab.'**
+  String get guideStepCollectionSubtitle;
+
+  /// No description provided for @guideStepRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s route'**
+  String get guideStepRouteTitle;
+
+  /// No description provided for @guideStepRouteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow optimized stops and mark arrivals and completions.'**
+  String get guideStepRouteSubtitle;
+
+  /// No description provided for @guideStepWarehouseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse delivery'**
+  String get guideStepWarehouseTitle;
+
+  /// No description provided for @guideStepWarehouseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deliver collected waste to the warehouse from the Warehouse tab.'**
+  String get guideStepWarehouseSubtitle;
+
+  /// No description provided for @guideStepWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet & earnings'**
+  String get guideStepWalletTitle;
+
+  /// No description provided for @guideStepWalletSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track balance and transaction history in Wallet.'**
+  String get guideStepWalletSubtitle;
+
+  /// No description provided for @guideStepPerformanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get guideStepPerformanceTitle;
+
+  /// No description provided for @guideStepPerformanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View stats, goals, and achievements on the Performance tab.'**
+  String get guideStepPerformanceSubtitle;
+
+  /// No description provided for @guideStepSupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get guideStepSupportTitle;
+
+  /// No description provided for @guideStepSupportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a ticket when you need help from the team.'**
+  String get guideStepSupportSubtitle;
 
   /// No description provided for @faqLabel.
   ///

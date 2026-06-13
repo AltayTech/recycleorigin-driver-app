@@ -10,6 +10,7 @@ import 'package:recycleorigindriver/features/contact_feature/presentation/contac
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigindriver/features/driver_notifications/driver_notification_screen.dart';
+import 'package:recycleorigindriver/features/support_tickets/presentation/driver_support_tickets_list_screen.dart';
 import 'package:recycleorigindriver/features/guide_feature/presentation/guide_screen.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/edit_personal_info_screen.dart';
 import 'package:recycleorigindriver/features/profile_feature/presentation/screens/personal_info_screen.dart';
@@ -243,6 +244,14 @@ class _ProfileScrollContent extends StatelessWidget {
                       onTap: () => _openRoute(
                         context,
                         GuideScreen.routeName,
+                      ),
+                    ),
+                    ProfileTile(
+                      icon: Icons.support_agent_outlined,
+                      title: l10n.supportTicketsLabel,
+                      onTap: () => _openRoute(
+                        context,
+                        DriverSupportTicketsListScreen.routeName,
                       ),
                     ),
                     ProfileTile(

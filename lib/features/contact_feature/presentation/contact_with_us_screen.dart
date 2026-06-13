@@ -32,31 +32,10 @@ class _ContactWithUsState extends State<ContactWithUs> {
 
   late Shop shopData;
 
-  List<String> aboutInfotitle = [];
-
-  List<String> aboutInfoContent = [];
-
   @override
   void didChangeDependencies() async {
     if (_isInit) {
       await searchItems();
-
-      aboutInfoContent = [
-        shopData.about,
-        shopData.return_policy,
-        shopData.privacy,
-        shopData.how_to_order,
-        shopData.faq,
-        shopData.pay_methods_desc
-      ];
-      aboutInfotitle = [
-        context.l10n.aboutStoreLabel,
-        context.l10n.returnPolicyLabel,
-        context.l10n.privacyPolicyLabel,
-        context.l10n.howToOrderLabel,
-        context.l10n.faqLabel,
-        context.l10n.paymentMethodLabel,
-      ];
     }
     _isInit = false;
 
