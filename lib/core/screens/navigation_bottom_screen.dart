@@ -13,6 +13,7 @@ import 'package:recycleorigindriver/features/profile_feature/presentation/screen
 import 'package:recycleorigindriver/features/home_feature/presentation/widgets/driver_session_header_banner.dart';
 import 'package:recycleorigindriver/features/performance_feature/presentation/screens/performance_screen.dart';
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
+import 'package:recycleorigindriver/core/navigation/driver_shell_tab_request.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -45,6 +46,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   @override
   void initState() {
     super.initState();
+    driverShellTabRequest.addListener(_applyPendingShellTab);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _applyPendingShellTab());
     // [BlocListener] only runs when first-login / first-logout *change* between
     // emissions. After a fresh login, [getToken] reloads storage while
     // [isFirstLogin] stays true, so listenWhen is false and the listener never
@@ -59,6 +62,23 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       }
       _consumeAuthSnackFlags(context, context.read<AuthBloc>().state);
     });
+  }
+
+  @override
+  void dispose() {
+    driverShellTabRequest.removeListener(_applyPendingShellTab);
+    super.dispose();
+  }
+
+  void _applyPendingShellTab() {
+    final index = driverShellTabRequest.value;
+    if (index == null || !mounted) {
+      return;
+    }
+    if (index >= 0 && index < _DriverShellTab.values.length) {
+      setState(() => _selectedIndex = index);
+    }
+    driverShellTabRequest.value = null;
   }
 
   void _consumeAuthSnackFlags(BuildContext context, AuthState state) {
