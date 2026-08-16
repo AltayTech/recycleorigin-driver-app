@@ -8,14 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppThemeController {
   static const String _prefsKeyThemeMode = 'app_theme_mode';
 
-  static const ThemeMode _defaultThemeMode = ThemeMode.system;
+  /// Production default: follow the device light/dark setting.
+  static const ThemeMode defaultThemeMode = ThemeMode.system;
 
   static final AppThemeController instance = AppThemeController._();
 
   AppThemeController._();
 
   final ValueNotifier<ThemeMode> themeModeNotifier =
-      ValueNotifier<ThemeMode>(_defaultThemeMode);
+      ValueNotifier<ThemeMode>(defaultThemeMode);
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -39,8 +40,9 @@ class AppThemeController {
       case 'dark':
         return ThemeMode.dark;
       case 'system':
-      default:
         return ThemeMode.system;
+      default:
+        return defaultThemeMode;
     }
   }
 
