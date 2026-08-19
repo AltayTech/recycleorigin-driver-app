@@ -83,10 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w900,
                                 color: Colors.white,
                                 shadows: const [
-                                  Shadow(
-                                    blurRadius: 14,
-                                    color: Colors.black54,
-                                  ),
+                                  Shadow(blurRadius: 14, color: Colors.black54),
                                 ],
                               ),
                               textAlign: TextAlign.center,
@@ -94,8 +91,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: _spacingXl),
                             Center(
                               child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 420),
+                                constraints: const BoxConstraints(
+                                  maxWidth: 420,
+                                ),
                                 child: const _AuthCard(),
                               ),
                             ),
@@ -145,9 +143,7 @@ class _AuthCardState extends State<_AuthCard> {
   static const double _spacingMd = 16;
   static const double _spacingLg = 24;
 
-  static final RegExp _emailRegex = RegExp(
-    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-  );
+  static final RegExp _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -244,18 +240,21 @@ class _AuthCardState extends State<_AuthCard> {
 
   void _routePostLogin(bool emailVerified) {
     if (!emailVerified) {
-      Navigator.of(context)
-          .pushReplacementNamed(EmailVerificationScreen.routeName);
+      Navigator.of(
+        context,
+      ).pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(context)
-        .pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   String _mapAuthError(AuthException error, AppLocalizations l10n) {
     switch (error.code) {
       case AuthErrorCodes.wrongPassword:
       case AuthErrorCodes.userNotFound:
+      case AuthErrorCodes.invalidCredential:
         return l10n.invalidCredentialsMessage;
       case AuthErrorCodes.invalidEmail:
         return l10n.authEmailInvalid;
@@ -322,9 +321,7 @@ class _AuthCardState extends State<_AuthCard> {
           color: colorScheme.primary,
           fontWeight: FontWeight.w600,
         ),
-        hintStyle: textTheme.bodyMedium?.copyWith(
-          color: subtitleColor,
-        ),
+        hintStyle: textTheme.bodyMedium?.copyWith(color: subtitleColor),
       ),
     );
 
@@ -424,9 +421,9 @@ class _AuthCardState extends State<_AuthCard> {
                   child: TextButton(
                     onPressed: _isLoading
                         ? null
-                        : () => Navigator.of(context).pushNamed(
-                              ForgotPasswordScreen.routeName,
-                            ),
+                        : () => Navigator.of(
+                            context,
+                          ).pushNamed(ForgotPasswordScreen.routeName),
                     child: Text(l10n.authForgotPasswordLink),
                   ),
                 ),
@@ -506,9 +503,9 @@ class _AuthCardState extends State<_AuthCard> {
                 TextButton(
                   onPressed: _isLoading
                       ? null
-                      : () => Navigator.of(context).pushNamed(
-                            RegisterScreen.routeName,
-                          ),
+                      : () => Navigator.of(
+                          context,
+                        ).pushNamed(RegisterScreen.routeName),
                   child: Text(
                     l10n.authNotRegisteredPrompt,
                     style: textTheme.bodyMedium?.copyWith(

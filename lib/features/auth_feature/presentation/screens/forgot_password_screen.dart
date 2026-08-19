@@ -68,9 +68,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   String _mapAuthError(AuthException error, AppLocalizations l10n) {
@@ -78,6 +78,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       case AuthErrorCodes.invalidEmail:
         return l10n.authEmailInvalid;
       case AuthErrorCodes.userNotFound:
+      case AuthErrorCodes.invalidCredential:
         return l10n.invalidCredentialsMessage;
       case AuthErrorCodes.networkRequestFailed:
         return l10n.authNetworkError;
@@ -93,9 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.authForgotPasswordTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.authForgotPasswordTitle)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(_spacingLg),

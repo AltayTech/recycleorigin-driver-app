@@ -24,7 +24,7 @@ class RouteMapScreen extends StatelessWidget {
         children: <Widget>[
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.recycleorigin.driver',
+            userAgentPackageName: 'com.recycleorigin.recycleorigindriver',
           ),
           PolylineLayer(
             polylines: <Polyline>[

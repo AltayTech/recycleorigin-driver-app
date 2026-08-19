@@ -32,10 +32,10 @@ android {
     namespace "com.recycleorigin.recycleorigindriver"
 
     ndkVersion = "28.2.13676358"
-    ext.kotlin_version = '2.4.0'
 
-    // Google Play requires targetSdk 36 (Android 16) from Aug 31, 2026.
-    compileSdk 36
+    // Plugins such as flutter_secure_storage 11 compile against API 37.
+    // targetSdk stays 36 (Play requirement from Aug 31, 2026).
+    compileSdk 37
 
     lintOptions {
         disable 'InvalidPackage'
@@ -56,7 +56,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.recycleorigin.recycleorigindriver"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 24
         targetSdk 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -109,7 +109,7 @@ flutter {
 }
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-    implementation "com.android.support:multidex:1.0.3"
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.play:app-update:2.1.0'
     implementation 'com.google.android.play:app-update-ktx:2.1.0'
 }
