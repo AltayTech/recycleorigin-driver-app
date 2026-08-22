@@ -30,6 +30,7 @@ class FirebaseAuthResult {
 class AuthErrorCodes {
   static const wrongPassword = 'wrong-password';
   static const userNotFound = 'user-not-found';
+  static const invalidCredential = 'invalid-credential';
   static const invalidEmail = 'invalid-email';
   static const emailAlreadyInUse = 'email-already-in-use';
   static const weakPassword = 'weak-password';
@@ -61,14 +62,19 @@ class FirebaseAuthService {
     fb.FirebaseAuth? auth,
     GoogleSignIn? googleSignIn,
     Dio? exchangeClient,
-  })  : _auth = auth ?? fb.FirebaseAuth.instance,
-        _googleSignIn =
-            googleSignIn ?? GoogleSignIn(serverClientId: _serverClientId),
-        _exchangeClient = exchangeClient ?? _buildExchangeClient();
+  }) : _auth = auth ?? fb.FirebaseAuth.instance,
+       _googleSignInOverride = googleSignIn,
+       _exchangeClient = exchangeClient ?? _buildExchangeClient();
 
   final fb.FirebaseAuth _auth;
-  final GoogleSignIn _googleSignIn;
+  final GoogleSignIn? _googleSignInOverride;
   final Dio _exchangeClient;
+
+  GoogleSignIn? _googleSignIn;
+  Future<void>? _googleInit;
+
+  GoogleSignIn get _google =>
+      _googleSignIn ??= _googleSignInOverride ?? GoogleSignIn.instance;
 
   static Dio _buildExchangeClient() {
     return Dio(
@@ -96,12 +102,17 @@ class FirebaseAuthService {
         email: email.trim(),
         password: password,
       );
-      return _exchangeWithBackend(cred.user!);
+      return await _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
-      developer.log('Email sign-in failed',
-          name: 'driver.auth', error: e, stackTrace: st, level: 1000);
+      developer.log(
+        'Email sign-in failed',
+        name: 'driver.auth',
+        error: e,
+        stackTrace: st,
+        level: 1000,
+      );
       throw _wrap(e);
     }
   }
@@ -131,43 +142,88 @@ class FirebaseAuthService {
       try {
         await user.sendEmailVerification();
       } catch (e, st) {
-        developer.log('Failed to send verification email',
-            name: 'driver.auth', error: e, stackTrace: st, level: 900);
+        developer.log(
+          'Failed to send verification email',
+          name: 'driver.auth',
+          error: e,
+          stackTrace: st,
+          level: 900,
+        );
       }
-      return _exchangeWithBackend(user);
+      return await _exchangeWithBackend(user);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
-      developer.log('Email register failed',
-          name: 'driver.auth', error: e, stackTrace: st, level: 1000);
+      developer.log(
+        'Email register failed',
+        name: 'driver.auth',
+        error: e,
+        stackTrace: st,
+        level: 1000,
+      );
       throw _wrap(e);
     }
   }
 
   Future<FirebaseAuthResult> signInWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        throw const AuthException(
-          AuthErrorCodes.cancelled,
-          'Google sign-in was cancelled',
+      await _ensureGoogleInitialized();
+      final GoogleSignInAccount googleUser;
+      try {
+        googleUser = await _google.authenticate();
+      } on GoogleSignInException catch (e) {
+        if (e.code == GoogleSignInExceptionCode.canceled) {
+          throw const AuthException(
+            AuthErrorCodes.cancelled,
+            'Google sign-in was cancelled',
+          );
+        }
+        final detail = e.description ?? e.toString();
+        throw AuthException(
+          AuthErrorCodes.unknown,
+          e.code == GoogleSignInExceptionCode.clientConfigurationError
+              ? 'DEVELOPER_ERROR: $detail'
+              : detail,
         );
       }
-      final googleAuth = await googleUser.authentication;
-      final credential = fb.GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      final idToken = googleUser.authentication.idToken;
+      if (idToken == null || idToken.isEmpty) {
+        throw const AuthException(
+          AuthErrorCodes.unknown,
+          'Google sign-in did not return an ID token',
+        );
+      }
+      final credential = fb.GoogleAuthProvider.credential(idToken: idToken);
       final cred = await _auth.signInWithCredential(credential);
-      return _exchangeWithBackend(cred.user!);
+      return await _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on AuthException {
       rethrow;
     } on Object catch (e, st) {
-      developer.log('Google sign-in failed',
-          name: 'driver.auth', error: e, stackTrace: st, level: 1000);
+      developer.log(
+        'Google sign-in failed',
+        name: 'driver.auth',
+        error: e,
+        stackTrace: st,
+        level: 1000,
+      );
       throw _wrap(e);
+    }
+  }
+
+  Future<void> _ensureGoogleInitialized() async {
+    if (_googleInit != null) {
+      await _googleInit;
+      return;
+    }
+    final pending = _google.initialize(serverClientId: _serverClientId);
+    _googleInit = pending;
+    try {
+      await pending;
+    } catch (_) {
+      _googleInit = null;
+      rethrow;
     }
   }
 
@@ -213,7 +269,7 @@ class FirebaseAuthService {
       await _auth.signOut();
     } catch (_) {}
     try {
-      await _googleSignIn.signOut();
+      await _google.signOut();
     } catch (_) {}
   }
 
@@ -228,10 +284,7 @@ class FirebaseAuthService {
     try {
       final response = await _exchangeClient.post<Map<String, dynamic>>(
         Urls.firebaseExchangePath,
-        data: {
-          'id_token': idToken,
-          'app_type': _appType,
-        },
+        data: {'id_token': idToken, 'app_type': _appType},
       );
       final body = response.data ?? const <String, dynamic>{};
       final access = (body['access_token'] ?? body['token']) as String? ?? '';

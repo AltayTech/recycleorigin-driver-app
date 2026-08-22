@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/utils/external_maps.dart';
@@ -118,12 +117,8 @@ class PickupLocationPreviewCard extends StatelessWidget {
                           urlTemplate:
                               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                           maxNativeZoom: 19,
-                          tileProvider: CancellableNetworkTileProvider(
-                            headers: {
-                              'User-Agent':
-                                  'flutter_map (com.recycleorigin.recycleorigindriver)',
-                            },
-                          ),
+                          userAgentPackageName:
+                              'com.recycleorigin.recycleorigindriver',
                         ),
                         MarkerLayer(
                           markers: [
