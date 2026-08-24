@@ -14,6 +14,7 @@ import 'package:recycleorigindriver/core/models/region.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
 import 'package:recycleorigindriver/core/models/request/address_main.dart';
 import 'package:recycleorigindriver/core/models/token_response_model.dart';
+import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 
 /// Handles authentication, token storage, addresses, and regions for the
@@ -387,14 +388,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final refresh = await SecureStorage.getRefreshToken();
     if (refresh != null && refresh.isNotEmpty) {
       try {
-        await http.post(
-          Uri.parse(Urls.apiBaseUrl + Urls.logoutPath),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ${state.token}',
-          },
-          body: jsonEncode({'refresh_token': refresh}),
+        await ApiProvider.client.post<dynamic>(
+          Urls.logoutPath,
+          data: {'refresh_token': refresh},
         );
       } catch (e) {
         developer.log('Backend logout failed (continuing): $e',

@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_event.dart';
 import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/clearings_state.dart';
 import 'package:recycleorigindriver/core/models/clearing_main.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Settlement requests and shared delivery helpers used on the clear screen.
 class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
@@ -240,20 +238,10 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
   ) async {
     try {
       if (event.isLogin) {
-        final prefs = await SharedPreferences.getInstance();
-        final token = prefs.getString('token')!;
-        final url = Urls.rootUrl +
-            Urls.deliveriesEndPoint +
-            '?store_id=${event.storeId}';
-        await post(
-          Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
+        await ApiProvider.client.post<dynamic>(
+          'recycleorigin/v1${Urls.deliveriesEndPoint}',
+          queryParameters: {'store_id': event.storeId},
         );
-        emit(state.copyWith(token: token));
       }
       event.completer?.complete();
     } catch (error) {
@@ -266,26 +254,19 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsSearchClearingsItemsRequested event,
     Emitter<ClearingsState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.clearingEndPoint + state.searchEndPoint;
+    final path = 'recycleorigin/v1${Urls.clearingEndPoint}${state.searchEndPoint}';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token')!;
-      final response = await get(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final result = await ApiProvider.client.get<Map<String, dynamic>>(
+        path,
+        parser: (data) => data as Map<String, dynamic>,
       );
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+      final extractedData = result.valueOrNull;
+      if (extractedData != null) {
         final deliveryMain = ClearingMain.fromJson(extractedData);
         emit(
           state.copyWith(
             deliveriesItems: deliveryMain.clearings,
             searchDetails: deliveryMain.searchDetail,
-            token: token,
           ),
         );
       } else {
@@ -302,21 +283,18 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsRetrieveCollectItemRequested event,
     Emitter<ClearingsState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.deliveriesEndPoint + '/${event.collectId}';
+    final path = 'recycleorigin/v1${Urls.deliveriesEndPoint}/${event.collectId}';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token')!;
-      final response = await get(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final result = await ApiProvider.client.get<Map<String, dynamic>>(
+        path,
+        parser: (data) => data as Map<String, dynamic>,
       );
-      final extractedData = json.decode(response.body) as dynamic;
+      final extractedData = result.valueOrNull;
+      if (extractedData == null) {
+        throw Exception(result.errorOrNull ?? 'Item not found');
+      }
       final item = DeliveryWasteItem.fromJson(extractedData);
-      emit(state.copyWith(requestWasteItem: item, token: token));
+      emit(state.copyWith(requestWasteItem: item));
       event.completer?.complete();
     } catch (error) {
       event.completer?.completeError(error);
@@ -328,30 +306,19 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsGetCollectedItemsToDeliverRequested event,
     Emitter<ClearingsState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.deliveriesEndPoint + '/stat';
+    final path = 'recycleorigin/v1${Urls.deliveriesEndPoint}/stat';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token')!;
-      final response = await get(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final result = await ApiProvider.client.get<List<dynamic>>(
+        path,
+        parser: (data) => data as List<dynamic>,
       );
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body) as List;
-        final collects = extractedData.map((i) => Collect.fromJson(i)).toList();
-        emit(
-          state.copyWith(
-            toDeliveryCollectItems: collects,
-            token: token,
-          ),
-        );
-      } else {
-        emit(state.copyWith(toDeliveryCollectItems: []));
-      }
+      final extractedData = result.valueOrNull ?? <dynamic>[];
+      final collects = extractedData.map((i) => Collect.fromJson(i)).toList();
+      emit(
+        state.copyWith(
+          toDeliveryCollectItems: collects,
+        ),
+      );
       event.completer?.complete();
     } catch (error) {
       event.completer?.completeError(error);

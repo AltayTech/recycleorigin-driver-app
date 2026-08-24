@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as intl;
 
+import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
-import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
@@ -60,15 +57,6 @@ class _WalletScreenState extends State<WalletScreen> {
     }
   }
 
-  Future<Map<String, String>> _authHeaders() async {
-    final token = await SecureStorage.getToken();
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
-    };
-  }
-
   Future<void> _loadData() async {
     final isLogin = context.read<AuthBloc>().state.isAuth;
     if (!isLogin) return;
@@ -76,25 +64,23 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final headers = await _authHeaders();
-
-      final walletUrl = Uri.parse(Urls.rootUrl + Urls.walletEndPoint);
-      final walletResp = await http.get(walletUrl, headers: headers);
-      if (walletResp.statusCode == 200 && mounted) {
-        final data = jsonDecode(walletResp.body) as Map<String, dynamic>;
-        final walletJson = data['wallet'] as Map<String, dynamic>?;
-        if (walletJson != null) {
-          _wallet = Wallet.fromJson(walletJson);
-        }
+      final walletResult = await ApiProvider.client.get<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.walletEndPoint}',
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final walletJson = walletResult.valueOrNull?['wallet'] as Map<String, dynamic>?;
+      if (walletJson != null && mounted) {
+        _wallet = Wallet.fromJson(walletJson);
       }
 
       _page = 1;
-      final txUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletTransactionsEndPoint,
-      ).replace(queryParameters: {'page': '1', 'per_page': '20'});
-      final txResp = await http.get(txUrl, headers: headers);
-      if (txResp.statusCode == 200 && mounted) {
-        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+      final txResult = await ApiProvider.client.get<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.walletTransactionsEndPoint}',
+        queryParameters: {'page': '1', 'per_page': '20'},
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final txData = txResult.valueOrNull;
+      if (txData != null && mounted) {
         final txList = txData['data'] as List<dynamic>? ?? [];
         _transactions = txList
             .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
@@ -113,16 +99,13 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
     try {
       _page++;
-      final headers = await _authHeaders();
-      final txUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletTransactionsEndPoint,
-      ).replace(queryParameters: {
-        'page': '$_page',
-        'per_page': '20',
-      });
-      final txResp = await http.get(txUrl, headers: headers);
-      if (txResp.statusCode == 200 && mounted) {
-        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+      final txResult = await ApiProvider.client.get<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.walletTransactionsEndPoint}',
+        queryParameters: {'page': '$_page', 'per_page': '20'},
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final txData = txResult.valueOrNull;
+      if (txData != null && mounted) {
         final txList = txData['data'] as List<dynamic>? ?? [];
         final newTx = txList
             .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
