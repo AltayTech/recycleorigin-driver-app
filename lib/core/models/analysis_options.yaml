@@ -1,0 +1,6 @@
+include: ../../../analysis_options.yaml
+
+linter:
+  rules:
+    # JSON DTOs keep API snake_case field names on purpose.
+    non_constant_identifier_names: false
