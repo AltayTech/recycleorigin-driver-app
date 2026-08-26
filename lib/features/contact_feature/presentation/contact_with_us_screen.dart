@@ -16,17 +16,18 @@ class ContactWithUs extends StatefulWidget {
   const ContactWithUs({super.key});
 
   @override
-  _ContactWithUsState createState() => _ContactWithUsState();
+  State<ContactWithUs> createState() => _ContactWithUsState();
 }
 
 class _ContactWithUsState extends State<ContactWithUs> {
   bool _isLoading = false;
 
   Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -49,6 +50,9 @@ class _ContactWithUsState extends State<ContactWithUs> {
       _isLoading = true;
     });
     await context.read<CustomerInfoBloc>().fetchShopData();
+    if (!mounted) {
+      return;
+    }
     shopData = context.read<CustomerInfoBloc>().state.shop!;
 
     setState(() {
@@ -60,7 +64,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     shopData = context.watch<CustomerInfoBloc>().state.shop!;
     final scheme = Theme.of(context).colorScheme;
 
@@ -87,165 +91,168 @@ class _ContactWithUsState extends State<ContactWithUs> {
             )
           : Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: deviceWidth * 0.3,
-                        height: deviceWidth * 0.3,
-                        color: context.pageBackground,
-                        child: FadeInImage(
-                          placeholder: AssetImage('assets/images/circle.gif'),
-                          image: NetworkImage(shopData.logo.sizes.medium),
-                          fit: BoxFit.contain,
-                          height: deviceWidth * 0.5,
-                        ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: deviceWidth * 0.3,
+                      height: deviceWidth * 0.3,
+                      color: context.pageBackground,
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/images/circle.gif'),
+                        image: NetworkImage(shopData.logo.sizes.medium),
+                        fit: BoxFit.contain,
+                        height: deviceWidth * 0.5,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Text(
-                          shopData.name,
-                          style: TextStyle(
-                            color: context.primaryText,
-                            fontFamily: 'BFarnaz',
-                            fontSize: textScaleFactor * 24.0,
-                          ),
-                          textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Text(
+                        shopData.name,
+                        style: TextStyle(
+                          color: context.primaryText,
+                          fontFamily: 'BFarnaz',
+                          fontSize: textScaleFactor * 24.0,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                      Divider(color: scheme.outlineVariant),
-                      Column(
-                        children: <Widget>[
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.location_on,
-                                      color: scheme.primary,
-                                    ),
+                    ),
+                    Divider(color: scheme.outlineVariant),
+                    Column(
+                      children: <Widget>[
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.location_on,
+                                    color: scheme.primary,
                                   ),
-                                  Expanded(
-                                    flex: 8,
-                                    child: Text(
-                                      shopData.address,
-                                      style: TextStyle(
-                                        color: scheme.onSurface,
-                                        fontSize: textScaleFactor * 18,
-                                      ),
-                                      overflow: TextOverflow.clip,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.call,
-                                      color: scheme.primary,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 8,
-                                    child: Text(
-                                      EnArConvertor.localize(
-                                        context,
-                                        shopData.support_phone,
-                                      ),
-                                      style: TextStyle(
-                                        color: scheme.onSurface,
-                                        fontSize: textScaleFactor * 18,
-                                      ),
-                                      overflow: TextOverflow.clip,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.smartphone,
-                                      color: scheme.primary,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 8,
-                                    child: Text(
-                                      EnArConvertor.localize(
-                                        context,
-                                        shopData.mobile,
-                                      ),
-                                      style: TextStyle(
-                                        color: scheme.onSurface,
-                                        fontSize: textScaleFactor * 18,
-                                      ),
-                                      overflow: TextOverflow.clip,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: deviceHeight * 0.10,
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 8,
-                                      child: InkWell(
-                                        onTap: () {
-                                          _launchURL(
-                                              shopData.social_media.instagram);
-                                        },
-                                        child: Image.asset(
-                                            'assets/images/instagram.png'),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: InkWell(
-                                          onTap: () {
-                                            _launchURL(
-                                                shopData.social_media.telegram);
-                                          },
-                                          child: Image.asset(
-                                              'assets/images/telegram.png')),
-                                    ),
-                                  ],
                                 ),
+                                Expanded(
+                                  flex: 8,
+                                  child: Text(
+                                    shopData.address,
+                                    style: TextStyle(
+                                      color: scheme.onSurface,
+                                      fontSize: textScaleFactor * 18,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.call,
+                                    color: scheme.primary,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 8,
+                                  child: Text(
+                                    EnArConvertor.localize(
+                                      context,
+                                      shopData.support_phone,
+                                    ),
+                                    style: TextStyle(
+                                      color: scheme.onSurface,
+                                      fontSize: textScaleFactor * 18,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.smartphone,
+                                    color: scheme.primary,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 8,
+                                  child: Text(
+                                    EnArConvertor.localize(
+                                      context,
+                                      shopData.mobile,
+                                    ),
+                                    style: TextStyle(
+                                      color: scheme.onSurface,
+                                      fontSize: textScaleFactor * 18,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: deviceHeight * 0.10,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 8,
+                                    child: InkWell(
+                                      onTap: () {
+                                        _launchURL(
+                                          shopData.social_media.instagram,
+                                        );
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/instagram.png',
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 8,
+                                    child: InkWell(
+                                      onTap: () {
+                                        _launchURL(
+                                          shopData.social_media.telegram,
+                                        );
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/telegram.png',
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

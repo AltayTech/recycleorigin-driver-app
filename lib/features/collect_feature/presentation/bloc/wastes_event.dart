@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 
 abstract class WastesEvent {}
 
@@ -78,8 +78,12 @@ final class WastesRemoveWasteCartRequested extends WastesEvent {
 }
 
 final class WastesSendRequestRequested extends WastesEvent {
-  WastesSendRequestRequested(this.request, this.isLogin, this.id,
-      {this.completer});
+  WastesSendRequestRequested(
+    this.request,
+    this.isLogin,
+    this.id, {
+    this.completer,
+  });
   final RequestWaste request;
   final bool isLogin;
   final int id;
@@ -138,8 +142,12 @@ final class WastesConfirmPickupRequested extends WastesEvent {
 }
 
 final class WastesRateCustomerRequested extends WastesEvent {
-  WastesRateCustomerRequested(this.collectId, this.score, this.comment,
-      {this.completer});
+  WastesRateCustomerRequested(
+    this.collectId,
+    this.score,
+    this.comment, {
+    this.completer,
+  });
   final int collectId;
   final int score;
   final String comment;

@@ -6,7 +6,7 @@ import 'package:recycleorigindriver/features/clearing_feature/presentation/bloc/
 import 'package:recycleorigindriver/core/models/clearing_main.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 
@@ -24,7 +24,8 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     on<ClearingsSearchClearingsItemsRequested>(_onSearchClearingsItems);
     on<ClearingsRetrieveCollectItemRequested>(_onRetrieveCollectItem);
     on<ClearingsGetCollectedItemsToDeliverRequested>(
-        _onGetCollectedItemsToDeliver);
+      _onGetCollectedItemsToDeliver,
+    );
     on<ClearingsRequestWasteItemSet>(_onRequestWasteItemSet);
   }
 
@@ -52,8 +53,9 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
 
   Future<void> addInitialWasteCart(List<Collect> wastesCart, bool isAdded) {
     final c = Completer<void>();
-    add(ClearingsAddInitialWasteCartRequested(wastesCart, isAdded,
-        completer: c));
+    add(
+      ClearingsAddInitialWasteCartRequested(wastesCart, isAdded, completer: c),
+    );
     return c.future;
   }
 
@@ -63,12 +65,14 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     bool isAdded,
   ) {
     final c = Completer<void>();
-    add(ClearingsUpdateWasteCartRequested(
-      waste,
-      exactWeight,
-      isAdded,
-      completer: c,
-    ));
+    add(
+      ClearingsUpdateWasteCartRequested(
+        waste,
+        exactWeight,
+        isAdded,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -163,8 +167,9 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
-          .isAdded = event.isAdded;
+              .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
+              .isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -208,7 +213,8 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
           .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
-          .exact_weight = event.exactWeight.toString();
+          .exact_weight = event.exactWeight
+          .toString();
       next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
           event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
@@ -225,8 +231,9 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
   ) async {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
-        state.wasteCartItems
-            .firstWhere((prod) => prod.waste.id == event.wasteId),
+        state.wasteCartItems.firstWhere(
+          (prod) => prod.waste.id == event.wasteId,
+        ),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();
@@ -254,7 +261,8 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsSearchClearingsItemsRequested event,
     Emitter<ClearingsState> emit,
   ) async {
-    final path = 'recycleorigin/v1${Urls.clearingEndPoint}${state.searchEndPoint}';
+    final path =
+        'recycleorigin/v1${Urls.clearingEndPoint}${state.searchEndPoint}';
     try {
       final result = await ApiProvider.client.get<Map<String, dynamic>>(
         path,
@@ -283,7 +291,8 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsRetrieveCollectItemRequested event,
     Emitter<ClearingsState> emit,
   ) async {
-    final path = 'recycleorigin/v1${Urls.deliveriesEndPoint}/${event.collectId}';
+    final path =
+        'recycleorigin/v1${Urls.deliveriesEndPoint}/${event.collectId}';
     try {
       final result = await ApiProvider.client.get<Map<String, dynamic>>(
         path,
@@ -314,11 +323,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
       );
       final extractedData = result.valueOrNull ?? <dynamic>[];
       final collects = extractedData.map((i) => Collect.fromJson(i)).toList();
-      emit(
-        state.copyWith(
-          toDeliveryCollectItems: collects,
-        ),
-      );
+      emit(state.copyWith(toDeliveryCollectItems: collects));
       event.completer?.complete();
     } catch (error) {
       event.completer?.completeError(error);

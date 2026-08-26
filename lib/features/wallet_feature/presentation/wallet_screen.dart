@@ -24,7 +24,7 @@ class WalletScreen extends StatefulWidget {
   final bool embedInShell;
 
   @override
-  _WalletScreenState createState() => _WalletScreenState();
+  State<WalletScreen> createState() => _WalletScreenState();
 }
 
 class _WalletScreenState extends State<WalletScreen> {
@@ -68,7 +68,8 @@ class _WalletScreenState extends State<WalletScreen> {
         'recycleorigin/v1${Urls.walletEndPoint}',
         parser: (data) => data as Map<String, dynamic>,
       );
-      final walletJson = walletResult.valueOrNull?['wallet'] as Map<String, dynamic>?;
+      final walletJson =
+          walletResult.valueOrNull?['wallet'] as Map<String, dynamic>?;
       if (walletJson != null && mounted) {
         _wallet = Wallet.fromJson(walletJson);
       }
@@ -181,10 +182,7 @@ class _WalletScreenState extends State<WalletScreen> {
           );
 
     if (widget.embedInShell) {
-      return ColoredBox(
-        color: context.pageBackground,
-        child: body,
-      );
+      return ColoredBox(color: context.pageBackground, child: body);
     }
 
     return Scaffold(
@@ -215,10 +213,7 @@ class _WalletScreenState extends State<WalletScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              primary,
-              primary.withValues(alpha: 0.8),
-            ],
+            colors: [primary, primary.withValues(alpha: 0.8)],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -315,16 +310,16 @@ class _WalletScreenState extends State<WalletScreen> {
         children: [
           Text(
             'Transaction History',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           if (_transactions.isNotEmpty)
             Text(
               '${_transactions.length} items',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: context.secondaryText,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: context.secondaryText),
             ),
         ],
       ),
@@ -345,9 +340,9 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 16),
           Text(
             context.l10n.noTransactionAvailable,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: context.secondaryText,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
           ),
         ],
       ),
@@ -367,9 +362,9 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 24),
           Text(
             context.l10n.notLoggedInLabel,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: context.secondaryText,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: context.secondaryText),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -445,9 +440,9 @@ class _WalletTxItem extends StatelessWidget {
         ),
         title: Text(
           tx.typeLabel,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,8 +458,8 @@ class _WalletTxItem extends StatelessWidget {
               Text(
                 _formatDate(tx.createdAt),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                    ),
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
           ],
         ),

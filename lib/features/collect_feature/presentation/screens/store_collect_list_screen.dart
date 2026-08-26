@@ -26,7 +26,7 @@ class StoreCollectListScreen extends StatefulWidget {
   final bool embedInShell;
 
   @override
-  _StoreCollectListScreenState createState() => _StoreCollectListScreenState();
+  State<StoreCollectListScreen> createState() => _StoreCollectListScreenState();
 }
 
 class _StoreCollectListScreenState extends State<StoreCollectListScreen>
@@ -35,9 +35,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
 
   final ScrollController _scrollController = ScrollController();
 
-  var _isLoading;
-
-  var scaffoldKey;
+  bool _isLoading = false;
   int page = 1;
 
   SearchDetail? productsDetail;
@@ -85,7 +83,8 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
   Future<void> _submit() async {
     loadedProducts.clear();
     loadedProducts = List<DeliveryWasteItem>.from(
-        context.read<DeliveriesBloc>().state.deliveriesItems);
+      context.read<DeliveriesBloc>().state.deliveriesItems,
+    );
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -102,6 +101,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     try {
       context.read<DeliveriesBloc>().searchBuilder();
       await context.read<DeliveriesBloc>().searchCollectItems();
+      if (!mounted) {
+        return;
+      }
       productsDetail = context.read<DeliveriesBloc>().state.searchDetails;
       if (productsDetail == null) {
         loadedProductstolist.clear();
@@ -120,7 +122,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading.toString());
 
     context.read<DeliveriesBloc>().sPage = 1;
 
@@ -129,11 +130,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     loadedProductstolist.clear();
 
     await searchItems();
-
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
   }
 
   void _showLogindialog() {
@@ -152,7 +148,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
     final scrollBody = SingleChildScrollView(
@@ -200,8 +196,9 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                             color: context.pageBackground,
                             boxShadow: [
                               BoxShadow(
-                                color: context.brandPrimary
-                                    .withValues(alpha: 0.08),
+                                color: context.brandPrimary.withValues(
+                                  alpha: 0.08,
+                                ),
                                 blurRadius: 10.10,
                                 spreadRadius: 10,
                                 offset: Offset.zero,
@@ -219,8 +216,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                   children: <Widget>[
                                     const Spacer(),
                                     Expanded(
-                                      child: BlocBuilder<DeliveriesBloc,
-                                          DeliveriesState>(
+                                      child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
                                         buildWhen: (p, c) =>
                                             p.searchDetails !=
                                                 c.searchDetails ||
@@ -239,77 +235,77 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                               direction: Axis.horizontal,
                                               children: <Widget>[
                                                 Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 3,
-                                                    vertical: 5,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 5,
+                                                      ),
                                                   child: Text(
                                                     context.l10n.countWithColon,
                                                     style: TextStyle(
                                                       fontSize:
                                                           textScaleFactor *
-                                                              12.0,
+                                                          12.0,
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                    right: 4.0,
-                                                    left: 6,
-                                                  ),
+                                                        right: 4.0,
+                                                        left: 6,
+                                                      ),
                                                   child: Text(
                                                     EnArConvertor.localize(
                                                       context,
                                                       productsDetail != null
                                                           ? loadedProductstolist
-                                                              .length
-                                                              .toString()
+                                                                .length
+                                                                .toString()
                                                           : '0',
                                                     ),
                                                     style: TextStyle(
                                                       fontSize:
                                                           textScaleFactor *
-                                                              13.0,
+                                                          13.0,
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 3,
-                                                    vertical: 5,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 5,
+                                                      ),
                                                   child: Text(
                                                     context.l10n.ofLabel,
                                                     style: TextStyle(
                                                       fontSize:
                                                           textScaleFactor *
-                                                              12.0,
+                                                          12.0,
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                    right: 4.0,
-                                                    left: 6,
-                                                  ),
+                                                        right: 4.0,
+                                                        left: 6,
+                                                      ),
                                                   child: Text(
                                                     EnArConvertor.localize(
                                                       context,
                                                       productsDetail != null
                                                           ? (productsDetail
-                                                                      ?.total ??
-                                                                  0)
-                                                              .toString()
+                                                                        ?.total ??
+                                                                    0)
+                                                                .toString()
                                                           : '0',
                                                     ),
                                                     style: TextStyle(
                                                       fontSize:
                                                           textScaleFactor *
-                                                              13.0,
+                                                          13.0,
                                                     ),
                                                   ),
                                                 ),
@@ -330,9 +326,10 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                                     itemCount: loadedProductstolist.length,
                                     itemBuilder: (ctx, i) =>
                                         ChangeNotifierProvider.value(
-                                      value: loadedProductstolist[i],
-                                      child: CollectItemStoreCollectsScreen(),
-                                    ),
+                                          value: loadedProductstolist[i],
+                                          child:
+                                              CollectItemStoreCollectsScreen(),
+                                        ),
                                   ),
                                 ),
                               ],
@@ -362,13 +359,15 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                           ),
                         );
                         if (loadedProducts.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(addToCartSnackBar);
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else {
-                          Navigator.of(context)
-                              .pushNamed(SendDeliveryScreen.routeName);
+                          Navigator.of(
+                            context,
+                          ).pushNamed(SendDeliveryScreen.routeName);
                         }
                       },
                       child: ButtonBottom(
@@ -400,15 +399,15 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                               },
                             )
                           : loadedProductstolist.isEmpty
-                              ? Center(
-                                  child: Text(
-                                    context.l10n.noProductAvailable,
-                                    style: TextStyle(
-                                      fontSize: textScaleFactor * 15.0,
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
+                          ? Center(
+                              child: Text(
+                                context.l10n.noProductAvailable,
+                                style: TextStyle(
+                                  fontSize: textScaleFactor * 15.0,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                   ),
                 ],
@@ -420,9 +419,6 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
       return scrollBody;
     }
 
-    return Scaffold(
-      body: scrollBody,
-      drawer: mainDrawerIfRootRoute(context),
-    );
+    return Scaffold(body: scrollBody, drawer: mainDrawerIfRootRoute(context));
   }
 }

@@ -5,7 +5,8 @@ import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart'
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class HeaderTotal extends StatelessWidget {
-  HeaderTotal({super.key, 
+  const HeaderTotal({
+    super.key,
     required this.totalWeight,
     required this.totalPrice,
     required this.totalNumber,
@@ -16,13 +17,13 @@ class HeaderTotal extends StatelessWidget {
   final double totalWeight;
   final double totalPrice;
   final int totalNumber;
-  AnimationController totalPriceController;
-  Animation<double> totalPriceAnimation;
+  final AnimationController totalPriceController;
+  final Animation<double> totalPriceAnimation;
 
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
     final scheme = Theme.of(context).colorScheme;
 
@@ -51,10 +52,7 @@ class HeaderTotal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: Text(
-                        EnArConvertor.localize(
-                          context,
-                          totalNumber.toString(),
-                        ),
+                        EnArConvertor.localize(context, totalNumber.toString()),
                         style: TextStyle(
                           color: context.primaryText,
                           fontSize: textScaleFactor * 18,

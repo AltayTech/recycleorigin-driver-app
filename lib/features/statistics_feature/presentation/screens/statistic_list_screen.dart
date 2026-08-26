@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/features/statistics_feature/presentation/widgets/statistic_item_statistics_screen.dart';
 
@@ -18,7 +17,7 @@ class StatisticsListScreen extends StatefulWidget {
   const StatisticsListScreen({super.key});
 
   @override
-  _StatisticsListScreenState createState() => _StatisticsListScreenState();
+  State<StatisticsListScreen> createState() => _StatisticsListScreenState();
 }
 
 class _StatisticsListScreenState extends State<StatisticsListScreen>
@@ -27,9 +26,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
 
   final ScrollController _scrollController = ScrollController();
 
-  var _isLoading;
-
-  var scaffoldKey;
+  bool _isLoading = false;
   int page = 1;
 
   SearchDetail? productsDetail;
@@ -78,7 +75,8 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
   Future<void> _submit() async {
     loadedProducts.clear();
     loadedProducts = List<RequestWasteItem>.from(
-        context.read<WastesBloc>().state.collectItems);
+      context.read<WastesBloc>().state.collectItems,
+    );
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -94,6 +92,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
 
     context.read<WastesBloc>().searchBuilder();
     await context.read<WastesBloc>().searchCollectItems();
+    if (!mounted) {
+      return;
+    }
     productsDetail = context.read<WastesBloc>().state.searchDetails;
     _submit();
 
@@ -106,7 +107,6 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading.toString());
 
     context.read<WastesBloc>().sPage = 1;
 
@@ -115,21 +115,14 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     loadedProductstolist.clear();
 
     await searchItems();
-
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.watch<AuthBloc>().state.isAuth;
-
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     final scheme = Theme.of(context).colorScheme;
 
@@ -140,19 +133,17 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                 height: deviceHeight * 0.4,
                 width: deviceWidth,
                 decoration: BoxDecoration(
-                    color: scheme.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.brandPrimary.withValues(alpha: 0.08),
-                        blurRadius: 10.10,
-                        spreadRadius: 10.510,
-                        offset: Offset(
-                          0,
-                          0,
-                        ),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10)),
+                  color: scheme.surface,
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.brandPrimary.withValues(alpha: 0.08),
+                      blurRadius: 10.10,
+                      spreadRadius: 10.510,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -166,8 +157,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: context.brandPrimary,
-                            borderRadius: BorderRadius.circular(5)),
+                          color: context.brandPrimary,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
@@ -176,35 +168,38 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
             : Padding(
                 padding: EdgeInsets.symmetric(
-                    vertical: deviceHeight * 0.0,
-                    horizontal: deviceWidth * 0.03),
+                  vertical: deviceHeight * 0.0,
+                  horizontal: deviceWidth * 0.03,
+                ),
                 child: Stack(
                   children: <Widget>[
                     Column(
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                              color: scheme.surface,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: context.brandPrimary
-                                      .withValues(alpha: 0.08),
-                                  blurRadius: 10.10,
-                                  spreadRadius: 10,
-                                  offset: Offset(
-                                    0, // horizontal, move right 10
+                            color: scheme.surface,
+                            boxShadow: [
+                              BoxShadow(
+                                color: context.brandPrimary.withValues(
+                                  alpha: 0.08,
+                                ),
+                                blurRadius: 10.10,
+                                spreadRadius: 10,
+                                offset: Offset(
+                                  0, // horizontal, move right 10
 
-                                    0, // vertical, move down 10
-                                  ),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(5)),
+                                  0, // vertical, move down 10
+                                ),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -218,21 +213,21 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                                     itemCount: loadedProductstolist.length,
                                     itemBuilder: (ctx, i) =>
                                         ChangeNotifierProvider.value(
-                                      value: loadedProductstolist[i],
-                                      child: StatisticItemStatisticsScreen(
-                                        headColor: Colors.blue,
-                                        title: context.l10n.todayLabel,
-                                        price: '65000',
-                                        weight: '10',
-                                        number: '6',
-                                      ),
-                                    ),
+                                          value: loadedProductstolist[i],
+                                          child: StatisticItemStatisticsScreen(
+                                            headColor: Colors.blue,
+                                            title: context.l10n.todayLabel,
+                                            price: '65000',
+                                            weight: '10',
+                                            number: '6',
+                                          ),
+                                        ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Positioned(

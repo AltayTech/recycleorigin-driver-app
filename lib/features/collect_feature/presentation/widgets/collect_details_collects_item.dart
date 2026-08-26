@@ -10,12 +10,10 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;
 
-  const CollectDetailsCollectItem({super.key, 
-    required this.collectItem,
-  });
+  const CollectDetailsCollectItem({super.key, required this.collectItem});
 
   @override
-  _CollectDetailsCollectItemState createState() =>
+  State<CollectDetailsCollectItem> createState() =>
       _CollectDetailsCollectItemState();
 }
 
@@ -54,9 +52,8 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     final scheme = Theme.of(context).colorScheme;
@@ -67,9 +64,10 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
         height: deviceWidth * 0.30,
         width: deviceWidth,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: scheme.surface,
-            border: Border.all(color: scheme.outlineVariant, width: 0.3)),
+          borderRadius: BorderRadius.circular(5),
+          color: scheme.surface,
+          border: Border.all(color: scheme.outlineVariant, width: 0.3),
+        ),
         child: LayoutBuilder(
           builder: (_, constraints) => Stack(
             children: <Widget>[
@@ -84,7 +82,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.collectItem.waste.post_title ?? l10n.noneLabel,
+                            widget.collectItem.waste.post_title,
                             style: TextStyle(
                               color: context.primaryText,
                               fontWeight: FontWeight.w700,
@@ -139,13 +137,13 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           ),
                           Text(
                             EnArConvertor.localize(
-                                    context,
-                                    currencyFormat.format(
-                                      double.parse(
-                                        widget.collectItem.estimated_price,
-                                      ),
-                                    ),
-                                  ),
+                              context,
+                              currencyFormat.format(
+                                double.parse(
+                                  widget.collectItem.estimated_price,
+                                ),
+                              ),
+                            ),
                             style: TextStyle(
                               color: context.primaryText,
                               fontSize: textScaleFactor * 16,
@@ -168,13 +166,13 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           ),
                           Text(
                             EnArConvertor.localize(
-                                    context,
-                                    currencyFormat.format(
-                                      double.parse(
-                                        widget.collectItem.estimated_price,
-                                      ),
-                                    ),
-                                  ),
+                              context,
+                              currencyFormat.format(
+                                double.parse(
+                                  widget.collectItem.estimated_price,
+                                ),
+                              ),
+                            ),
                             style: TextStyle(
                               color: context.primaryText,
                               fontSize: textScaleFactor * 18,
@@ -194,26 +192,26 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                 ),
               ),
               Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container()))
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: index.isEven ? Colors.grey : Colors.grey,
+                              ),
+                            );
+                          },
+                        )
+                      : Container(),
+                ),
+              ),
             ],
           ),
         ),

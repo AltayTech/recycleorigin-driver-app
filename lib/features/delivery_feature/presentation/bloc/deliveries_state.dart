@@ -1,6 +1,6 @@
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 
 /// State for delivery list, cart, and store delivery submission.
@@ -56,8 +56,9 @@ class DeliveriesState {
       wasteCartItems: wasteCartItems ?? this.wasteCartItems,
       token: token ?? this.token,
       deliveriesItems: deliveriesItems ?? this.deliveriesItems,
-      searchDetails:
-          clearSearchDetails ? null : (searchDetails ?? this.searchDetails),
+      searchDetails: clearSearchDetails
+          ? null
+          : (searchDetails ?? this.searchDetails),
       requestWasteItem: clearRequestWasteItem
           ? null
           : (requestWasteItem ?? this.requestWasteItem),
@@ -74,18 +75,18 @@ class DeliveriesState {
   }
 
   static DeliveriesState initial() => const DeliveriesState(
-        wasteCartItems: [],
-        token: '',
-        deliveriesItems: [],
-        searchDetails: null,
-        requestWasteItem: null,
-        toDeliveryCollectItems: [],
-        searchEndPoint: '',
-        searchKey: '',
-        sPage: 1,
-        sPerPage: 10,
-        sOrder: 'desc',
-        sOrderBy: 'date',
-        sCategory: null,
-      );
+    wasteCartItems: [],
+    token: '',
+    deliveriesItems: [],
+    searchDetails: null,
+    requestWasteItem: null,
+    toDeliveryCollectItems: [],
+    searchEndPoint: '',
+    searchKey: '',
+    sPage: 1,
+    sPerPage: 10,
+    sOrder: 'desc',
+    sOrderBy: 'date',
+    sCategory: null,
+  );
 }

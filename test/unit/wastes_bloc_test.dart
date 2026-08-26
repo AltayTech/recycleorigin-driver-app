@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigindriver/core/models/request/waste_ref.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_event.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_state.dart';

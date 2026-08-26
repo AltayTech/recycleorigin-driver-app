@@ -6,7 +6,8 @@ class CustomDialogSendRequest extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  const CustomDialogSendRequest({super.key, 
+  const CustomDialogSendRequest({
+    super.key,
     required this.title,
     required this.description,
     required this.buttonText,
@@ -58,18 +59,16 @@ class CustomDialogSendRequest extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Color(0xff0197F6),
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    child: Image.asset(
-                      'assets/images/send_popup_tick.png',
-                      fit: BoxFit.contain,
-                    ),
+                  child: Image.asset(
+                    'assets/images/send_popup_tick.png',
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -78,7 +77,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: context.primaryText,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 15,
                 ),
               ),
               SizedBox(height: 24.0),
@@ -88,10 +87,10 @@ class CustomDialogSendRequest extends StatelessWidget {
                   onTap: () {
                     return Navigator.of(context).pop();
 
-//                      Navigator.of(context)
-//                          .pushNamedAndRemoveUntil(NavigationBottomScreen.routeName, (Route<dynamic> route) => false);
-//                      Navigator.of(context)
-//                        .popAndPushNamed(NavigationBottomScreen.routeName);
+                    //                      Navigator.of(context)
+                    //                          .pushNamedAndRemoveUntil(NavigationBottomScreen.routeName, (Route<dynamic> route) => false);
+                    //                      Navigator.of(context)
+                    //                        .popAndPushNamed(NavigationBottomScreen.routeName);
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,
@@ -106,7 +105,8 @@ class CustomDialogSendRequest extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: MediaQuery.of(context).textScaleFactor * 20,
+                          fontSize:
+                              MediaQuery.textScalerOf(context).scale(1) * 20,
                         ),
                       ),
                     ),

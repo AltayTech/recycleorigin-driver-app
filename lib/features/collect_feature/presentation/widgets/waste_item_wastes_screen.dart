@@ -7,13 +7,15 @@ class WasteItemWastesScreen extends StatelessWidget {
   final Waste waste;
   final bool isSelected;
 
-  const WasteItemWastesScreen({super.key, required this.waste, this.isSelected = false});
+  const WasteItemWastesScreen({
+    super.key,
+    required this.waste,
+    this.isSelected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
-    var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final scheme = Theme.of(context).colorScheme;
 
     return Padding(

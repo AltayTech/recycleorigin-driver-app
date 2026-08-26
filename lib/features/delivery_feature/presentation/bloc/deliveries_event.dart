@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 
 abstract class DeliveriesEvent {}
 
@@ -34,16 +34,22 @@ final class DeliveriesWasteCartItemsSet extends DeliveriesEvent {
 }
 
 final class DeliveriesAddWasteCartRequested extends DeliveriesEvent {
-  DeliveriesAddWasteCartRequested(this.wasteCart, this.isAdded,
-      {this.completer});
+  DeliveriesAddWasteCartRequested(
+    this.wasteCart,
+    this.isAdded, {
+    this.completer,
+  });
   final WasteCart wasteCart;
   final bool isAdded;
   final Completer<void>? completer;
 }
 
 final class DeliveriesAddInitialWasteCartRequested extends DeliveriesEvent {
-  DeliveriesAddInitialWasteCartRequested(this.wastesCart, this.isAdded,
-      {this.completer});
+  DeliveriesAddInitialWasteCartRequested(
+    this.wastesCart,
+    this.isAdded, {
+    this.completer,
+  });
   final List<Collect> wastesCart;
   final bool isAdded;
   final Completer<void>? completer;

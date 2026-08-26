@@ -28,7 +28,7 @@ class ClearScreen extends StatefulWidget {
   const ClearScreen({super.key});
 
   @override
-  _ClearScreenState createState() => _ClearScreenState();
+  State<ClearScreen> createState() => _ClearScreenState();
 }
 
 class _ClearScreenState extends State<ClearScreen>
@@ -114,11 +114,15 @@ class _ClearScreenState extends State<ClearScreen>
 
     context.read<ClearingsBloc>().searchBuilder();
     await context.read<ClearingsBloc>().searchCleaingsItems();
+    if (!mounted) {
+      return;
+    }
     productsDetail = context.read<ClearingsBloc>().state.searchDetails;
 
     loadedProducts.clear();
     loadedProducts = List<Clearing>.from(
-        context.read<ClearingsBloc>().state.deliveriesItems);
+      context.read<ClearingsBloc>().state.deliveriesItems,
+    );
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {
@@ -127,21 +131,14 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   String removeSemicolon(String rawString) {
-//    for (int i = 0; i <= rawString.length; i++) {
-    print(rawString);
-
-    String newvalue = rawString.replaceAll(',', '');
-    print(rawString);
-
-//    }
-    return newvalue;
+    return rawString.replaceAll(',', '');
   }
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.watch<AuthBloc>().state.isAuth;
 
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
@@ -161,7 +158,9 @@ class _ClearScreenState extends State<ClearScreen>
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
+                vertical: deviceHeight * 0.0,
+                horizontal: deviceWidth * 0.03,
+              ),
               child: !isLogin
                   ? SizedBox(
                       height: deviceHeight * 0.8,
@@ -176,13 +175,15 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(LoginScreen.routeName);
+                                Navigator.of(
+                                  context,
+                                ).pushNamed(LoginScreen.routeName);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: context.brandPrimary,
-                                    borderRadius: BorderRadius.circular(5)),
+                                  color: context.brandPrimary,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
@@ -191,7 +192,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -206,25 +207,24 @@ class _ClearScreenState extends State<ClearScreen>
                             child: Column(
                               children: <Widget>[
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 10, bottom: 4),
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    bottom: 4,
+                                  ),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: scheme.surface,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: context.brandPrimary
-                                                .withValues(alpha: 0.08),
-                                            blurRadius: 10.10,
-                                            spreadRadius: 10.510,
-                                            offset: Offset(
-                                              0,
-                                              0,
-                                            ),
-                                          )
-                                        ],
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                      color: scheme.surface,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: context.brandPrimary
+                                              .withValues(alpha: 0.08),
+                                          blurRadius: 10.10,
+                                          spreadRadius: 10.510,
+                                          offset: Offset(0, 0),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     child: Center(
                                       child: Row(
                                         mainAxisAlignment:
@@ -240,29 +240,35 @@ class _ClearScreenState extends State<ClearScreen>
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: BlocBuilder<CustomerInfoBloc,
-                                                CustomerInfoState>(
-                                              buildWhen: (p, c) =>
-                                                  p.driver.money !=
-                                                  c.driver.money,
-                                              builder: (_, data) => Text(
-                                                EnArConvertor.localize(
-                                                  context,
-                                                  currencyFormat.format(
-                                                    double.parse(
-                                                            data.driver.money)
-                                                        .roundToDouble(),
+                                            child:
+                                                BlocBuilder<
+                                                  CustomerInfoBloc,
+                                                  CustomerInfoState
+                                                >(
+                                                  buildWhen: (p, c) =>
+                                                      p.driver.money !=
+                                                      c.driver.money,
+                                                  builder: (_, data) => Text(
+                                                    EnArConvertor.localize(
+                                                      context,
+                                                      currencyFormat.format(
+                                                        double.parse(
+                                                          data.driver.money,
+                                                        ).roundToDouble(),
+                                                      ),
+                                                    ),
+                                                    style: TextStyle(
+                                                      color:
+                                                          context.primaryText,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize:
+                                                          textScaleFactor *
+                                                          18.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                                style: TextStyle(
-                                                  color: context.primaryText,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize:
-                                                      textScaleFactor * 18.0,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
                                           ),
                                           Text(
                                             context.l10n.tomanLabel,
@@ -279,7 +285,9 @@ class _ClearScreenState extends State<ClearScreen>
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 16.0, bottom: 4),
+                                    top: 16.0,
+                                    bottom: 4,
+                                  ),
                                   child: Text(
                                     context.l10n.shebaNumberLabel,
                                     textDirection: TextDirection.ltr,
@@ -302,10 +310,11 @@ class _ClearScreenState extends State<ClearScreen>
                                   controller: shabaController,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.only(
-                                        left: 20.0,
-                                        right: 20,
-                                        top: 10,
-                                        bottom: 10),
+                                      left: 20.0,
+                                      right: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
                                     border: OutlineInputBorder(
                                       gapPadding: 10,
                                       borderRadius: BorderRadius.circular(30),
@@ -322,7 +331,9 @@ class _ClearScreenState extends State<ClearScreen>
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 16.0, bottom: 4),
+                                    top: 16.0,
+                                    bottom: 4,
+                                  ),
                                   child: Text(
                                     context.l10n.requestedAmountToman,
                                     style: TextStyle(
@@ -346,10 +357,11 @@ class _ClearScreenState extends State<ClearScreen>
                                     controller: donationController,
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.only(
-                                          left: 20.0,
-                                          right: 20,
-                                          top: 0,
-                                          bottom: 10),
+                                        left: 20.0,
+                                        right: 20,
+                                        top: 0,
+                                        bottom: 10,
+                                      ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
                                         borderSide: BorderSide(
@@ -379,7 +391,9 @@ class _ClearScreenState extends State<ClearScreen>
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 8.0, right: 8),
+                                            top: 8.0,
+                                            right: 8,
+                                          ),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -395,117 +409,114 @@ class _ClearScreenState extends State<ClearScreen>
                                                 ),
                                               ),
                                               Spacer(),
-                                              BlocBuilder<ClearingsBloc,
-                                                  ClearingsState>(
+                                              BlocBuilder<
+                                                ClearingsBloc,
+                                                ClearingsState
+                                              >(
                                                 buildWhen: (p, c) =>
                                                     p.searchDetails !=
                                                         c.searchDetails ||
                                                     p.deliveriesItems !=
                                                         c.deliveriesItems,
                                                 builder: (_, clearingState) {
-                                                  return Container(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical:
-                                                                  deviceHeight *
-                                                                      0.0,
-                                                              horizontal: 3),
-                                                      child: Wrap(
-                                                        alignment:
-                                                            WrapAlignment.start,
-                                                        crossAxisAlignment:
-                                                            WrapCrossAlignment
-                                                                .center,
-                                                        direction:
-                                                            Axis.horizontal,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        3,
-                                                                    vertical:
-                                                                        5),
-                                                            child: Text(
-                                                              context.l10n
-                                                                  .countWithColon,
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        12.0,
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          vertical:
+                                                              deviceHeight *
+                                                              0.0,
+                                                          horizontal: 3,
+                                                        ),
+                                                    child: Wrap(
+                                                      alignment:
+                                                          WrapAlignment.start,
+                                                      crossAxisAlignment:
+                                                          WrapCrossAlignment
+                                                              .center,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(
+                                                                horizontal: 3,
+                                                                vertical: 5,
                                                               ),
+                                                          child: Text(
+                                                            context
+                                                                .l10n
+                                                                .countWithColon,
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  textScaleFactor *
+                                                                  12.0,
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    right: 4.0,
-                                                                    left: 6),
-                                                            child: Text(
-                                                              EnArConvertor
-                                                                  .localize(
-                                                                context,
-                                                                productsDetail !=
-                                                                        null
-                                                                    ? loadedProductstolist
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                right: 4.0,
+                                                                left: 6,
+                                                              ),
+                                                          child: Text(
+                                                            EnArConvertor.localize(
+                                                              context,
+                                                              productsDetail !=
+                                                                      null
+                                                                  ? loadedProductstolist
                                                                         .length
                                                                         .toString()
-                                                                    : '0',
-                                                              ),
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        13.0,
-                                                              ),
+                                                                  : '0',
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  textScaleFactor *
+                                                                  13.0,
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        3,
-                                                                    vertical:
-                                                                        5),
-                                                            child: Text(
-                                                              context
-                                                                  .l10n.ofLabel,
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        12.0,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(
+                                                                horizontal: 3,
+                                                                vertical: 5,
                                                               ),
+                                                          child: Text(
+                                                            context
+                                                                .l10n
+                                                                .ofLabel,
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  textScaleFactor *
+                                                                  12.0,
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    right: 4.0,
-                                                                    left: 6),
-                                                            child: Text(
-                                                              EnArConvertor
-                                                                  .localize(
-                                                                context,
-                                                                productsDetail !=
-                                                                        null
-                                                                    ? (productsDetail?.total ??
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                right: 4.0,
+                                                                left: 6,
+                                                              ),
+                                                          child: Text(
+                                                            EnArConvertor.localize(
+                                                              context,
+                                                              productsDetail !=
+                                                                      null
+                                                                  ? (productsDetail?.total ??
                                                                             0)
                                                                         .toString()
-                                                                    : '0',
-                                                              ),
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        13.0,
-                                                              ),
+                                                                  : '0',
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  textScaleFactor *
+                                                                  13.0,
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   );
                                                 },
@@ -523,7 +534,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          top: 8.0),
+                                                        top: 8.0,
+                                                      ),
                                                   child: Text(
                                                     context.l10n.statusLabel,
                                                     textAlign: TextAlign.center,
@@ -532,7 +544,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           context.secondaryText,
                                                       fontSize:
                                                           textScaleFactor *
-                                                              12.0,
+                                                          12.0,
                                                     ),
                                                   ),
                                                 ),
@@ -541,17 +553,19 @@ class _ClearScreenState extends State<ClearScreen>
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          top: 8.0),
+                                                        top: 8.0,
+                                                      ),
                                                   child: Text(
                                                     context
-                                                        .l10n.amountTomanLabel,
+                                                        .l10n
+                                                        .amountTomanLabel,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color:
                                                           context.secondaryText,
                                                       fontSize:
                                                           textScaleFactor *
-                                                              12.0,
+                                                          12.0,
                                                     ),
                                                   ),
                                                 ),
@@ -573,9 +587,11 @@ class _ClearScreenState extends State<ClearScreen>
                                                 loadedProductstolist.length,
                                             itemBuilder: (ctx, i) =>
                                                 ChangeNotifierProvider.value(
-                                              value: loadedProductstolist[i],
-                                              child: ClearingItemClearScreen(),
-                                            ),
+                                                  value:
+                                                      loadedProductstolist[i],
+                                                  child:
+                                                      ClearingItemClearScreen(),
+                                                ),
                                           ),
                                         ),
                                       ],
@@ -590,7 +606,7 @@ class _ClearScreenState extends State<ClearScreen>
                             left: 15,
                             right: 15,
                             child: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
                                     context.l10n.enterShebaNumber,
@@ -607,23 +623,27 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 );
                                 if (shabaController.text == 'IR') {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(addToCartSnackBar);
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(addToCartSnackBar);
                                 } else {
-                                  context
+                                  await context
                                       .read<CustomerInfoBloc>()
                                       .sendClearingRequest(
-                                          removeSemicolon(
-                                              donationController.text),
-                                          shabaController.text,
-                                          isLogin)
-                                      .then((value) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            NavigationBottomScreen.routeName,
-                                            (Route<dynamic> route) => false);
-                                    _showSenddialog();
-                                  });
+                                        removeSemicolon(
+                                          donationController.text,
+                                        ),
+                                        shabaController.text,
+                                        isLogin,
+                                      );
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    NavigationBottomScreen.routeName,
+                                    (Route<dynamic> route) => false,
+                                  );
+                                  _showSenddialog();
                                 }
                               },
                               child: ButtonBottom(
@@ -635,16 +655,16 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                           ),
                           Positioned(
-                              top: 0,
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Align(
-                                  alignment: Alignment.center,
-                                  child: _isLoading
-                                      ? SpinKitFadingCircle(
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: _isLoading
+                                  ? SpinKitFadingCircle(
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
                                             return DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -654,8 +674,10 @@ class _ClearScreenState extends State<ClearScreen>
                                               ),
                                             );
                                           },
-                                        )
-                                      : Container()))
+                                    )
+                                  : Container(),
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -9,7 +9,7 @@ import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 
@@ -73,12 +73,14 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     bool isCollected,
   ) {
     final c = Completer<void>();
-    add(WastesAddInitialWasteCartRequested(
-      wastesCart,
-      isAdded,
-      isCollected,
-      completer: c,
-    ));
+    add(
+      WastesAddInitialWasteCartRequested(
+        wastesCart,
+        isAdded,
+        isCollected,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -88,12 +90,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     bool isAdded,
   ) {
     final c = Completer<void>();
-    add(WastesUpdateWasteCartRequested(
-      waste,
-      exactWeight,
-      isAdded,
-      completer: c,
-    ));
+    add(
+      WastesUpdateWasteCartRequested(waste, exactWeight, isAdded, completer: c),
+    );
     return c.future;
   }
 
@@ -184,21 +183,14 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   }
 
   /// Sends corrected exact weights for each waste item and confirms pickup.
-  Future<void> confirmPickup(
-    int collectId,
-    List<Map<String, dynamic>> items,
-  ) {
+  Future<void> confirmPickup(int collectId, List<Map<String, dynamic>> items) {
     final c = Completer<void>();
     add(WastesConfirmPickupRequested(collectId, items, completer: c));
     return c.future;
   }
 
   /// Driver rates the customer for this collect request.
-  Future<void> submitCustomerRating(
-    int collectId,
-    int score,
-    String comment,
-  ) {
+  Future<void> submitCustomerRating(int collectId, int score, String comment) {
     final c = Completer<void>();
     add(WastesRateCustomerRequested(collectId, score, comment, completer: c));
     return c.future;
@@ -353,8 +345,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
-          .isAdded = event.isAdded;
+              .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
+              .isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -377,8 +370,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
             estimated_weight: c.estimated_weight,
             estimated_price: c.estimated_price,
             exact_price: event.isCollected ? c.exact_price : c.estimated_price,
-            exact_weight:
-                event.isCollected ? c.exact_weight : c.estimated_weight,
+            exact_weight: event.isCollected
+                ? c.exact_weight
+                : c.estimated_weight,
             isAdded: event.isAdded,
           ),
         );
@@ -398,8 +392,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
-          .exact_weight = event.exactWeight;
+              .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
+              .exact_weight =
+          event.exactWeight;
       next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
           event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
@@ -416,8 +411,9 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   ) async {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
-        state.wasteCartItems
-            .firstWhere((prod) => prod.waste.id == event.wasteId),
+        state.wasteCartItems.firstWhere(
+          (prod) => prod.waste.id == event.wasteId,
+        ),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();
@@ -586,7 +582,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/accept';
+    final url =
+        '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/accept';
     final response = await post(
       Uri.parse(url),
       headers: {
@@ -611,7 +608,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/reject';
+    final url =
+        '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/reject';
     final response = await post(
       Uri.parse(url),
       headers: {
@@ -636,7 +634,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/pickup';
+    final url =
+        '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/pickup';
     final response = await post(
       Uri.parse(url),
       headers: {

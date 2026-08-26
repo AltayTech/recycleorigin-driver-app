@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
@@ -18,7 +17,6 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/buton_bottom.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
-import 'package:recycleorigindriver/features/customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 
 class SendDeliveryScreen extends StatefulWidget {
@@ -27,15 +25,15 @@ class SendDeliveryScreen extends StatefulWidget {
   const SendDeliveryScreen({super.key});
 
   @override
-  _SendDeliveryScreenState createState() => _SendDeliveryScreenState();
+  State<SendDeliveryScreen> createState() => _SendDeliveryScreenState();
 }
 
 class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     with TickerProviderStateMixin {
-//  List<WasteCart> wasteCartItems = [];
+  //  List<WasteCart> wasteCartItems = [];
   bool _isInit = true;
 
-  var _isLoading = true;
+  bool _isLoading = true;
   double totalPrice = 0;
   double totalWeight = 0.0;
   List<Collect> loadedCollect = [];
@@ -49,18 +47,6 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         title: context.l10n.loginLabel,
         buttonText: context.l10n.loginPageLabel,
         description: context.l10n.loginRequiredDescription,
-        image: Image.asset(''),
-      ),
-    );
-  }
-
-  void _showCompletedialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogProfile(
-        title: context.l10n.personalInfoLabel,
-        buttonText: context.l10n.profilePageLabel,
-        description: context.l10n.completeProfileDescription,
         image: Image.asset(''),
       ),
     );
@@ -82,12 +68,22 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
   void didChangeDependencies() async {
     if (_isInit) {
       await context.read<AuthBloc>().checkCompleted();
+      if (!mounted) {
+        return;
+      }
       await searchItems();
+      if (!mounted) {
+        return;
+      }
 
       await getWasteItems();
+      if (!mounted) {
+        return;
+      }
       await context.read<CustomerInfoBloc>().getCustomer();
-      print(
-          'didChangeDependenciesdidChangeDependenciesdidChangeDependenciesdidChangeDependencies');
+      if (!mounted) {
+        return;
+      }
 
       setState(() {});
     }
@@ -100,16 +96,19 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     setState(() {
       _isLoading = true;
     });
-//    final productId = ModalRoute.of(context).settings.arguments as int;
-//    await Provider.of<Wastes>(context, listen: false)
-//        .retrieveCollectItem(productId);
+    //    final productId = ModalRoute.of(context).settings.arguments as int;
+    //    await Provider.of<Wastes>(context, listen: false)
+    //        .retrieveCollectItem(productId);
 
     await context.read<DeliveriesBloc>().getCollectedItemsToDeliver();
+    if (!mounted) {
+      return;
+    }
     loadedCollect = context.read<DeliveriesBloc>().state.toDeliveryCollectItems;
-//    await Provider.of<Deliveries>(context, listen: false)
-//        .addInitialWasteCart(loadedCollect.collect_list, true);
-//    loadedCollect =
-//        Provider.of<Deliveries>(context, listen: false).requestWasteItem;
+    //    await Provider.of<Deliveries>(context, listen: false)
+    //        .addInitialWasteCart(loadedCollect.collect_list, true);
+    //    loadedCollect =
+    //        Provider.of<Deliveries>(context, listen: false).requestWasteItem;
     setState(() {
       _isLoading = false;
     });
@@ -120,7 +119,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
       _isLoading = true;
     });
     loadedCollect = context.read<DeliveriesBloc>().state.toDeliveryCollectItems;
-//    wasteCartItems = Provider.of<Deliveries>(context, listen: false).wasteCartItems;
+    //    wasteCartItems = Provider.of<Deliveries>(context, listen: false).wasteCartItems;
     totalPrice = 0;
     totalWeight = 0;
     if (loadedCollect.isNotEmpty) {
@@ -139,19 +138,19 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     });
   }
 
-//  String getPrice(List<PriceWeight> prices, int weight) {
-//    String price = '0';
-//
-//    for (int i = 0; i < prices.length; i++) {
-//      if (weight > int.parse(prices[i].weight)) {
-//        price = prices[i].price;
-//      } else {
-//        price = prices[i].price;
-//        break;
-//      }
-//    }
-//    return price;
-//  }
+  //  String getPrice(List<PriceWeight> prices, int weight) {
+  //    String price = '0';
+  //
+  //    for (int i = 0; i < prices.length; i++) {
+  //      if (weight > int.parse(prices[i].weight)) {
+  //        price = prices[i].price;
+  //      } else {
+  //        price = prices[i].price;
+  //        break;
+  //      }
+  //    }
+  //    return price;
+  //  }
 
   late AnimationController _totalPriceController;
   late Animation<double> _totalPriceAnimation;
@@ -174,81 +173,75 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 
   void changeNumberAnimation(double newValue) {
     setState(() {
-      _totalPriceAnimation = Tween<double>(
-        begin: _totalPriceAnimation.value,
-        end: newValue,
-      ).animate(CurvedAnimation(
-        curve: Curves.ease,
-        parent: _totalPriceController,
-      ));
+      _totalPriceAnimation =
+          Tween<double>(
+            begin: _totalPriceAnimation.value,
+            end: newValue,
+          ).animate(
+            CurvedAnimation(curve: Curves.ease, parent: _totalPriceController),
+          );
     });
     _totalPriceController.forward(from: 0.0);
   }
 
-//  Future<void> createRequest(BuildContext context, bool collected) async {
-//    setState(() {
-//      _isLoading = true;
-//    });
-//
-//    List<Collect> collectList = [];
-//    for (int i = 0; i < wasteCartItems.length; i++) {
-//      if (wasteCartItems[i].isAdded) {
-//        collectList.add(
-//          Collect(
-//            estimated_weight: wasteCartItems[i].estimated_weight,
-//            estimated_price: wasteCartItems[i].estimated_price,
-//            exact_weight: wasteCartItems[i].exact_weight,
-//            exact_price: wasteCartItems[i].exact_price,
-//            pasmand: Pasmand(
-//                id: wasteCartItems[i].pasmand.id,
-//                post_title: wasteCartItems[i].pasmand.post_title),
-//          ),
-//        );
-//      } else if (!wasteCartItems[i].isAdded) {
-//        collectList.add(
-//          Collect(
-//            estimated_weight: wasteCartItems[i].estimated_weight,
-//            estimated_price: wasteCartItems[i].estimated_price,
-//            exact_weight: '0',
-//            exact_price: '0',
-//            pasmand: Pasmand(
-//                id: wasteCartItems[i].pasmand.id,
-//                post_title: wasteCartItems[i].pasmand.post_title),
-//          ),
-//        );
-//      }
-//    }
-//
-//    requestWaste = RequestWaste(
-//      collect_list: collectList,
-//      collected: collected,
-//    );
-//
-//    setState(() {
-//      _isLoading = false;
-//    });
-//  }
-//
-  Future<void> sendRequest(
-    int storeId,
-  ) async {
+  //  Future<void> createRequest(BuildContext context, bool collected) async {
+  //    setState(() {
+  //      _isLoading = true;
+  //    });
+  //
+  //    List<Collect> collectList = [];
+  //    for (int i = 0; i < wasteCartItems.length; i++) {
+  //      if (wasteCartItems[i].isAdded) {
+  //        collectList.add(
+  //          Collect(
+  //            estimated_weight: wasteCartItems[i].estimated_weight,
+  //            estimated_price: wasteCartItems[i].estimated_price,
+  //            exact_weight: wasteCartItems[i].exact_weight,
+  //            exact_price: wasteCartItems[i].exact_price,
+  //            pasmand: Pasmand(
+  //                id: wasteCartItems[i].pasmand.id,
+  //                post_title: wasteCartItems[i].pasmand.post_title),
+  //          ),
+  //        );
+  //      } else if (!wasteCartItems[i].isAdded) {
+  //        collectList.add(
+  //          Collect(
+  //            estimated_weight: wasteCartItems[i].estimated_weight,
+  //            estimated_price: wasteCartItems[i].estimated_price,
+  //            exact_weight: '0',
+  //            exact_price: '0',
+  //            pasmand: Pasmand(
+  //                id: wasteCartItems[i].pasmand.id,
+  //                post_title: wasteCartItems[i].pasmand.post_title),
+  //          ),
+  //        );
+  //      }
+  //    }
+  //
+  //    requestWaste = RequestWaste(
+  //      collect_list: collectList,
+  //      collected: collected,
+  //    );
+  //
+  //    setState(() {
+  //      _isLoading = false;
+  //    });
+  //  }
+  //
+  Future<void> sendRequest(int storeId) async {
     setState(() {
       _isLoading = true;
     });
     bool isLogin = context.read<AuthBloc>().state.isAuth;
-    await context
-        .read<DeliveriesBloc>()
-        .sendRequest(
-          storeId,
-          isLogin,
-        )
-        .then((value) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          NavigationBottomScreen.routeName, (Route<dynamic> route) => false);
-      _showSenddialog();
-    });
-    print(
-        'didChangeDependenciesdidChangeDependenciesdidChangeDependenciesdidChangeDependencies');
+    await context.read<DeliveriesBloc>().sendRequest(storeId, isLogin);
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      NavigationBottomScreen.routeName,
+      (Route<dynamic> route) => false,
+    );
+    _showSenddialog();
 
     setState(() {
       _isLoading = false;
@@ -271,8 +264,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.read<AuthBloc>().state.isAuth;
     final scheme = Theme.of(context).colorScheme;
 
@@ -282,210 +274,222 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
         title: Text(context.l10n.requestDetailTitle),
         centerTitle: true,
       ),
-      body: Builder(builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      HeaderTotal(
-                        totalNumber: loadedCollect.length,
-                        totalPrice: totalPrice,
-                        totalWeight: totalWeight,
-                        totalPriceController: _totalPriceController,
-                        totalPriceAnimation: _totalPriceAnimation,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
-                          buildWhen: (p, c) =>
-                              p.toDeliveryCollectItems !=
-                              c.toDeliveryCollectItems,
-                          builder: (_, deliveryState) => deliveryState
-                                      .toDeliveryCollectItems.isNotEmpty
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    color: scheme.surface,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 15.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Text(
-                                                context.l10n.typeLabel,
-                                                style: TextStyle(
-                                                  color: context.secondaryText,
-                                                  fontSize:
-                                                      textScaleFactor * 12,
+      body: Builder(
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Stack(
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        HeaderTotal(
+                          totalNumber: loadedCollect.length,
+                          totalPrice: totalPrice,
+                          totalWeight: totalWeight,
+                          totalPriceController: _totalPriceController,
+                          totalPriceAnimation: _totalPriceAnimation,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: BlocBuilder<DeliveriesBloc, DeliveriesState>(
+                            buildWhen: (p, c) =>
+                                p.toDeliveryCollectItems !=
+                                c.toDeliveryCollectItems,
+                            builder: (_, deliveryState) =>
+                                deliveryState.toDeliveryCollectItems.isNotEmpty
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      color: scheme.surface,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 15.0,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Text(
+                                                  context.l10n.typeLabel,
+                                                  style: TextStyle(
+                                                    color:
+                                                        context.secondaryText,
+                                                    fontSize:
+                                                        textScaleFactor * 12,
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                context.l10n.weightKgLabel,
-                                                style: TextStyle(
-                                                  color: context.secondaryText,
-                                                  fontSize:
-                                                      textScaleFactor * 12,
+                                              Expanded(
+                                                child: Text(
+                                                  context.l10n.weightKgLabel,
+                                                  style: TextStyle(
+                                                    color:
+                                                        context.secondaryText,
+                                                    fontSize:
+                                                        textScaleFactor * 12,
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                context.l10n.priceTomanLabel,
-                                                style: TextStyle(
-                                                  color: context.secondaryText,
-                                                  fontSize:
-                                                      textScaleFactor * 12,
+                                              Expanded(
+                                                child: Text(
+                                                  context.l10n.priceTomanLabel,
+                                                  style: TextStyle(
+                                                    color:
+                                                        context.secondaryText,
+                                                    fontSize:
+                                                        textScaleFactor * 12,
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                textAlign: TextAlign.center,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: deviceHeight * 0.6,
-                                        decoration: BoxDecoration(
-                                          color: scheme.surface,
-                                          borderRadius:
-                                              BorderRadius.circular(2),
-                                        ),
-                                        child: ListView.builder(
-//                                        shrinkWrap: true,
-//                                        physics:
-//                                            const NeverScrollableScrollPhysics(),
-                                          itemCount: deliveryState
-                                              .toDeliveryCollectItems.length,
-                                          itemBuilder: (ctx, i) =>
-                                              CollectDeliveryDetailItem(
-                                            wasteItem: deliveryState
-                                                .toDeliveryCollectItems[i],
-                                            function: getWasteItems,
+                                            ],
                                           ),
                                         ),
+                                        Container(
+                                          height: deviceHeight * 0.6,
+                                          decoration: BoxDecoration(
+                                            color: scheme.surface,
+                                            borderRadius: BorderRadius.circular(
+                                              2,
+                                            ),
+                                          ),
+                                          child: ListView.builder(
+                                            //                                        shrinkWrap: true,
+                                            //                                        physics:
+                                            //                                            const NeverScrollableScrollPhysics(),
+                                            itemCount: deliveryState
+                                                .toDeliveryCollectItems
+                                                .length,
+                                            itemBuilder: (ctx, i) =>
+                                                CollectDeliveryDetailItem(
+                                                  wasteItem: deliveryState
+                                                      .toDeliveryCollectItems[i],
+                                                  function: getWasteItems,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: deviceHeight * 0.5,
+                                    child: Center(
+                                      child: Text(
+                                        context.l10n.noWasteToDeliver,
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                )
-                              : SizedBox(
-                                  height: deviceHeight * 0.5,
-                                  child: Center(
-                                    child: Text(context.l10n.noWasteToDeliver),
-                                  ),
-                                ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: _isLoading
-                      ? SpinKitFadingCircle(
-                          itemBuilder: (BuildContext context, int index) {
-                            return DecoratedBox(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: index.isEven ? Colors.grey : Colors.grey,
-                              ),
-                            );
-                          },
-                        )
-                      : InkWell(
-                          onTap: () async {
-                            SnackBar addToCartSnackBar = SnackBar(
-                              content: Text(
-                                context.l10n.alreadyCollected,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: textScaleFactor * 14.0,
-                                ),
-                              ),
-                              action: SnackBarAction(
-                                label: context.l10n.gotItLabel,
-                                onPressed: () {
-                                  // Some code to undo the change.
-                                },
-                              ),
-                            );
-                            if (loadedCollect.isEmpty) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(addToCartSnackBar);
-                            } else if (!isLogin) {
-                              _showLogindialog();
-                            } else {
-                              _showSendDeliveryDialog();
-//                                await createRequest(context, true).then(
-//                                  (value) =>
-//                                      sendRequest(context, isLogin).then(
-//                                    (value) {
-//                                      Navigator.of(context)
-//                                          .pushNamedAndRemoveUntil(
-//                                              NavigationBottomScreen
-//                                                  .routeName,
-//                                              (Route<dynamic> route) =>
-//                                                  false);
-//                                    },
-//                                  ),
-//                                );
-//                                _showSenddialog();
-                            }
-                          },
-                          child: ButtonBottom(
-                            width: deviceWidth * 0.9,
-                            height: deviceWidth * 0.14,
-                            text: context.l10n.deliverLabel,
-                            isActive: loadedCollect.isNotEmpty,
                           ),
                         ),
-                ),
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.center,
+                        SizedBox(height: 50),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                     child: _isLoading
                         ? SpinKitFadingCircle(
                             itemBuilder: (BuildContext context, int index) {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
                                 ),
                               );
                             },
                           )
-                        : Container(),
+                        : InkWell(
+                            onTap: () async {
+                              SnackBar addToCartSnackBar = SnackBar(
+                                content: Text(
+                                  context.l10n.alreadyCollected,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: textScaleFactor * 14.0,
+                                  ),
+                                ),
+                                action: SnackBarAction(
+                                  label: context.l10n.gotItLabel,
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              );
+                              if (loadedCollect.isEmpty) {
+                                ScaffoldMessenger.of(
+                                  context,
+                                ).showSnackBar(addToCartSnackBar);
+                              } else if (!isLogin) {
+                                _showLogindialog();
+                              } else {
+                                _showSendDeliveryDialog();
+                                //                                await createRequest(context, true).then(
+                                //                                  (value) =>
+                                //                                      sendRequest(context, isLogin).then(
+                                //                                    (value) {
+                                //                                      Navigator.of(context)
+                                //                                          .pushNamedAndRemoveUntil(
+                                //                                              NavigationBottomScreen
+                                //                                                  .routeName,
+                                //                                              (Route<dynamic> route) =>
+                                //                                                  false);
+                                //                                    },
+                                //                                  ),
+                                //                                );
+                                //                                _showSenddialog();
+                              }
+                            },
+                            child: ButtonBottom(
+                              width: deviceWidth * 0.9,
+                              height: deviceWidth * 0.14,
+                              text: context.l10n.deliverLabel,
+                              isActive: loadedCollect.isNotEmpty,
+                            ),
+                          ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: _isLoading
+                          ? SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: index.isEven
+                                        ? Colors.grey
+                                        : Colors.grey,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
       drawer: mainDrawerIfRootRoute(context),
     );
   }

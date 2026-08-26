@@ -7,7 +7,8 @@ class CustomDialogEnter extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  const CustomDialogEnter({super.key, 
+  const CustomDialogEnter({
+    super.key,
     required this.title,
     required this.description,
     required this.buttonText,
@@ -58,7 +59,7 @@ class CustomDialogEnter extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Color(0xff0197F6),
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -68,7 +69,7 @@ class CustomDialogEnter extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.blueGrey,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 14,
                 ),
               ),
               SizedBox(height: 24.0),
@@ -78,8 +79,9 @@ class CustomDialogEnter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context)
-                          .popAndPushNamed(LoginScreen.routeName);
+                      Navigator.of(
+                        context,
+                      ).popAndPushNamed(LoginScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,
@@ -94,7 +96,7 @@ class CustomDialogEnter extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize:
-                                MediaQuery.of(context).textScaleFactor * 16,
+                                MediaQuery.textScalerOf(context).scale(1) * 16,
                           ),
                         ),
                       ),

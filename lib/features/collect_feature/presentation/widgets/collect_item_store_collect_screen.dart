@@ -12,10 +12,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
 
   Widget getStatusIcon(BuildContext context, String statusSlug) {
     if (statusSlug == 'delivery_done') {
-      return Icon(
-        Icons.check_circle,
-        color: context.brandPrimary,
-      );
+      return Icon(Icons.check_circle, color: context.brandPrimary);
     }
     return Icon(
       Icons.access_time,
@@ -25,9 +22,8 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final collect = Provider.of<DeliveryWasteItem>(context, listen: false);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
@@ -41,19 +37,16 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
           builder: (ctx, constraints) {
             return InkWell(
               onTap: () {
-//                Navigator.of(context).pushNamed(
-//                  DeliveryDetailScreen.routeName,
-//                  arguments: collect.id,
-//                );
+                //                Navigator.of(context).pushNamed(
+                //                  DeliveryDetailScreen.routeName,
+                //                  arguments: collect.id,
+                //                );
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: scheme.surface,
                   borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: scheme.outlineVariant,
-                    width: 0.3,
-                  ),
+                  border: Border.all(color: scheme.outlineVariant, width: 0.3),
                 ),
                 height: constraints.maxHeight,
                 child: Padding(
@@ -68,8 +61,10 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, bottom: 4),
+                                  padding: const EdgeInsets.only(
+                                    left: 8,
+                                    bottom: 4,
+                                  ),
                                   child: Icon(
                                     Icons.date_range,
                                     color: context.brandPrimary,
@@ -90,8 +85,11 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Center(
-                                child: getStatusIcon(
-                                    context, collect.status.slug)),
+                              child: getStatusIcon(
+                                context,
+                                collect.status.slug,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -103,7 +101,9 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 30, left: 4),
+                                      right: 30,
+                                      left: 4,
+                                    ),
                                     child: Text(
                                       EnArConvertor.localize(
                                         context,
@@ -139,7 +139,8 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                       currencyFormat.format(
                                         double.parse(
                                           collect
-                                              .total_collects_price.estimated,
+                                              .total_collects_price
+                                              .estimated,
                                         ),
                                       ),
                                     ),
@@ -173,7 +174,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
                                   fontSize: textScaleFactor * 12.0,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),

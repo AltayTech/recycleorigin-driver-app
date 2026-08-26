@@ -4,7 +4,8 @@ class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  const CustomDialog({super.key, 
+  const CustomDialog({
+    super.key,
     required this.title,
     required this.description,
     required this.buttonText,
@@ -53,7 +54,7 @@ class CustomDialog extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Color(0xff0197F6),
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -63,7 +64,7 @@ class CustomDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.blueGrey,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 14,
                 ),
               ),
               SizedBox(height: 24.0),
@@ -88,7 +89,7 @@ class CustomDialog extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize:
-                                MediaQuery.of(context).textScaleFactor * 16,
+                                MediaQuery.textScalerOf(context).scale(1) * 16,
                           ),
                         ),
                       ),

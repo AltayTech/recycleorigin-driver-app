@@ -4,19 +4,19 @@ import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
-import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class CollectDeliveryDetailItem extends StatefulWidget {
   final Collect wasteItem;
   final Function function;
 
-  const CollectDeliveryDetailItem({super.key, 
+  const CollectDeliveryDetailItem({
+    super.key,
     required this.wasteItem,
     required this.function,
   });
 
   @override
-  _CollectDeliveryDetailItemState createState() =>
+  State<CollectDeliveryDetailItem> createState() =>
       _CollectDeliveryDetailItemState();
 }
 
@@ -34,54 +34,54 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
       _isLoading = false;
 
       productWeight = double.parse(widget.wasteItem.exact_weight);
-//      changeNumberAnimation(double.parse(
-//              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
-//          widget.wasteItem.weight);
+      //      changeNumberAnimation(double.parse(
+      //              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
+      //          widget.wasteItem.weight);
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-//  Future<void> removeItem() async {
-//    setState(() {
-//      _isLoading = true;
-//    });
-//    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
-//      widget.wasteItem.waste.id,
-//    );
-//
-//    widget.function();
-//    setState(() {
-//      _isLoading = false;
-//    });
-//  }
+  //  Future<void> removeItem() async {
+  //    setState(() {
+  //      _isLoading = true;
+  //    });
+  //    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
+  //      widget.wasteItem.waste.id,
+  //    );
+  //
+  //    widget.function();
+  //    setState(() {
+  //      _isLoading = false;
+  //    });
+  //  }
 
-//  Future<void> updateItem(String exactWeight, bool isAdded) async {
-//    setState(() {
-//      _isLoading = true;
-//    });
-//    await Provider.of<Wastes>(context, listen: false)
-//        .updateWasteCart(widget.wasteItem, exactWeight, isAdded);
-//
-//    widget.function();
-//    setState(() {
-//      _isLoading = false;
-//    });
-//  }
+  //  Future<void> updateItem(String exactWeight, bool isAdded) async {
+  //    setState(() {
+  //      _isLoading = true;
+  //    });
+  //    await Provider.of<Wastes>(context, listen: false)
+  //        .updateWasteCart(widget.wasteItem, exactWeight, isAdded);
+  //
+  //    widget.function();
+  //    setState(() {
+  //      _isLoading = false;
+  //    });
+  //  }
 
-//  String getPrice(List<PriceWeight> prices, int weight) {
-//    String price = '0';
-//
-//    for (int i = 0; i < prices.length; i++) {
-//      if (weight > int.parse(prices[i].weight)) {
-//        price = prices[i].price;
-//      } else {
-//        price = prices[i].price;
-//        break;
-//      }
-//    }
-//    return price;
-//  }
+  //  String getPrice(List<PriceWeight> prices, int weight) {
+  //    String price = '0';
+  //
+  //    for (int i = 0; i < prices.length; i++) {
+  //      if (weight > int.parse(prices[i].weight)) {
+  //        price = prices[i].price;
+  //      } else {
+  //        price = prices[i].price;
+  //        break;
+  //      }
+  //    }
+  //    return price;
+  //  }
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -108,19 +108,15 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
       _animation = Tween<double>(
         begin: _animation.value,
         end: newValue,
-      ).animate(CurvedAnimation(
-        curve: Curves.ease,
-        parent: _controller,
-      ));
+      ).animate(CurvedAnimation(curve: Curves.ease, parent: _controller));
     });
     _controller.forward(from: 0.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final currencyFormat = EnArConvertor.decimalPatternFor(context);
 
     return Padding(
@@ -139,22 +135,22 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
             ),
             child: Stack(
               children: <Widget>[
-//                Positioned(
-//                  top: 0,
-//                  right: 0,
-//                  width: deviceWidth * 0.046,
-//                  height: deviceWidth * 0.046,
-//                  child: Checkbox(
-//                    value: widget.wasteItem.isAdded,
-//                    onChanged: (value) {
-//                      if (widget.wasteItem.isAdded) {
-//                        updateItem(widget.wasteItem.exact_weight, false);
-//                      } else {
-//                        updateItem((widget.wasteItem.exact_weight), true);
-//                      }
-//                    },
-//                  ),
-//                ),
+                //                Positioned(
+                //                  top: 0,
+                //                  right: 0,
+                //                  width: deviceWidth * 0.046,
+                //                  height: deviceWidth * 0.046,
+                //                  child: Checkbox(
+                //                    value: widget.wasteItem.isAdded,
+                //                    onChanged: (value) {
+                //                      if (widget.wasteItem.isAdded) {
+                //                        updateItem(widget.wasteItem.exact_weight, false);
+                //                      } else {
+                //                        updateItem((widget.wasteItem.exact_weight), true);
+                //                      }
+                //                    },
+                //                  ),
+                //                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -167,7 +163,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              widget.wasteItem.waste.post_title ?? context.l10n.noneLabel,
+                              widget.wasteItem.waste.post_title,
                               style: TextStyle(
                                 color: context.primaryText,
                                 fontWeight: FontWeight.w500,
@@ -217,311 +213,311 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                           },
                         ),
                       ),
-//                      Container(
-//                        height: constraints.maxHeight * 0.8,
-//                        width: constraints.maxWidth * 0.12,
-//                        child: Column(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          crossAxisAlignment: CrossAxisAlignment.center,
-//                          children: <Widget>[
-//                            Expanded(
-//                                child: InkWell(
-//                                  onTap: () async {
-//                                    productWeight = productWeight + 1;
-//
-//                                    await Provider.of<Wastes>(context,
-//                                        listen: false)
-//                                        .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                    changeNumberAnimation(
-////                                                        double.parse(getPrice(
-////                                                                widget.wasteItem
-////                                                                    .prices,
-////                                                                widget.wasteItem
-////                                                                    .weight)) *
-////                                                            widget.wasteItem
-////                                                                .weight);
-//                                    widget.function();
-//                                  },
-//                                  onDoubleTap: () async {
-//                                    productWeight = productWeight + 10;
-//
-//                                    await Provider.of<Wastes>(context,
-//                                        listen: false)
-//                                        .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                    changeNumberAnimation(
-////                                                        double.parse(getPrice(
-////                                                                widget.wasteItem
-////                                                                    .prices,
-////                                                                widget.wasteItem
-////                                                                    .weight)) *
-////                                                            widget.wasteItem
-////                                                                .weight);
-//                                    widget.function();
-//                                  },
-//                                  child: Container(
-//                                      decoration: BoxDecoration(
-//                                        shape: BoxShape.circle,
-//                                        color: AppTheme.accent,
-//                                      ),
-//                                      child: Icon(
-//                                        Icons.add,
-//                                        color: AppTheme.bg,
-//                                      )),
-//                                )),
-//                            Expanded(
-//                              child: Padding(
-//                                padding: const EdgeInsets.only(top: 3.0),
-//                                child: Text(
-//                                  EnArConvertor()
-//                                      .replaceArNumber(widget
-//                                      .wasteItem.exact_weight
-//                                      .toString())
-//                                      .toString(),
-//                                  style: TextStyle(
-//                                    color: context.primaryText,
-//                                    //                                    fontSize: textScaleFactor * 14,
-//                                  ),
-//                                  textAlign: TextAlign.center,
-//                                ),
-//                              ),
-//                            ),
-//                            Expanded(
-//                              child: InkWell(
-//                                onTap: () {
-//                                  if (productWeight > 1) {
-//                                    productWeight = productWeight - 1;
-//                                    print('productCount' +
-//                                        productWeight.toString());
-//
-//                                    Provider.of<Wastes>(context, listen: false)
-//                                        .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                        changeNumberAnimation(
-////                                                            double.parse(getPrice(
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .prices,
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .weight)) *
-////                                                                widget.wasteItem
-////                                                                    .weight);
-//                                  }
-//                                  widget.function();
-//                                },
-//                                onDoubleTap: () async {
-//                                  if (productWeight > 10) {
-//                                    productWeight = productWeight - 10;
-//                                    print('productCount' +
-//                                        productWeight.toString());
-//
-//                                    Provider.of<Wastes>(context, listen: false)
-//                                        .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                        changeNumberAnimation(
-////                                                            double.parse(getPrice(
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .prices,
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .weight)) *
-////                                                                widget.wasteItem
-////                                                                    .weight);
-//                                  }
-//                                  widget.function();
-//                                },
-//                                child: Container(
-//                                  decoration: BoxDecoration(
-//                                    shape: BoxShape.circle,
-//                                    color: AppTheme.accent,
-//                                  ),
-//                                  child: Icon(
-//                                    Icons.remove,
-//                                    color: AppTheme.bg,
-//                                  ),
-//                                ),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                      Container(
-//                        height: constraints.maxHeight * 0.8,
-//                        width: constraints.maxWidth * 0.12,
-//                        child: Column(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          crossAxisAlignment: CrossAxisAlignment.center,
-//                          children: <Widget>[
-//                            Expanded(
-//                                child: InkWell(
-//                              onTap: () async {
-//                                productWeight = productWeight + 1;
-//
-//                                await Provider.of<Wastes>(context,
-//                                        listen: false)
-//                                    .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                    changeNumberAnimation(
-////                                                        double.parse(getPrice(
-////                                                                widget.wasteItem
-////                                                                    .prices,
-////                                                                widget.wasteItem
-////                                                                    .weight)) *
-////                                                            widget.wasteItem
-////                                                                .weight);
-//                                widget.function();
-//                              },
-//                              onDoubleTap: () async {
-//                                productWeight = productWeight + 10;
-//
-//                                await Provider.of<Wastes>(context,
-//                                        listen: false)
-//                                    .updateWasteCart(
-//                                        widget.wasteItem,
-//                                        productWeight.toString(),
-//                                        widget.wasteItem.isAdded);
-////                                                    changeNumberAnimation(
-////                                                        double.parse(getPrice(
-////                                                                widget.wasteItem
-////                                                                    .prices,
-////                                                                widget.wasteItem
-////                                                                    .weight)) *
-////                                                            widget.wasteItem
-////                                                                .weight);
-//                                widget.function();
-//                              },
-//                              child: Container(
-//                                  decoration: BoxDecoration(
-//                                    shape: BoxShape.circle,
-//                                    color: AppTheme.accent,
-//                                  ),
-//                                  child: Icon(
-//                                    Icons.add,
-//                                    color: AppTheme.bg,
-//                                  )),
-//                            )),
-//                            Expanded(
-//                              child: Padding(
-//                                padding: const EdgeInsets.only(top: 3.0),
-//                                child: Text(
-//                                  EnArConvertor()
-//                                      .replaceArNumber(widget
-//                                          .wasteItem.exact_weight
-//                                          .toString())
-//                                      .toString(),
-//                                  style: TextStyle(
-//                                    color: context.primaryText,
-//                                    //                                    fontSize: textScaleFactor * 14,
-//                                  ),
-//                                  textAlign: TextAlign.center,
-//                                ),
-//                              ),
-//                            ),
-//                            Expanded(
-//                              child: InkWell(
-//                                onTap: () {
-//                                  if (productWeight > 1) {
-//                                    productWeight = productWeight - 1;
-//                                    print('productCount' +
-//                                        productWeight.toString());
-//
-//                                    Provider.of<Wastes>(context, listen: false)
-//                                        .updateWasteCart(
-//                                            widget.wasteItem,
-//                                            productWeight.toString(),
-//                                            widget.wasteItem.isAdded);
-////                                                        changeNumberAnimation(
-////                                                            double.parse(getPrice(
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .prices,
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .weight)) *
-////                                                                widget.wasteItem
-////                                                                    .weight);
-//                                  }
-//                                  widget.function();
-//                                },
-//                                onDoubleTap: () async {
-//                                  if (productWeight > 10) {
-//                                    productWeight = productWeight - 10;
-//                                    print('productCount' +
-//                                        productWeight.toString());
-//
-//                                    Provider.of<Wastes>(context, listen: false)
-//                                        .updateWasteCart(
-//                                            widget.wasteItem,
-//                                            productWeight.toString(),
-//                                            widget.wasteItem.isAdded);
-////                                                        changeNumberAnimation(
-////                                                            double.parse(getPrice(
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .prices,
-////                                                                    widget
-////                                                                        .wasteItem
-////                                                                        .weight)) *
-////                                                                widget.wasteItem
-////                                                                    .weight);
-//                                  }
-//                                  widget.function();
-//                                },
-//                                child: Container(
-//                                  decoration: BoxDecoration(
-//                                    shape: BoxShape.circle,
-//                                    color: AppTheme.accent,
-//                                  ),
-//                                  child: Icon(
-//                                    Icons.remove,
-//                                    color: AppTheme.bg,
-//                                  ),
-//                                ),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-                      SizedBox(
-                        width: constraints.maxWidth * 0.01,
-                      )
+                      //                      Container(
+                      //                        height: constraints.maxHeight * 0.8,
+                      //                        width: constraints.maxWidth * 0.12,
+                      //                        child: Column(
+                      //                          mainAxisAlignment: MainAxisAlignment.center,
+                      //                          crossAxisAlignment: CrossAxisAlignment.center,
+                      //                          children: <Widget>[
+                      //                            Expanded(
+                      //                                child: InkWell(
+                      //                                  onTap: () async {
+                      //                                    productWeight = productWeight + 1;
+                      //
+                      //                                    await Provider.of<Wastes>(context,
+                      //                                        listen: false)
+                      //                                        .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                    changeNumberAnimation(
+                      ////                                                        double.parse(getPrice(
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .prices,
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight)) *
+                      ////                                                            widget.wasteItem
+                      ////                                                                .weight);
+                      //                                    widget.function();
+                      //                                  },
+                      //                                  onDoubleTap: () async {
+                      //                                    productWeight = productWeight + 10;
+                      //
+                      //                                    await Provider.of<Wastes>(context,
+                      //                                        listen: false)
+                      //                                        .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                    changeNumberAnimation(
+                      ////                                                        double.parse(getPrice(
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .prices,
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight)) *
+                      ////                                                            widget.wasteItem
+                      ////                                                                .weight);
+                      //                                    widget.function();
+                      //                                  },
+                      //                                  child: Container(
+                      //                                      decoration: BoxDecoration(
+                      //                                        shape: BoxShape.circle,
+                      //                                        color: AppTheme.accent,
+                      //                                      ),
+                      //                                      child: Icon(
+                      //                                        Icons.add,
+                      //                                        color: AppTheme.bg,
+                      //                                      )),
+                      //                                )),
+                      //                            Expanded(
+                      //                              child: Padding(
+                      //                                padding: const EdgeInsets.only(top: 3.0),
+                      //                                child: Text(
+                      //                                  EnArConvertor()
+                      //                                      .replaceArNumber(widget
+                      //                                      .wasteItem.exact_weight
+                      //                                      .toString())
+                      //                                      .toString(),
+                      //                                  style: TextStyle(
+                      //                                    color: context.primaryText,
+                      //                                    //                                    fontSize: textScaleFactor * 14,
+                      //                                  ),
+                      //                                  textAlign: TextAlign.center,
+                      //                                ),
+                      //                              ),
+                      //                            ),
+                      //                            Expanded(
+                      //                              child: InkWell(
+                      //                                onTap: () {
+                      //                                  if (productWeight > 1) {
+                      //                                    productWeight = productWeight - 1;
+                      //                                    print('productCount' +
+                      //                                        productWeight.toString());
+                      //
+                      //                                    Provider.of<Wastes>(context, listen: false)
+                      //                                        .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                        changeNumberAnimation(
+                      ////                                                            double.parse(getPrice(
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .prices,
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .weight)) *
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight);
+                      //                                  }
+                      //                                  widget.function();
+                      //                                },
+                      //                                onDoubleTap: () async {
+                      //                                  if (productWeight > 10) {
+                      //                                    productWeight = productWeight - 10;
+                      //                                    print('productCount' +
+                      //                                        productWeight.toString());
+                      //
+                      //                                    Provider.of<Wastes>(context, listen: false)
+                      //                                        .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                        changeNumberAnimation(
+                      ////                                                            double.parse(getPrice(
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .prices,
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .weight)) *
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight);
+                      //                                  }
+                      //                                  widget.function();
+                      //                                },
+                      //                                child: Container(
+                      //                                  decoration: BoxDecoration(
+                      //                                    shape: BoxShape.circle,
+                      //                                    color: AppTheme.accent,
+                      //                                  ),
+                      //                                  child: Icon(
+                      //                                    Icons.remove,
+                      //                                    color: AppTheme.bg,
+                      //                                  ),
+                      //                                ),
+                      //                              ),
+                      //                            ),
+                      //                          ],
+                      //                        ),
+                      //                      ),
+                      //                      Container(
+                      //                        height: constraints.maxHeight * 0.8,
+                      //                        width: constraints.maxWidth * 0.12,
+                      //                        child: Column(
+                      //                          mainAxisAlignment: MainAxisAlignment.center,
+                      //                          crossAxisAlignment: CrossAxisAlignment.center,
+                      //                          children: <Widget>[
+                      //                            Expanded(
+                      //                                child: InkWell(
+                      //                              onTap: () async {
+                      //                                productWeight = productWeight + 1;
+                      //
+                      //                                await Provider.of<Wastes>(context,
+                      //                                        listen: false)
+                      //                                    .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                    changeNumberAnimation(
+                      ////                                                        double.parse(getPrice(
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .prices,
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight)) *
+                      ////                                                            widget.wasteItem
+                      ////                                                                .weight);
+                      //                                widget.function();
+                      //                              },
+                      //                              onDoubleTap: () async {
+                      //                                productWeight = productWeight + 10;
+                      //
+                      //                                await Provider.of<Wastes>(context,
+                      //                                        listen: false)
+                      //                                    .updateWasteCart(
+                      //                                        widget.wasteItem,
+                      //                                        productWeight.toString(),
+                      //                                        widget.wasteItem.isAdded);
+                      ////                                                    changeNumberAnimation(
+                      ////                                                        double.parse(getPrice(
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .prices,
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight)) *
+                      ////                                                            widget.wasteItem
+                      ////                                                                .weight);
+                      //                                widget.function();
+                      //                              },
+                      //                              child: Container(
+                      //                                  decoration: BoxDecoration(
+                      //                                    shape: BoxShape.circle,
+                      //                                    color: AppTheme.accent,
+                      //                                  ),
+                      //                                  child: Icon(
+                      //                                    Icons.add,
+                      //                                    color: AppTheme.bg,
+                      //                                  )),
+                      //                            )),
+                      //                            Expanded(
+                      //                              child: Padding(
+                      //                                padding: const EdgeInsets.only(top: 3.0),
+                      //                                child: Text(
+                      //                                  EnArConvertor()
+                      //                                      .replaceArNumber(widget
+                      //                                          .wasteItem.exact_weight
+                      //                                          .toString())
+                      //                                      .toString(),
+                      //                                  style: TextStyle(
+                      //                                    color: context.primaryText,
+                      //                                    //                                    fontSize: textScaleFactor * 14,
+                      //                                  ),
+                      //                                  textAlign: TextAlign.center,
+                      //                                ),
+                      //                              ),
+                      //                            ),
+                      //                            Expanded(
+                      //                              child: InkWell(
+                      //                                onTap: () {
+                      //                                  if (productWeight > 1) {
+                      //                                    productWeight = productWeight - 1;
+                      //                                    print('productCount' +
+                      //                                        productWeight.toString());
+                      //
+                      //                                    Provider.of<Wastes>(context, listen: false)
+                      //                                        .updateWasteCart(
+                      //                                            widget.wasteItem,
+                      //                                            productWeight.toString(),
+                      //                                            widget.wasteItem.isAdded);
+                      ////                                                        changeNumberAnimation(
+                      ////                                                            double.parse(getPrice(
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .prices,
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .weight)) *
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight);
+                      //                                  }
+                      //                                  widget.function();
+                      //                                },
+                      //                                onDoubleTap: () async {
+                      //                                  if (productWeight > 10) {
+                      //                                    productWeight = productWeight - 10;
+                      //                                    print('productCount' +
+                      //                                        productWeight.toString());
+                      //
+                      //                                    Provider.of<Wastes>(context, listen: false)
+                      //                                        .updateWasteCart(
+                      //                                            widget.wasteItem,
+                      //                                            productWeight.toString(),
+                      //                                            widget.wasteItem.isAdded);
+                      ////                                                        changeNumberAnimation(
+                      ////                                                            double.parse(getPrice(
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .prices,
+                      ////                                                                    widget
+                      ////                                                                        .wasteItem
+                      ////                                                                        .weight)) *
+                      ////                                                                widget.wasteItem
+                      ////                                                                    .weight);
+                      //                                  }
+                      //                                  widget.function();
+                      //                                },
+                      //                                child: Container(
+                      //                                  decoration: BoxDecoration(
+                      //                                    shape: BoxShape.circle,
+                      //                                    color: AppTheme.accent,
+                      //                                  ),
+                      //                                  child: Icon(
+                      //                                    Icons.remove,
+                      //                                    color: AppTheme.bg,
+                      //                                  ),
+                      //                                ),
+                      //                              ),
+                      //                            ),
+                      //                          ],
+                      //                        ),
+                      //                      ),
+                      SizedBox(width: constraints.maxWidth * 0.01),
                     ],
                   ),
                 ),
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ),
               ],
             ),
           ),

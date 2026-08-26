@@ -6,7 +6,7 @@ import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_main.dart';
 import 'package:recycleorigindriver/core/models/request/delivery_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 
@@ -24,7 +24,8 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
     on<DeliveriesSearchCollectItemsRequested>(_onSearchCollectItems);
     on<DeliveriesRetrieveCollectItemRequested>(_onRetrieveCollectItem);
     on<DeliveriesGetCollectedItemsToDeliverRequested>(
-        _onGetCollectedItemsToDeliver);
+      _onGetCollectedItemsToDeliver,
+    );
     on<DeliveriesRequestWasteItemSet>(_onRequestWasteItemSet);
   }
 
@@ -53,8 +54,9 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
 
   Future<void> addInitialWasteCart(List<Collect> wastesCart, bool isAdded) {
     final c = Completer<void>();
-    add(DeliveriesAddInitialWasteCartRequested(wastesCart, isAdded,
-        completer: c));
+    add(
+      DeliveriesAddInitialWasteCartRequested(wastesCart, isAdded, completer: c),
+    );
     return c.future;
   }
 
@@ -64,12 +66,14 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
     bool isAdded,
   ) {
     final c = Completer<void>();
-    add(DeliveriesUpdateWasteCartRequested(
-      waste,
-      exactWeight,
-      isAdded,
-      completer: c,
-    ));
+    add(
+      DeliveriesUpdateWasteCartRequested(
+        waste,
+        exactWeight,
+        isAdded,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -164,8 +168,9 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
     try {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
-          .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
-          .isAdded = event.isAdded;
+              .firstWhere((prod) => prod.waste.id == event.wasteCart.waste.id)
+              .isAdded =
+          event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
       event.completer?.complete();
     } catch (error) {
@@ -209,7 +214,8 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
       final next = List<WasteCart>.from(state.wasteCartItems);
       next
           .firstWhere((prod) => prod.waste.id == event.waste.waste.id)
-          .exact_weight = event.exactWeight.toString();
+          .exact_weight = event.exactWeight
+          .toString();
       next.firstWhere((prod) => prod.waste.id == event.waste.waste.id).isAdded =
           event.isAdded;
       emit(state.copyWith(wasteCartItems: next));
@@ -226,8 +232,9 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
   ) async {
     final next = List<WasteCart>.from(state.wasteCartItems)
       ..remove(
-        state.wasteCartItems
-            .firstWhere((prod) => prod.waste.id == event.wasteId),
+        state.wasteCartItems.firstWhere(
+          (prod) => prod.waste.id == event.wasteId,
+        ),
       );
     emit(state.copyWith(wasteCartItems: next));
     event.completer?.complete();
@@ -255,7 +262,8 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
     DeliveriesSearchCollectItemsRequested event,
     Emitter<DeliveriesState> emit,
   ) async {
-    final path = 'recycleorigin/v1${Urls.deliveriesEndPoint}${state.searchEndPoint}';
+    final path =
+        'recycleorigin/v1${Urls.deliveriesEndPoint}${state.searchEndPoint}';
     try {
       final result = await ApiProvider.client.get<Map<String, dynamic>>(
         path,
@@ -271,21 +279,11 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
           ),
         );
       } else {
-        emit(
-          state.copyWith(
-            deliveriesItems: [],
-            clearSearchDetails: true,
-          ),
-        );
+        emit(state.copyWith(deliveriesItems: [], clearSearchDetails: true));
       }
       event.completer?.complete();
     } catch (error, st) {
-      emit(
-        state.copyWith(
-          deliveriesItems: [],
-          clearSearchDetails: true,
-        ),
-      );
+      emit(state.copyWith(deliveriesItems: [], clearSearchDetails: true));
       event.completer?.completeError(error, st);
       rethrow;
     }
@@ -295,7 +293,8 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
     DeliveriesRetrieveCollectItemRequested event,
     Emitter<DeliveriesState> emit,
   ) async {
-    final path = 'recycleorigin/v1${Urls.deliveriesEndPoint}/${event.collectId}';
+    final path =
+        'recycleorigin/v1${Urls.deliveriesEndPoint}/${event.collectId}';
     try {
       final result = await ApiProvider.client.get<Map<String, dynamic>>(
         path,
@@ -326,11 +325,7 @@ class DeliveriesBloc extends Bloc<DeliveriesEvent, DeliveriesState> {
       );
       final extractedData = result.valueOrNull ?? <dynamic>[];
       final collects = extractedData.map((i) => Collect.fromJson(i)).toList();
-      emit(
-        state.copyWith(
-          toDeliveryCollectItems: collects,
-        ),
-      );
+      emit(state.copyWith(toDeliveryCollectItems: collects));
       event.completer?.complete();
     } catch (error) {
       event.completer?.completeError(error);

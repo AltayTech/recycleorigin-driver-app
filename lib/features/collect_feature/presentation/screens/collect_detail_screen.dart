@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/star_rating_widget.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
@@ -74,14 +74,11 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
       await bloc.retrieveCollectItem(collectId);
       if (!mounted) return;
       final collect = bloc.state.requestWasteItem!;
-      final isReadOnly = collect.status.slug == 'collected' ||
+      final isReadOnly =
+          collect.status.slug == 'collected' ||
           collect.status.slug == 'picked_up' ||
           collect.status.slug == 'cancel';
-      await bloc.addInitialWasteCart(
-        collect.collect_list,
-        true,
-        isReadOnly,
-      );
+      await bloc.addInitialWasteCart(collect.collect_list, true, isReadOnly);
       if (!mounted) return;
       _initWeightControllers(bloc.state.wasteCartItems);
       setState(() {
@@ -176,16 +173,14 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                   title: l10n.rateCustomerTitle,
                   icon: Icons.star_rounded,
                   children: [
-                    _RateCustomerPanel(
-                      collect: _collect!,
-                      onRated: _load,
-                    ),
+                    _RateCustomerPanel(collect: _collect!, onRated: _load),
                   ],
                 ),
               ],
               const SizedBox(height: 16),
               _SummaryCard(
-                  items: context.watch<WastesBloc>().state.wasteCartItems),
+                items: context.watch<WastesBloc>().state.wasteCartItems,
+              ),
               const SizedBox(height: 16),
               _WasteItemsList(
                 items: context.watch<WastesBloc>().state.wasteCartItems,
@@ -269,10 +264,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
     setState(() => _loading = true);
     try {
       final payload = items
-          .map((e) => {
-                'waste_id': e.waste.id,
-                'exact_weight': e.exact_weight,
-              })
+          .map((e) => {'waste_id': e.waste.id, 'exact_weight': e.exact_weight})
           .toList();
       await context.read<WastesBloc>().confirmPickup(id, payload);
       if (!mounted) return;
@@ -304,7 +296,7 @@ enum _Phase {
   accepted,
   pickedUp,
   completed,
-  cancelled
+  cancelled,
 }
 
 // ---------------------------------------------------------------------------
@@ -320,30 +312,30 @@ class _StatusBanner extends StatelessWidget {
     final l10n = context.l10n;
     final (IconData icon, Color color, String text) = switch (phase) {
       _Phase.pendingAcceptance => (
-          Icons.hourglass_top_rounded,
-          Colors.orange,
-          l10n.collectRequestStatusPendingDriverAcceptance,
-        ),
+        Icons.hourglass_top_rounded,
+        Colors.orange,
+        l10n.collectRequestStatusPendingDriverAcceptance,
+      ),
       _Phase.accepted => (
-          Icons.local_shipping_rounded,
-          context.brandPrimary,
-          l10n.collectAcceptedStateHint,
-        ),
+        Icons.local_shipping_rounded,
+        context.brandPrimary,
+        l10n.collectAcceptedStateHint,
+      ),
       _Phase.pickedUp => (
-          Icons.inventory_2_rounded,
-          Colors.blue,
-          l10n.requestPickedUpHint,
-        ),
+        Icons.inventory_2_rounded,
+        Colors.blue,
+        l10n.requestPickedUpHint,
+      ),
       _Phase.completed => (
-          Icons.check_circle_rounded,
-          Colors.green,
-          l10n.alreadyCollected,
-        ),
+        Icons.check_circle_rounded,
+        Colors.green,
+        l10n.alreadyCollected,
+      ),
       _Phase.cancelled => (
-          Icons.cancel_rounded,
-          Colors.red.shade400,
-          l10n.collectRequestStatusCancelled,
-        ),
+        Icons.cancel_rounded,
+        Colors.red.shade400,
+        l10n.collectRequestStatusCancelled,
+      ),
       _ => (Icons.info_outline, context.secondaryText, ''),
     };
     if (text.isEmpty) return const SizedBox.shrink();
@@ -439,9 +431,7 @@ class _RequestInfoCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    StarRatingDisplay(
-                      value: collect.customerAverageRating!,
-                    ),
+                    StarRatingDisplay(value: collect.customerAverageRating!),
                     Text(
                       collect.customerAverageRating!.toStringAsFixed(1),
                       style: const TextStyle(
@@ -466,10 +456,7 @@ bool _canDriverRateCustomer(RequestWasteItem c) {
 }
 
 class _RateCustomerPanel extends StatefulWidget {
-  const _RateCustomerPanel({
-    required this.collect,
-    required this.onRated,
-  });
+  const _RateCustomerPanel({required this.collect, required this.onRated});
 
   final RequestWasteItem collect;
   final Future<void> Function() onRated;
@@ -505,17 +492,15 @@ class _RateCustomerPanelState extends State<_RateCustomerPanel> {
     setState(() => _submitting = true);
     try {
       await context.read<WastesBloc>().submitCustomerRating(
-            widget.collect.id,
-            _stars,
-            _comment.text.trim(),
-          );
+        widget.collect.id,
+        _stars,
+        _comment.text.trim(),
+      );
       if (!mounted) return;
       await widget.onRated();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$e')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
@@ -563,9 +548,7 @@ class _RateCustomerPanelState extends State<_RateCustomerPanel> {
           maxLength: 500,
           decoration: InputDecoration(
             labelText: l10n.ratingCommentLabel,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
         ),
         const SizedBox(height: 12),
@@ -651,16 +634,20 @@ class _SummaryRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Icon(icon,
-              size: 20,
-              color: highlight ? context.brandPrimary : context.secondaryText),
+          Icon(
+            icon,
+            size: 20,
+            color: highlight ? context.brandPrimary : context.secondaryText,
+          ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(label,
-                style: TextStyle(
-                  color: context.primaryText.withValues(alpha: 0.7),
-                  fontSize: 13,
-                )),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: context.primaryText.withValues(alpha: 0.7),
+                fontSize: 13,
+              ),
+            ),
           ),
           Text(
             value,
@@ -698,8 +685,10 @@ class _WasteItemsList extends StatelessWidget {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
-          child: Text(l10n.noWasteAdded,
-              style: TextStyle(color: context.secondaryText, fontSize: 15)),
+          child: Text(
+            l10n.noWasteAdded,
+            style: TextStyle(color: context.secondaryText, fontSize: 15),
+          ),
         ),
       );
     }
@@ -753,8 +742,11 @@ class _WasteItemTile extends StatelessWidget {
                   color: context.brandPrimary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.delete_outline_rounded,
-                    color: context.brandPrimary, size: 22),
+                child: Icon(
+                  Icons.delete_outline_rounded,
+                  color: context.brandPrimary,
+                  size: 22,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -804,10 +796,7 @@ class _WasteItemTile extends StatelessWidget {
             children: [
               const SizedBox(width: 52),
               if (editable) ...[
-                _WeightStepButton(
-                  icon: Icons.remove,
-                  onTap: () => _step(-1),
-                ),
+                _WeightStepButton(icon: Icons.remove, onTap: () => _step(-1)),
                 const SizedBox(width: 8),
               ],
               Expanded(
@@ -816,22 +805,27 @@ class _WasteItemTile extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     enabled: editable,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d{0,3}')),
+                        RegExp(r'^\d*\.?\d{0,3}'),
+                      ),
                     ],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color:
-                          editable ? context.brandPrimary : context.primaryText,
+                      color: editable
+                          ? context.brandPrimary
+                          : context.primaryText,
                     ),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       suffixText: 'kg',
                       suffixStyle: TextStyle(
                         color: context.secondaryText,
@@ -875,10 +869,7 @@ class _WasteItemTile extends StatelessWidget {
               ),
               if (editable) ...[
                 const SizedBox(width: 8),
-                _WeightStepButton(
-                  icon: Icons.add,
-                  onTap: () => _step(1),
-                ),
+                _WeightStepButton(icon: Icons.add, onTap: () => _step(1)),
               ],
             ],
           ),
@@ -944,29 +935,29 @@ class _ActionArea extends StatelessWidget {
     final l10n = context.l10n;
     return switch (phase) {
       _Phase.pendingAcceptance => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _PrimaryButton(
-              label: l10n.collectAcceptLabel,
-              icon: Icons.check_circle_rounded,
-              color: Colors.green,
-              onTap: loading ? null : onAccept,
-            ),
-            const SizedBox(height: 10),
-            _PrimaryButton(
-              label: l10n.collectRejectLabel,
-              icon: Icons.cancel_rounded,
-              color: Colors.red.shade400,
-              onTap: loading ? null : onReject,
-            ),
-          ],
-        ),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _PrimaryButton(
+            label: l10n.collectAcceptLabel,
+            icon: Icons.check_circle_rounded,
+            color: Colors.green,
+            onTap: loading ? null : onAccept,
+          ),
+          const SizedBox(height: 10),
+          _PrimaryButton(
+            label: l10n.collectRejectLabel,
+            icon: Icons.cancel_rounded,
+            color: Colors.red.shade400,
+            onTap: loading ? null : onReject,
+          ),
+        ],
+      ),
       _Phase.accepted => _PrimaryButton(
-          label: l10n.confirmPickupLabel,
-          icon: Icons.local_shipping_rounded,
-          color: context.brandPrimary,
-          onTap: loading ? null : onConfirmPickup,
-        ),
+        label: l10n.confirmPickupLabel,
+        icon: Icons.local_shipping_rounded,
+        color: context.brandPrimary,
+        onTap: loading ? null : onConfirmPickup,
+      ),
       _ => const SizedBox.shrink(),
     };
   }
@@ -1036,8 +1027,11 @@ class _ConfirmPickupDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Row(
         children: [
-          Icon(Icons.local_shipping_rounded,
-              color: context.brandPrimary, size: 24),
+          Icon(
+            Icons.local_shipping_rounded,
+            color: context.brandPrimary,
+            size: 24,
+          ),
           const SizedBox(width: 10),
           Text(l10n.confirmPickupTitle),
         ],
@@ -1047,8 +1041,10 @@ class _ConfirmPickupDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n.confirmPickupMessage,
-                style: TextStyle(color: context.secondaryText, height: 1.4)),
+            Text(
+              l10n.confirmPickupMessage,
+              style: TextStyle(color: context.secondaryText, height: 1.4),
+            ),
             const SizedBox(height: 16),
             const Divider(),
             for (final item in items)
@@ -1077,8 +1073,10 @@ class _ConfirmPickupDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(l10n.totalExactWeightLabel,
-                    style: const TextStyle(fontWeight: FontWeight.w700)),
+                Text(
+                  l10n.totalExactWeightLabel,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
                 Text(
                   '${totalExact.toStringAsFixed(1)} kg',
                   style: TextStyle(
@@ -1100,8 +1098,9 @@ class _ConfirmPickupDialog extends StatelessWidget {
         FilledButton.icon(
           style: FilledButton.styleFrom(
             backgroundColor: context.brandPrimary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
           onPressed: () => Navigator.of(context).pop(true),
           icon: const Icon(Icons.check_circle_rounded, size: 18),
@@ -1132,10 +1131,13 @@ class _ErrorView extends StatelessWidget {
           children: [
             Icon(Icons.error_outline, size: 48, color: theme.colorScheme.error),
             const SizedBox(height: 16),
-            Text(error,
-                style: theme.textTheme.bodyLarge
-                    ?.copyWith(color: theme.colorScheme.error),
-                textAlign: TextAlign.center),
+            Text(
+              error,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 24),
             FilledButton.icon(
               onPressed: onRetry,

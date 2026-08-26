@@ -4,7 +4,8 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class InfoEditItem extends StatelessWidget {
-  const InfoEditItem({super.key, 
+  const InfoEditItem({
+    super.key,
     required this.title,
     required this.controller,
     required this.keybordType,
@@ -28,9 +29,8 @@ class InfoEditItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     final scheme = Theme.of(context).colorScheme;
 
@@ -83,10 +83,7 @@ class InfoEditItem extends StatelessWidget {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: scheme.surface,
-                        ),
+                        borderSide: BorderSide(width: 0, color: scheme.surface),
                       ),
                       labelStyle: TextStyle(
                         color: Colors.blue,

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class CollectDetailItem extends StatefulWidget {
@@ -14,14 +13,15 @@ class CollectDetailItem extends StatefulWidget {
   final Function function;
   final bool isNotActive;
 
-  const CollectDetailItem({super.key, 
+  const CollectDetailItem({
+    super.key,
     required this.wasteItem,
     required this.function,
     required this.isNotActive,
   });
 
   @override
-  _CollectDetailItemState createState() => _CollectDetailItemState();
+  State<CollectDetailItem> createState() => _CollectDetailItemState();
 }
 
 class _CollectDetailItemState extends State<CollectDetailItem> {
@@ -39,7 +39,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
       _isLoading = false;
 
       productWeight = int.parse(
-          double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0));
+        double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0),
+      );
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -49,9 +50,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     setState(() {
       _isLoading = true;
     });
-    await context.read<WastesBloc>().removeWasteCart(
-          widget.wasteItem.waste.id,
-        );
+    await context.read<WastesBloc>().removeWasteCart(widget.wasteItem.waste.id);
 
     widget.function();
     setState(() {
@@ -63,9 +62,11 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     setState(() {
       _isLoading = true;
     });
-    await context
-        .read<WastesBloc>()
-        .updateWasteCart(widget.wasteItem, exactWeight, isAdded);
+    await context.read<WastesBloc>().updateWasteCart(
+      widget.wasteItem,
+      exactWeight,
+      isAdded,
+    );
 
     widget.function();
     setState(() {
@@ -74,23 +75,14 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
   }
 
   String getWeight(int kilogram, int gram) {
-    String totalWeight = '0';
-    print(totalWeight);
-    double weight = double.parse(kilogram.toString()) +
-        double.parse(gram.toString()) / 1000;
-    print(weight.toString());
-
-    totalWeight = weight.toStringAsFixed(3);
-    print(totalWeight.toString());
-
-    return totalWeight;
+    final weight = kilogram + gram / 1000;
+    return weight.toStringAsFixed(3);
   }
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final scheme = Theme.of(context).colorScheme;
 
     return Padding(
@@ -137,7 +129,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            widget.wasteItem.waste.post_title ?? context.l10n.noneLabel,
+                            widget.wasteItem.waste.post_title,
                             style: TextStyle(
                               color: context.primaryText,
                               fontWeight: FontWeight.w500,
@@ -170,72 +162,82 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                                child: InkWell(
-                              onTap: () async {
-                                if (!widget.isNotActive) {
-                                  productWeightFraction =
-                                      productWeightFraction + 50;
-                                  if (productWeightFraction >= 1000) {
+                              child: InkWell(
+                                onTap: () async {
+                                  if (!widget.isNotActive) {
                                     productWeightFraction =
-                                        productWeightFraction - 1000;
-                                  }
-                                  await context
-                                      .read<WastesBloc>()
-                                      .updateWasteCart(
+                                        productWeightFraction + 50;
+                                    if (productWeightFraction >= 1000) {
+                                      productWeightFraction =
+                                          productWeightFraction - 1000;
+                                    }
+                                    await context
+                                        .read<WastesBloc>()
+                                        .updateWasteCart(
                                           widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
-                                  widget.function();
-                                }
-                              },
-                              onDoubleTap: () async {
-                                if (!widget.isNotActive) {
-                                  productWeightFraction =
-                                      productWeightFraction + 200;
-                                  if (productWeightFraction >= 1000) {
+                                          getWeight(
+                                            productWeight,
+                                            productWeightFraction,
+                                          ),
+                                          widget.wasteItem.isAdded,
+                                        );
+                                    widget.function();
+                                  }
+                                },
+                                onDoubleTap: () async {
+                                  if (!widget.isNotActive) {
                                     productWeightFraction =
-                                        productWeightFraction - 1000;
-                                  }
-                                  await context
-                                      .read<WastesBloc>()
-                                      .updateWasteCart(
+                                        productWeightFraction + 200;
+                                    if (productWeightFraction >= 1000) {
+                                      productWeightFraction =
+                                          productWeightFraction - 1000;
+                                    }
+                                    await context
+                                        .read<WastesBloc>()
+                                        .updateWasteCart(
                                           widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
-//                                                    changeNumberAnimation(
-//                                                        double.parse(getPrice(
-//                                                                widget.wasteItem
-//                                                                    .prices,
-//                                                                widget.wasteItem
-//                                                                    .weight)) *
-//                                                            widget.wasteItem
-//                                                                .weight);
-                                  widget.function();
-                                }
-                              },
-                              child: Container(
+                                          getWeight(
+                                            productWeight,
+                                            productWeightFraction,
+                                          ),
+                                          widget.wasteItem.isAdded,
+                                        );
+                                    //                                                    changeNumberAnimation(
+                                    //                                                        double.parse(getPrice(
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .prices,
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .weight)) *
+                                    //                                                            widget.wasteItem
+                                    //                                                                .weight);
+                                    widget.function();
+                                  }
+                                },
+                                child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? context.brandPrimary
-                                            .withValues(alpha: 0.7)
+                                        ? context.brandPrimary.withValues(
+                                            alpha: 0.7,
+                                          )
                                         : context.secondaryText,
                                   ),
                                   child: Icon(
                                     Icons.add,
                                     color: context.pageBackground,
-                                  )),
-                            )),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 3.0),
                                 child: Text(
                                   EnArConvertor.localize(
                                     context,
-                                    (double.parse(productWeightFraction
-                                                .toString()) /
+                                    (double.parse(
+                                              productWeightFraction.toString(),
+                                            ) /
                                             1000)
                                         .toStringAsFixed(3),
                                   ),
@@ -258,20 +260,23 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                     }
 
                                     context.read<WastesBloc>().updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
-//                                                        changeNumberAnimation(
-//                                                            double.parse(getPrice(
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .prices,
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .weight)) *
-//                                                                widget.wasteItem
-//                                                                    .weight);
+                                      widget.wasteItem,
+                                      getWeight(
+                                        productWeight,
+                                        productWeightFraction,
+                                      ),
+                                      widget.wasteItem.isAdded,
+                                    );
+                                    //                                                        changeNumberAnimation(
+                                    //                                                            double.parse(getPrice(
+                                    //                                                                    widget
+                                    //                                                                        .wasteItem
+                                    //                                                                        .prices,
+                                    //                                                                    widget
+                                    //                                                                        .wasteItem
+                                    //                                                                        .weight)) *
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .weight);
 
                                     widget.function();
                                   }
@@ -285,20 +290,23 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                     }
 
                                     context.read<WastesBloc>().updateWasteCart(
-                                        widget.wasteItem,
-                                        getWeight(productWeight,
-                                            productWeightFraction),
-                                        widget.wasteItem.isAdded);
-//                                                        changeNumberAnimation(
-//                                                            double.parse(getPrice(
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .prices,
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .weight)) *
-//                                                                widget.wasteItem
-//                                                                    .weight);
+                                      widget.wasteItem,
+                                      getWeight(
+                                        productWeight,
+                                        productWeightFraction,
+                                      ),
+                                      widget.wasteItem.isAdded,
+                                    );
+                                    //                                                        changeNumberAnimation(
+                                    //                                                            double.parse(getPrice(
+                                    //                                                                    widget
+                                    //                                                                        .wasteItem
+                                    //                                                                        .prices,
+                                    //                                                                    widget
+                                    //                                                                        .wasteItem
+                                    //                                                                        .weight)) *
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .weight);
 
                                     widget.function();
                                   }
@@ -307,8 +315,9 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
-                                        ? context.brandPrimary
-                                            .withValues(alpha: 0.7)
+                                        ? context.brandPrimary.withValues(
+                                            alpha: 0.7,
+                                          )
                                         : context.secondaryText,
                                   ),
                                   child: Icon(
@@ -329,52 +338,58 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                                child: InkWell(
-                              onTap: () async {
-                                if (!widget.isNotActive) {
-                                  productWeight = productWeight + 1;
+                              child: InkWell(
+                                onTap: () async {
+                                  if (!widget.isNotActive) {
+                                    productWeight = productWeight + 1;
 
-                                  await context
-                                      .read<WastesBloc>()
-                                      .updateWasteCart(
+                                    await context
+                                        .read<WastesBloc>()
+                                        .updateWasteCart(
                                           widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
-//                                                    changeNumberAnimation(
-//                                                        double.parse(getPrice(
-//                                                                widget.wasteItem
-//                                                                    .prices,
-//                                                                widget.wasteItem
-//                                                                    .weight)) *
-//                                                            widget.wasteItem
-//                                                                .weight);
-                                  widget.function();
-                                }
-                              },
-                              onDoubleTap: () async {
-                                if (!widget.isNotActive) {
-                                  productWeight = productWeight + 10;
+                                          getWeight(
+                                            productWeight,
+                                            productWeightFraction,
+                                          ),
+                                          widget.wasteItem.isAdded,
+                                        );
+                                    //                                                    changeNumberAnimation(
+                                    //                                                        double.parse(getPrice(
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .prices,
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .weight)) *
+                                    //                                                            widget.wasteItem
+                                    //                                                                .weight);
+                                    widget.function();
+                                  }
+                                },
+                                onDoubleTap: () async {
+                                  if (!widget.isNotActive) {
+                                    productWeight = productWeight + 10;
 
-                                  await context
-                                      .read<WastesBloc>()
-                                      .updateWasteCart(
+                                    await context
+                                        .read<WastesBloc>()
+                                        .updateWasteCart(
                                           widget.wasteItem,
-                                          getWeight(productWeight,
-                                              productWeightFraction),
-                                          widget.wasteItem.isAdded);
-//                                                    changeNumberAnimation(
-//                                                        double.parse(getPrice(
-//                                                                widget.wasteItem
-//                                                                    .prices,
-//                                                                widget.wasteItem
-//                                                                    .weight)) *
-//                                                            widget.wasteItem
-//                                                                .weight);
-                                  widget.function();
-                                }
-                              },
-                              child: Container(
+                                          getWeight(
+                                            productWeight,
+                                            productWeightFraction,
+                                          ),
+                                          widget.wasteItem.isAdded,
+                                        );
+                                    //                                                    changeNumberAnimation(
+                                    //                                                        double.parse(getPrice(
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .prices,
+                                    //                                                                widget.wasteItem
+                                    //                                                                    .weight)) *
+                                    //                                                            widget.wasteItem
+                                    //                                                                .weight);
+                                    widget.function();
+                                  }
+                                },
+                                child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: !widget.isNotActive
@@ -384,16 +399,19 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   child: Icon(
                                     Icons.add,
                                     color: context.pageBackground,
-                                  )),
-                            )),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 3.0),
                                 child: Text(
                                   EnArConvertor.localize(
                                     context,
-                                    double.parse(widget.wasteItem.exact_weight)
-                                        .toStringAsFixed(0),
+                                    double.parse(
+                                      widget.wasteItem.exact_weight,
+                                    ).toStringAsFixed(0),
                                   ),
                                   style: TextStyle(
                                     color: context.primaryText,
@@ -409,25 +427,27 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   if (!widget.isNotActive) {
                                     if (productWeight > 1) {
                                       productWeight = productWeight - 1;
-                                      print('productCount$productWeight');
 
                                       context
                                           .read<WastesBloc>()
                                           .updateWasteCart(
-                                              widget.wasteItem,
-                                              getWeight(productWeight,
-                                                  productWeightFraction),
-                                              widget.wasteItem.isAdded);
-//                                                        changeNumberAnimation(
-//                                                            double.parse(getPrice(
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .prices,
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .weight)) *
-//                                                                widget.wasteItem
-//                                                                    .weight);
+                                            widget.wasteItem,
+                                            getWeight(
+                                              productWeight,
+                                              productWeightFraction,
+                                            ),
+                                            widget.wasteItem.isAdded,
+                                          );
+                                      //                                                        changeNumberAnimation(
+                                      //                                                            double.parse(getPrice(
+                                      //                                                                    widget
+                                      //                                                                        .wasteItem
+                                      //                                                                        .prices,
+                                      //                                                                    widget
+                                      //                                                                        .wasteItem
+                                      //                                                                        .weight)) *
+                                      //                                                                widget.wasteItem
+                                      //                                                                    .weight);
                                     }
                                     widget.function();
                                   }
@@ -436,25 +456,27 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   if (!widget.isNotActive) {
                                     if (productWeight > 10) {
                                       productWeight = productWeight - 10;
-                                      print('productCount$productWeight');
 
                                       context
                                           .read<WastesBloc>()
                                           .updateWasteCart(
-                                              widget.wasteItem,
-                                              getWeight(productWeight,
-                                                  productWeightFraction),
-                                              widget.wasteItem.isAdded);
-//                                                        changeNumberAnimation(
-//                                                            double.parse(getPrice(
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .prices,
-//                                                                    widget
-//                                                                        .wasteItem
-//                                                                        .weight)) *
-//                                                                widget.wasteItem
-//                                                                    .weight);
+                                            widget.wasteItem,
+                                            getWeight(
+                                              productWeight,
+                                              productWeightFraction,
+                                            ),
+                                            widget.wasteItem.isAdded,
+                                          );
+                                      //                                                        changeNumberAnimation(
+                                      //                                                            double.parse(getPrice(
+                                      //                                                                    widget
+                                      //                                                                        .wasteItem
+                                      //                                                                        .prices,
+                                      //                                                                    widget
+                                      //                                                                        .wasteItem
+                                      //                                                                        .weight)) *
+                                      //                                                                widget.wasteItem
+                                      //                                                                    .weight);
                                     }
                                     widget.function();
                                   }
@@ -476,33 +498,33 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: constraints.maxWidth * 0.05,
-                      )
+                      SizedBox(width: constraints.maxWidth * 0.05),
                     ],
                   ),
                 ),
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ),
               ],
             ),
           ),

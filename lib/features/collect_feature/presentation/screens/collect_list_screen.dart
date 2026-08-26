@@ -24,20 +24,9 @@ class CollectListScreen extends StatefulWidget {
   State<CollectListScreen> createState() => _CollectListScreenState();
 }
 
-enum _CollectListSort {
-  newestFirst,
-  oldestFirst,
-  idHighToLow,
-  idLowToHigh,
-}
+enum _CollectListSort { newestFirst, oldestFirst, idHighToLow, idLowToHigh }
 
-enum _DatePreset {
-  all,
-  today,
-  thisWeek,
-  thisMonth,
-  custom,
-}
+enum _DatePreset { all, today, thisWeek, thisMonth, custom }
 
 class _CollectListScreenState extends State<CollectListScreen> {
   final ScrollController _scrollController = ScrollController();
@@ -120,23 +109,23 @@ class _CollectListScreenState extends State<CollectListScreen> {
       _DatePreset.all => ('', ''),
       _DatePreset.today => (_apiDate(today), _apiDate(today)),
       _DatePreset.thisWeek => (
-          _apiDate(today.subtract(Duration(days: today.weekday - 1))),
-          _apiDate(today),
-        ),
+        _apiDate(today.subtract(Duration(days: today.weekday - 1))),
+        _apiDate(today),
+      ),
       _DatePreset.thisMonth => (
-          _apiDate(DateTime(today.year, today.month, 1)),
-          _apiDate(today),
-        ),
+        _apiDate(DateTime(today.year, today.month, 1)),
+        _apiDate(today),
+      ),
       _DatePreset.custom => () {
-          final range = _customRange;
-          if (range == null) {
-            return ('', '');
-          }
-          return (
-            _apiDate(_dateOnly(range.start)),
-            _apiDate(_dateOnly(range.end)),
-          );
-        }(),
+        final range = _customRange;
+        if (range == null) {
+          return ('', '');
+        }
+        return (
+          _apiDate(_dateOnly(range.start)),
+          _apiDate(_dateOnly(range.end)),
+        );
+      }(),
     };
   }
 
@@ -163,7 +152,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
         context: context,
         firstDate: DateTime(2020),
         lastDate: DateTime.now().add(const Duration(days: 365)),
-        initialDateRange: _customRange ??
+        initialDateRange:
+            _customRange ??
             DateTimeRange(
               start: _dateOnly(DateTime.now()),
               end: _dateOnly(DateTime.now()),
@@ -230,8 +220,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 selected: _datePreset == preset,
-                onSelected:
-                    disabled ? null : (_) => _onDatePresetSelected(preset),
+                onSelected: disabled
+                    ? null
+                    : (_) => _onDatePresetSelected(preset),
                 labelStyle: theme.textTheme.labelMedium,
               ),
             ),
@@ -327,67 +318,44 @@ class _CollectListScreenState extends State<CollectListScreen> {
       builder: (ctx) {
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 16,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.collectListSortSheetTitle,
-                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                RadioListTile<_CollectListSort>(
-                  title: Text(l10n.collectListSortNewestFirst),
-                  value: _CollectListSort.newestFirst,
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<_CollectListSort>(
-                  title: Text(l10n.collectListSortOldestFirst),
-                  value: _CollectListSort.oldestFirst,
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<_CollectListSort>(
-                  title: Text(l10n.collectListSortIdDesc),
-                  value: _CollectListSort.idHighToLow,
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<_CollectListSort>(
-                  title: Text(l10n.collectListSortIdAsc),
-                  value: _CollectListSort.idLowToHigh,
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-              ],
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: RadioGroup<_CollectListSort>(
+              groupValue: picked,
+              onChanged: (v) {
+                if (v != null) {
+                  picked = v;
+                  Navigator.pop(ctx);
+                }
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    l10n.collectListSortSheetTitle,
+                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  RadioListTile<_CollectListSort>(
+                    title: Text(l10n.collectListSortNewestFirst),
+                    value: _CollectListSort.newestFirst,
+                  ),
+                  RadioListTile<_CollectListSort>(
+                    title: Text(l10n.collectListSortOldestFirst),
+                    value: _CollectListSort.oldestFirst,
+                  ),
+                  RadioListTile<_CollectListSort>(
+                    title: Text(l10n.collectListSortIdDesc),
+                    value: _CollectListSort.idHighToLow,
+                  ),
+                  RadioListTile<_CollectListSort>(
+                    title: Text(l10n.collectListSortIdAsc),
+                    value: _CollectListSort.idLowToHigh,
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -409,88 +377,51 @@ class _CollectListScreenState extends State<CollectListScreen> {
       builder: (ctx) {
         return SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.collectListFilterSheetTitle,
-                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                RadioListTile<String>(
-                  title: Text(l10n.collectListFilterAll),
-                  value: '',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<String>(
-                  title: Text(l10n.collectListFilterNeedsAction),
-                  value: 'needs_accept',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<String>(
-                  title: Text(l10n.collectRequestStatusInProgress),
-                  value: 'in_progress',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<String>(
-                  title: Text(l10n.collectRequestStatusPickedUp),
-                  value: 'picked_up',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<String>(
-                  title: Text(l10n.collectRequestStatusCollected),
-                  value: 'collected',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-                RadioListTile<String>(
-                  title: Text(l10n.collectRequestStatusCancelled),
-                  value: 'cancelled',
-                  groupValue: picked,
-                  onChanged: (v) {
-                    if (v != null) {
-                      picked = v;
-                      Navigator.pop(ctx);
-                    }
-                  },
-                ),
-              ],
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: RadioGroup<String>(
+              groupValue: picked,
+              onChanged: (v) {
+                if (v != null) {
+                  picked = v;
+                  Navigator.pop(ctx);
+                }
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    l10n.collectListFilterSheetTitle,
+                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectListFilterAll),
+                    value: '',
+                  ),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectListFilterNeedsAction),
+                    value: 'needs_accept',
+                  ),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectRequestStatusInProgress),
+                    value: 'in_progress',
+                  ),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectRequestStatusPickedUp),
+                    value: 'picked_up',
+                  ),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectRequestStatusCollected),
+                    value: 'collected',
+                  ),
+                  RadioListTile<String>(
+                    title: Text(l10n.collectRequestStatusCancelled),
+                    value: 'cancelled',
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -623,10 +554,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
   Widget _buildToolbarSummary(AppLocalizations l10n, ThemeData theme) {
     final colorScheme = theme.colorScheme;
-    final loaded = EnArConvertor.localize(
-      context,
-      _items.length.toString(),
-    );
+    final loaded = EnArConvertor.localize(context, _items.length.toString());
     final total = EnArConvertor.localize(
       context,
       _searchDetail.total.toString(),
@@ -696,9 +624,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
           const SizedBox(height: 16),
           Text(
             l10n.notLoggedInLabel,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: context.secondaryText,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -731,9 +659,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
             const SizedBox(height: 16),
             Text(
               l10n.noRequestAvailable,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: context.secondaryText,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
@@ -799,9 +727,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
               const SizedBox(height: 16),
               Text(
                 context.l10n.noRequestAvailable,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: context.secondaryText,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
               ),
             ],
           ),

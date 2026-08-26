@@ -1,5 +1,5 @@
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
-import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
+import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
 import 'package:recycleorigindriver/core/models/search_detail.dart';
 
 /// Immutable state for driver collect list, cart, and collect API calls.
@@ -58,8 +58,9 @@ class WastesState {
       wasteCartItems: wasteCartItems ?? this.wasteCartItems,
       token: token ?? this.token,
       collectItems: collectItems ?? this.collectItems,
-      searchDetails:
-          clearSearchDetails ? null : (searchDetails ?? this.searchDetails),
+      searchDetails: clearSearchDetails
+          ? null
+          : (searchDetails ?? this.searchDetails),
       requestWasteItem: clearRequestWasteItem
           ? null
           : (requestWasteItem ?? this.requestWasteItem),
@@ -76,19 +77,19 @@ class WastesState {
   }
 
   static WastesState initial() => const WastesState(
-        wasteCartItems: [],
-        token: '',
-        collectItems: [],
-        searchDetails: null,
-        requestWasteItem: null,
-        searchEndPoint: '',
-        searchKey: '',
-        sPage: 1,
-        sPerPage: 10,
-        sOrder: 'desc',
-        sOrderBy: 'date',
-        sCategory: null,
-        sDateFrom: '',
-        sDateTo: '',
-      );
+    wasteCartItems: [],
+    token: '',
+    collectItems: [],
+    searchDetails: null,
+    requestWasteItem: null,
+    searchEndPoint: '',
+    searchKey: '',
+    sPage: 1,
+    sPerPage: 10,
+    sOrder: 'desc',
+    sOrderBy: 'date',
+    sCategory: null,
+    sDateFrom: '',
+    sDateTo: '',
+  );
 }

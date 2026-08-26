@@ -156,16 +156,16 @@ class _MainDrawerState extends State<MainDrawer> {
     final displayName = fname.isNotEmpty || lname.isNotEmpty
         ? '$fname $lname'.trim()
         : email.isNotEmpty
-            ? email
-            : mobile.isNotEmpty
-                ? mobile
-                : l10n.userProfileLabel;
+        ? email
+        : mobile.isNotEmpty
+        ? mobile
+        : l10n.userProfileLabel;
 
     final subtitle = email.isNotEmpty
         ? email
         : mobile.isNotEmpty
-            ? mobile
-            : l10n.settingsScreenIntro;
+        ? mobile
+        : l10n.settingsScreenIntro;
 
     return Material(
       color: Colors.transparent,
@@ -374,9 +374,13 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().driver =
-                    parentContext.read<CustomerInfoBloc>().driverZero;
+                parentContext.read<CustomerInfoBloc>().driver = parentContext
+                    .read<CustomerInfoBloc>()
+                    .driverZero;
                 await parentContext.read<AuthBloc>().removeToken();
+                if (!parentContext.mounted) {
+                  return;
+                }
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
                   Navigator.of(ctx).pop(true);
@@ -424,9 +428,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 ),
                 TextButton(
                   onPressed: busy ? null : onConfirm,
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: Colors.red),
                   child: busy
                       ? SizedBox(
                           width: 22,
@@ -471,10 +473,7 @@ class _MainDrawerState extends State<MainDrawer> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: <Color>[
-              primary,
-              primary.withValues(alpha: 0.92),
-            ],
+            colors: <Color>[primary, primary.withValues(alpha: 0.92)],
           ),
         ),
         child: SafeArea(
@@ -520,7 +519,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       ),
                       selected:
                           currentRouteName == PerformanceScreen.routeName ||
-                              currentRouteName == StatisticsScreen.routeName,
+                          currentRouteName == StatisticsScreen.routeName,
                       destructive: false,
                       onTap: () =>
                           _navigateToRoute(PerformanceScreen.routeName),
@@ -573,7 +572,8 @@ class _MainDrawerState extends State<MainDrawer> {
                         title: l10n.supportTicketsLabel,
                         routeName: DriverSupportTicketsListScreen.routeName,
                       ),
-                      selected: currentRouteName ==
+                      selected:
+                          currentRouteName ==
                           DriverSupportTicketsListScreen.routeName,
                       destructive: false,
                       onTap: () => _navigateToRoute(

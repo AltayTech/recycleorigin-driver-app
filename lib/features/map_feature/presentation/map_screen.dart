@@ -26,7 +26,6 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
   static final LatLng _defaultCenter = LatLng(38.074065, 46.312711);
 
   bool _isInit = true;
-  var _isLoading;
 
   final MapController _mapController = MapController();
 
@@ -65,7 +64,8 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
           perm == LocationPermission.unableToDetermine) {
         perm = await Geolocator.requestPermission();
       }
-      allow = perm == LocationPermission.whileInUse ||
+      allow =
+          perm == LocationPermission.whileInUse ||
           perm == LocationPermission.always;
     } catch (e, st) {
       debugPrint('_refreshLocationPermission: $e\n$st');
@@ -129,43 +129,42 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
   }
 
   Future<void> saveAddress() async {
-    setState(() {
-      _isLoading = true;
-    });
     await context.read<AuthBloc>().getAddresses();
+    if (!mounted) {
+      return;
+    }
 
     addressList = context.read<AuthBloc>().state.addressItems;
 
-    addressList.add(Address(
-      name: nameController.text,
-      address: addressController.text,
-      region:
-          Region(term_id: selectedRegion.term_id, name: '', collect_hour: []),
-      latitude: _selectedPosition.latitude.toString(),
-      longitude: _selectedPosition.longitude.toString(),
-    ));
+    addressList.add(
+      Address(
+        name: nameController.text,
+        address: addressController.text,
+        region: Region(
+          term_id: selectedRegion.term_id,
+          name: '',
+          collect_hour: [],
+        ),
+        latitude: _selectedPosition.latitude.toString(),
+        longitude: _selectedPosition.longitude.toString(),
+      ),
+    );
 
     await context.read<AuthBloc>().updateAddress(addressList);
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future<void> retrieveRegions() async {
-    setState(() {
-      _isLoading = true;
-    });
     await context.read<AuthBloc>().retrieveRegionList();
+    if (!mounted) {
+      return;
+    }
 
     regionList = context.read<AuthBloc>().state.regionItems;
     for (int i = 0; i < regionList.length; i++) {
       regionValueList.add(regionList[i].name);
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 
   Future<void> _openOsmCopyright() async {
@@ -357,13 +356,16 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                       onChanged: (String? newValue) {
                         setState(() {
                           regionValue = newValue;
-                          selectedRegion = regionList[
-                              regionValueList.lastIndexOf(newValue!)];
+                          selectedRegion =
+                              regionList[regionValueList.lastIndexOf(
+                                newValue!,
+                              )];
                           FocusScope.of(context).requestFocus(addressNode);
                         });
                       },
-                      items: regionValueList
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: regionValueList.map<DropdownMenuItem<String>>((
+                        String value,
+                      ) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Align(
@@ -411,10 +413,7 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
             }
           },
           backgroundColor: context.brandPrimary,
-          child: Icon(
-            Icons.check,
-            color: scheme.onPrimary,
-          ),
+          child: Icon(Icons.check, color: scheme.onPrimary),
         ),
       ),
     );

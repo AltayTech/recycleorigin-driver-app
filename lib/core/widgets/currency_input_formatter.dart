@@ -6,9 +6,10 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.selection.baseOffset == 0) {
-      print(true);
       return newValue;
     }
 
@@ -19,7 +20,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
     String newText = formatter.format(value / 1);
 
     return newValue.copyWith(
-        text: newText,
-        selection: TextSelection.collapsed(offset: newText.length));
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
   }
 }

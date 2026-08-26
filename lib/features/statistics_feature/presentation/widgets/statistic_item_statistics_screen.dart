@@ -13,7 +13,8 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
   final String weight;
   final String number;
 
-  const StatisticItemStatisticsScreen({super.key, 
+  const StatisticItemStatisticsScreen({
+    super.key,
     required this.headColor,
     required this.title,
     required this.price,
@@ -24,9 +25,8 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
 
     final scheme = Theme.of(context).colorScheme;
@@ -60,9 +60,10 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: scheme.surface,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: headColor, width: 1)),
+                      color: scheme.surface,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: headColor, width: 1),
+                    ),
                     height: constraints.maxHeight * 0.650,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,10 +72,12 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
                           flex: 1,
                           child: Container(
                             decoration: BoxDecoration(
-                                color: headColor,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(5),
-                                    topLeft: Radius.circular(5))),
+                              color: headColor,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(5),
+                                topLeft: Radius.circular(5),
+                              ),
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[

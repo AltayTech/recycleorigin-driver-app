@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class MainItemButton extends StatelessWidget {
-  const MainItemButton({super.key, 
+  const MainItemButton({
+    super.key,
     required this.title,
     required this.itemPaddingF,
     this.imageSizeFactor = 0.35,
@@ -20,9 +21,8 @@ class MainItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     final scheme = Theme.of(context).colorScheme;
     final selected = selectedItem == 1;
@@ -32,19 +32,17 @@ class MainItemButton extends StatelessWidget {
         padding: EdgeInsets.all(deviceWidth * itemPaddingF),
         child: Container(
           decoration: BoxDecoration(
-              color: selected ? context.brandPrimary : scheme.surface,
-              boxShadow: [
-                BoxShadow(
-                  color: context.brandPrimary.withValues(alpha: 0.08),
-                  blurRadius: 10.10,
-                  spreadRadius: 10.510,
-                  offset: Offset(
-                    0,
-                    0,
-                  ),
-                )
-              ],
-              borderRadius: BorderRadius.circular(10)),
+            color: selected ? context.brandPrimary : scheme.surface,
+            boxShadow: [
+              BoxShadow(
+                color: context.brandPrimary.withValues(alpha: 0.08),
+                blurRadius: 10.10,
+                spreadRadius: 10.510,
+                offset: Offset(0, 0),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -62,14 +60,19 @@ class MainItemButton extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 10, right: 10, bottom: 8, top: 10),
+                  left: 10,
+                  right: 10,
+                  bottom: 8,
+                  top: 10,
+                ),
                 child: FittedBox(
                   child: Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color:
-                          selected ? scheme.onPrimary : scheme.onSurfaceVariant,
+                      color: selected
+                          ? scheme.onPrimary
+                          : scheme.onSurfaceVariant,
                       fontWeight: FontWeight.w600,
                       fontSize: textScaleFactor * 12.0,
                     ),

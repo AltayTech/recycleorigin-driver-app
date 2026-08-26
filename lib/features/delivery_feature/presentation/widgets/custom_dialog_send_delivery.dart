@@ -10,18 +10,19 @@ class CustomDialogSendDelivery extends StatefulWidget {
   final int totalWallet;
   final Function function;
 
-  const CustomDialogSendDelivery({super.key, 
+  const CustomDialogSendDelivery({
+    super.key,
     required this.totalWallet,
     required this.function,
   });
 
   @override
-  _CustomDialogSendDeliveryState createState() =>
+  State<CustomDialogSendDelivery> createState() =>
       _CustomDialogSendDeliveryState();
 }
 
 class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
-  var storeValue;
+  String? storeValue;
   List<String> storeValueList = [];
   List<WasteRef> storeList = [];
   late WasteRef selectedStore;
@@ -51,7 +52,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
   LayoutBuilder dialogContent(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final scheme = Theme.of(context).colorScheme;
 
     return LayoutBuilder(
@@ -105,10 +106,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: scheme.surface,
-                        border: Border.all(
-                          color: scheme.outline,
-                          width: 0.6,
-                        ),
+                        border: Border.all(color: scheme.outline, width: 0.6),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -142,12 +140,15 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                           onChanged: (newValue) {
                             setState(() {
                               storeValue = newValue;
-                              selectedStore = storeList[
-                                  storeValueList.lastIndexOf(newValue!)];
+                              selectedStore =
+                                  storeList[storeValueList.lastIndexOf(
+                                    newValue!,
+                                  )];
                             });
                           },
-                          items: storeValueList
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: storeValueList.map<DropdownMenuItem<String>>((
+                            String value,
+                          ) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Align(
