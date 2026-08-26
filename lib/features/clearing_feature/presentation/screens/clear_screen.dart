@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +25,8 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/screens/l
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';
 
+  const ClearScreen({super.key});
+
   @override
   _ClearScreenState createState() => _ClearScreenState();
 }
@@ -37,7 +37,7 @@ class _ClearScreenState extends State<ClearScreen>
   var _isLoading = false;
   int page = 1;
   SearchDetail? productsDetail;
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   late Customer customer;
 
@@ -163,7 +163,7 @@ class _ClearScreenState extends State<ClearScreen>
               padding: EdgeInsets.symmetric(
                   vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
               child: !isLogin
-                  ? Container(
+                  ? SizedBox(
                       height: deviceHeight * 0.8,
                       child: Center(
                         child: Wrap(
@@ -180,6 +180,9 @@ class _ClearScreenState extends State<ClearScreen>
                                     .pushNamed(LoginScreen.routeName);
                               },
                               child: Container(
+                                decoration: BoxDecoration(
+                                    color: context.brandPrimary,
+                                    borderRadius: BorderRadius.circular(5)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
@@ -187,9 +190,6 @@ class _ClearScreenState extends State<ClearScreen>
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                decoration: BoxDecoration(
-                                    color: context.brandPrimary,
-                                    borderRadius: BorderRadius.circular(5)),
                               ),
                             )
                           ],
@@ -365,7 +365,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     inputFormatters: [
                                       // WhitelistingTextInputFormatter
                                       //     .digitsOnly,
-                                      new CurrencyInputFormatter(),
+                                      CurrencyInputFormatter(),
                                     ],
                                   ),
                                 ),
@@ -389,7 +389,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: context.primaryText
-                                                      .withOpacity(0.5),
+                                                      .withValues(alpha: 0.5),
                                                   fontSize:
                                                       textScaleFactor * 14.0,
                                                 ),
@@ -513,7 +513,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             ],
                                           ),
                                         ),
-                                        Container(
+                                        SizedBox(
                                           height: deviceWidth * 0.08,
                                           child: Row(
                                             crossAxisAlignment:
@@ -563,7 +563,7 @@ class _ClearScreenState extends State<ClearScreen>
                                           height: 1,
                                           color: scheme.outlineVariant,
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: double.infinity,
                                           height: deviceHeight * 0.42,
                                           child: ListView.builder(

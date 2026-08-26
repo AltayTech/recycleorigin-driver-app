@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:recycleorigindriver/core/models/region.dart';
 
 import 'request/address.dart';
 
@@ -35,15 +34,15 @@ class PersonalData with ChangeNotifier {
       addressRaw = [];
     }
     return PersonalData(
-      phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
-      first_name: parsedJson['fname'] != null ? parsedJson['fname'] : '',
-      last_name: parsedJson['lname'] != null ? parsedJson['lname'] : '',
-      email: parsedJson['email'] != null ? parsedJson['email'] : '',
-      ostan: parsedJson['ostan'] != null ? parsedJson['ostan'] : '',
-      city: parsedJson['city'] != null ? parsedJson['city'] : '',
-      mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
+      phone: parsedJson['phone'] ?? '',
+      first_name: parsedJson['fname'] ?? '',
+      last_name: parsedJson['lname'] ?? '',
+      email: parsedJson['email'] ?? '',
+      ostan: parsedJson['ostan'] ?? '',
+      city: parsedJson['city'] ?? '',
+      mobile: parsedJson['mobile'] ?? '',
       addresses: addressRaw,
-      postcode: parsedJson['postcode'] != null ? parsedJson['postcode'] : '',
+      postcode: parsedJson['postcode'] ?? '',
     );
   }
 

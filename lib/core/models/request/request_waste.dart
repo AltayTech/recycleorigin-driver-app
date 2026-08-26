@@ -30,15 +30,15 @@ class RequestWaste with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map address_data = this.address_data.toJson();
-    Map collect_date = this.collect_date.toJson();
+    Map addressData = address_data.toJson();
+    Map collectDate = collect_date.toJson();
 
-    List<Map> collect_list = this.collect_list.map((i) => i.toJson()).toList();
+    List<Map> collectList = collect_list.map((i) => i.toJson()).toList();
 
     return {
-      'collect_date': collect_date,
-      'address_data': address_data,
-      'collect_list': collect_list,
+      'collect_date': collectDate,
+      'address_data': addressData,
+      'collect_list': collectList,
       'collected': collected,
     };
   }

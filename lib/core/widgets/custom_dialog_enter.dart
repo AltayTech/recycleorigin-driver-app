@@ -7,7 +7,7 @@ class CustomDialogEnter extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  CustomDialogEnter({
+  const CustomDialogEnter({super.key, 
     required this.title,
     required this.description,
     required this.buttonText,
@@ -26,7 +26,7 @@ class CustomDialogEnter extends StatelessWidget {
     );
   }
 
-  dialogContent(BuildContext context) {
+  Stack dialogContent(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
     return Stack(

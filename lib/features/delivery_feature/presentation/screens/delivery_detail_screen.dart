@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
@@ -23,6 +22,8 @@ import 'package:recycleorigindriver/features/customer_feature/presentation/widge
 
 class DeliveryDetailScreen extends StatefulWidget {
   static const routeName = '/DeliveryDetailScreen';
+
+  const DeliveryDetailScreen({super.key});
 
   @override
   _DeliveryDetailScreenState createState() => _DeliveryDetailScreenState();
@@ -122,7 +123,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 //    wasteCartItems = Provider.of<Deliveries>(context, listen: false).wasteCartItems;
     totalPrice = 0;
     totalWeight = 0;
-    if (loadedCollect.length > 0) {
+    if (loadedCollect.isNotEmpty) {
       for (int i = 0; i < loadedCollect.length; i++) {
         totalPrice = totalPrice + int.parse(loadedCollect[i].estimated_price);
 
@@ -156,7 +157,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 
   @override
   initState() {
-    _totalPriceController = new AnimationController(
+    _totalPriceController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
@@ -172,10 +173,10 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
 
   void changeNumberAnimation(double newValue) {
     setState(() {
-      _totalPriceAnimation = new Tween<double>(
+      _totalPriceAnimation = Tween<double>(
         begin: _totalPriceAnimation.value,
         end: newValue,
-      ).animate(new CurvedAnimation(
+      ).animate(CurvedAnimation(
         curve: Curves.ease,
         parent: _totalPriceController,
       ));
@@ -283,7 +284,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
       body: Builder(builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Container(
+          child: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: Stack(
@@ -345,7 +346,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                     AnimatedBuilder(
                                       animation: _totalPriceAnimation,
                                       builder: (context, child) {
-                                        return new Text(
+                                        return Text(
                                           totalPrice.toString().isNotEmpty
                                               ? EnArConvertor.localize(
                                                   context,
@@ -418,8 +419,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                               p.toDeliveryCollectItems !=
                               c.toDeliveryCollectItems,
                           builder: (_, deliveryState) => deliveryState
-                                      .toDeliveryCollectItems.length !=
-                                  0
+                                      .toDeliveryCollectItems.isNotEmpty
                               ? Container(
                                   decoration: BoxDecoration(
                                     color: scheme.surface,
@@ -493,7 +493,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                     ],
                                   ),
                                 )
-                              : Container(
+                              : SizedBox(
                                   height: deviceHeight * 0.7,
                                   child: Center(
                                     child: Text(context.l10n.noWasteAdded),

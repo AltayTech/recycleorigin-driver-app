@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
-import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/wasteCart.dart';
@@ -15,7 +14,7 @@ class CollectDetailItem extends StatefulWidget {
   final Function function;
   final bool isNotActive;
 
-  CollectDetailItem({
+  const CollectDetailItem({super.key, 
     required this.wasteItem,
     required this.function,
     required this.isNotActive,
@@ -96,7 +95,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Container(
+      child: SizedBox(
         height: deviceWidth * 0.25,
         width: deviceWidth,
         child: LayoutBuilder(
@@ -133,14 +132,12 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Spacer(),
-                      Container(
+                      SizedBox(
                         width: constraints.maxWidth * 0.3,
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            widget.wasteItem.waste.post_title != null
-                                ? widget.wasteItem.waste.post_title
-                                : context.l10n.noneLabel,
+                            widget.wasteItem.waste.post_title ?? context.l10n.noneLabel,
                             style: TextStyle(
                               color: context.primaryText,
                               fontWeight: FontWeight.w500,
@@ -165,7 +162,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                         ),
                       ),
                       Spacer(),
-                      Container(
+                      SizedBox(
                         height: constraints.maxHeight * 0.8,
                         width: constraints.maxWidth * 0.12,
                         child: Column(
@@ -324,7 +321,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                           ],
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: constraints.maxHeight * 0.8,
                         width: constraints.maxWidth * 0.12,
                         child: Column(
@@ -412,8 +409,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   if (!widget.isNotActive) {
                                     if (productWeight > 1) {
                                       productWeight = productWeight - 1;
-                                      print('productCount' +
-                                          productWeight.toString());
+                                      print('productCount$productWeight');
 
                                       context
                                           .read<WastesBloc>()
@@ -440,8 +436,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                   if (!widget.isNotActive) {
                                     if (productWeight > 10) {
                                       productWeight = productWeight - 10;
-                                      print('productCount' +
-                                          productWeight.toString());
+                                      print('productCount$productWeight');
 
                                       context
                                           .read<WastesBloc>()

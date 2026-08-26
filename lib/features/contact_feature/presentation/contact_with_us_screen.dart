@@ -13,6 +13,8 @@ import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 class ContactWithUs extends StatefulWidget {
   static const routeName = '/ContactWithUs';
 
+  const ContactWithUs({super.key});
+
   @override
   _ContactWithUsState createState() => _ContactWithUsState();
 }
@@ -20,7 +22,7 @@ class ContactWithUs extends StatefulWidget {
 class _ContactWithUsState extends State<ContactWithUs> {
   bool _isLoading = false;
 
-  _launchURL(String url) async {
+  Future<void> _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -206,7 +208,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: deviceHeight * 0.10,
                             child: Card(
                               child: Padding(

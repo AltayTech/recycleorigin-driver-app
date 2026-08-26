@@ -28,7 +28,7 @@ class GuideHeader extends StatelessWidget {
                 width: 96,
                 height: 96,
                 fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => Icon(
+                errorBuilder: (_, _, _) => Icon(
                   Icons.storefront_rounded,
                   size: 48,
                   color: context.secondaryText,

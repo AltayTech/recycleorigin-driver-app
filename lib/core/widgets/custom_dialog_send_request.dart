@@ -6,7 +6,7 @@ class CustomDialogSendRequest extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  CustomDialogSendRequest({
+  const CustomDialogSendRequest({super.key, 
     required this.title,
     required this.description,
     required this.buttonText,
@@ -25,7 +25,7 @@ class CustomDialogSendRequest extends StatelessWidget {
     );
   }
 
-  dialogContent(BuildContext context) {
+  Stack dialogContent(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
     return Stack(

@@ -20,8 +20,8 @@ class Transaction with ChangeNotifier {
   factory Transaction.fromJson(Map<String, dynamic> parsedJson) {
     return Transaction(
       id: parsedJson['id'],
-      money: parsedJson['money'] != null ? parsedJson['money'] : '0',
-      operation: parsedJson['operation'] != null ? parsedJson['operation'] : '',
+      money: parsedJson['money'] ?? '0',
+      operation: parsedJson['operation'] ?? '',
       transaction_type: parsedJson['transaction_type'] != null
           ? Status.fromJson(parsedJson['transaction_type'])
           : Status(name: '', term_id: 0, slug: ''),
@@ -32,14 +32,14 @@ class Transaction with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map transaction_type = this.transaction_type.toJson();
+    Map transactionType = transaction_type.toJson();
     Map belongs = this.belongs.toJson();
 
     return {
       'id': id,
       'money': money,
       'operation': operation,
-      'transaction_type': transaction_type,
+      'transaction_type': transactionType,
       'belongs': belongs,
     };
   }

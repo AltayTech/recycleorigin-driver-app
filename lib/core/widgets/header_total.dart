@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
-import 'package:intl/intl.dart' as intl;
 
 class HeaderTotal extends StatelessWidget {
-  HeaderTotal({
+  HeaderTotal({super.key, 
     required this.totalWeight,
     required this.totalPrice,
     required this.totalNumber,

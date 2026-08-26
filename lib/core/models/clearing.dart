@@ -22,12 +22,10 @@ class Clearing with ChangeNotifier {
   factory Clearing.fromJson(Map<String, dynamic> parsedJson) {
     return Clearing(
       id: parsedJson['id'],
-      bank_transaction: parsedJson['bank_transaction'] != null
-          ? parsedJson['bank_transaction']
-          : '0',
-      money: parsedJson['money'] != null ? parsedJson['money'] : '0',
-      paid_date: parsedJson['paid_date'] != null ? parsedJson['paid_date'] : '',
-      shaba: parsedJson['shaba'] != null ? parsedJson['shaba'] : '',
+      bank_transaction: parsedJson['bank_transaction'] ?? '0',
+      money: parsedJson['money'] ?? '0',
+      paid_date: parsedJson['paid_date'] ?? '',
+      shaba: parsedJson['shaba'] ?? '',
       status: parsedJson['status'] != null
           ? Status.fromJson(parsedJson['status'])
           : Status(name: '', term_id: 0, slug: ''),

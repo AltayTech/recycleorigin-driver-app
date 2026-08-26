@@ -19,7 +19,6 @@ class Region with ChangeNotifier {
       var hourList = parsedJson['collect_hour'] as List;
       hourRaw = hourList.map((i) => CollectHour.fromJson(i)).toList();
     }
-    ;
     return Region(
       term_id: parsedJson['term_id'],
       name: parsedJson['name'],
@@ -27,12 +26,12 @@ class Region with ChangeNotifier {
     );
   }
   Map<String, dynamic> toJson() {
-    List<Map> collect_hour = this.collect_hour.map((i) => i.toJson()).toList();
+    List<Map> collectHour = collect_hour.map((i) => i.toJson()).toList();
 
     return {
       'term_id': term_id,
       'name': name,
-      'collect_hour': collect_hour,
+      'collect_hour': collectHour,
     };
   }
 }

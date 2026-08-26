@@ -40,7 +40,7 @@ class Collect with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic>? wasteJson = this.waste.toJson();
+    final Map<String, dynamic> wasteJson = waste.toJson();
 
     return {
       'waste': wasteJson,

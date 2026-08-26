@@ -238,14 +238,14 @@ class _WalletScreenState extends State<WalletScreen> {
                 Text(
                   'Total Earnings',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Icon(
                   Icons.account_balance_wallet_outlined,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                 ),
               ],
             ),
@@ -272,7 +272,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.3),
+                  color: Colors.red.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(

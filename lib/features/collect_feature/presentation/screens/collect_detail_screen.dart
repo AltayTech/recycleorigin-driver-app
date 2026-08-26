@@ -56,11 +56,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   Future<void> _load() async {
     final collectId = ModalRoute.of(context)?.settings.arguments;
     if (collectId is! int) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _error = 'Invalid request';
           _loading = false;
         });
+      }
       return;
     }
     if (!mounted) return;
@@ -88,11 +89,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
         _loading = false;
       });
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _error = e.toString();
           _loading = false;
         });
+      }
     }
   }
 

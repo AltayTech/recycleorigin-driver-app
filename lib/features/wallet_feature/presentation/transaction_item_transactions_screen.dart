@@ -8,6 +8,8 @@ import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart'
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class TransactionItemTransactionsScreen extends StatelessWidget {
+  const TransactionItemTransactionsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;

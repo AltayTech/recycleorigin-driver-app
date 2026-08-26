@@ -13,7 +13,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
   final String weight;
   final String number;
 
-  StatisticItemStatisticsScreen({
+  const StatisticItemStatisticsScreen({super.key, 
     required this.headColor,
     required this.title,
     required this.price,
@@ -33,7 +33,7 @@ class StatisticItemStatisticsScreen extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Container(
+      child: SizedBox(
         height: widthDevice * 0.3,
         child: LayoutBuilder(
           builder: (ctx, constraints) {

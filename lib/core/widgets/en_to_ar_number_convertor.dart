@@ -1,4 +1,3 @@
-import 'dart:ui' show Locale;
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;

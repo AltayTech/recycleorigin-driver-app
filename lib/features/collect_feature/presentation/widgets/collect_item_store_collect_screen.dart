@@ -8,6 +8,8 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class CollectItemStoreCollectsScreen extends StatelessWidget {
+  const CollectItemStoreCollectsScreen({super.key});
+
   Widget getStatusIcon(BuildContext context, String statusSlug) {
     if (statusSlug == 'delivery_done') {
       return Icon(
@@ -33,7 +35,7 @@ class CollectItemStoreCollectsScreen extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Container(
+      child: SizedBox(
         height: widthDevice * 0.25,
         child: LayoutBuilder(
           builder: (ctx, constraints) {

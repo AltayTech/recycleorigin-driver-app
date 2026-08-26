@@ -6,6 +6,8 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class ClearingItemClearScreen extends StatelessWidget {
+  const ClearingItemClearScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     var heightDevice = MediaQuery.of(context).size.height;

@@ -20,7 +20,7 @@ class Customer with ChangeNotifier {
 
   factory Customer.fromJson(Map<String, dynamic> parsedJson) {
     return Customer(
-      id: parsedJson['id'] != null ? parsedJson['id'] : 0,
+      id: parsedJson['id'] ?? 0,
       status: parsedJson['status'] != null
           ? Status.fromJson(parsedJson['status'])
           : Status(term_id: 0, name: '', slug: ''),
@@ -28,7 +28,7 @@ class Customer with ChangeNotifier {
           ? Status.fromJson(parsedJson['type'])
           : Status(term_id: 0, name: '', slug: ''),
       personalData: PersonalData.fromJson(parsedJson['customer_data']),
-      money: parsedJson['money'] != null ? parsedJson['money'] : '0',
+      money: parsedJson['money'] ?? '0',
     );
   }
 

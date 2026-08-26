@@ -33,7 +33,7 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
     with SingleTickerProviderStateMixin {
   bool _isInit = true;
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   var _isLoading;
 

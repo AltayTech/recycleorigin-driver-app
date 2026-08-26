@@ -433,7 +433,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         if (token == null || token.isEmpty) {
           throw StateError('No auth token');
         }
-        final url = Urls.rootUrl + Urls.collectsEndPoint + '/${event.id}';
+        final url = '${Urls.rootUrl}${Urls.collectsEndPoint}/${event.id}';
         await put(
           Uri.parse(url),
           headers: {
@@ -554,7 +554,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     WastesRetrieveCollectItemRequested event,
     Emitter<WastesState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final url = '${Urls.rootUrl}${Urls.collectsEndPoint}/${event.collectId}';
     try {
       final token = await SecureStorage.getToken();
       if (token == null || token.isEmpty) {
@@ -586,9 +586,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = Urls.rootUrl +
-        Urls.driverCollectsEndPoint +
-        '/${event.collectId}/accept';
+    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/accept';
     final response = await post(
       Uri.parse(url),
       headers: {
@@ -613,9 +611,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = Urls.rootUrl +
-        Urls.driverCollectsEndPoint +
-        '/${event.collectId}/reject';
+    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/reject';
     final response = await post(
       Uri.parse(url),
       headers: {
@@ -640,9 +636,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     if (token == null || token.isEmpty) {
       throw StateError('No auth token');
     }
-    final url = Urls.rootUrl +
-        Urls.driverCollectsEndPoint +
-        '/${event.collectId}/pickup';
+    final url = '${Urls.rootUrl}${Urls.driverCollectsEndPoint}/${event.collectId}/pickup';
     final response = await post(
       Uri.parse(url),
       headers: {
@@ -688,7 +682,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
           : 'Rating failed (${response.statusCode})';
       throw Exception(message);
     }
-    final getUrl = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final getUrl = '${Urls.rootUrl}${Urls.collectsEndPoint}/${event.collectId}';
     final getResp = await get(
       Uri.parse(getUrl),
       headers: {

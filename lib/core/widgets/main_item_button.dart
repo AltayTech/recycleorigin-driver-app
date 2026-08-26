@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class MainItemButton extends StatelessWidget {
-  const MainItemButton({
+  const MainItemButton({super.key, 
     required this.title,
     required this.itemPaddingF,
     this.imageSizeFactor = 0.35,
@@ -55,7 +55,7 @@ class MainItemButton extends StatelessWidget {
                   bottom: 10,
                   top: 16,
                 ),
-                child: Container(
+                child: SizedBox(
                   height: constraint.maxHeight * 0.25,
                   child: icon,
                 ),

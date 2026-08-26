@@ -11,6 +11,8 @@ import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
 class AboutUsScreen extends StatefulWidget {
   static const routeName = '/AboutUsScreen';
 
+  const AboutUsScreen({super.key});
+
   @override
   _AboutUsScreenState createState() => _AboutUsScreenState();
 }
@@ -126,7 +128,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: deviceHeight * 0.7,
                         width: deviceWidth,
                         child: ListView.builder(

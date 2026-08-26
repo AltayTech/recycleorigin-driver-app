@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_bloc.dart';
@@ -24,6 +23,8 @@ import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 
 class SendDeliveryScreen extends StatefulWidget {
   static const routeName = '/SendDeliveryScreen';
+
+  const SendDeliveryScreen({super.key});
 
   @override
   _SendDeliveryScreenState createState() => _SendDeliveryScreenState();
@@ -122,7 +123,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 //    wasteCartItems = Provider.of<Deliveries>(context, listen: false).wasteCartItems;
     totalPrice = 0;
     totalWeight = 0;
-    if (loadedCollect.length > 0) {
+    if (loadedCollect.isNotEmpty) {
       for (int i = 0; i < loadedCollect.length; i++) {
         totalPrice =
             totalPrice + double.parse(loadedCollect[i].estimated_price);
@@ -157,7 +158,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 
   @override
   initState() {
-    _totalPriceController = new AnimationController(
+    _totalPriceController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
@@ -173,10 +174,10 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
 
   void changeNumberAnimation(double newValue) {
     setState(() {
-      _totalPriceAnimation = new Tween<double>(
+      _totalPriceAnimation = Tween<double>(
         begin: _totalPriceAnimation.value,
         end: newValue,
-      ).animate(new CurvedAnimation(
+      ).animate(CurvedAnimation(
         curve: Curves.ease,
         parent: _totalPriceController,
       ));
@@ -284,7 +285,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
       body: Builder(builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Container(
+          child: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: Stack(
@@ -306,8 +307,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                               p.toDeliveryCollectItems !=
                               c.toDeliveryCollectItems,
                           builder: (_, deliveryState) => deliveryState
-                                      .toDeliveryCollectItems.length !=
-                                  0
+                                      .toDeliveryCollectItems.isNotEmpty
                               ? Container(
                                   decoration: BoxDecoration(
                                     color: scheme.surface,
@@ -382,7 +382,7 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
                                     ],
                                   ),
                                 )
-                              : Container(
+                              : SizedBox(
                                   height: deviceHeight * 0.5,
                                   child: Center(
                                     child: Text(context.l10n.noWasteToDeliver),

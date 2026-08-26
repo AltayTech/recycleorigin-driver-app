@@ -143,7 +143,7 @@ class _DriverSupportTicketsListScreenState
                               physics: const AlwaysScrollableScrollPhysics(),
                               padding: const EdgeInsets.all(12),
                               itemCount: _page!.items.length,
-                              separatorBuilder: (_, __) =>
+                              separatorBuilder: (_, _) =>
                                   const SizedBox(height: 8),
                               itemBuilder: (context, i) {
                                 final t = _page!.items[i];

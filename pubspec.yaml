@@ -36,6 +36,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   dio: ^5.11.0
 
+  provider: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -8,7 +8,7 @@ class Urls {
   static String get apiBaseUrl => AppConfig.apiBaseUrl;
 
   /// REST API root (recycleorigin v1).
-  static String get rootUrl => apiBaseUrl + 'recycleorigin/v1';
+  static String get rootUrl => '${apiBaseUrl}recycleorigin/v1';
 
   static const wastesEndPoint = '/wastes';
   static const addressEndPoint = '/customer/address';
@@ -25,12 +25,12 @@ class Urls {
   static const driverEndPoint = '/driver';
 
   /// Full paths under [rootUrl] (same pattern as [driverCollectsEndPoint]).
-  static String get driverRouteToday => '${rootUrl}/driver/route/today';
+  static String get driverRouteToday => '$rootUrl/driver/route/today';
 
-  static String get driverRouteRebuild => '${rootUrl}/driver/route/rebuild';
+  static String get driverRouteRebuild => '$rootUrl/driver/route/rebuild';
 
   static String driverRouteStopAction(int stopId, String action) =>
-      '${rootUrl}/driver/route/stops/$stopId/$action';
+      '$rootUrl/driver/route/stops/$stopId/$action';
   static const deliveriesEndPoint = '/deliveries';
   static const clearingEndPoint = '/clearings';
   static const transactionsEndPoint = '/transactions';

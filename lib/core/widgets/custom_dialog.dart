@@ -4,7 +4,7 @@ class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  CustomDialog({
+  const CustomDialog({super.key, 
     required this.title,
     required this.description,
     required this.buttonText,
@@ -23,7 +23,7 @@ class CustomDialog extends StatelessWidget {
     );
   }
 
-  dialogContent(BuildContext context) {
+  Stack dialogContent(BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -34,7 +34,7 @@ class CustomDialog extends StatelessWidget {
             right: Consts.padding,
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),

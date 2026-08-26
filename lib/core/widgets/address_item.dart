@@ -11,7 +11,7 @@ class AddressItem extends StatefulWidget {
   final Address addressItem;
   final bool isSelected;
 
-  AddressItem({
+  const AddressItem({super.key, 
     required this.addressItem,
     required this.isSelected,
   });
@@ -104,9 +104,7 @@ class _AddressItemState extends State<AddressItem> {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Text(
-                                  widget.addressItem.name != null
-                                      ? widget.addressItem.name
-                                      : l10n.noneLabel,
+                                  widget.addressItem.name ?? l10n.noneLabel,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -138,7 +136,7 @@ class _AddressItemState extends State<AddressItem> {
                 Positioned(
                   top: 2,
                   left: 2,
-                  child: Container(
+                  child: SizedBox(
                     height: deviceWidth * 0.10,
                     width: deviceWidth * 0.1,
                     child: InkWell(

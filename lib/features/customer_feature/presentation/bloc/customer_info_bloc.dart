@@ -352,7 +352,7 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     CustomerInfoRetrieveItemRequested event,
     Emitter<CustomerInfoState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+    final url = '${Urls.rootUrl}${Urls.collectsEndPoint}/${event.collectId}';
     try {
       final response = await get(
         Uri.parse(url),
@@ -403,7 +403,7 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     CustomerInfoGetCitiesRequested event,
     Emitter<CustomerInfoState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.provincesEndPoint + '${event.provinceId}';
+    final url = '${Urls.rootUrl}${Urls.provincesEndPoint}${event.provinceId}';
     try {
       final response = await get(
         Uri.parse(url),

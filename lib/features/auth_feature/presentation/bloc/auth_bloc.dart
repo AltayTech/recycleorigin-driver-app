@@ -577,7 +577,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthRetrieveRegionRequested event,
     Emitter<AuthState> emit,
   ) async {
-    final url = Urls.rootUrl + Urls.regionEndPoint + '/${event.regionId}';
+    final url = '${Urls.rootUrl}${Urls.regionEndPoint}/${event.regionId}';
     final response = await http.get(
       Uri.parse(url),
       headers: {

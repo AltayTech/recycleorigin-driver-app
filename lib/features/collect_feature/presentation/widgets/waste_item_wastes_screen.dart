@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:recycleorigindriver/core/models/request/waste.dart';
@@ -8,7 +7,7 @@ class WasteItemWastesScreen extends StatelessWidget {
   final Waste waste;
   final bool isSelected;
 
-  WasteItemWastesScreen({required this.waste, this.isSelected = false});
+  const WasteItemWastesScreen({super.key, required this.waste, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {

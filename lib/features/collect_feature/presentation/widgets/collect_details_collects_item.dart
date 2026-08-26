@@ -10,7 +10,7 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;
 
-  CollectDetailsCollectItem({
+  const CollectDetailsCollectItem({super.key, 
     required this.collectItem,
   });
 
@@ -84,9 +84,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.collectItem.waste.post_title != null
-                                ? widget.collectItem.waste.post_title
-                                : l10n.noneLabel,
+                            widget.collectItem.waste.post_title ?? l10n.noneLabel,
                             style: TextStyle(
                               color: context.primaryText,
                               fontWeight: FontWeight.w700,
@@ -140,16 +138,14 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             ),
                           ),
                           Text(
-                            widget.collectItem.estimated_price.length != null
-                                ? EnArConvertor.localize(
+                            EnArConvertor.localize(
                                     context,
                                     currencyFormat.format(
                                       double.parse(
                                         widget.collectItem.estimated_price,
                                       ),
                                     ),
-                                  )
-                                : EnArConvertor.localize(context, '0'),
+                                  ),
                             style: TextStyle(
                               color: context.primaryText,
                               fontSize: textScaleFactor * 16,
@@ -171,16 +167,14 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             ),
                           ),
                           Text(
-                            widget.collectItem.estimated_price != null
-                                ? EnArConvertor.localize(
+                            EnArConvertor.localize(
                                     context,
                                     currencyFormat.format(
                                       double.parse(
                                         widget.collectItem.estimated_price,
                                       ),
                                     ),
-                                  )
-                                : EnArConvertor.localize(context, '0'),
+                                  ),
                             style: TextStyle(
                               color: context.primaryText,
                               fontSize: textScaleFactor * 18,

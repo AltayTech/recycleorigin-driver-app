@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -16,6 +15,8 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/screens/l
 class StatisticsListScreen extends StatefulWidget {
   static const routeName = '/StatisticsListScreen';
 
+  const StatisticsListScreen({super.key});
+
   @override
   _StatisticsListScreenState createState() => _StatisticsListScreenState();
 }
@@ -24,7 +25,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
     with SingleTickerProviderStateMixin {
   bool _isInit = true;
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   var _isLoading;
 
@@ -164,6 +165,9 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                         Navigator.of(context).pushNamed(LoginScreen.routeName);
                       },
                       child: Container(
+                        decoration: BoxDecoration(
+                            color: context.brandPrimary,
+                            borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
@@ -171,9 +175,6 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            color: context.brandPrimary,
-                            borderRadius: BorderRadius.circular(5)),
                       ),
                     )
                   ],
@@ -208,7 +209,7 @@ class _StatisticsListScreenState extends State<StatisticsListScreen>
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   height: deviceHeight * 0.68,
                                   child: ListView.builder(

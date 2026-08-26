@@ -4,7 +4,7 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class InfoEditItem extends StatelessWidget {
-  const InfoEditItem({
+  const InfoEditItem({super.key, 
     required this.title,
     required this.controller,
     required this.keybordType,

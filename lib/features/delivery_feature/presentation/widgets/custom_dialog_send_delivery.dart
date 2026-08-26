@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/waste_ref.dart';
@@ -12,7 +10,7 @@ class CustomDialogSendDelivery extends StatefulWidget {
   final int totalWallet;
   final Function function;
 
-  CustomDialogSendDelivery({
+  const CustomDialogSendDelivery({super.key, 
     required this.totalWallet,
     required this.function,
   });
@@ -50,7 +48,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
     );
   }
 
-  dialogContent(BuildContext context) {
+  LayoutBuilder dialogContent(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
@@ -188,9 +186,7 @@ class _CustomDialogSendDeliveryState extends State<CustomDialogSendDelivery> {
                           height: constraints.maxHeight * 0.06,
                           width: constraints.maxWidth * 0.8,
                           decoration: BoxDecoration(
-                            color: selectedStore != null
-                                ? context.brandPrimary
-                                : scheme.onSurfaceVariant,
+                            color: context.brandPrimary,
                           ),
                           child: Center(
                             child: Padding(

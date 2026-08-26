@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
-  const Badge({
+  const Badge({super.key, 
     required this.child,
     required this.value,
     required this.color,
@@ -28,9 +28,7 @@ class Badge extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(color: Colors.grey, width: 0.3),
-              color: color != null
-                  ? color
-                  : Theme.of(context).colorScheme.secondary,
+              color: color ?? Theme.of(context).colorScheme.secondary,
             ),
             constraints: BoxConstraints(
               minWidth: 16,

@@ -10,7 +10,7 @@ class CollectDeliveryDetailItem extends StatefulWidget {
   final Collect wasteItem;
   final Function function;
 
-  CollectDeliveryDetailItem({
+  const CollectDeliveryDetailItem({super.key, 
     required this.wasteItem,
     required this.function,
   });
@@ -88,7 +88,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 
   @override
   initState() {
-    _controller = new AnimationController(
+    _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
@@ -105,10 +105,10 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
 
   void changeNumberAnimation(double newValue) {
     setState(() {
-      _animation = new Tween<double>(
+      _animation = Tween<double>(
         begin: _animation.value,
         end: newValue,
-      ).animate(new CurvedAnimation(
+      ).animate(CurvedAnimation(
         curve: Curves.ease,
         parent: _controller,
       ));
@@ -162,14 +162,12 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: Container(
+                        child: SizedBox(
                           width: constraints.maxWidth * 0.3,
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              widget.wasteItem.waste.post_title != null
-                                  ? widget.wasteItem.waste.post_title
-                                  : context.l10n.noneLabel,
+                              widget.wasteItem.waste.post_title ?? context.l10n.noneLabel,
                               style: TextStyle(
                                 color: context.primaryText,
                                 fontWeight: FontWeight.w500,
@@ -199,8 +197,8 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                         child: AnimatedBuilder(
                           animation: _animation,
                           builder: (context, child) {
-                            return new Text(
-                              widget.wasteItem.estimated_price.length != 0
+                            return Text(
+                              widget.wasteItem.estimated_price.isNotEmpty
                                   ? EnArConvertor.localize(
                                       context,
                                       currencyFormat.format(

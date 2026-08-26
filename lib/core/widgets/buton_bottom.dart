@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 class ButtonBottom extends StatelessWidget {
-  const ButtonBottom({
+  const ButtonBottom({super.key, 
     required this.width,
     required this.height,
     required this.text,
