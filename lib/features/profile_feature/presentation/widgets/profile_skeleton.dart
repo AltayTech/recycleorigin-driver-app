@@ -33,11 +33,7 @@ class ProfileSkeleton extends StatelessWidget {
 }
 
 class _SkeletonBox extends StatelessWidget {
-  const _SkeletonBox({
-    required this.height,
-    this.width,
-    this.borderRadius = 8,
-  });
+  const _SkeletonBox({required this.height, this.width, this.borderRadius = 8});
 
   final double height;
   final double? width;

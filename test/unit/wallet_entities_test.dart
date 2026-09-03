@@ -28,14 +28,8 @@ void main() {
 
   group('WalletTransaction', () {
     test('isCredit reflects direction', () {
-      expect(
-        const WalletTransaction(direction: 'credit').isCredit,
-        isTrue,
-      );
-      expect(
-        const WalletTransaction(direction: 'debit').isCredit,
-        isFalse,
-      );
+      expect(const WalletTransaction(direction: 'credit').isCredit, isTrue);
+      expect(const WalletTransaction(direction: 'debit').isCredit, isFalse);
     });
 
     test('typeLabel maps known types', () {

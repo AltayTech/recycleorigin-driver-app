@@ -81,81 +81,78 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(16, 8, 16, 24 + bottomInset),
                   sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      <Widget>[
-                        Text(
-                          l10n.personalInfoSubtitle,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: context.secondaryText,
-                                    height: 1.45,
-                                  ),
+                    delegate: SliverChildListDelegate(<Widget>[
+                      Text(
+                        l10n.personalInfoSubtitle,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: context.secondaryText,
+                          height: 1.45,
                         ),
-                        const SizedBox(height: 16),
-                        ProfileSectionCard(
-                          title: l10n.basicInfoSectionTitle,
-                          trailing: _EditChip(
-                            onPressed: () => _openEdit(context),
+                      ),
+                      const SizedBox(height: 16),
+                      ProfileSectionCard(
+                        title: l10n.basicInfoSectionTitle,
+                        trailing: _EditChip(
+                          onPressed: () => _openEdit(context),
+                        ),
+                        children: <Widget>[
+                          ProfileInfoRow(
+                            label: l10n.firstNameLabel,
+                            value: data.fname,
                           ),
-                          children: <Widget>[
-                            ProfileInfoRow(
-                              label: l10n.firstNameLabel,
-                              value: data.fname,
-                            ),
-                            ProfileInfoRow(
-                              label: l10n.lastNameLabel,
-                              value: data.lname,
-                            ),
-                            ProfileInfoRow(
-                              label: l10n.userTypeLabel,
-                              value: DriverDisplay.userTypeLabel(driver, l10n),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        ProfileSectionCard(
-                          title: l10n.contactSectionTitle,
-                          trailing: _EditChip(
-                            onPressed: () => _openEdit(context),
+                          ProfileInfoRow(
+                            label: l10n.lastNameLabel,
+                            value: data.lname,
                           ),
-                          children: <Widget>[
-                            ProfileInfoRow(
-                              label: l10n.emailLabel,
-                              value: data.email,
-                              copyable: true,
-                            ),
-                            ProfileInfoRow(
-                              label: l10n.mobileLabel,
-                              value: data.mobile.isNotEmpty
-                                  ? data.mobile
-                                  : data.phone,
-                              copyable: true,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        ProfileSectionCard(
-                          title: l10n.addressSectionTitle,
-                          trailing: _EditChip(
-                            onPressed: () => _openEdit(context),
+                          ProfileInfoRow(
+                            label: l10n.userTypeLabel,
+                            value: DriverDisplay.userTypeLabel(driver, l10n),
                           ),
-                          children: <Widget>[
-                            ProfileInfoRow(
-                              label: l10n.provinceLabel,
-                              value: data.ostan,
-                            ),
-                            ProfileInfoRow(
-                              label: l10n.cityLabel,
-                              value: data.city,
-                            ),
-                            ProfileInfoRow(
-                              label: l10n.postalCodeLabel,
-                              value: data.postcode,
-                            ),
-                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      ProfileSectionCard(
+                        title: l10n.contactSectionTitle,
+                        trailing: _EditChip(
+                          onPressed: () => _openEdit(context),
                         ),
-                      ],
-                    ),
+                        children: <Widget>[
+                          ProfileInfoRow(
+                            label: l10n.emailLabel,
+                            value: data.email,
+                            copyable: true,
+                          ),
+                          ProfileInfoRow(
+                            label: l10n.mobileLabel,
+                            value: data.mobile.isNotEmpty
+                                ? data.mobile
+                                : data.phone,
+                            copyable: true,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      ProfileSectionCard(
+                        title: l10n.addressSectionTitle,
+                        trailing: _EditChip(
+                          onPressed: () => _openEdit(context),
+                        ),
+                        children: <Widget>[
+                          ProfileInfoRow(
+                            label: l10n.provinceLabel,
+                            value: data.ostan,
+                          ),
+                          ProfileInfoRow(
+                            label: l10n.cityLabel,
+                            value: data.city,
+                          ),
+                          ProfileInfoRow(
+                            label: l10n.postalCodeLabel,
+                            value: data.postcode,
+                          ),
+                        ],
+                      ),
+                    ]),
                   ),
                 ),
               ],

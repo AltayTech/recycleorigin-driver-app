@@ -253,8 +253,8 @@ class _SessionSegment extends StatelessWidget {
             crossAxisAlignment: narrow
                 ? CrossAxisAlignment.start
                 : (valueAlign == TextAlign.end
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start),
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start),
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(

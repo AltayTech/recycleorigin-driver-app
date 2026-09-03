@@ -23,10 +23,7 @@ void main() {
     });
 
     test('toJson includes all keys', () {
-      final m = TokenResponseModel(
-        token: 't',
-        userEmail: 'a@b.c',
-      );
+      final m = TokenResponseModel(token: 't', userEmail: 'a@b.c');
       final json = m.toJson();
       expect(json['token'], 't');
       expect(json['user_email'], 'a@b.c');

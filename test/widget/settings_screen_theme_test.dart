@@ -46,7 +46,9 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(
-          AppThemeController.instance.themeModeNotifier.value, ThemeMode.dark);
+        AppThemeController.instance.themeModeNotifier.value,
+        ThemeMode.dark,
+      );
     });
   });
 }

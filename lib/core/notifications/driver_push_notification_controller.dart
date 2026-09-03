@@ -27,11 +27,11 @@ class DriverPushNotificationController {
 
   static const AndroidNotificationChannel _transactional =
       AndroidNotificationChannel(
-    'transactional',
-    'Transactional',
-    description: 'Job and wallet updates.',
-    importance: Importance.high,
-  );
+        'transactional',
+        'Transactional',
+        description: 'Job and wallet updates.',
+        importance: Importance.high,
+      );
 
   Future<Map<String, String>> _headers() async {
     final t = await SecureStorage.getToken() ?? '';
@@ -118,9 +118,9 @@ class DriverPushNotificationController {
     if (token == null || token.isEmpty) {
       return;
     }
-    final uri = Uri.parse('${Urls.rootUrl}/devices').replace(
-      queryParameters: <String, String>{'token': token},
-    );
+    final uri = Uri.parse(
+      '${Urls.rootUrl}/devices',
+    ).replace(queryParameters: <String, String>{'token': token});
     await http.delete(uri, headers: await _headers());
   }
 
@@ -142,8 +142,10 @@ class DriverPushNotificationController {
         } catch (_) {}
       },
     );
-    final android = _local.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _local
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     await android?.createNotificationChannel(_transactional);
   }
 
@@ -162,8 +164,10 @@ class DriverPushNotificationController {
       id: m.hashCode,
       title: title,
       body: body,
-      notificationDetails:
-          const NotificationDetails(android: android, iOS: ios),
+      notificationDetails: const NotificationDetails(
+        android: android,
+        iOS: ios,
+      ),
       payload: jsonEncode(m.data),
     );
   }

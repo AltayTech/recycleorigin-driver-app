@@ -47,8 +47,9 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
       _loading = true;
       _error = null;
     });
-    final uri = Uri.parse('${Urls.rootUrl}/notifications')
-        .replace(queryParameters: <String, String>{'page': '1', 'limit': '50'});
+    final uri = Uri.parse(
+      '${Urls.rootUrl}/notifications',
+    ).replace(queryParameters: <String, String>{'page': '1', 'limit': '50'});
     final res = await http.get(uri, headers: await _headers());
     if (!mounted) {
       return;
@@ -93,16 +94,16 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
           IconButton(
             tooltip: context.l10n.settingsTitle,
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () => Navigator.of(context).pushNamed(
-              SettingsScreen.routeName,
-            ),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(SettingsScreen.routeName),
           ),
           TextButton(
             onPressed: _items.isEmpty
                 ? null
                 : () async {
-                    final uri =
-                        Uri.parse('${Urls.rootUrl}/notifications/read-all');
+                    final uri = Uri.parse(
+                      '${Urls.rootUrl}/notifications/read-all',
+                    );
                     await http.post(uri, headers: await _headers());
                     if (mounted) {
                       await _load();
@@ -115,34 +116,35 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
       body: _loading && _items.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : _error != null
-              ? Center(child: Text(_error!))
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.builder(
-                    itemCount: _items.length,
-                    itemBuilder: (context, i) {
-                      final it = _items[i];
-                      return ListTile(
-                        title: Text(
-                          it.title,
-                          style: TextStyle(
-                            fontWeight:
-                                it.isRead ? FontWeight.normal : FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(it.body),
-                        onTap: () async {
-                          await _markRead(it);
-                          if (it.deepLink != null && it.deepLink!.isNotEmpty) {
-                            NotificationDeepLink.openFromData(
-                              <String, dynamic>{'deep_link': it.deepLink},
-                            );
-                          }
-                        },
-                      );
+          ? Center(child: Text(_error!))
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.builder(
+                itemCount: _items.length,
+                itemBuilder: (context, i) {
+                  final it = _items[i];
+                  return ListTile(
+                    title: Text(
+                      it.title,
+                      style: TextStyle(
+                        fontWeight: it.isRead
+                            ? FontWeight.normal
+                            : FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(it.body),
+                    onTap: () async {
+                      await _markRead(it);
+                      if (it.deepLink != null && it.deepLink!.isNotEmpty) {
+                        NotificationDeepLink.openFromData(<String, dynamic>{
+                          'deep_link': it.deepLink,
+                        });
+                      }
                     },
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

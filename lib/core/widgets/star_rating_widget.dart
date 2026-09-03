@@ -23,8 +23,8 @@ class StarRatingDisplay extends StatelessWidget {
         final IconData icon = fill >= 1
             ? Icons.star_rounded
             : fill > 0
-                ? Icons.star_half_rounded
-                : Icons.star_outline_rounded;
+            ? Icons.star_half_rounded
+            : Icons.star_outline_rounded;
         return Icon(icon, size: size, color: c);
       }),
     );

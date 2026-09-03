@@ -36,9 +36,7 @@ abstract final class DriverAppTheme {
         color: scheme.onSurface,
         fontWeight: FontWeight.w600,
       ),
-      labelLarge: baseText.labelLarge?.copyWith(
-        color: scheme.onSurfaceVariant,
-      ),
+      labelLarge: baseText.labelLarge?.copyWith(color: scheme.onSurfaceVariant),
     );
 
     final appBarTheme = AppBarTheme(
@@ -70,9 +68,7 @@ abstract final class DriverAppTheme {
         shadowColor: scheme.shadow.withValues(
           alpha: brightness == Brightness.light ? 0.12 : 0.35,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -107,12 +103,8 @@ abstract final class DriverAppTheme {
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: scheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        titleTextStyle: textTheme.titleLarge?.copyWith(
-          color: scheme.onSurface,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        titleTextStyle: textTheme.titleLarge?.copyWith(color: scheme.onSurface),
         contentTextStyle: textTheme.bodyMedium?.copyWith(
           color: scheme.onSurfaceVariant,
         ),
@@ -147,9 +139,7 @@ abstract final class DriverAppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primary,

@@ -51,17 +51,17 @@ class _ProfileAppVersionFooterState extends State<ProfileAppVersionFooter> {
         if (_version.isNotEmpty)
           Text(
             l10n.appVersionLabel(_version),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.secondaryText,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: context.secondaryText),
           ),
         const SizedBox(height: 4),
         Text(
           l10n.profileCopyrightLabel(year, l10n.appTitle),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: context.secondaryText.withValues(alpha: 0.85),
-              ),
+            color: context.secondaryText.withValues(alpha: 0.85),
+          ),
         ),
       ],
     );

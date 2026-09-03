@@ -124,9 +124,7 @@ class PagedTickets {
     final raw = map['items'] as List<dynamic>? ?? <dynamic>[];
     return PagedTickets(
       items: raw
-          .map(
-            (dynamic e) => SupportTicket.fromJson(e as Map<String, dynamic>),
-          )
+          .map((dynamic e) => SupportTicket.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: (map['total'] as num?)?.toInt() ?? 0,
       page: (map['page'] as num?)?.toInt() ?? 1,

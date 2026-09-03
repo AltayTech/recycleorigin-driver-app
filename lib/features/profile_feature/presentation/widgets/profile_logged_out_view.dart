@@ -32,18 +32,18 @@ class ProfileLoggedOutView extends StatelessWidget {
                   l10n.notLoggedInLabel,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: context.primaryText,
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: context.primaryText,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   l10n.loginRequiredDescription,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: context.secondaryText,
-                        height: 1.4,
-                      ),
+                    color: context.secondaryText,
+                    height: 1.4,
+                  ),
                 ),
                 const SizedBox(height: 28),
                 FilledButton.icon(

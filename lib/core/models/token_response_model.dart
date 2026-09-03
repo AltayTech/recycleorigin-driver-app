@@ -22,9 +22,9 @@ class TokenResponseModel {
   final String? userDisplayName;
 
   Map<String, dynamic> toJson() => {
-        'token': token,
-        'user_email': userEmail,
-        'user_nicename': userNicename,
-        'user_display_name': userDisplayName,
-      };
+    'token': token,
+    'user_email': userEmail,
+    'user_nicename': userNicename,
+    'user_display_name': userDisplayName,
+  };
 }

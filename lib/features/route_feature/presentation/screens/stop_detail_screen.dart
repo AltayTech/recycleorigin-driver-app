@@ -44,21 +44,21 @@ class StopDetailScreen extends StatelessWidget {
             spacing: 8,
             children: <Widget>[
               OutlinedButton(
-                onPressed: () => context
-                    .read<RouteBloc>()
-                    .add(RouteStopArrived(stop.stopId)),
+                onPressed: () => context.read<RouteBloc>().add(
+                  RouteStopArrived(stop.stopId),
+                ),
                 child: const Text('Arrived'),
               ),
               FilledButton(
-                onPressed: () => context
-                    .read<RouteBloc>()
-                    .add(RouteStopCompleted(stop.stopId)),
+                onPressed: () => context.read<RouteBloc>().add(
+                  RouteStopCompleted(stop.stopId),
+                ),
                 child: const Text('Completed'),
               ),
               TextButton(
-                onPressed: () => context
-                    .read<RouteBloc>()
-                    .add(RouteStopFailed(stop.stopId, reason: 'unable')),
+                onPressed: () => context.read<RouteBloc>().add(
+                  RouteStopFailed(stop.stopId, reason: 'unable'),
+                ),
                 child: const Text('Failed'),
               ),
             ],

@@ -57,27 +57,22 @@ class _DriverSupportTicketCreateScreenState
     if (t != null) {
       Navigator.of(context).pop();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not create ticket')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Could not create ticket')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New ticket'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('New ticket'), centerTitle: true),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const Text(
-              'Our team will review your ticket and reply here.',
-            ),
+            const Text('Our team will review your ticket and reply here.'),
             const SizedBox(height: 16),
             TextFormField(
               controller: _subject,
@@ -102,10 +97,7 @@ class _DriverSupportTicketCreateScreenState
               ),
               items: _categories.entries
                   .map(
-                    (e) => DropdownMenuItem(
-                      value: e.key,
-                      child: Text(e.value),
-                    ),
+                    (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
                   )
                   .toList(),
               onChanged: (v) => setState(() => _category = v ?? 'general'),

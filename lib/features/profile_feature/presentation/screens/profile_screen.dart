@@ -141,143 +141,118 @@ class _ProfileScrollContent extends StatelessWidget {
           child: ProfileHero(
             driver: driver,
             onEditPressed: () {
-              Navigator.of(context).pushNamed(
-                EditPersonalInfoScreen.routeName,
-              );
+              Navigator.of(context).pushNamed(EditPersonalInfoScreen.routeName);
             },
           ),
         ),
         SliverPadding(
           padding: EdgeInsets.fromLTRB(16, 0, 16, 24 + bottomInset),
           sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              <Widget>[
-                ProfileSection(
-                  title: l10n.accountSectionTitle,
-                  children: <Widget>[
-                    ProfileTile(
-                      icon: Icons.person_outline_rounded,
-                      title: l10n.personalInfoLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        PersonalInfoScreen.routeName,
-                      ),
-                    ),
-                    ProfileTile(
-                      icon: Icons.local_shipping_outlined,
-                      title: l10n.myVehicleLabel,
-                      trailing: _vehicleSummary(context, driver),
-                      onTap: () => _openRoute(
-                        context,
-                        VehicleInfoScreen.routeName,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                ProfileSection(
-                  title: l10n.activitySectionTitle,
-                  children: <Widget>[
-                    ProfileTile(
-                      icon: Icons.bar_chart_rounded,
-                      title: l10n.statisticsLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        PerformanceScreen.routeName,
-                      ),
-                    ),
-                    ProfileTile(
-                      icon: Icons.account_balance_wallet_outlined,
-                      title: l10n.walletLabel,
-                      trailing:
-                          driver.money.trim().isNotEmpty ? driver.money : null,
-                      onTap: () => _openRoute(
-                        context,
-                        WalletScreen.routeName,
-                      ),
-                    ),
-                    ProfileTile(
-                      icon: Icons.route_rounded,
-                      title: l10n.myRouteLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        RouteTodayScreen.routeName,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                ValueListenableBuilder<Locale>(
-                  valueListenable: AppLocaleController.instance.localeNotifier,
-                  builder: (context, locale, _) {
-                    return ProfileSection(
-                      title: l10n.inboxPreferencesSectionTitle,
-                      children: <Widget>[
-                        ProfileTile(
-                          icon: Icons.notifications_outlined,
-                          title: l10n.notificationsLabel,
-                          onTap: () => _openRoute(
-                            context,
-                            DriverNotificationScreen.routeName,
-                          ),
+            delegate: SliverChildListDelegate(<Widget>[
+              ProfileSection(
+                title: l10n.accountSectionTitle,
+                children: <Widget>[
+                  ProfileTile(
+                    icon: Icons.person_outline_rounded,
+                    title: l10n.personalInfoLabel,
+                    onTap: () =>
+                        _openRoute(context, PersonalInfoScreen.routeName),
+                  ),
+                  ProfileTile(
+                    icon: Icons.local_shipping_outlined,
+                    title: l10n.myVehicleLabel,
+                    trailing: _vehicleSummary(context, driver),
+                    onTap: () =>
+                        _openRoute(context, VehicleInfoScreen.routeName),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ProfileSection(
+                title: l10n.activitySectionTitle,
+                children: <Widget>[
+                  ProfileTile(
+                    icon: Icons.bar_chart_rounded,
+                    title: l10n.statisticsLabel,
+                    onTap: () =>
+                        _openRoute(context, PerformanceScreen.routeName),
+                  ),
+                  ProfileTile(
+                    icon: Icons.account_balance_wallet_outlined,
+                    title: l10n.walletLabel,
+                    trailing: driver.money.trim().isNotEmpty
+                        ? driver.money
+                        : null,
+                    onTap: () => _openRoute(context, WalletScreen.routeName),
+                  ),
+                  ProfileTile(
+                    icon: Icons.route_rounded,
+                    title: l10n.myRouteLabel,
+                    onTap: () =>
+                        _openRoute(context, RouteTodayScreen.routeName),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ValueListenableBuilder<Locale>(
+                valueListenable: AppLocaleController.instance.localeNotifier,
+                builder: (context, locale, _) {
+                  return ProfileSection(
+                    title: l10n.inboxPreferencesSectionTitle,
+                    children: <Widget>[
+                      ProfileTile(
+                        icon: Icons.notifications_outlined,
+                        title: l10n.notificationsLabel,
+                        onTap: () => _openRoute(
+                          context,
+                          DriverNotificationScreen.routeName,
                         ),
-                        ProfileTile(
-                          icon: Icons.settings_outlined,
-                          title: l10n.settingsTitle,
-                          trailing: _currentLanguageLabel(l10n, locale),
-                          onTap: () => _openRoute(
-                            context,
-                            SettingsScreen.routeName,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                ProfileSection(
-                  title: l10n.supportSectionTitle,
-                  children: <Widget>[
-                    ProfileTile(
-                      icon: Icons.menu_book_outlined,
-                      title: l10n.guideLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        GuideScreen.routeName,
                       ),
-                    ),
-                    ProfileTile(
-                      icon: Icons.support_agent_outlined,
-                      title: l10n.supportTicketsLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        DriverSupportTicketsListScreen.routeName,
+                      ProfileTile(
+                        icon: Icons.settings_outlined,
+                        title: l10n.settingsTitle,
+                        trailing: _currentLanguageLabel(l10n, locale),
+                        onTap: () =>
+                            _openRoute(context, SettingsScreen.routeName),
                       ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              ProfileSection(
+                title: l10n.supportSectionTitle,
+                children: <Widget>[
+                  ProfileTile(
+                    icon: Icons.menu_book_outlined,
+                    title: l10n.guideLabel,
+                    onTap: () => _openRoute(context, GuideScreen.routeName),
+                  ),
+                  ProfileTile(
+                    icon: Icons.support_agent_outlined,
+                    title: l10n.supportTicketsLabel,
+                    onTap: () => _openRoute(
+                      context,
+                      DriverSupportTicketsListScreen.routeName,
                     ),
-                    ProfileTile(
-                      icon: Icons.contact_mail_outlined,
-                      title: l10n.contactUsLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        ContactWithUs.routeName,
-                      ),
-                    ),
-                    ProfileTile(
-                      icon: Icons.info_outline_rounded,
-                      title: l10n.aboutUsLabel,
-                      onTap: () => _openRoute(
-                        context,
-                        AboutUsScreen.routeName,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                const ProfileSignOutButton(),
-                const SizedBox(height: 16),
-                const ProfileAppVersionFooter(),
-              ],
-            ),
+                  ),
+                  ProfileTile(
+                    icon: Icons.contact_mail_outlined,
+                    title: l10n.contactUsLabel,
+                    onTap: () => _openRoute(context, ContactWithUs.routeName),
+                  ),
+                  ProfileTile(
+                    icon: Icons.info_outline_rounded,
+                    title: l10n.aboutUsLabel,
+                    onTap: () => _openRoute(context, AboutUsScreen.routeName),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              const ProfileSignOutButton(),
+              const SizedBox(height: 16),
+              const ProfileAppVersionFooter(),
+            ]),
           ),
         ),
       ],
@@ -305,10 +280,7 @@ class _ProfileScrollContent extends StatelessWidget {
     );
   }
 
-  static String _currentLanguageLabel(
-    AppLocalizations l10n,
-    Locale locale,
-  ) {
+  static String _currentLanguageLabel(AppLocalizations l10n, Locale locale) {
     switch (locale.languageCode) {
       case 'tr':
         return l10n.turkishLabel;

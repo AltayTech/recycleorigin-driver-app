@@ -47,10 +47,7 @@ class ProfileHero extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: <Color>[
-                      colorScheme.primary,
-                      _heroGradientEnd,
-                    ],
+                    colors: <Color>[colorScheme.primary, _heroGradientEnd],
                   ),
                 ),
               ),
@@ -62,10 +59,7 @@ class ProfileHero extends StatelessWidget {
                   child: IconButton(
                     tooltip: l10n.editProfileLabel,
                     onPressed: onEditPressed,
-                    icon: const Icon(
-                      Icons.edit_rounded,
-                      color: Colors.white,
-                    ),
+                    icon: const Icon(Icons.edit_rounded, color: Colors.white),
                   ),
                 ),
               Positioned(
@@ -91,9 +85,7 @@ class ProfileHero extends StatelessWidget {
                             displayName,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
@@ -128,10 +120,12 @@ class ProfileHero extends StatelessWidget {
                                     ),
                                   ),
                                   visualDensity: VisualDensity.compact,
-                                  backgroundColor:
-                                      Colors.white.withValues(alpha: 0.22),
-                                  labelStyle:
-                                      const TextStyle(color: Colors.white),
+                                  backgroundColor: Colors.white.withValues(
+                                    alpha: 0.22,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Colors.white,
+                                  ),
                                   side: BorderSide.none,
                                   padding: EdgeInsets.zero,
                                 ),
@@ -145,8 +139,9 @@ class ProfileHero extends StatelessWidget {
                                   Text(
                                     l10n.noRatingLabel,
                                     style: TextStyle(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.8),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.8,
+                                      ),
                                       fontSize: 12,
                                     ),
                                   ),

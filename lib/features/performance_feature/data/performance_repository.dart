@@ -7,7 +7,7 @@ import 'package:recycleorigindriver/features/performance_feature/data/performanc
 /// Loads driver performance stats from the backend.
 class PerformanceRepository {
   PerformanceRepository([ApiClient? client])
-      : _client = client ?? ApiProvider.client;
+    : _client = client ?? ApiProvider.client;
 
   final ApiClient _client;
 

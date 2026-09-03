@@ -30,10 +30,10 @@ class GuideCmsSection extends StatelessWidget {
           child: Text(
             l10n.guidePoliciesSectionTitle,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: context.secondaryText,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.4,
-                ),
+              color: context.secondaryText,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.4,
+            ),
           ),
         ),
         Card(

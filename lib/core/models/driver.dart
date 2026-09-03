@@ -52,9 +52,10 @@ class Driver with ChangeNotifier {
     final storeList = parsedJson['stores'];
     final List<WasteRef> storeRaw = storeList is List
         ? (storeList)
-            .map<WasteRef>(
-                (dynamic i) => WasteRef.fromJson(i as Map<String, dynamic>))
-            .toList()
+              .map<WasteRef>(
+                (dynamic i) => WasteRef.fromJson(i as Map<String, dynamic>),
+              )
+              .toList()
         : <WasteRef>[];
 
     final driverDataJson = parsedJson['driver_data'];
@@ -82,8 +83,8 @@ class Driver with ChangeNotifier {
           : Status(term_id: 0, name: '', slug: ''),
       car_color:
           parsedJson['car_color'] != null && parsedJson['car_color'] is Map
-              ? Status.fromJson(parsedJson['car_color'] as Map<String, dynamic>)
-              : Status(term_id: 0, name: '', slug: ''),
+          ? Status.fromJson(parsedJson['car_color'] as Map<String, dynamic>)
+          : Status(term_id: 0, name: '', slug: ''),
       car_number: parsedJson['car_number'] != null
           ? parsedJson['car_number'] as String
           : '',
@@ -102,10 +103,6 @@ class Driver with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'car': car,
-      'car_color': car_color,
-      'driver_data': driver_data,
-    };
+    return {'car': car, 'car_color': car_color, 'driver_data': driver_data};
   }
 }

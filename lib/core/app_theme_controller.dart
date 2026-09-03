@@ -15,8 +15,9 @@ class AppThemeController {
 
   AppThemeController._();
 
-  final ValueNotifier<ThemeMode> themeModeNotifier =
-      ValueNotifier<ThemeMode>(defaultThemeMode);
+  final ValueNotifier<ThemeMode> themeModeNotifier = ValueNotifier<ThemeMode>(
+    defaultThemeMode,
+  );
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();

@@ -37,13 +37,14 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
       return;
     }
     if (!auth.state.emailVerified) {
-      Navigator.of(context)
-          .pushReplacementNamed(EmailVerificationScreen.routeName);
+      Navigator.of(
+        context,
+      ).pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(context).pushReplacementNamed(
-      NavigationBottomScreen.routeName,
-    );
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   @override
@@ -112,10 +113,7 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
                             fontWeight: FontWeight.w600,
                             height: 1.25,
                             shadows: const <Shadow>[
-                              Shadow(
-                                blurRadius: 8,
-                                color: Colors.black54,
-                              ),
+                              Shadow(blurRadius: 8, color: Colors.black54),
                             ],
                           ),
                         ),

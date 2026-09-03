@@ -89,8 +89,9 @@ class CustomerInfoState {
       sOrder: sOrder ?? this.sOrder,
       sOrderBy: sOrderBy ?? this.sOrderBy,
       transactionItems: transactionItems ?? this.transactionItems,
-      searchDetails:
-          clearSearchDetails ? null : (searchDetails ?? this.searchDetails),
+      searchDetails: clearSearchDetails
+          ? null
+          : (searchDetails ?? this.searchDetails),
       transactionItem: clearTransactionItem
           ? null
           : (transactionItem ?? this.transactionItem),
@@ -101,23 +102,23 @@ class CustomerInfoState {
   }
 
   static CustomerInfoState initial() => CustomerInfoState(
-        payUrl: '',
-        currentOrderId: 0,
-        chequeImageList: [],
-        shop: null,
-        driver: Driver.fromJson(null),
-        token: '',
-        searchEndPoint: '',
-        searchKey: '',
-        sPage: 1,
-        sPerPage: 10,
-        sOrder: 'desc',
-        sOrderBy: 'date',
-        transactionItems: [],
-        searchDetails: null,
-        transactionItem: null,
-        provincesItems: [],
-        citiesItems: [],
-        typesItems: [],
-      );
+    payUrl: '',
+    currentOrderId: 0,
+    chequeImageList: [],
+    shop: null,
+    driver: Driver.fromJson(null),
+    token: '',
+    searchEndPoint: '',
+    searchKey: '',
+    sPage: 1,
+    sPerPage: 10,
+    sOrder: 'desc',
+    sOrderBy: 'date',
+    transactionItems: [],
+    searchDetails: null,
+    transactionItem: null,
+    provincesItems: [],
+    citiesItems: [],
+    typesItems: [],
+  );
 }

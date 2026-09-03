@@ -80,11 +80,7 @@ class GuideStepTile extends StatelessWidget {
           ),
         ),
         if (showDivider)
-          Divider(
-            height: 1,
-            indent: 56,
-            color: scheme.outlineVariant,
-          ),
+          Divider(height: 1, indent: 56, color: scheme.outlineVariant),
       ],
     );
   }

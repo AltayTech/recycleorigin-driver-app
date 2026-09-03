@@ -58,10 +58,16 @@ class DriverAppColors extends ThemeExtension<DriverAppColors> {
     return DriverAppColors(
       heroGradientEnd: Color.lerp(heroGradientEnd, other.heroGradientEnd, t)!,
       listItemBorder: Color.lerp(listItemBorder, other.listItemBorder, t)!,
-      appBarBackground:
-          Color.lerp(appBarBackground, other.appBarBackground, t)!,
-      appBarForeground:
-          Color.lerp(appBarForeground, other.appBarForeground, t)!,
+      appBarBackground: Color.lerp(
+        appBarBackground,
+        other.appBarBackground,
+        t,
+      )!,
+      appBarForeground: Color.lerp(
+        appBarForeground,
+        other.appBarForeground,
+        t,
+      )!,
     );
   }
 }

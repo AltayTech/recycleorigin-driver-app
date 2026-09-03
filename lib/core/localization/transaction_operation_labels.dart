@@ -19,10 +19,7 @@ bool isDepositOperation(String operation) {
 
 /// Maps known API operation strings to localized labels; otherwise returns
 /// [operation] unchanged.
-String localizedTransactionOperation(
-  AppLocalizations l10n,
-  String operation,
-) {
+String localizedTransactionOperation(AppLocalizations l10n, String operation) {
   if (isWithdrawalOperation(operation)) {
     return l10n.transactionOperationWithdrawal;
   }

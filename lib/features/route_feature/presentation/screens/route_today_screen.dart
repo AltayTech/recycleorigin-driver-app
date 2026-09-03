@@ -21,8 +21,9 @@ class RouteTodayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RouteBloc(RouteRepository(ApiProvider.client))
-        ..add(RouteLoadRequested()),
+      create: (_) =>
+          RouteBloc(RouteRepository(ApiProvider.client))
+            ..add(RouteLoadRequested()),
       child: const _RouteTodayView(),
     );
   }
@@ -45,8 +46,8 @@ class _RouteTodayView extends StatelessWidget {
               icon: const Icon(Icons.refresh),
               onPressed: () {
                 context.read<RouteBloc>().add(
-                      RouteLoadRequested(rebuild: true),
-                    );
+                  RouteLoadRequested(rebuild: true),
+                );
               },
             ),
           IconButton(
@@ -86,7 +87,8 @@ class _RouteTodayView extends StatelessWidget {
             return _MessagePanel(
               icon: Icons.route_outlined,
               title: 'No route yet',
-              body: state.hint ??
+              body:
+                  state.hint ??
                   'Assign collection requests to your driver account, '
                       'then enable routing in the admin panel.',
               action: Column(
@@ -101,8 +103,8 @@ class _RouteTodayView extends StatelessWidget {
                     const SizedBox(height: 8),
                     OutlinedButton(
                       onPressed: () => context.read<RouteBloc>().add(
-                            RouteLoadRequested(rebuild: true),
-                          ),
+                        RouteLoadRequested(rebuild: true),
+                      ),
                       child: const Text('Rebuild route (dev)'),
                     ),
                   ],
@@ -111,8 +113,9 @@ class _RouteTodayView extends StatelessWidget {
             );
           }
           final route = state.route!;
-          final completed =
-              route.stops.where((s) => s.status == 'completed').length;
+          final completed = route.stops
+              .where((s) => s.status == 'completed')
+              .length;
           return RefreshIndicator(
             onRefresh: () async {
               context.read<RouteBloc>().add(RouteLoadRequested());

@@ -1,14 +1,17 @@
 # Recycle Origin Driver App
 
 Flutter mobile application used by drivers to accept, collect, and complete
-recycling pickups and delivery operations.
+recycling pickups. Warehouse deliveries are **Coming Soon**
+(`ENABLE_WAREHOUSE_DELIVERIES=false`).
 
 ## Responsibilities
 
 - driver authentication and profile completion
-- list and inspect assigned collections and deliveries
+- list and inspect assigned collections
 - update collected item quantities/weights and statuses
-- view wallet/statistics and operational history
+- view wallet/statistics and submit a **staff-handled payout request**
+  (not an instant bank transfer)
+- Crashlytics when Firebase initializes successfully
 
 ## Project Structure
 

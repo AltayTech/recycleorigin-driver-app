@@ -6,6 +6,8 @@ import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 
+import '../support/fake_auth_bloc.dart';
+
 void main() {
   group('SettingsScreen', () {
     testWidgets('shows settings title and language section', (tester) async {
@@ -16,14 +18,15 @@ void main() {
           locale: const Locale('en'),
           home: MultiBlocProvider(
             providers: [
-              BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+              BlocProvider<AuthBloc>(create: (_) => FakeAuthBloc()),
               BlocProvider<CustomerInfoBloc>(create: (_) => CustomerInfoBloc()),
             ],
             child: const SettingsScreen(),
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
       expect(find.text('Settings'), findsWidgets);
       expect(find.text('Language'), findsOneWidget);

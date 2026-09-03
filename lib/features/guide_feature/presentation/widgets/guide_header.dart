@@ -37,11 +37,7 @@ class GuideHeader extends StatelessWidget {
             ),
           )
         else
-          Icon(
-            Icons.recycling_rounded,
-            size: 48,
-            color: scheme.primary,
-          ),
+          Icon(Icons.recycling_rounded, size: 48, color: scheme.primary),
         const SizedBox(height: 12),
         Text(
           shop.name.isNotEmpty ? shop.name : context.l10n.guideLabel,
@@ -55,9 +51,7 @@ class GuideHeader extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             shop.subject,
-            style: textTheme.bodyMedium?.copyWith(
-              color: context.secondaryText,
-            ),
+            style: textTheme.bodyMedium?.copyWith(color: context.secondaryText),
             textAlign: TextAlign.center,
           ),
         ],

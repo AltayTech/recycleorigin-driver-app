@@ -87,11 +87,7 @@ class AuthState {
       selectedAddress: Address(
         name: '',
         address: '',
-        region: Region(
-          term_id: 0,
-          name: '',
-          collect_hour: [],
-        ),
+        region: Region(term_id: 0, name: '', collect_hour: []),
       ),
       regionItems: const [],
       regionData: Region(term_id: 0, name: '', collect_hour: []),

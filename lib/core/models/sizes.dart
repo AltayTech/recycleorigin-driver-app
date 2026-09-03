@@ -1,9 +1,5 @@
 class Sizes {
-  const Sizes({
-    this.thumbnail = '',
-    this.medium = '',
-    this.large = '',
-  });
+  const Sizes({this.thumbnail = '', this.medium = '', this.large = ''});
 
   final String thumbnail;
   final String medium;

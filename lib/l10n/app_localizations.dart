@@ -274,6 +274,18 @@ abstract class AppLocalizations {
   /// **'Warehouse delivery'**
   String get warehouseDeliveryLabel;
 
+  /// No description provided for @comingSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoonTitle;
+
+  /// No description provided for @warehouseComingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse delivery is coming soon. Collection, wallet, and your route are available now.'**
+  String get warehouseComingSoonMessage;
+
   /// No description provided for @collectionLabel.
   ///
   /// In en, this message translates to:
@@ -673,8 +685,14 @@ abstract class AppLocalizations {
   /// No description provided for @settlementRequestTitle.
   ///
   /// In en, this message translates to:
-  /// **'Settlement request'**
+  /// **'Payout request'**
   String get settlementRequestTitle;
+
+  /// No description provided for @payoutStaffHandledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This submits a payout request for staff to process. It is not an instant bank transfer.'**
+  String get payoutStaffHandledHint;
 
   /// No description provided for @pointsLabel.
   ///

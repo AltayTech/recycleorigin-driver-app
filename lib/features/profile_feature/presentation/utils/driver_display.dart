@@ -74,8 +74,11 @@ class DriverDisplay {
         .trim()
         .split(RegExp(r'\s+'))
         .where((String t) => t.isNotEmpty);
-    final initials =
-        tokens.take(2).map((String t) => t[0]).join().toUpperCase();
+    final initials = tokens
+        .take(2)
+        .map((String t) => t[0])
+        .join()
+        .toUpperCase();
     return initials.isEmpty ? 'D' : initials;
   }
 

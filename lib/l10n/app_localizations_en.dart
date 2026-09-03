@@ -97,6 +97,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get warehouseDeliveryLabel => 'Warehouse delivery';
 
   @override
+  String get comingSoonTitle => 'Coming soon';
+
+  @override
+  String get warehouseComingSoonMessage =>
+      'Warehouse delivery is coming soon. Collection, wallet, and your route are available now.';
+
+  @override
   String get collectionLabel => 'Collection';
 
   @override
@@ -304,7 +311,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noneLabel => 'None';
 
   @override
-  String get settlementRequestTitle => 'Settlement request';
+  String get settlementRequestTitle => 'Payout request';
+
+  @override
+  String get payoutStaffHandledHint =>
+      'This submits a payout request for staff to process. It is not an instant bank transfer.';
 
   @override
   String get pointsLabel => 'Points';

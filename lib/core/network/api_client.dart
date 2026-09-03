@@ -128,10 +128,12 @@ class ApiClient {
     final response = await _dio.post<Map<String, dynamic>>(
       Urls.refreshTokenPath,
       data: {'refresh_token': refresh},
-      options: Options(headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }),
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
     );
     final data = response.data;
     if (data == null) {
@@ -165,13 +167,11 @@ class ApiClient {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final response = await _dio.get(
-        path,
-        queryParameters: queryParameters,
-      );
+      final response = await _dio.get(path, queryParameters: queryParameters);
       if (response.statusCode == 200) {
-        final data =
-            parser != null ? parser(response.data) : response.data as T;
+        final data = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(data);
       }
       return Failure('Request failed with status ${response.statusCode}');
@@ -195,8 +195,9 @@ class ApiClient {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final result =
-            parser != null ? parser(response.data) : response.data as T;
+        final result = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(result);
       }
       return Failure('Request failed with status ${response.statusCode}');
@@ -215,8 +216,9 @@ class ApiClient {
     try {
       final response = await _dio.put(path, data: data);
       if (response.statusCode == 200 || response.statusCode == 204) {
-        final result =
-            parser != null ? parser(response.data) : response.data as T;
+        final result = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(result);
       }
       return Failure('Request failed with status ${response.statusCode}');
@@ -263,7 +265,8 @@ class ApiClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return const Failure(
-            'Connection timeout. Please check your internet connection.');
+          'Connection timeout. Please check your internet connection.',
+        );
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final serverMsg = _serverErrorMessage(error.response?.data);
@@ -276,19 +279,16 @@ class ApiClient {
         } else if (statusCode == 404) {
           return Failure(serverMsg ?? 'Resource not found.');
         } else if (statusCode != null && statusCode >= 500) {
-          return Failure(
-            serverMsg ?? 'Server error. Please try again later.',
-          );
+          return Failure(serverMsg ?? 'Server error. Please try again later.');
         }
-        return Failure(
-          serverMsg ?? 'Request failed with status $statusCode',
-        );
+        return Failure(serverMsg ?? 'Request failed with status $statusCode');
       case DioExceptionType.cancel:
         return const Failure('Request was cancelled.');
       case DioExceptionType.unknown:
         if (error.error?.toString().contains('SocketException') == true) {
           return const Failure(
-              'No internet connection. Please check your network.');
+            'No internet connection. Please check your network.',
+          );
         }
         return Failure('Network error: ${error.message}');
       default:

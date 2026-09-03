@@ -19,9 +19,7 @@ class PerformanceData {
       impact: PerformanceMetrics.fromJson(
         json['impact'] as Map<String, dynamic>? ?? {},
       ),
-      level: LevelInfo.fromJson(
-        json['level'] as Map<String, dynamic>? ?? {},
-      ),
+      level: LevelInfo.fromJson(json['level'] as Map<String, dynamic>? ?? {}),
       streak: StreakInfo.fromJson(
         json['streak'] as Map<String, dynamic>? ?? {},
       ),
@@ -306,9 +304,7 @@ class LeaderboardData {
           .map((e) => LeaderboardEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       self: json['self'] != null
-          ? LeaderboardEntry.fromJson(
-              json['self'] as Map<String, dynamic>,
-            )
+          ? LeaderboardEntry.fromJson(json['self'] as Map<String, dynamic>)
           : null,
     );
   }

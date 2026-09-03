@@ -95,10 +95,7 @@ class _PerformanceView extends StatelessWidget {
               const SizedBox(height: 12),
               _BadgesGrid(badges: data.badges),
               const SizedBox(height: 12),
-              _LeaderboardCard(
-                rank: data.rank,
-                leaderboard: state.leaderboard,
-              ),
+              _LeaderboardCard(rank: data.rank, leaderboard: state.leaderboard),
             ],
           ),
         );
@@ -182,10 +179,7 @@ class _PerformanceHero extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
-          colors: [
-            context.brandPrimary,
-            context.driverColors.heroGradientEnd,
-          ],
+          colors: [context.brandPrimary, context.driverColors.heroGradientEnd],
         ),
         boxShadow: [
           BoxShadow(
@@ -245,8 +239,10 @@ class _Stat extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
           Text(
             value,
             style: const TextStyle(
@@ -256,8 +252,10 @@ class _Stat extends StatelessWidget {
             ),
           ),
           if (trend != null && trend!.isNotEmpty)
-            Text(trend!,
-                style: const TextStyle(color: Colors.white54, fontSize: 11)),
+            Text(
+              trend!,
+              style: const TextStyle(color: Colors.white54, fontSize: 11),
+            ),
         ],
       ),
     );
@@ -426,13 +424,17 @@ class _TrendChart extends StatelessWidget {
               height: 180,
               child: LineChart(
                 LineChartData(
-                  gridData:
-                      const FlGridData(show: true, drawVerticalLine: false),
+                  gridData: const FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                  ),
                   borderData: FlBorderData(show: false),
                   titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles:
-                          SideTitles(showTitles: true, reservedSize: 28),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 28,
+                      ),
                     ),
                     bottomTitles: AxisTitles(),
                     topTitles: AxisTitles(),

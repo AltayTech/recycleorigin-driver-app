@@ -39,9 +39,9 @@ class SettingsScreen extends StatelessWidget {
                 Text(
                   l10n.settingsScreenIntro,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: context.secondaryText,
-                        height: 1.45,
-                      ),
+                    color: context.secondaryText,
+                    height: 1.45,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ValueListenableBuilder<ThemeMode>(
@@ -60,11 +60,11 @@ class SettingsScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             l10n.appearanceSectionDescription,
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: context.secondaryText,
-                                      height: 1.45,
-                                    ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: context.secondaryText,
+                                  height: 1.45,
+                                ),
                           ),
                           const SizedBox(height: 16),
                           Semantics(
@@ -193,10 +193,7 @@ class _SettingsSectionCard extends StatelessWidget {
     return Card(
       elevation: 2,
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: child,
-      ),
+      child: Padding(padding: const EdgeInsets.all(16), child: child),
     );
   }
 }
@@ -226,10 +223,7 @@ class _SectionHeader extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          child: Text(title, style: Theme.of(context).textTheme.titleMedium),
         ),
       ],
     );
@@ -278,8 +272,8 @@ class _ThemeModeOptionTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -333,8 +327,8 @@ class _LanguageOptionTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -421,9 +415,9 @@ class _NotificationPreferencesSectionState
               Text(
                 l10n.notificationsSectionDescription,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.secondaryText,
-                      height: 1.45,
-                    ),
+                  color: context.secondaryText,
+                  height: 1.45,
+                ),
               ),
               if (_controller.loading)
                 const Padding(
@@ -454,10 +448,7 @@ class _NotificationPreferencesSectionState
                     padding: const EdgeInsets.only(top: 8, bottom: 4),
                     child: Text(
                       l10n.connectionRetryMessage,
-                      style: TextStyle(
-                        color: colorScheme.error,
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: colorScheme.error, fontSize: 13),
                     ),
                   ),
                 if (_controller.saving)
@@ -466,8 +457,8 @@ class _NotificationPreferencesSectionState
                     child: Text(
                       l10n.notificationPrefsSavingLabel,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: context.secondaryText,
-                          ),
+                        color: context.secondaryText,
+                      ),
                     ),
                   ),
                 for (final cat in _controller.prefs.keys) ...<Widget>[
@@ -518,16 +509,13 @@ class _AppMetaBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          name,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text(name, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 6),
         Text(
           versionLine,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: context.secondaryText,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: context.secondaryText),
         ),
       ],
     );

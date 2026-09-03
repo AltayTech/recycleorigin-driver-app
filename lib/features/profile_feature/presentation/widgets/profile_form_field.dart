@@ -37,7 +37,8 @@ class ProfileFormField extends StatelessWidget {
         focusNode: focusNode,
         readOnly: readOnly,
         keyboardType: keyboardType,
-        textInputAction: textInputAction ??
+        textInputAction:
+            textInputAction ??
             (nextFocus != null ? TextInputAction.next : TextInputAction.done),
         onFieldSubmitted: (_) {
           if (nextFocus != null) {
@@ -45,22 +46,18 @@ class ProfileFormField extends StatelessWidget {
           }
         },
         validator: validator,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: context.primaryText,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(color: context.primaryText),
         decoration: InputDecoration(
           labelText: label,
           helperText: helperText,
           filled: true,
           fillColor: readOnly ? scheme.surfaceContainerHighest : scheme.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: scheme.outlineVariant,
-            ),
+            borderSide: BorderSide(color: scheme.outlineVariant),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

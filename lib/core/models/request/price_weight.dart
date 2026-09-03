@@ -4,10 +4,7 @@ class PriceWeight with ChangeNotifier {
   final String weight;
   final String price;
 
-  PriceWeight({
-    required this.weight,
-    required this.price,
-  });
+  PriceWeight({required this.weight, required this.price});
 
   factory PriceWeight.fromJson(Map<String, dynamic> parsedJson) {
     return PriceWeight(

@@ -12,11 +12,13 @@ class PerformanceCubit extends Cubit<PerformanceState> {
 
   Future<void> load({String? range}) async {
     final selectedRange = range ?? state.range;
-    emit(state.copyWith(
-      status: PerformanceStatus.loading,
-      range: selectedRange,
-      clearError: true,
-    ));
+    emit(
+      state.copyWith(
+        status: PerformanceStatus.loading,
+        range: selectedRange,
+        clearError: true,
+      ),
+    );
 
     final perfResult = await _repository.fetchPerformance(range: selectedRange);
     final boardResult = await _repository.fetchLeaderboard(
@@ -29,17 +31,21 @@ class PerformanceCubit extends Cubit<PerformanceState> {
         if (boardResult case Success(value: final b)) {
           board = b;
         }
-        emit(state.copyWith(
-          status: PerformanceStatus.loaded,
-          performance: value,
-          leaderboard: board,
-          clearError: true,
-        ));
+        emit(
+          state.copyWith(
+            status: PerformanceStatus.loaded,
+            performance: value,
+            leaderboard: board,
+            clearError: true,
+          ),
+        );
       case Failure(:final message):
-        emit(state.copyWith(
-          status: PerformanceStatus.error,
-          errorMessage: message,
-        ));
+        emit(
+          state.copyWith(
+            status: PerformanceStatus.error,
+            errorMessage: message,
+          ),
+        );
     }
   }
 

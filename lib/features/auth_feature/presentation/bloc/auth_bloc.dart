@@ -26,8 +26,8 @@ import 'package:recycleorigindriver/core/network/urls.dart';
 /// token pair. Google sign-in follows the same exchange.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({FirebaseAuthService? firebaseAuthService})
-      : _firebase = firebaseAuthService ?? FirebaseAuthService(),
-        super(AuthState.initial()) {
+    : _firebase = firebaseAuthService ?? FirebaseAuthService(),
+      super(AuthState.initial()) {
     on<AuthLoadTokenRequested>(_onLoadToken);
     on<AuthLoginRequested>(_onLogin);
     on<AuthRegisterRequested>(_onRegister);
@@ -69,13 +69,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String? lastName,
   }) {
     final c = Completer<bool>();
-    add(AuthRegisterRequested(
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      completer: c,
-    ));
+    add(
+      AuthRegisterRequested(
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -162,17 +164,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Completer<void> _voidCompleter() => Completer<void>();
 
-  void _onFirstLoginSet(
-    AuthFirstLoginSet event,
-    Emitter<AuthState> emit,
-  ) {
+  void _onFirstLoginSet(AuthFirstLoginSet event, Emitter<AuthState> emit) {
     emit(state.copyWith(isFirstLogin: event.value));
   }
 
-  void _onFirstLogoutSet(
-    AuthFirstLogoutSet event,
-    Emitter<AuthState> emit,
-  ) {
+  void _onFirstLogoutSet(AuthFirstLogoutSet event, Emitter<AuthState> emit) {
     emit(state.copyWith(isFirstLogout: event.value));
   }
 
@@ -185,14 +181,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final refresh = await SecureStorage.getRefreshToken() ?? '';
       final loggedIn = await SecureStorage.getLoginStatus() && token.isNotEmpty;
       final claims = decodeJwtPayload(token);
-      emit(state.copyWith(
-        token: token,
-        refreshToken: refresh,
-        isLoggedIn: loggedIn,
-        emailVerified: claims?['email_verified'] == true,
-        role: (claims?['role'] as String?) ?? state.role,
-        provider: (claims?['provider'] as String?) ?? state.provider,
-      ));
+      emit(
+        state.copyWith(
+          token: token,
+          refreshToken: refresh,
+          isLoggedIn: loggedIn,
+          emailVerified: claims?['email_verified'] == true,
+          role: (claims?['role'] as String?) ?? state.role,
+          provider: (claims?['provider'] as String?) ?? state.provider,
+        ),
+      );
       if (loggedIn) {
         unawaited(DriverPushNotificationController.instance.syncAfterLogin());
       }
@@ -224,7 +222,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }) async {
     final user = result.user;
     final email = (user['email'] as String?) ?? '';
-    final displayName = (user['display_name'] as String?) ??
+    final displayName =
+        (user['display_name'] as String?) ??
         '${(user['first_name'] as String?) ?? ''} ${(user['last_name'] as String?) ?? ''}'
             .trim();
     final tokenModel = TokenResponseModel.fromJson(<String, dynamic>{
@@ -234,17 +233,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       'user_display_name': displayName,
     });
     await SecureStorage.saveUserData(jsonEncode(user));
-    emit(state.copyWith(
-      token: result.accessToken,
-      refreshToken: result.refreshToken,
-      tokenResponseModel: tokenModel,
-      isLoggedIn: true,
-      isFirstLogin: isFirstLogin,
-      isFirstLogout: false,
-      emailVerified: result.emailVerified,
-      provider: result.provider,
-      role: result.role,
-    ));
+    emit(
+      state.copyWith(
+        token: result.accessToken,
+        refreshToken: result.refreshToken,
+        tokenResponseModel: tokenModel,
+        isLoggedIn: true,
+        isFirstLogin: isFirstLogin,
+        isFirstLogout: false,
+        emailVerified: result.emailVerified,
+        provider: result.provider,
+        role: result.role,
+      ),
+    );
     unawaited(DriverPushNotificationController.instance.syncAfterLogin());
   }
 
@@ -279,8 +280,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthRegisterRequested event,
     Emitter<AuthState> emit,
   ) async {
-    final displayName =
-        '${event.firstName ?? ''} ${event.lastName ?? ''}'.trim();
+    final displayName = '${event.firstName ?? ''} ${event.lastName ?? ''}'
+        .trim();
     try {
       final result = await _firebase.registerWithEmail(
         email: event.email,
@@ -370,10 +371,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (!state.isLoggedIn && state.token.isEmpty) {
       return;
     }
-    developer.log(
-      'Session invalidated by network layer',
-      name: 'driver.auth',
-    );
+    developer.log('Session invalidated by network layer', name: 'driver.auth');
     try {
       await _firebase.signOut();
     } catch (_) {}
@@ -393,8 +391,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           data: {'refresh_token': refresh},
         );
       } catch (e) {
-        developer.log('Backend logout failed (continuing): $e',
-            name: 'driver.auth', level: 900);
+        developer.log(
+          'Backend logout failed (continuing): $e',
+          name: 'driver.auth',
+          level: 900,
+        );
       }
     }
     try {
@@ -402,16 +403,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (_) {}
     await SecureStorage.deleteToken();
     await SecureStorage.saveLoginStatus(false);
-    emit(state.copyWith(
-      token: '',
-      refreshToken: '',
-      isLoggedIn: false,
-      isFirstLogin: false,
-      emailVerified: false,
-      provider: '',
-      role: '',
-      tokenResponseModel: TokenResponseModel(),
-    ));
+    emit(
+      state.copyWith(
+        token: '',
+        refreshToken: '',
+        isLoggedIn: false,
+        isFirstLogin: false,
+        emailVerified: false,
+        provider: '',
+        role: '',
+        tokenResponseModel: TokenResponseModel(),
+      ),
+    );
     event.completer?.complete();
   }
 
@@ -437,9 +440,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as dynamic;
-        emit(
-          state.copyWith(isCompleted: extractedData['complete'] == true),
-        );
+        emit(state.copyWith(isCompleted: extractedData['complete'] == true));
       } else {
         emit(state.copyWith(isCompleted: false));
       }

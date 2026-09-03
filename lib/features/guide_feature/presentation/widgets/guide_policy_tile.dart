@@ -50,11 +50,7 @@ class GuidePolicyTile extends StatelessWidget {
             ),
           ),
         ),
-        if (showDivider)
-          Divider(
-            height: 1,
-            color: scheme.outlineVariant,
-          ),
+        if (showDivider) Divider(height: 1, color: scheme.outlineVariant),
       ],
     );
   }

@@ -31,24 +31,25 @@ class RequestWasteItem with ChangeNotifier {
   final bool hasRated;
   final double? customerAverageRating;
 
-  RequestWasteItem(
-      {required this.id,
-      required this.status,
-      required this.collect_type,
-      required this.total_collects_price,
-      required this.total_collects_weight,
-      required this.total_collects_number,
-      required this.collect_date,
-      required this.address_data,
-      required this.collect_list,
-      required this.driver,
-      this.driverAccepted,
-      this.requestStatusKey = '',
-      this.requestStatusLabel = '',
-      this.customerRating,
-      this.driverRating,
-      this.hasRated = false,
-      this.customerAverageRating});
+  RequestWasteItem({
+    required this.id,
+    required this.status,
+    required this.collect_type,
+    required this.total_collects_price,
+    required this.total_collects_weight,
+    required this.total_collects_number,
+    required this.collect_date,
+    required this.address_data,
+    required this.collect_list,
+    required this.driver,
+    this.driverAccepted,
+    this.requestStatusKey = '',
+    this.requestStatusLabel = '',
+    this.customerRating,
+    this.driverRating,
+    this.hasRated = false,
+    this.customerAverageRating,
+  });
 
   /// True when API explicitly requires accept/reject (new assignment flow).
   bool get needsDriverAcceptOrReject => driverAccepted == false;
@@ -99,9 +100,10 @@ class RequestWasteItem with ChangeNotifier {
     final collectList = parsedJson['collect_list'];
     final List<Collect> collectRaw = collectList is List
         ? (collectList)
-            .map<Collect>(
-                (dynamic i) => Collect.fromJson(i as Map<String, dynamic>))
-            .toList()
+              .map<Collect>(
+                (dynamic i) => Collect.fromJson(i as Map<String, dynamic>),
+              )
+              .toList()
         : <Collect>[];
 
     final addressDataJson = parsedJson['address_data'];
@@ -110,11 +112,7 @@ class RequestWasteItem with ChangeNotifier {
         : Address(
             name: '',
             address: '',
-            region: Region(
-              term_id: 0,
-              name: '',
-              collect_hour: [],
-            ),
+            region: Region(term_id: 0, name: '', collect_hour: []),
           );
 
     final driverJson = parsedJson['driver'];
@@ -132,32 +130,41 @@ class RequestWasteItem with ChangeNotifier {
       id: parsedJson['id'] is int
           ? parsedJson['id'] as int
           : int.tryParse(parsedJson['id']?.toString() ?? '0') ?? 0,
-      collect_type: parsedJson['collect_type'] != null &&
+      collect_type:
+          parsedJson['collect_type'] != null &&
               parsedJson['collect_type'] is Map
           ? Status.fromJson(parsedJson['collect_type'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '0', slug: '0'),
       status: parsedJson['status'] != null && parsedJson['status'] is Map
           ? Status.fromJson(parsedJson['status'] as Map<String, dynamic>)
           : Status(term_id: 0, name: '0', slug: '0'),
-      total_collects_price: parsedJson['total_collects_price'] != null &&
+      total_collects_price:
+          parsedJson['total_collects_price'] != null &&
               parsedJson['total_collects_price'] is Map
           ? CollectStatus.fromJson(
-              parsedJson['total_collects_price'] as Map<String, dynamic>)
+              parsedJson['total_collects_price'] as Map<String, dynamic>,
+            )
           : CollectStatus(estimated: '0', exact: '0'),
-      total_collects_weight: parsedJson['total_collects_weight'] != null &&
+      total_collects_weight:
+          parsedJson['total_collects_weight'] != null &&
               parsedJson['total_collects_weight'] is Map
           ? CollectStatus.fromJson(
-              parsedJson['total_collects_weight'] as Map<String, dynamic>)
+              parsedJson['total_collects_weight'] as Map<String, dynamic>,
+            )
           : CollectStatus(estimated: '0', exact: '0'),
-      total_collects_number: parsedJson['total_collects_number'] != null &&
+      total_collects_number:
+          parsedJson['total_collects_number'] != null &&
               parsedJson['total_collects_number'] is Map
           ? CollectStatus.fromJson(
-              parsedJson['total_collects_number'] as Map<String, dynamic>)
+              parsedJson['total_collects_number'] as Map<String, dynamic>,
+            )
           : CollectStatus(estimated: '0', exact: '0'),
-      collect_date: parsedJson['collect_date'] != null &&
+      collect_date:
+          parsedJson['collect_date'] != null &&
               parsedJson['collect_date'] is Map
           ? CollectTime.fromJson(
-              parsedJson['collect_date'] as Map<String, dynamic>)
+              parsedJson['collect_date'] as Map<String, dynamic>,
+            )
           : CollectTime(time: '0', day: '0', collect_done_time: '0'),
       address_data: addressData,
       collect_list: collectRaw,
@@ -165,12 +172,14 @@ class RequestWasteItem with ChangeNotifier {
       driverAccepted: driverAccepted,
       requestStatusKey: parsedJson['request_status_key'] as String? ?? '',
       requestStatusLabel: parsedJson['request_status_label'] as String? ?? '',
-      customerRating:
-          cr is Map<String, dynamic> ? RatingOut.fromJson(cr) : null,
+      customerRating: cr is Map<String, dynamic>
+          ? RatingOut.fromJson(cr)
+          : null,
       driverRating: dr is Map<String, dynamic> ? RatingOut.fromJson(dr) : null,
       hasRated: parsedJson['has_rated'] as bool? ?? false,
-      customerAverageRating:
-          parseAverageRating(parsedJson['customer_average_rating']),
+      customerAverageRating: parseAverageRating(
+        parsedJson['customer_average_rating'],
+      ),
     );
   }
 

@@ -19,9 +19,7 @@ class ProfileStatsCard extends StatelessWidget {
     return Card(
       elevation: 3,
       shadowColor: Colors.black26,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         child: Row(
@@ -90,9 +88,9 @@ class _HeroStatChip extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: context.primaryText,
-              ),
+            fontWeight: FontWeight.w700,
+            color: context.primaryText,
+          ),
         ),
         const SizedBox(height: 2),
         Text(
@@ -100,9 +98,9 @@ class _HeroStatChip extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: context.secondaryText,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.labelSmall?.copyWith(color: context.secondaryText),
         ),
       ],
     );

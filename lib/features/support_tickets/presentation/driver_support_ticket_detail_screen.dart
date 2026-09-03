@@ -82,9 +82,7 @@ class _DriverSupportTicketDetailScreenState
     setState(() => _sending = false);
     if (msg != null) {
       _reply.clear();
-      setState(
-        () => _messages = <SupportTicketMessage>[..._messages, msg],
-      );
+      setState(() => _messages = <SupportTicketMessage>[..._messages, msg]);
     }
   }
 
@@ -107,106 +105,100 @@ class _DriverSupportTicketDetailScreenState
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
-              ? Center(child: Text(_error!))
-              : Column(
-                  children: [
-                    if (_ticket != null)
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Material(
-                          color: scheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _ticket!.subject,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  '${_ticket!.ticketNumber} · ${_ticket!.status}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: context.secondaryText),
-                                ),
-                              ],
+          ? Center(child: Text(_error!))
+          : Column(
+              children: [
+                if (_ticket != null)
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Material(
+                      color: scheme.surface,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _ticket!.subject,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                          ),
+                            const SizedBox(height: 6),
+                            Text(
+                              '${_ticket!.ticketNumber} · ${_ticket!.status}',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: context.secondaryText),
+                            ),
+                          ],
                         ),
-                      ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, i) {
-                          final m = _messages[i];
-                          final fromUser = m.isFromUser;
-                          return Align(
-                            alignment: fromUser
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              padding: const EdgeInsets.all(10),
-                              constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.85,
-                              ),
-                              decoration: BoxDecoration(
-                                color: fromUser
-                                    ? context.brandPrimary
-                                        .withValues(alpha: 0.15)
-                                    : scheme.surfaceContainerHighest,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(m.content),
-                            ),
-                          );
-                        },
                       ),
                     ),
-                    if (_canReply)
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: _reply,
-                                  minLines: 1,
-                                  maxLines: 4,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Reply…',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                              IconButton.filled(
-                                onPressed: _sending ? null : _send,
-                                icon: _sending
-                                    ? const SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
-                                      )
-                                    : const Icon(Icons.send),
-                              ),
-                            ],
+                  ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, i) {
+                      final m = _messages[i];
+                      final fromUser = m.isFromUser;
+                      return Align(
+                        alignment: fromUser
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.all(10),
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.85,
                           ),
+                          decoration: BoxDecoration(
+                            color: fromUser
+                                ? context.brandPrimary.withValues(alpha: 0.15)
+                                : scheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(m.content),
                         ),
-                      ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
+                if (_canReply)
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _reply,
+                              minLines: 1,
+                              maxLines: 4,
+                              decoration: const InputDecoration(
+                                hintText: 'Reply…',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          IconButton.filled(
+                            onPressed: _sending ? null : _send,
+                            icon: _sending
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.send),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
+            ),
     );
   }
 }

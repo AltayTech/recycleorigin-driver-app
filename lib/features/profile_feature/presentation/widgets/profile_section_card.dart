@@ -24,10 +24,10 @@ class ProfileSection extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: context.secondaryText,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.4,
-                ),
+              color: context.secondaryText,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.4,
+            ),
           ),
         ),
         Card(
@@ -38,9 +38,7 @@ class ProfileSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           color: scheme.surface,
-          child: Column(
-            children: _interleaveDividers(context, children),
-          ),
+          child: Column(children: _interleaveDividers(context, children)),
         ),
       ],
     );
@@ -56,9 +54,7 @@ class ProfileSection extends StatelessWidget {
     final dividerColor = Theme.of(context).colorScheme.outlineVariant;
     final result = <Widget>[tiles.first];
     for (var i = 1; i < tiles.length; i++) {
-      result.add(
-        Divider(height: 1, indent: 56, color: dividerColor),
-      );
+      result.add(Divider(height: 1, indent: 56, color: dividerColor));
       result.add(tiles[i]);
     }
     return result;
@@ -121,8 +117,8 @@ class ProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.secondaryText,
-                        ),
+                      color: context.secondaryText,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -161,9 +157,7 @@ class ProfileSectionCard extends StatelessWidget {
       elevation: 2,
       shadowColor: Colors.black26,
       margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: scheme.surface,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
@@ -176,9 +170,9 @@ class ProfileSectionCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: context.primaryText,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: context.primaryText,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 ?trailing,

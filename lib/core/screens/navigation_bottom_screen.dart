@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:recycleorigindriver/core/config/app_config.dart';
+import 'package:recycleorigindriver/core/screens/coming_soon_screen.dart';
 import 'package:recycleorigindriver/core/widgets/auth_snackbars.dart';
 import 'package:recycleorigindriver/core/widgets/main_drawer.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -18,13 +20,7 @@ import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Tab order: collection, warehouse, performance, wallet, profile.
-enum _DriverShellTab {
-  collection,
-  warehouse,
-  performance,
-  wallet,
-  profile,
-}
+enum _DriverShellTab { collection, warehouse, performance, wallet, profile }
 
 /// Driver shell: one primary [NavigationBar] (Material 3), [IndexedStack] to
 /// preserve tab state, and a single app bar + drawer.
@@ -47,7 +43,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   void initState() {
     super.initState();
     driverShellTabRequest.addListener(_applyPendingShellTab);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _applyPendingShellTab());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _applyPendingShellTab(),
+    );
     // [BlocListener] only runs when first-login / first-logout *change* between
     // emissions. After a fresh login, [getToken] reloads storage while
     // [isFirstLogin] stays true, so listenWhen is false and the listener never
@@ -97,10 +95,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
-          l10n.exitDialogTitle,
-          textAlign: TextAlign.center,
-        ),
+        title: Text(l10n.exitDialogTitle, textAlign: TextAlign.center),
         content: Text(l10n.exitDialogMessage),
         actionsPadding: const EdgeInsets.all(10),
         actions: <Widget>[
@@ -212,9 +207,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                   tooltip: l10n.myRouteLabel,
                   icon: const Icon(Icons.route_rounded),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      RouteTodayScreen.routeName,
-                    );
+                    Navigator.of(context).pushNamed(RouteTodayScreen.routeName);
                   },
                 ),
             ],
@@ -276,8 +269,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                     ),
                     NavigationDestination(
                       icon: const Icon(Icons.account_balance_wallet_outlined),
-                      selectedIcon:
-                          const Icon(Icons.account_balance_wallet_rounded),
+                      selectedIcon: const Icon(
+                        Icons.account_balance_wallet_rounded,
+                      ),
                       label: l10n.walletLabel,
                       tooltip: l10n.walletLabel,
                     ),
@@ -303,13 +297,17 @@ class _WarehouseTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!AppConfig.enableWarehouseDeliveries) {
+      return ComingSoonScreen(
+        title: context.l10n.comingSoonTitle,
+        message: context.l10n.warehouseComingSoonMessage,
+      );
+    }
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         DriverSessionHeaderBanner(),
-        Expanded(
-          child: StoreCollectListScreen(embedInShell: true),
-        ),
+        Expanded(child: StoreCollectListScreen(embedInShell: true)),
       ],
     );
   }
@@ -324,9 +322,7 @@ class _CollectionTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         DriverSessionHeaderBanner(),
-        Expanded(
-          child: CollectListScreen(),
-        ),
+        Expanded(child: CollectListScreen()),
       ],
     );
   }

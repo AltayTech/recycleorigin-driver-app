@@ -63,8 +63,9 @@ class ProfileLogout {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().driver =
-                    parentContext.read<CustomerInfoBloc>().driverZero;
+                parentContext.read<CustomerInfoBloc>().driver = parentContext
+                    .read<CustomerInfoBloc>()
+                    .driverZero;
                 await parentContext.read<AuthBloc>().removeToken();
                 if (!parentContext.mounted) {
                   return;
@@ -112,9 +113,7 @@ class ProfileLogout {
                 ),
                 TextButton(
                   onPressed: busy ? null : onConfirm,
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: Colors.red),
                   child: busy
                       ? SizedBox(
                           width: 22,

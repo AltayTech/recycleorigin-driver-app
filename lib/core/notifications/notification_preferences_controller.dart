@@ -6,9 +6,8 @@ import 'package:recycleorigindriver/core/notifications/notification_preferences_
 
 /// Manages notification preference state for the settings screen.
 class NotificationPreferencesController extends ChangeNotifier {
-  NotificationPreferencesController({
-    NotificationPreferencesService? service,
-  }) : _service = service ?? NotificationPreferencesService();
+  NotificationPreferencesController({NotificationPreferencesService? service})
+    : _service = service ?? NotificationPreferencesService();
 
   final NotificationPreferencesService _service;
 

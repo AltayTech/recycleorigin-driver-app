@@ -23,9 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   static const double _radiusSm = 12;
   static const double _radiusMd = 20;
 
-  static final RegExp _emailRegex = RegExp(
-    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-  );
+  static final RegExp _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
@@ -64,9 +62,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return;
       }
       if (ok) {
-        Navigator.of(context).pushReplacementNamed(
-          EmailVerificationScreen.routeName,
-        );
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(EmailVerificationScreen.routeName);
       } else {
         _showErrorDialog(context.l10n.authGenericError);
       }
@@ -271,9 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     keyboardType: TextInputType.emailAddress,
                                     textInputAction: TextInputAction.next,
                                     autocorrect: false,
-                                    autofillHints: const [
-                                      AutofillHints.email,
-                                    ],
+                                    autofillHints: const [AutofillHints.email],
                                     validator: _validateEmail,
                                   ),
                                   const SizedBox(height: _spacingMd),
@@ -303,8 +299,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         },
                                       ),
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(_radiusSm),
+                                        borderRadius: BorderRadius.circular(
+                                          _radiusSm,
+                                        ),
                                       ),
                                     ),
                                     obscureText: _obscurePassword,
@@ -348,9 +345,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     onPressed: _isLoading
                                         ? null
                                         : () => Navigator.of(context)
-                                                .pushReplacementNamed(
-                                              LoginScreen.routeName,
-                                            ),
+                                              .pushReplacementNamed(
+                                                LoginScreen.routeName,
+                                              ),
                                     child: Text(l10n.authSwitchToLoginPrompt),
                                   ),
                                 ],

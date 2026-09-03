@@ -52,8 +52,9 @@ void main() async {
   const fromDefine = String.fromEnvironment('FLUTTER_ENV');
   // Debug/profile runs from IDE or `flutter run` use dev unless overridden.
   // Release builds default to prod (use `-t lib/main_prod.dart` for store).
-  final environment =
-      fromDefine.isNotEmpty ? fromDefine : (kDebugMode ? 'dev' : 'prod');
+  final environment = fromDefine.isNotEmpty
+      ? fromDefine
+      : (kDebugMode ? 'dev' : 'prod');
   await bootstrapDriverApp(_envFileFor(environment));
 }
 
@@ -95,10 +96,9 @@ class MyApp extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listenWhen: (prev, curr) => prev.isLoggedIn && !curr.isLoggedIn,
         listener: (context, state) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            LoginScreen.routeName,
-            (route) => false,
-          );
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
         },
         child: ValueListenableBuilder<ThemeMode>(
           valueListenable: AppThemeController.instance.themeModeNotifier,

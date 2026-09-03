@@ -62,11 +62,12 @@ class FirebaseAuthService {
     fb.FirebaseAuth? auth,
     GoogleSignIn? googleSignIn,
     Dio? exchangeClient,
-  }) : _auth = auth ?? fb.FirebaseAuth.instance,
+  }) : _authOverride = auth,
        _googleSignInOverride = googleSignIn,
        _exchangeClient = exchangeClient ?? _buildExchangeClient();
 
-  final fb.FirebaseAuth _auth;
+  final fb.FirebaseAuth? _authOverride;
+  fb.FirebaseAuth get _auth => _authOverride ?? fb.FirebaseAuth.instance;
   final GoogleSignIn? _googleSignInOverride;
   final Dio _exchangeClient;
 

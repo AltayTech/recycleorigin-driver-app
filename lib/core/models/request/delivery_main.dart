@@ -14,8 +14,9 @@ class DeliveryMain with ChangeNotifier {
     var productsList = parsedJson['data'] as List;
     List<DeliveryWasteItem> collectRaw = [];
 
-    collectRaw =
-        productsList.map((i) => DeliveryWasteItem.fromJson(i)).toList();
+    collectRaw = productsList
+        .map((i) => DeliveryWasteItem.fromJson(i))
+        .toList();
 
     return DeliveryMain(
       searchDetail: SearchDetail.fromJson(parsedJson['details']),

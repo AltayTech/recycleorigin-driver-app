@@ -13,8 +13,9 @@ class TransactionMain with ChangeNotifier {
     var transactionsList = parsedJson['data'] as List;
     List<Transaction> transactionsRaw = [];
 
-    transactionsRaw =
-        transactionsList.map((i) => Transaction.fromJson(i)).toList();
+    transactionsRaw = transactionsList
+        .map((i) => Transaction.fromJson(i))
+        .toList();
 
     return TransactionMain(
       searchDetail: SearchDetail.fromJson(parsedJson['details']),

@@ -47,11 +47,7 @@ void showDriverLogoutSuccessSnackBar(
       duration: const Duration(seconds: 2),
       content: Row(
         children: <Widget>[
-          Icon(
-            Icons.logout_rounded,
-            color: colorScheme.primary,
-            size: 22,
-          ),
+          Icon(Icons.logout_rounded, color: colorScheme.primary, size: 22),
           const SizedBox(width: 12),
           Expanded(
             child: Text(

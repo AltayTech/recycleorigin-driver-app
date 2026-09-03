@@ -40,10 +40,7 @@ void main() {
     });
 
     test('tokenResponseModel round-trips via copyWith', () {
-      final model = TokenResponseModel(
-        token: 't',
-        userEmail: 'e@e.com',
-      );
+      final model = TokenResponseModel(token: 't', userEmail: 'e@e.com');
       final s = AuthState.initial().copyWith(tokenResponseModel: model);
       expect(s.tokenResponseModel.userEmail, 'e@e.com');
     });

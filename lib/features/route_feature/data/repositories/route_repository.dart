@@ -10,8 +10,9 @@ class RouteRepository {
 
   final ApiClient _client;
 
-  Future<Result<TodayRouteResult>> fetchTodayRoute(
-      {bool rebuild = false}) async {
+  Future<Result<TodayRouteResult>> fetchTodayRoute({
+    bool rebuild = false,
+  }) async {
     if (rebuild) {
       final rebuildResult = await _client.post<void>(
         Urls.driverRouteRebuild,

@@ -86,9 +86,9 @@ class _DriverSupportTicketsListScreenState
       floatingActionButton: authState.isAuth
           ? FloatingActionButton(
               onPressed: () async {
-                await Navigator.of(context).pushNamed(
-                  DriverSupportTicketCreateScreen.routeName,
-                );
+                await Navigator.of(
+                  context,
+                ).pushNamed(DriverSupportTicketCreateScreen.routeName);
                 _load();
               },
               backgroundColor: context.brandPrimary,
@@ -108,8 +108,9 @@ class _DriverSupportTicketsListScreenState
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushNamed(LoginScreen.routeName),
+                      onPressed: () => Navigator.of(
+                        context,
+                      ).pushNamed(LoginScreen.routeName),
                       child: Text(l10n.loginLabel),
                     ),
                   ],
@@ -117,55 +118,51 @@ class _DriverSupportTicketsListScreenState
               ),
             )
           : _loading
-              ? const Center(child: CircularProgressIndicator())
-              : _error != null
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(_error!),
-                          TextButton(
-                              onPressed: _load, child: const Text('Retry')),
-                        ],
-                      ),
+          ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(_error!),
+                  TextButton(onPressed: _load, child: const Text('Retry')),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: _page == null || _page!.items.isEmpty
+                  ? ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [
+                        SizedBox(height: 120),
+                        Center(child: Text('No tickets yet')),
+                      ],
                     )
-                  : RefreshIndicator(
-                      onRefresh: _load,
-                      child: _page == null || _page!.items.isEmpty
-                          ? ListView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              children: const [
-                                SizedBox(height: 120),
-                                Center(child: Text('No tickets yet')),
-                              ],
-                            )
-                          : ListView.separated(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(12),
-                              itemCount: _page!.items.length,
-                              separatorBuilder: (_, _) =>
-                                  const SizedBox(height: 8),
-                              itemBuilder: (context, i) {
-                                final t = _page!.items[i];
-                                return ListTile(
-                                  tileColor: scheme.surface,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  title: Text(t.subject),
-                                  subtitle: Text(
-                                    '${t.ticketNumber} · ${t.status}',
-                                  ),
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      DriverSupportTicketDetailScreen.routeName,
-                                      arguments: t.id,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
+                  : ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(12),
+                      itemCount: _page!.items.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (context, i) {
+                        final t = _page!.items[i];
+                        return ListTile(
+                          tileColor: scheme.surface,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          title: Text(t.subject),
+                          subtitle: Text('${t.ticketNumber} · ${t.status}'),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              DriverSupportTicketDetailScreen.routeName,
+                              arguments: t.id,
+                            );
+                          },
+                        );
+                      },
                     ),
+            ),
     );
   }
 }

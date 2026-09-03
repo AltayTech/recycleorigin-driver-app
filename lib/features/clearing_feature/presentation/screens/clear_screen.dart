@@ -381,6 +381,16 @@ class _ClearScreenState extends State<ClearScreen>
                                     ],
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Text(
+                                    context.l10n.payoutStaffHandledHint,
+                                    style: TextStyle(
+                                      color: context.secondaryText,
+                                      fontSize: textScaleFactor * 12.0,
+                                    ),
+                                  ),
+                                ),
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(

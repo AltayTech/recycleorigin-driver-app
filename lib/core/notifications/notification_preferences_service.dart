@@ -17,16 +17,16 @@ class NotificationPreferenceItem {
   final bool enabled;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'category': category,
-        'channel': channel,
-        'enabled': enabled,
-      };
+    'category': category,
+    'channel': channel,
+    'enabled': enabled,
+  };
 }
 
 /// Loads and persists driver notification preferences via the API.
 class NotificationPreferencesService {
   NotificationPreferencesService({http.Client? client})
-      : _client = client ?? http.Client();
+    : _client = client ?? http.Client();
 
   final http.Client _client;
 
@@ -73,11 +73,7 @@ class NotificationPreferencesService {
     prefs.forEach((cat, chMap) {
       chMap.forEach((ch, en) {
         items.add(
-          NotificationPreferenceItem(
-            category: cat,
-            channel: ch,
-            enabled: en,
-          ),
+          NotificationPreferenceItem(category: cat, channel: ch, enabled: en),
         );
       });
     });

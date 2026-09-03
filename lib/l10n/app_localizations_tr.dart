@@ -97,6 +97,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get warehouseDeliveryLabel => 'Depoya teslim';
 
   @override
+  String get comingSoonTitle => 'Cok yakinda';
+
+  @override
+  String get warehouseComingSoonMessage =>
+      'Depo teslimi yakinda. Toplama, cuzdan ve rotaniz su anda kullanilabilir.';
+
+  @override
   String get collectionLabel => 'Toplama';
 
   @override
@@ -306,6 +313,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settlementRequestTitle => 'Odeme talebi';
+
+  @override
+  String get payoutStaffHandledHint =>
+      'Bu, personelin isleyecegi bir odeme talebi gonderir. Aninda banka transferi degildir.';
 
   @override
   String get pointsLabel => 'Puan';

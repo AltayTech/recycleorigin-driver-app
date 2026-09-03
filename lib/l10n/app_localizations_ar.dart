@@ -96,6 +96,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get warehouseDeliveryLabel => 'التسليم إلى المستودع';
 
   @override
+  String get comingSoonTitle => 'قريبًا';
+
+  @override
+  String get warehouseComingSoonMessage =>
+      'تسليم المستودع قادم قريبًا. الجمع والمحفظة والمسار متاحة الآن.';
+
+  @override
   String get collectionLabel => 'الجمع';
 
   @override
@@ -304,6 +311,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settlementRequestTitle => 'طلب التسوية';
+
+  @override
+  String get payoutStaffHandledHint =>
+      'هذا يرسل طلب دفع ليراجعه الفريق. ليس تحويلًا بنكيًا فوريًا.';
 
   @override
   String get pointsLabel => 'النقاط';

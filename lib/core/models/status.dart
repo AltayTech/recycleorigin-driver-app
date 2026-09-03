@@ -25,10 +25,6 @@ class Status with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'term_id': term_id,
-      'name': name,
-      'slug': slug,
-    };
+    return {'term_id': term_id, 'name': name, 'slug': slug};
   }
 }

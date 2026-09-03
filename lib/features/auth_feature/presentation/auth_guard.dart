@@ -26,11 +26,7 @@ bool requireVerifiedEmail(BuildContext context) {
 /// Wrapper widget that shows [child] only when the driver is signed in and
 /// has a verified email; otherwise navigates to the right auth screen.
 class VerifiedAuthGate extends StatelessWidget {
-  const VerifiedAuthGate({
-    super.key,
-    required this.child,
-    this.fallback,
-  });
+  const VerifiedAuthGate({super.key, required this.child, this.fallback});
 
   final Widget child;
   final Widget? fallback;
@@ -50,14 +46,13 @@ class VerifiedAuthGate extends StatelessWidget {
           if (!state.isAuth) {
             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           } else {
-            Navigator.of(context)
-                .pushReplacementNamed(EmailVerificationScreen.routeName);
+            Navigator.of(
+              context,
+            ).pushReplacementNamed(EmailVerificationScreen.routeName);
           }
         });
         return fallback ??
-            const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
+            const Scaffold(body: Center(child: CircularProgressIndicator()));
       },
     );
   }

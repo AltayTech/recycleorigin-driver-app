@@ -22,9 +22,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     Emitter<RouteState> emit,
   ) async {
     emit(state.copyWith(status: RouteStatus.loading));
-    final result = await _repository.fetchTodayRoute(
-      rebuild: event.rebuild,
-    );
+    final result = await _repository.fetchTodayRoute(rebuild: event.rebuild);
     switch (result) {
       case Success(value: final payload):
         if (!payload.hasRoute) {

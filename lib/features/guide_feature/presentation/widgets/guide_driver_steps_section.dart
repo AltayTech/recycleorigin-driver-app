@@ -15,56 +15,55 @@ class GuideDriverStepsSection extends StatelessWidget {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
 
-    final steps = <({IconData icon, String title, String subtitle, VoidCallback onTap})>[
-      (
-        icon: Icons.local_shipping_outlined,
-        title: l10n.guideStepCollectionTitle,
-        subtitle: l10n.guideStepCollectionSubtitle,
-        onTap: () => navigateToDriverShellTab(
-          context,
-          DriverShellTabIndex.collection,
-        ),
-      ),
-      (
-        icon: Icons.route_outlined,
-        title: l10n.guideStepRouteTitle,
-        subtitle: l10n.guideStepRouteSubtitle,
-        onTap: () => navigateToRouteToday(context),
-      ),
-      (
-        icon: Icons.store_outlined,
-        title: l10n.guideStepWarehouseTitle,
-        subtitle: l10n.guideStepWarehouseSubtitle,
-        onTap: () => navigateToDriverShellTab(
-          context,
-          DriverShellTabIndex.warehouse,
-        ),
-      ),
-      (
-        icon: Icons.account_balance_wallet_outlined,
-        title: l10n.guideStepWalletTitle,
-        subtitle: l10n.guideStepWalletSubtitle,
-        onTap: () => navigateToDriverShellTab(
-          context,
-          DriverShellTabIndex.wallet,
-        ),
-      ),
-      (
-        icon: Icons.insights_outlined,
-        title: l10n.guideStepPerformanceTitle,
-        subtitle: l10n.guideStepPerformanceSubtitle,
-        onTap: () => navigateToDriverShellTab(
-          context,
-          DriverShellTabIndex.performance,
-        ),
-      ),
-      (
-        icon: Icons.support_agent_outlined,
-        title: l10n.guideStepSupportTitle,
-        subtitle: l10n.guideStepSupportSubtitle,
-        onTap: () => navigateToSupportTickets(context),
-      ),
-    ];
+    final steps =
+        <({IconData icon, String title, String subtitle, VoidCallback onTap})>[
+          (
+            icon: Icons.local_shipping_outlined,
+            title: l10n.guideStepCollectionTitle,
+            subtitle: l10n.guideStepCollectionSubtitle,
+            onTap: () => navigateToDriverShellTab(
+              context,
+              DriverShellTabIndex.collection,
+            ),
+          ),
+          (
+            icon: Icons.route_outlined,
+            title: l10n.guideStepRouteTitle,
+            subtitle: l10n.guideStepRouteSubtitle,
+            onTap: () => navigateToRouteToday(context),
+          ),
+          (
+            icon: Icons.store_outlined,
+            title: l10n.guideStepWarehouseTitle,
+            subtitle: l10n.guideStepWarehouseSubtitle,
+            onTap: () => navigateToDriverShellTab(
+              context,
+              DriverShellTabIndex.warehouse,
+            ),
+          ),
+          (
+            icon: Icons.account_balance_wallet_outlined,
+            title: l10n.guideStepWalletTitle,
+            subtitle: l10n.guideStepWalletSubtitle,
+            onTap: () =>
+                navigateToDriverShellTab(context, DriverShellTabIndex.wallet),
+          ),
+          (
+            icon: Icons.insights_outlined,
+            title: l10n.guideStepPerformanceTitle,
+            subtitle: l10n.guideStepPerformanceSubtitle,
+            onTap: () => navigateToDriverShellTab(
+              context,
+              DriverShellTabIndex.performance,
+            ),
+          ),
+          (
+            icon: Icons.support_agent_outlined,
+            title: l10n.guideStepSupportTitle,
+            subtitle: l10n.guideStepSupportSubtitle,
+            onTap: () => navigateToSupportTickets(context),
+          ),
+        ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,10 +73,10 @@ class GuideDriverStepsSection extends StatelessWidget {
           child: Text(
             l10n.guideHowItWorksTitle,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: context.secondaryText,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.4,
-                ),
+              color: context.secondaryText,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.4,
+            ),
           ),
         ),
         Card(

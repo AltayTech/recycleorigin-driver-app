@@ -19,9 +19,7 @@ class TopBar extends StatelessWidget {
       height: height,
       width: double.infinity,
       child: CustomPaint(
-        painter: CurvePainter(
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        painter: CurvePainter(color: Theme.of(context).colorScheme.primary),
         child: const SizedBox.expand(),
       ),
     );

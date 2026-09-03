@@ -19,14 +19,16 @@ class RequestWaste with ChangeNotifier {
 
   factory RequestWaste.fromJson(Map<String, dynamic> parsedJson) {
     var collectList = parsedJson['collect_list'] as List;
-    List<Collect> collectRaw =
-        collectList.map((i) => Collect.fromJson(i)).toList();
+    List<Collect> collectRaw = collectList
+        .map((i) => Collect.fromJson(i))
+        .toList();
 
     return RequestWaste(
-        address_data: RequestAddress.fromJson(parsedJson['address_data']),
-        collect_list: collectRaw,
-        collect_date: CollectTime(collect_done_time: '', day: '', time: ''),
-        collected: false);
+      address_data: RequestAddress.fromJson(parsedJson['address_data']),
+      collect_list: collectRaw,
+      collect_date: CollectTime(collect_done_time: '', day: '', time: ''),
+      collected: false,
+    );
   }
 
   Map<String, dynamic> toJson() {

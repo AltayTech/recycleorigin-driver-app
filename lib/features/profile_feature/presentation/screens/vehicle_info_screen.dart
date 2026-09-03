@@ -64,17 +64,13 @@ class VehicleInfoScreen extends StatelessWidget {
                           const SizedBox(height: 12),
                           Text(
                             l10n.plateNumberLabel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
+                            style: Theme.of(context).textTheme.labelMedium
                                 ?.copyWith(color: context.secondaryText),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             plate,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
+                            style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 2,
@@ -123,9 +119,7 @@ class VehicleInfoScreen extends StatelessWidget {
                         Expanded(
                           child: Text(
                             l10n.vehicleContactSupportHint,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
+                            style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: context.primaryText,
                                   height: 1.45,
@@ -139,9 +133,7 @@ class VehicleInfoScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 OutlinedButton.icon(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      ContactWithUs.routeName,
-                    );
+                    Navigator.of(context).pushNamed(ContactWithUs.routeName);
                   },
                   icon: const Icon(Icons.support_agent_outlined),
                   label: Text(l10n.contactUsLabel),

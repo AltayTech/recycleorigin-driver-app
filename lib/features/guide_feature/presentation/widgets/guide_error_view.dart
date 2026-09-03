@@ -29,9 +29,9 @@ class GuideErrorView extends StatelessWidget {
             Text(
               l10n.guideLoadErrorMessage,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: context.primaryText,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: context.primaryText),
             ),
             const SizedBox(height: 20),
             FilledButton.icon(

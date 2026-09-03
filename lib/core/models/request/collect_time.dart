@@ -18,10 +18,6 @@ class CollectTime {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'time': time,
-      'day': day,
-      'collect_done_time': collect_done_time,
-    };
+    return {'time': time, 'day': day, 'collect_done_time': collect_done_time};
   }
 }

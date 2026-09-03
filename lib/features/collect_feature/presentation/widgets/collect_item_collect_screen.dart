@@ -17,8 +17,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final (statusColor, statusIcon) =
-        _statusVisuals(context, collect.requestStatusKey);
+    final (statusColor, statusIcon) = _statusVisuals(
+      context,
+      collect.requestStatusKey,
+    );
     final statusText = collect.requestStatusDisplay(l10n);
 
     final estWeight =
@@ -28,10 +30,9 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(14),
-      onTap: () => Navigator.of(context).pushNamed(
-        CollectDetailScreen.routeName,
-        arguments: collect.id,
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
       child: ThemedSurfaceCard(
         borderRadius: 14,
         padding: const EdgeInsets.all(14),
@@ -76,8 +77,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
                       if (lat == null || lng == null) {
                         return;
                       }
-                      final ok =
-                          await ExternalMaps.openInExternalMaps(lat, lng);
+                      final ok = await ExternalMaps.openInExternalMaps(
+                        lat,
+                        lng,
+                      );
                       if (!context.mounted) {
                         return;
                       }
@@ -134,10 +137,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                 Expanded(
                   child: _StatBadge(
                     label: l10n.tomanLabel,
-                    value: EnArConvertor.localize(
-                      context,
-                      _fmtPrice(estPrice),
-                    ),
+                    value: EnArConvertor.localize(context, _fmtPrice(estPrice)),
                     color: Colors.green.shade700,
                   ),
                 ),
@@ -147,8 +147,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.location_on_outlined,
-                      size: 16, color: Colors.grey.shade500),
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 16,
+                    color: Colors.grey.shade500,
+                  ),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -180,13 +183,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
     return switch (key) {
       'pending_assignment' => (Colors.grey, Icons.person_search_rounded),
       'pending_driver_acceptance' => (
-          Colors.orange,
-          Icons.hourglass_top_rounded
-        ),
-      'driver_accepted' || 'in_progress' => (
-          context.brandPrimary,
-          Icons.how_to_reg_rounded
-        ),
+        Colors.orange,
+        Icons.hourglass_top_rounded,
+      ),
+      'driver_accepted' ||
+      'in_progress' => (context.brandPrimary, Icons.how_to_reg_rounded),
       'picked_up' => (Colors.indigo, Icons.inventory_2_rounded),
       'collected' => (Colors.green, Icons.check_circle_rounded),
       'cancelled' => (Colors.red.shade400, Icons.cancel_rounded),
@@ -207,10 +208,7 @@ class _InfoChip extends StatelessWidget {
       children: [
         Icon(icon, size: 15, color: context.brandPrimary),
         const SizedBox(width: 4),
-        Text(
-          text,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
-        ),
+        Text(text, style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
       ],
     );
   }

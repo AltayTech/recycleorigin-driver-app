@@ -160,9 +160,9 @@ class _EditPersonalInfoScreenState extends State<EditPersonalInfoScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.infoEditedSuccess)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.infoEditedSuccess)));
       Navigator.of(context).pop();
     } catch (error, stackTrace) {
       developer.log(

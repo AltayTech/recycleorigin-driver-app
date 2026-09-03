@@ -96,18 +96,16 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     return c.future;
   }
 
-  Future<void> sendClearingRequest(
-    String money,
-    String shaba,
-    bool isLogin,
-  ) {
+  Future<void> sendClearingRequest(String money, String shaba, bool isLogin) {
     final c = Completer<void>();
-    add(CustomerInfoSendClearingRequestRequested(
-      money,
-      shaba,
-      isLogin,
-      completer: c,
-    ));
+    add(
+      CustomerInfoSendClearingRequestRequested(
+        money,
+        shaba,
+        isLogin,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -299,12 +297,7 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     final url = Urls.rootUrl + Urls.transactionsEndPoint + state.searchEndPoint;
     final token = await SecureStorage.getToken();
     if (token == null || token.isEmpty) {
-      emit(
-        state.copyWith(
-          transactionItems: [],
-          clearSearchDetails: true,
-        ),
-      );
+      emit(state.copyWith(transactionItems: [], clearSearchDetails: true));
       event.completer?.complete();
       return;
     }
@@ -328,21 +321,11 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
           ),
         );
       } else {
-        emit(
-          state.copyWith(
-            transactionItems: [],
-            clearSearchDetails: true,
-          ),
-        );
+        emit(state.copyWith(transactionItems: [], clearSearchDetails: true));
       }
       event.completer?.complete();
     } catch (error, st) {
-      emit(
-        state.copyWith(
-          transactionItems: [],
-          clearSearchDetails: true,
-        ),
-      );
+      emit(state.copyWith(transactionItems: [], clearSearchDetails: true));
       event.completer?.completeError(error, st);
       rethrow;
     }
@@ -386,8 +369,9 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
-        final provinces =
-            extractedData.map((i) => Province.fromJson(i)).toList();
+        final provinces = extractedData
+            .map((i) => Province.fromJson(i))
+            .toList();
         emit(state.copyWith(provincesItems: provinces));
       } else {
         emit(state.copyWith(provincesItems: []));
@@ -471,12 +455,7 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
-          body: jsonEncode(
-            {
-              'money': event.money,
-              'shaba': event.shaba,
-            },
-          ),
+          body: jsonEncode({'money': event.money, 'shaba': event.shaba}),
         );
         emit(state.copyWith(token: token));
       }

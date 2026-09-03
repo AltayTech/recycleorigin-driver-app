@@ -31,6 +31,23 @@ class AppConfig {
     return _env('ENVIRONMENT') ?? 'development';
   }
 
+  /// When false, the warehouse/delivery tab shows Coming Soon.
+  static bool get enableWarehouseDeliveries {
+    final raw = _env('ENABLE_WAREHOUSE_DELIVERIES');
+    if (raw == null || raw.isEmpty) {
+      return false;
+    }
+    switch (raw.toLowerCase()) {
+      case '1':
+      case 'true':
+      case 'yes':
+      case 'on':
+        return true;
+      default:
+        return false;
+    }
+  }
+
   static Future<void> initialize({required String envFile}) async {
     try {
       await dotenv.load(fileName: envFile);

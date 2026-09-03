@@ -10,39 +10,14 @@ import '../support/fake_auth_bloc.dart';
 
 void main() {
   group('LoginScreen', () {
-    testWidgets('shows validation when fields are empty', (tester) async {
+    Future<void> pumpLogin(
+      WidgetTester tester, {
+      required FakeAuthBloc auth,
+      Map<String, WidgetBuilder>? extraRoutes,
+    }) async {
       tester.view.physicalSize = const Size(800, 2000);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
-
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: BlocProvider(
-            create: (_) => FakeAuthBloc(),
-            child: const LoginScreen(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Login'));
-      await tester.pumpAndSettle();
-
-      expect(find.textContaining('email'), findsWidgets);
-      expect(find.textContaining('password'), findsWidgets);
-    });
-
-    testWidgets('successful login navigates to home route', (tester) async {
-      tester.view.physicalSize = const Size(800, 2000);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.resetPhysicalSize);
-
-      // Stable bloc instance: avoid BlocProvider(create) inside [routes], which
-      // can be rebuilt during login loading state and drop the in-flight login.
-      final auth = FakeAuthBloc(loginResult: true);
       addTearDown(auth.close);
 
       await tester.pumpWidget(
@@ -53,90 +28,81 @@ void main() {
           initialRoute: LoginScreen.routeName,
           routes: {
             LoginScreen.routeName: (_) => BlocProvider<AuthBloc>.value(
-                  value: auth,
-                  child: const LoginScreen(),
-                ),
-            NavigationBottomScreen.routeName: (_) =>
-                const Scaffold(body: Text('signed_in_home')),
+              value: auth,
+              child: const LoginScreen(),
+            ),
+            ...?extraRoutes,
           },
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+    }
+
+    testWidgets('shows validation when fields are empty', (tester) async {
+      await pumpLogin(tester, auth: FakeAuthBloc());
+
+      await tester.tap(find.byType(FilledButton));
+      await tester.pump();
+
+      expect(find.textContaining('email'), findsWidgets);
+      expect(find.textContaining('password'), findsWidgets);
+    });
+
+    testWidgets('successful login navigates to home route', (tester) async {
+      await pumpLogin(
+        tester,
+        auth: FakeAuthBloc(loginResult: true),
+        extraRoutes: {
+          NavigationBottomScreen.routeName: (_) =>
+              const Scaffold(body: Text('signed_in_home')),
+        },
+      );
 
       await tester.enterText(find.byType(TextFormField).first, 'a@b.com');
       await tester.enterText(find.byType(TextFormField).at(1), 'secret');
-      await tester.tap(find.text('Login'));
-      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
       expect(find.text('signed_in_home'), findsOneWidget);
     });
 
     testWidgets('failed login shows error dialog', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: BlocProvider(
-            create: (_) => FakeAuthBloc(loginResult: false),
-            child: const LoginScreen(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpLogin(tester, auth: FakeAuthBloc());
 
       await tester.enterText(find.byType(TextFormField).first, 'a@b.com');
       await tester.enterText(find.byType(TextFormField).at(1), 'wrong');
-      await tester.tap(find.text('Login'));
-      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
       expect(find.byType(AlertDialog), findsOneWidget);
     });
 
     testWidgets('network error shows connection dialog', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: BlocProvider(
-            create: (_) => FakeAuthBloc(loginThrows: true),
-            child: const LoginScreen(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await pumpLogin(tester, auth: FakeAuthBloc(loginThrows: true));
 
       await tester.enterText(find.byType(TextFormField).first, 'a@b.com');
       await tester.enterText(find.byType(TextFormField).at(1), 'secret');
-      await tester.tap(find.text('Login'));
-      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
       expect(find.byType(AlertDialog), findsOneWidget);
     });
 
-    testWidgets('password visibility toggle changes obscureText',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: BlocProvider(
-            create: (_) => FakeAuthBloc(),
-            child: const LoginScreen(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
+    testWidgets('password visibility toggle changes obscureText', (
+      tester,
+    ) async {
+      await pumpLogin(tester, auth: FakeAuthBloc());
 
       final passwordFormField = find.byType(TextFormField).at(1);
       EditableText passwordEditable() => tester.widget<EditableText>(
-            find.descendant(
-              of: passwordFormField,
-              matching: find.byType(EditableText),
-            ),
-          );
+        find.descendant(
+          of: passwordFormField,
+          matching: find.byType(EditableText),
+        ),
+      );
       expect(passwordEditable().obscureText, isTrue);
 
       await tester.tap(find.byIcon(Icons.visibility_outlined));

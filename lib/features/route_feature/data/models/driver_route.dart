@@ -14,12 +14,11 @@ class DriverRoute {
     final int routeId = rawId is num ? rawId.toInt() : 0;
     return DriverRoute(
       routeId: routeId,
-      generatedAt: DateTime.tryParse(json['generated_at'] as String? ?? '') ??
+      generatedAt:
+          DateTime.tryParse(json['generated_at'] as String? ?? '') ??
           DateTime.now(),
       algorithm: json['algorithm'] as String? ?? '',
-      depot: RouteDepot.fromJson(
-        json['depot'] as Map<String, dynamic>? ?? {},
-      ),
+      depot: RouteDepot.fromJson(json['depot'] as Map<String, dynamic>? ?? {}),
       stops: stopsJson
           .map((e) => RouteStop.fromJson(e as Map<String, dynamic>))
           .toList(),
