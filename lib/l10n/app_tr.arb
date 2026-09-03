@@ -397,6 +397,39 @@
   "performanceRange7d": "Son 7 gün",
   "performanceRange30d": "Son 30 gün",
   "performanceRange90d": "Son 90 gün",
-  "performanceLoadError": "Performans verileri yüklenemedi."
+  "performanceLoadError": "Performans verileri yüklenemedi.",
+  "routeTodayTitle": "Rotam",
+  "routeRebuildTooltip": "Atanan toplamalardan rotayı yeniden oluştur",
+  "routeLoadErrorTitle": "Rota yüklenemedi",
+  "routeUnknownError": "Bilinmeyen hata",
+  "routeEmptyTitle": "Henüz rota yok",
+  "routeEmptyBody": "Sürücü hesabınıza toplama istekleri atayın, ardından yönetici panelinde yönlendirmeyi etkinleştirin.",
+  "refreshLabel": "Yenile",
+  "routeRebuildDevButton": "Rotayı yeniden oluştur (dev)",
+  "routeStopsProgress": "{total} durak · {completed} tamamlandı",
+  "@routeStopsProgress": {
+    "placeholders": {
+      "total": { "type": "int" },
+      "completed": { "type": "int" }
+    }
+  },
+  "routeStopTitle": "Durak #{sequence}",
+  "@routeStopTitle": {
+    "placeholders": {
+      "sequence": { "type": "int" }
+    }
+  },
+  "routeStopEta": "Tahmini varış: {time}",
+  "@routeStopEta": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "routeNavigateButton": "Yönlendir",
+  "routeArrivedButton": "Vardım",
+  "routeCompletedButton": "Tamamlandı",
+  "routeFailedButton": "Başarısız",
+  "routeLocationPermissionBanner": "Seferdeyken konumunuzun paylaşılması için konum izni gerekir.",
+  "routeLocationPermissionAction": "Etkinleştir"
 }
 

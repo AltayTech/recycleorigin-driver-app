@@ -29,6 +29,8 @@ class Urls {
 
   static String get driverRouteRebuild => '$rootUrl/driver/route/rebuild';
 
+  static String get driverLocation => '$rootUrl/driver/location';
+
   static String driverRouteStopAction(int stopId, String action) =>
       '$rootUrl/driver/route/stops/$stopId/$action';
   static const deliveriesEndPoint = '/deliveries';

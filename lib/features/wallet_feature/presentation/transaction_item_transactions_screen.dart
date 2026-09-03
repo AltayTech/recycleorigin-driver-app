@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recycleorigindriver/core/models/transaction.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/localization/transaction_operation_labels.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
@@ -79,7 +80,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                         EnArConvertor.localize(
                           context,
                           currencyFormat.format(
-                            double.parse(transaction.money).roundToDouble(),
+                            parseDoubleOr(transaction.money).roundToDouble(),
                           ),
                         ),
                         textAlign: TextAlign.center,

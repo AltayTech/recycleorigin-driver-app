@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
@@ -33,7 +34,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
     if (_isInit) {
       _isLoading = false;
 
-      productWeight = double.parse(widget.wasteItem.exact_weight);
+      productWeight = parseDoubleOr(widget.wasteItem.exact_weight);
       //      changeNumberAnimation(double.parse(
       //              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
       //          widget.wasteItem.weight);
@@ -93,7 +94,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
       duration: const Duration(milliseconds: 1000),
     );
     _animation = _controller;
-    changeNumberAnimation(double.parse(widget.wasteItem.estimated_price));
+    changeNumberAnimation(parseDoubleOr(widget.wasteItem.estimated_price));
     super.initState();
   }
 
@@ -198,9 +199,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                                   ? EnArConvertor.localize(
                                       context,
                                       currencyFormat.format(
-                                        double.parse(
-                                          _animation.value.toStringAsFixed(0),
-                                        ),
+                                        _animation.value,
                                       ),
                                     )
                                   : EnArConvertor.localize(context, '0'),

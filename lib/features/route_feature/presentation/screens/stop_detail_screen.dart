@@ -6,6 +6,7 @@ import 'package:recycleorigindriver/features/route_feature/data/models/driver_ro
 import 'package:recycleorigindriver/features/route_feature/presentation/bloc/route_bloc.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/widgets/navigation_launcher_sheet.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/widgets/stop_status_chip.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 class StopDetailScreen extends StatelessWidget {
   const StopDetailScreen({super.key, required this.stop});
@@ -14,8 +15,9 @@ class StopDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text('Stop #${stop.sequence}')),
+      appBar: AppBar(title: Text(l10n.routeStopTitle(stop.sequence))),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: <Widget>[
@@ -32,12 +34,12 @@ class StopDetailScreen extends StatelessWidget {
               label: Text(stop.customer.phone),
             ),
           if (stop.plannedArrival != null)
-            Text('ETA: ${stop.plannedArrival!.toLocal()}'),
+            Text(l10n.routeStopEta(stop.plannedArrival!.toLocal().toString())),
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: () => showNavigationLauncherSheet(context, stop),
             icon: const Icon(Icons.navigation),
-            label: const Text('Navigate'),
+            label: Text(l10n.routeNavigateButton),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -47,19 +49,19 @@ class StopDetailScreen extends StatelessWidget {
                 onPressed: () => context.read<RouteBloc>().add(
                   RouteStopArrived(stop.stopId),
                 ),
-                child: const Text('Arrived'),
+                child: Text(l10n.routeArrivedButton),
               ),
               FilledButton(
                 onPressed: () => context.read<RouteBloc>().add(
                   RouteStopCompleted(stop.stopId),
                 ),
-                child: const Text('Completed'),
+                child: Text(l10n.routeCompletedButton),
               ),
               TextButton(
                 onPressed: () => context.read<RouteBloc>().add(
                   RouteStopFailed(stop.stopId, reason: 'unable'),
                 ),
-                child: const Text('Failed'),
+                child: Text(l10n.routeFailedButton),
               ),
             ],
           ),

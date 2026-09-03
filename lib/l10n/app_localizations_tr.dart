@@ -1052,4 +1052,64 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get performanceLoadError => 'Performans verileri yüklenemedi.';
+
+  @override
+  String get routeTodayTitle => 'Rotam';
+
+  @override
+  String get routeRebuildTooltip =>
+      'Atanan toplamalardan rotayı yeniden oluştur';
+
+  @override
+  String get routeLoadErrorTitle => 'Rota yüklenemedi';
+
+  @override
+  String get routeUnknownError => 'Bilinmeyen hata';
+
+  @override
+  String get routeEmptyTitle => 'Henüz rota yok';
+
+  @override
+  String get routeEmptyBody =>
+      'Sürücü hesabınıza toplama istekleri atayın, ardından yönetici panelinde yönlendirmeyi etkinleştirin.';
+
+  @override
+  String get refreshLabel => 'Yenile';
+
+  @override
+  String get routeRebuildDevButton => 'Rotayı yeniden oluştur (dev)';
+
+  @override
+  String routeStopsProgress(int total, int completed) {
+    return '$total durak · $completed tamamlandı';
+  }
+
+  @override
+  String routeStopTitle(int sequence) {
+    return 'Durak #$sequence';
+  }
+
+  @override
+  String routeStopEta(String time) {
+    return 'Tahmini varış: $time';
+  }
+
+  @override
+  String get routeNavigateButton => 'Yönlendir';
+
+  @override
+  String get routeArrivedButton => 'Vardım';
+
+  @override
+  String get routeCompletedButton => 'Tamamlandı';
+
+  @override
+  String get routeFailedButton => 'Başarısız';
+
+  @override
+  String get routeLocationPermissionBanner =>
+      'Seferdeyken konumunuzun paylaşılması için konum izni gerekir.';
+
+  @override
+  String get routeLocationPermissionAction => 'Etkinleştir';
 }

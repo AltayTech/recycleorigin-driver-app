@@ -6,6 +6,7 @@ import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigindriver/core/models/request/waste_cart.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 
 class CollectDetailItem extends StatefulWidget {
@@ -38,8 +39,8 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
     if (_isInit) {
       _isLoading = false;
 
-      productWeight = int.parse(
-        double.parse(widget.wasteItem.exact_weight).toStringAsFixed(0),
+      productWeight = parseIntOr(
+        parseDoubleOr(widget.wasteItem.exact_weight).toStringAsFixed(0),
       );
     }
     _isInit = false;
@@ -235,10 +236,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                 child: Text(
                                   EnArConvertor.localize(
                                     context,
-                                    (double.parse(
-                                              productWeightFraction.toString(),
-                                            ) /
-                                            1000)
+                                    (productWeightFraction / 1000)
                                         .toStringAsFixed(3),
                                   ),
                                   style: TextStyle(
@@ -409,7 +407,7 @@ class _CollectDetailItemState extends State<CollectDetailItem> {
                                 child: Text(
                                   EnArConvertor.localize(
                                     context,
-                                    double.parse(
+                                    parseDoubleOr(
                                       widget.wasteItem.exact_weight,
                                     ).toStringAsFixed(0),
                                   ),

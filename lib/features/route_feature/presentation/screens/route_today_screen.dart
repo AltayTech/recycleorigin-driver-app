@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigindriver/core/config/app_config.dart';
+import 'package:recycleorigindriver/core/location/location_tracking_service.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/route_feature/data/models/driver_route.dart';
 import 'package:recycleorigindriver/features/route_feature/data/repositories/route_repository.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/bloc/route_bloc.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/route_tracking_coordinator.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/route_tracking_lifecycle.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/route_map_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/screens/stop_detail_screen.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/widgets/stop_status_chip.dart';
+import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Ordered list of today's route stops.
 class RouteTodayScreen extends StatelessWidget {
@@ -29,128 +33,189 @@ class RouteTodayScreen extends StatelessWidget {
   }
 }
 
-class _RouteTodayView extends StatelessWidget {
+class _RouteTodayView extends StatefulWidget {
   const _RouteTodayView();
 
   @override
+  State<_RouteTodayView> createState() => _RouteTodayViewState();
+}
+
+class _RouteTodayViewState extends State<_RouteTodayView> {
+  late final RouteTrackingCoordinator _trackingCoordinator;
+  bool _locationDenied = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _trackingCoordinator = RouteTrackingCoordinator(
+      LocationTrackingService.instance,
+    );
+  }
+
+  @override
+  void dispose() {
+    _trackingCoordinator.dispose();
+    super.dispose();
+  }
+
+  Future<void> _syncTracking(RouteState state) async {
+    _trackingCoordinator.onRouteState(state);
+    if (!shouldTrackDriverRoute(state)) {
+      if (_locationDenied && mounted) {
+        setState(() => _locationDenied = false);
+      }
+      return;
+    }
+    final allowed = await LocationTrackingService.instance.ensurePermission();
+    if (!allowed && mounted) {
+      setState(() => _locationDenied = true);
+    } else if (_locationDenied && mounted) {
+      setState(() => _locationDenied = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final isDev = AppConfig.environment == 'development' || kDebugMode;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My route'),
-        actions: <Widget>[
-          if (isDev)
+    return BlocListener<RouteBloc, RouteState>(
+      listener: (context, state) => _syncTracking(state),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.routeTodayTitle),
+          actions: <Widget>[
+            if (isDev)
+              IconButton(
+                tooltip: l10n.routeRebuildTooltip,
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  context.read<RouteBloc>().add(
+                    RouteLoadRequested(rebuild: true),
+                  );
+                },
+              ),
             IconButton(
-              tooltip: 'Rebuild route from assigned collects',
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(Icons.map_outlined),
               onPressed: () {
-                context.read<RouteBloc>().add(
-                  RouteLoadRequested(rebuild: true),
-                );
-              },
-            ),
-          IconButton(
-            icon: const Icon(Icons.map_outlined),
-            onPressed: () {
-              final route = context.read<RouteBloc>().state.route;
-              if (route != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => RouteMapScreen(route: route),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<RouteBloc, RouteState>(
-        builder: (context, state) {
-          if (state.status == RouteStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state.status == RouteStatus.failure) {
-            return _MessagePanel(
-              icon: Icons.error_outline,
-              title: 'Could not load route',
-              body: state.message ?? 'Unknown error',
-              action: FilledButton(
-                onPressed: () =>
-                    context.read<RouteBloc>().add(RouteLoadRequested()),
-                child: const Text('Retry'),
-              ),
-            );
-          }
-          if (state.status == RouteStatus.empty || state.route == null) {
-            return _MessagePanel(
-              icon: Icons.route_outlined,
-              title: 'No route yet',
-              body:
-                  state.hint ??
-                  'Assign collection requests to your driver account, '
-                      'then enable routing in the admin panel.',
-              action: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  FilledButton(
-                    onPressed: () =>
-                        context.read<RouteBloc>().add(RouteLoadRequested()),
-                    child: const Text('Refresh'),
-                  ),
-                  if (isDev) ...<Widget>[
-                    const SizedBox(height: 8),
-                    OutlinedButton(
-                      onPressed: () => context.read<RouteBloc>().add(
-                        RouteLoadRequested(rebuild: true),
-                      ),
-                      child: const Text('Rebuild route (dev)'),
-                    ),
-                  ],
-                ],
-              ),
-            );
-          }
-          final route = state.route!;
-          final completed = route.stops
-              .where((s) => s.status == 'completed')
-              .length;
-          return RefreshIndicator(
-            onRefresh: () async {
-              context.read<RouteBloc>().add(RouteLoadRequested());
-            },
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: route.stops.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '${route.stops.length} stops · $completed done',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const SizedBox(height: 8),
-                        LinearProgressIndicator(
-                          value: route.stops.isEmpty
-                              ? 0
-                              : completed / route.stops.length,
-                          color: context.brandPrimary,
-                        ),
-                      ],
+                final route = context.read<RouteBloc>().state.route;
+                if (route != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => RouteMapScreen(route: route),
                     ),
                   );
                 }
-                final stop = route.stops[index - 1];
-                return _StopCard(stop: stop);
               },
             ),
-          );
-        },
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            if (_locationDenied)
+              MaterialBanner(
+                content: Text(l10n.routeLocationPermissionBanner),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () =>
+                        LocationTrackingService.instance.ensurePermission(),
+                    child: Text(l10n.routeLocationPermissionAction),
+                  ),
+                ],
+              ),
+            Expanded(
+              child: BlocBuilder<RouteBloc, RouteState>(
+                builder: (context, state) {
+                  if (state.status == RouteStatus.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state.status == RouteStatus.failure) {
+                    return _MessagePanel(
+                      icon: Icons.error_outline,
+                      title: l10n.routeLoadErrorTitle,
+                      body: state.message ?? l10n.routeUnknownError,
+                      action: FilledButton(
+                        onPressed: () => context.read<RouteBloc>().add(
+                          RouteLoadRequested(),
+                        ),
+                        child: Text(l10n.retryLabel),
+                      ),
+                    );
+                  }
+                  if (state.status == RouteStatus.empty || state.route == null) {
+                    return _MessagePanel(
+                      icon: Icons.route_outlined,
+                      title: l10n.routeEmptyTitle,
+                      body: state.hint ?? l10n.routeEmptyBody,
+                      action: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          FilledButton(
+                            onPressed: () => context.read<RouteBloc>().add(
+                              RouteLoadRequested(),
+                            ),
+                            child: Text(l10n.refreshLabel),
+                          ),
+                          if (isDev) ...<Widget>[
+                            const SizedBox(height: 8),
+                            OutlinedButton(
+                              onPressed: () => context.read<RouteBloc>().add(
+                                RouteLoadRequested(rebuild: true),
+                              ),
+                              child: Text(l10n.routeRebuildDevButton),
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  }
+                  final route = state.route!;
+                  final completed = route.stops
+                      .where((s) => s.status == 'completed')
+                      .length;
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<RouteBloc>().add(RouteLoadRequested());
+                    },
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: route.stops.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  l10n.routeStopsProgress(
+                                    route.stops.length,
+                                    completed,
+                                  ),
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                const SizedBox(height: 8),
+                                LinearProgressIndicator(
+                                  value: route.stops.isEmpty
+                                      ? 0
+                                      : completed / route.stops.length,
+                                  color: context.brandPrimary,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        final stop = route.stops[index - 1];
+                        return _StopCard(stop: stop);
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

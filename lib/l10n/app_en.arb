@@ -416,5 +416,38 @@
   "performanceRange7d": "Last 7 days",
   "performanceRange30d": "Last 30 days",
   "performanceRange90d": "Last 90 days",
-  "performanceLoadError": "Could not load performance data."
+  "performanceLoadError": "Could not load performance data.",
+  "routeTodayTitle": "My route",
+  "routeRebuildTooltip": "Rebuild route from assigned collects",
+  "routeLoadErrorTitle": "Could not load route",
+  "routeUnknownError": "Unknown error",
+  "routeEmptyTitle": "No route yet",
+  "routeEmptyBody": "Assign collection requests to your driver account, then enable routing in the admin panel.",
+  "refreshLabel": "Refresh",
+  "routeRebuildDevButton": "Rebuild route (dev)",
+  "routeStopsProgress": "{total} stops · {completed} done",
+  "@routeStopsProgress": {
+    "placeholders": {
+      "total": { "type": "int" },
+      "completed": { "type": "int" }
+    }
+  },
+  "routeStopTitle": "Stop #{sequence}",
+  "@routeStopTitle": {
+    "placeholders": {
+      "sequence": { "type": "int" }
+    }
+  },
+  "routeStopEta": "ETA: {time}",
+  "@routeStopEta": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "routeNavigateButton": "Navigate",
+  "routeArrivedButton": "Arrived",
+  "routeCompletedButton": "Completed",
+  "routeFailedButton": "Failed",
+  "routeLocationPermissionBanner": "Location access is needed so dispatch can see you on route.",
+  "routeLocationPermissionAction": "Enable"
 }

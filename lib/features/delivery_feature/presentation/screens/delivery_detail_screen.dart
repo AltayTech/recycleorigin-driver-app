@@ -7,6 +7,7 @@ import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_state.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/widgets/collect_delivery_detail_item.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/widgets/custom_dialog_send_delivery.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_send_request.dart';
@@ -125,13 +126,13 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
     totalWeight = 0;
     if (loadedCollect.isNotEmpty) {
       for (int i = 0; i < loadedCollect.length; i++) {
-        totalPrice = totalPrice + int.parse(loadedCollect[i].estimated_price);
+        totalPrice = totalPrice + parseIntOr(loadedCollect[i].estimated_price);
 
         totalWeight =
-            totalWeight + int.parse(loadedCollect[i].estimated_weight);
+            totalWeight + parseIntOr(loadedCollect[i].estimated_weight);
       }
     }
-    changeNumberAnimation(double.parse(totalPrice.toString()));
+    changeNumberAnimation(totalPrice.toDouble());
 
     setState(() {
       _isLoading = false;
@@ -347,11 +348,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                 ? EnArConvertor.localize(
                                                     context,
                                                     currencyFormat.format(
-                                                      double.parse(
-                                                        _totalPriceAnimation
-                                                            .value
-                                                            .toStringAsFixed(0),
-                                                      ),
+                                                      _totalPriceAnimation.value,
                                                     ),
                                                   )
                                                 : EnArConvertor.localize(

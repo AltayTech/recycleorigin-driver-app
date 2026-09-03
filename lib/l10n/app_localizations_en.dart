@@ -1050,4 +1050,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get performanceLoadError => 'Could not load performance data.';
+
+  @override
+  String get routeTodayTitle => 'My route';
+
+  @override
+  String get routeRebuildTooltip => 'Rebuild route from assigned collects';
+
+  @override
+  String get routeLoadErrorTitle => 'Could not load route';
+
+  @override
+  String get routeUnknownError => 'Unknown error';
+
+  @override
+  String get routeEmptyTitle => 'No route yet';
+
+  @override
+  String get routeEmptyBody =>
+      'Assign collection requests to your driver account, then enable routing in the admin panel.';
+
+  @override
+  String get refreshLabel => 'Refresh';
+
+  @override
+  String get routeRebuildDevButton => 'Rebuild route (dev)';
+
+  @override
+  String routeStopsProgress(int total, int completed) {
+    return '$total stops · $completed done';
+  }
+
+  @override
+  String routeStopTitle(int sequence) {
+    return 'Stop #$sequence';
+  }
+
+  @override
+  String routeStopEta(String time) {
+    return 'ETA: $time';
+  }
+
+  @override
+  String get routeNavigateButton => 'Navigate';
+
+  @override
+  String get routeArrivedButton => 'Arrived';
+
+  @override
+  String get routeCompletedButton => 'Completed';
+
+  @override
+  String get routeFailedButton => 'Failed';
+
+  @override
+  String get routeLocationPermissionBanner =>
+      'Location access is needed so dispatch can see you on route.';
+
+  @override
+  String get routeLocationPermissionAction => 'Enable';
 }

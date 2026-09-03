@@ -2061,6 +2061,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load performance data.'**
   String get performanceLoadError;
+
+  /// No description provided for @routeTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My route'**
+  String get routeTodayTitle;
+
+  /// No description provided for @routeRebuildTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebuild route from assigned collects'**
+  String get routeRebuildTooltip;
+
+  /// No description provided for @routeLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load route'**
+  String get routeLoadErrorTitle;
+
+  /// No description provided for @routeUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get routeUnknownError;
+
+  /// No description provided for @routeEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No route yet'**
+  String get routeEmptyTitle;
+
+  /// No description provided for @routeEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign collection requests to your driver account, then enable routing in the admin panel.'**
+  String get routeEmptyBody;
+
+  /// No description provided for @refreshLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refreshLabel;
+
+  /// No description provided for @routeRebuildDevButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebuild route (dev)'**
+  String get routeRebuildDevButton;
+
+  /// No description provided for @routeStopsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} stops · {completed} done'**
+  String routeStopsProgress(int total, int completed);
+
+  /// No description provided for @routeStopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop #{sequence}'**
+  String routeStopTitle(int sequence);
+
+  /// No description provided for @routeStopEta.
+  ///
+  /// In en, this message translates to:
+  /// **'ETA: {time}'**
+  String routeStopEta(String time);
+
+  /// No description provided for @routeNavigateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate'**
+  String get routeNavigateButton;
+
+  /// No description provided for @routeArrivedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get routeArrivedButton;
+
+  /// No description provided for @routeCompletedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get routeCompletedButton;
+
+  /// No description provided for @routeFailedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get routeFailedButton;
+
+  /// No description provided for @routeLocationPermissionBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Location access is needed so dispatch can see you on route.'**
+  String get routeLocationPermissionBanner;
+
+  /// No description provided for @routeLocationPermissionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get routeLocationPermissionAction;
 }
 
 class _AppLocalizationsDelegate

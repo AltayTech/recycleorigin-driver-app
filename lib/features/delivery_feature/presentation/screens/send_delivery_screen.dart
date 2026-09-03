@@ -7,6 +7,7 @@ import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/
 import 'package:recycleorigindriver/features/delivery_feature/presentation/bloc/deliveries_state.dart';
 import 'package:recycleorigindriver/core/models/request/collect.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/widgets/collect_delivery_detail_item.dart';
 import 'package:recycleorigindriver/features/delivery_feature/presentation/widgets/custom_dialog_send_delivery.dart';
 import 'package:recycleorigindriver/core/widgets/custom_dialog_send_request.dart';
@@ -125,13 +126,13 @@ class _SendDeliveryScreenState extends State<SendDeliveryScreen>
     if (loadedCollect.isNotEmpty) {
       for (int i = 0; i < loadedCollect.length; i++) {
         totalPrice =
-            totalPrice + double.parse(loadedCollect[i].estimated_price);
+            totalPrice + parseDoubleOr(loadedCollect[i].estimated_price);
 
         totalWeight =
-            totalWeight + double.parse(loadedCollect[i].estimated_weight);
+            totalWeight + parseDoubleOr(loadedCollect[i].estimated_weight);
       }
     }
-    changeNumberAnimation(double.parse(totalPrice.toString()));
+    changeNumberAnimation(totalPrice);
 
     setState(() {
       _isLoading = false;

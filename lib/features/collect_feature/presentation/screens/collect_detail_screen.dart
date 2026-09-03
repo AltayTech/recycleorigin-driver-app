@@ -73,7 +73,14 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
       final bloc = context.read<WastesBloc>();
       await bloc.retrieveCollectItem(collectId);
       if (!mounted) return;
-      final collect = bloc.state.requestWasteItem!;
+      final collect = bloc.state.requestWasteItem;
+      if (collect == null) {
+        setState(() {
+          _error = 'Request not found';
+          _loading = false;
+        });
+        return;
+      }
       final isReadOnly =
           collect.status.slug == 'collected' ||
           collect.status.slug == 'picked_up' ||

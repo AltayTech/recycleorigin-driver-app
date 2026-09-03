@@ -13,11 +13,15 @@ class CurrencyInputFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    double value = double.parse(newValue.text);
+    final parsed = double.tryParse(newValue.text.replaceAll(',', ''));
+    if (parsed == null) {
+      return oldValue;
+    }
+    final value = parsed;
     totalPricevalue = value;
     final formatter = intl.NumberFormat.decimalPattern();
 
-    String newText = formatter.format(value / 1);
+    final newText = formatter.format(value / 1);
 
     return newValue.copyWith(
       text: newText,

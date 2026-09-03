@@ -1047,4 +1047,63 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get performanceLoadError => 'تعذر تحميل بيانات الأداء.';
+
+  @override
+  String get routeTodayTitle => 'مساري';
+
+  @override
+  String get routeRebuildTooltip => 'إعادة بناء المسار من طلبات الجمع المعينة';
+
+  @override
+  String get routeLoadErrorTitle => 'تعذر تحميل المسار';
+
+  @override
+  String get routeUnknownError => 'خطأ غير معروف';
+
+  @override
+  String get routeEmptyTitle => 'لا يوجد مسار بعد';
+
+  @override
+  String get routeEmptyBody =>
+      'عيّن طلبات جمع إلى حساب السائق، ثم فعّل التوجيه في لوحة الإدارة.';
+
+  @override
+  String get refreshLabel => 'تحديث';
+
+  @override
+  String get routeRebuildDevButton => 'إعادة بناء المسار (dev)';
+
+  @override
+  String routeStopsProgress(int total, int completed) {
+    return '$total محطات · $completed مكتملة';
+  }
+
+  @override
+  String routeStopTitle(int sequence) {
+    return 'محطة #$sequence';
+  }
+
+  @override
+  String routeStopEta(String time) {
+    return 'الوقت المتوقع: $time';
+  }
+
+  @override
+  String get routeNavigateButton => 'توجيه';
+
+  @override
+  String get routeArrivedButton => 'وصلت';
+
+  @override
+  String get routeCompletedButton => 'مكتمل';
+
+  @override
+  String get routeFailedButton => 'فشل';
+
+  @override
+  String get routeLocationPermissionBanner =>
+      'يلزم الوصول إلى الموقع لمشاركة موقعك أثناء المسار.';
+
+  @override
+  String get routeLocationPermissionAction => 'تفعيل';
 }

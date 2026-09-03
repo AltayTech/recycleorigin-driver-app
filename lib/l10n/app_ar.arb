@@ -345,5 +345,38 @@
   "performanceRange7d": "آخر 7 أيام",
   "performanceRange30d": "آخر 30 يومًا",
   "performanceRange90d": "آخر 90 يومًا",
-  "performanceLoadError": "تعذر تحميل بيانات الأداء."
+  "performanceLoadError": "تعذر تحميل بيانات الأداء.",
+  "routeTodayTitle": "مساري",
+  "routeRebuildTooltip": "إعادة بناء المسار من طلبات الجمع المعينة",
+  "routeLoadErrorTitle": "تعذر تحميل المسار",
+  "routeUnknownError": "خطأ غير معروف",
+  "routeEmptyTitle": "لا يوجد مسار بعد",
+  "routeEmptyBody": "عيّن طلبات جمع إلى حساب السائق، ثم فعّل التوجيه في لوحة الإدارة.",
+  "refreshLabel": "تحديث",
+  "routeRebuildDevButton": "إعادة بناء المسار (dev)",
+  "routeStopsProgress": "{total} محطات · {completed} مكتملة",
+  "@routeStopsProgress": {
+    "placeholders": {
+      "total": { "type": "int" },
+      "completed": { "type": "int" }
+    }
+  },
+  "routeStopTitle": "محطة #{sequence}",
+  "@routeStopTitle": {
+    "placeholders": {
+      "sequence": { "type": "int" }
+    }
+  },
+  "routeStopEta": "الوقت المتوقع: {time}",
+  "@routeStopEta": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "routeNavigateButton": "توجيه",
+  "routeArrivedButton": "وصلت",
+  "routeCompletedButton": "مكتمل",
+  "routeFailedButton": "فشل",
+  "routeLocationPermissionBanner": "يلزم الوصول إلى الموقع لمشاركة موقعك أثناء المسار.",
+  "routeLocationPermissionAction": "تفعيل"
 }

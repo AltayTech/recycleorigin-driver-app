@@ -4,6 +4,7 @@ import 'package:recycleorigindriver/core/models/request/collect.dart';
 
 import 'package:recycleorigindriver/core/models/request/price_weight.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
+import 'package:recycleorigindriver/core/utils/num_parsing.dart';
 import 'package:recycleorigindriver/core/widgets/en_to_ar_number_convertor.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -29,7 +30,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
     if (_isInit) {
       _isLoading = false;
 
-      productWeight = int.parse(widget.collectItem.estimated_weight);
+      productWeight = parseIntOr(widget.collectItem.estimated_weight);
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -39,7 +40,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
     String price = '0';
 
     for (int i = 0; i < prices.length; i++) {
-      if (weight > int.parse(prices[i].weight)) {
+      if (weight > parseIntOr(prices[i].weight)) {
         price = prices[i].price;
       } else {
         price = prices[i].price;
@@ -139,7 +140,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             EnArConvertor.localize(
                               context,
                               currencyFormat.format(
-                                double.parse(
+                                parseDoubleOr(
                                   widget.collectItem.estimated_price,
                                 ),
                               ),
@@ -168,7 +169,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             EnArConvertor.localize(
                               context,
                               currencyFormat.format(
-                                double.parse(
+                                parseDoubleOr(
                                   widget.collectItem.estimated_price,
                                 ),
                               ),
