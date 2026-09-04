@@ -23,3 +23,13 @@ final class RouteStopFailed extends RouteEvent {
   final int stopId;
   final String reason;
 }
+
+final class RouteStopSkipped extends RouteEvent {
+  RouteStopSkipped(this.stopId);
+  final int stopId;
+}
+
+final class RouteStopIncluded extends RouteEvent {
+  RouteStopIncluded(this.stopId);
+  final int stopId;
+}

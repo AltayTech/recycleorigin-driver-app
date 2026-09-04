@@ -62,6 +62,10 @@ class RouteRepository {
   Future<Result<void>> markFailed(int stopId, {String reason = ''}) =>
       _mark(stopId, 'failed', body: <String, dynamic>{'reason': reason});
 
+  Future<Result<void>> markSkipped(int stopId) => _mark(stopId, 'skipped');
+
+  Future<Result<void>> markIncluded(int stopId) => _mark(stopId, 'included');
+
   Future<Result<void>> _mark(
     int stopId,
     String action, {

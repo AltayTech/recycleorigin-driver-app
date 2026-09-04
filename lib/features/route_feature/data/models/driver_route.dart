@@ -61,6 +61,7 @@ class RouteStop {
     this.plannedArrival,
     this.plannedDeparture,
     this.items = const <String>[],
+    this.weightKg = 0,
   });
 
   factory RouteStop.fromJson(Map<String, dynamic> json) {
@@ -82,6 +83,7 @@ class RouteStop {
       plannedArrival: _parse(json['planned_arrival'] as String?),
       plannedDeparture: _parse(json['planned_departure'] as String?),
       items: itemsRaw.map((e) => e.toString()).toList(),
+      weightKg: (demand['weight_kg'] as num?)?.toDouble() ?? 0,
     );
   }
 
@@ -101,6 +103,7 @@ class RouteStop {
   final DateTime? plannedArrival;
   final DateTime? plannedDeparture;
   final List<String> items;
+  final double weightKg;
 }
 
 class RouteCustomer {

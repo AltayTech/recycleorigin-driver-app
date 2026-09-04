@@ -34,9 +34,10 @@ void main() {
       expect(hasActiveRouteStops(_routeWith('arrived')), isTrue);
     });
 
-    test('false when every stop is completed or failed', () {
+    test('false when every stop is completed, failed, or skipped', () {
       expect(hasActiveRouteStops(_routeWith('completed')), isFalse);
       expect(hasActiveRouteStops(_routeWith('failed')), isFalse);
+      expect(hasActiveRouteStops(_routeWith('skipped')), isFalse);
     });
   });
 
@@ -99,6 +100,17 @@ void main() {
           isTracking: true,
           fetchFailed: false,
           route: _routeWith('completed'),
+        ),
+        isTrue,
+      );
+    });
+
+    test('stops when all stops are skipped', () {
+      expect(
+        shouldStopTrackingAfterRouteFetch(
+          isTracking: true,
+          fetchFailed: false,
+          route: _routeWith('skipped'),
         ),
         isTrue,
       );

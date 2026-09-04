@@ -1126,4 +1126,56 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get routeLocationNotificationChannel => 'Rota konum paylaşımı';
+
+  @override
+  String get routeSkipStopLabel => 'Durağı atla';
+
+  @override
+  String get routeIncludeStopLabel => 'Rotaya dahil et';
+
+  @override
+  String get routeStopStatusPending => 'Bekliyor';
+
+  @override
+  String get routeStopStatusArrived => 'Vardı';
+
+  @override
+  String get routeStopStatusCompleted => 'Bitti';
+
+  @override
+  String get routeStopStatusFailed => 'Başarısız';
+
+  @override
+  String get routeStopStatusSkipped => 'Atlandı';
+
+  @override
+  String get routeListSortSheetTitle => 'Durakları sırala';
+
+  @override
+  String get routeListSortSequence => 'Rota sırası';
+
+  @override
+  String get routeListSortEta => 'Tahmini varış';
+
+  @override
+  String get routeListSortWeight => 'Tahmini ağırlık';
+
+  @override
+  String get routeListSortDistance => 'Bana uzaklık';
+
+  @override
+  String get routeListDistanceUnavailable =>
+      'Konumunuz okunamadı. Rota sırası gösteriliyor.';
+
+  @override
+  String get routeListFilterSheetTitle => 'Durakları filtrele';
+
+  @override
+  String get routeListFilterAll => 'Tüm duraklar';
+
+  @override
+  String get routeListFilterActive => 'Filtrelendi';
+
+  @override
+  String get routeListFilterEmpty => 'Bu filtreye uyan durak yok.';
 }

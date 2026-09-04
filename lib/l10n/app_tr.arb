@@ -434,6 +434,23 @@
   "routeLocationSharingBanner": "Konumunuz sevkiyat ile paylaşılıyor. Bu rota aktifken kalıcı bildirim açık kalır.",
   "routeLocationNotificationTitle": "Rotada — konum paylaşımı",
   "routeLocationNotificationText": "Bugünkü toplamalar bitene kadar sevkiyat konumunuzu görebilir.",
-  "routeLocationNotificationChannel": "Rota konum paylaşımı"
+  "routeLocationNotificationChannel": "Rota konum paylaşımı",
+  "routeSkipStopLabel": "Durağı atla",
+  "routeIncludeStopLabel": "Rotaya dahil et",
+  "routeStopStatusPending": "Bekliyor",
+  "routeStopStatusArrived": "Vardı",
+  "routeStopStatusCompleted": "Bitti",
+  "routeStopStatusFailed": "Başarısız",
+  "routeStopStatusSkipped": "Atlandı",
+  "routeListSortSheetTitle": "Durakları sırala",
+  "routeListSortSequence": "Rota sırası",
+  "routeListSortEta": "Tahmini varış",
+  "routeListSortWeight": "Tahmini ağırlık",
+  "routeListSortDistance": "Bana uzaklık",
+  "routeListDistanceUnavailable": "Konumunuz okunamadı. Rota sırası gösteriliyor.",
+  "routeListFilterSheetTitle": "Durakları filtrele",
+  "routeListFilterAll": "Tüm duraklar",
+  "routeListFilterActive": "Filtrelendi",
+  "routeListFilterEmpty": "Bu filtreye uyan durak yok."
 }
 

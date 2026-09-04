@@ -382,5 +382,22 @@
   "routeLocationSharingBanner": "يتم مشاركة موقعك مع فريق التوزيع. يبقى إشعار دائم ظاهرًا أثناء هذا المسار.",
   "routeLocationNotificationTitle": "في المسار — مشاركة الموقع",
   "routeLocationNotificationText": "يمكن لفريق التوزيع رؤية موقعك أثناء إكمال عمليات الجمع اليوم.",
-  "routeLocationNotificationChannel": "مشاركة الموقع أثناء المسار"
+  "routeLocationNotificationChannel": "مشاركة الموقع أثناء المسار",
+  "routeSkipStopLabel": "تخطي المحطة",
+  "routeIncludeStopLabel": "ضمّن في المسار",
+  "routeStopStatusPending": "قيد الانتظار",
+  "routeStopStatusArrived": "وصلت",
+  "routeStopStatusCompleted": "تم",
+  "routeStopStatusFailed": "فشل",
+  "routeStopStatusSkipped": "تم التخطي",
+  "routeListSortSheetTitle": "ترتيب المحطات",
+  "routeListSortSequence": "ترتيب المسار",
+  "routeListSortEta": "وقت الوصول",
+  "routeListSortWeight": "الوزن التقديري",
+  "routeListSortDistance": "المسافة من موقعي",
+  "routeListDistanceUnavailable": "تعذر قراءة موقعك. يتم عرض ترتيب المسار.",
+  "routeListFilterSheetTitle": "تصفية المحطات",
+  "routeListFilterAll": "كل المحطات",
+  "routeListFilterActive": "مُصفّاة",
+  "routeListFilterEmpty": "لا توجد محطات تطابق هذا التصفية."
 }

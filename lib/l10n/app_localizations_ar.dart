@@ -1120,4 +1120,56 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get routeLocationNotificationChannel => 'مشاركة الموقع أثناء المسار';
+
+  @override
+  String get routeSkipStopLabel => 'تخطي المحطة';
+
+  @override
+  String get routeIncludeStopLabel => 'ضمّن في المسار';
+
+  @override
+  String get routeStopStatusPending => 'قيد الانتظار';
+
+  @override
+  String get routeStopStatusArrived => 'وصلت';
+
+  @override
+  String get routeStopStatusCompleted => 'تم';
+
+  @override
+  String get routeStopStatusFailed => 'فشل';
+
+  @override
+  String get routeStopStatusSkipped => 'تم التخطي';
+
+  @override
+  String get routeListSortSheetTitle => 'ترتيب المحطات';
+
+  @override
+  String get routeListSortSequence => 'ترتيب المسار';
+
+  @override
+  String get routeListSortEta => 'وقت الوصول';
+
+  @override
+  String get routeListSortWeight => 'الوزن التقديري';
+
+  @override
+  String get routeListSortDistance => 'المسافة من موقعي';
+
+  @override
+  String get routeListDistanceUnavailable =>
+      'تعذر قراءة موقعك. يتم عرض ترتيب المسار.';
+
+  @override
+  String get routeListFilterSheetTitle => 'تصفية المحطات';
+
+  @override
+  String get routeListFilterAll => 'كل المحطات';
+
+  @override
+  String get routeListFilterActive => 'مُصفّاة';
+
+  @override
+  String get routeListFilterEmpty => 'لا توجد محطات تطابق هذا التصفية.';
 }

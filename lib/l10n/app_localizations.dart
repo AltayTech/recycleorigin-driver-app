@@ -2187,6 +2187,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On-route location sharing'**
   String get routeLocationNotificationChannel;
+
+  /// No description provided for @routeSkipStopLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip stop'**
+  String get routeSkipStopLabel;
+
+  /// No description provided for @routeIncludeStopLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Include in route'**
+  String get routeIncludeStopLabel;
+
+  /// No description provided for @routeStopStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get routeStopStatusPending;
+
+  /// No description provided for @routeStopStatusArrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get routeStopStatusArrived;
+
+  /// No description provided for @routeStopStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get routeStopStatusCompleted;
+
+  /// No description provided for @routeStopStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get routeStopStatusFailed;
+
+  /// No description provided for @routeStopStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get routeStopStatusSkipped;
+
+  /// No description provided for @routeListSortSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort stops'**
+  String get routeListSortSheetTitle;
+
+  /// No description provided for @routeListSortSequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Route order'**
+  String get routeListSortSequence;
+
+  /// No description provided for @routeListSortEta.
+  ///
+  /// In en, this message translates to:
+  /// **'ETA'**
+  String get routeListSortEta;
+
+  /// No description provided for @routeListSortWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated weight'**
+  String get routeListSortWeight;
+
+  /// No description provided for @routeListSortDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance from me'**
+  String get routeListSortDistance;
+
+  /// No description provided for @routeListDistanceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read your location. Showing route order.'**
+  String get routeListDistanceUnavailable;
+
+  /// No description provided for @routeListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter stops'**
+  String get routeListFilterSheetTitle;
+
+  /// No description provided for @routeListFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All stops'**
+  String get routeListFilterAll;
+
+  /// No description provided for @routeListFilterActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered'**
+  String get routeListFilterActive;
+
+  /// No description provided for @routeListFilterEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No stops match this filter.'**
+  String get routeListFilterEmpty;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'package:recycleorigindriver/features/route_feature/data/models/driver_route.dart';
 import 'package:recycleorigindriver/features/route_feature/presentation/bloc/route_bloc.dart';
+import 'package:recycleorigindriver/features/route_feature/presentation/route_list_view_options.dart';
 
 /// Whether live GPS tracking should run for the current route state.
 bool shouldTrackDriverRoute(RouteState state) {
@@ -11,9 +12,7 @@ bool shouldTrackDriverRoute(RouteState state) {
 
 /// True when at least one stop is still in progress.
 bool hasActiveRouteStops(DriverRoute route) {
-  return route.stops.any(
-    (stop) => stop.status != 'completed' && stop.status != 'failed',
-  );
+  return route.stops.any((stop) => !isInactiveRouteStopStatus(stop.status));
 }
 
 /// Whether an already-running tracker should stop after a route refresh.

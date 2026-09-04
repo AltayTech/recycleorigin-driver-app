@@ -453,5 +453,22 @@
   "routeLocationSharingBanner": "Your location is being shared with dispatch. A persistent notification stays on while this route is active.",
   "routeLocationNotificationTitle": "On route — location sharing",
   "routeLocationNotificationText": "Dispatch can see your location while you complete today's pickups.",
-  "routeLocationNotificationChannel": "On-route location sharing"
+  "routeLocationNotificationChannel": "On-route location sharing",
+  "routeSkipStopLabel": "Skip stop",
+  "routeIncludeStopLabel": "Include in route",
+  "routeStopStatusPending": "Pending",
+  "routeStopStatusArrived": "Arrived",
+  "routeStopStatusCompleted": "Done",
+  "routeStopStatusFailed": "Failed",
+  "routeStopStatusSkipped": "Skipped",
+  "routeListSortSheetTitle": "Sort stops",
+  "routeListSortSequence": "Route order",
+  "routeListSortEta": "ETA",
+  "routeListSortWeight": "Estimated weight",
+  "routeListSortDistance": "Distance from me",
+  "routeListDistanceUnavailable": "Could not read your location. Showing route order.",
+  "routeListFilterSheetTitle": "Filter stops",
+  "routeListFilterAll": "All stops",
+  "routeListFilterActive": "Filtered",
+  "routeListFilterEmpty": "No stops match this filter."
 }

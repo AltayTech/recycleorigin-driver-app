@@ -1123,4 +1123,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routeLocationNotificationChannel => 'On-route location sharing';
+
+  @override
+  String get routeSkipStopLabel => 'Skip stop';
+
+  @override
+  String get routeIncludeStopLabel => 'Include in route';
+
+  @override
+  String get routeStopStatusPending => 'Pending';
+
+  @override
+  String get routeStopStatusArrived => 'Arrived';
+
+  @override
+  String get routeStopStatusCompleted => 'Done';
+
+  @override
+  String get routeStopStatusFailed => 'Failed';
+
+  @override
+  String get routeStopStatusSkipped => 'Skipped';
+
+  @override
+  String get routeListSortSheetTitle => 'Sort stops';
+
+  @override
+  String get routeListSortSequence => 'Route order';
+
+  @override
+  String get routeListSortEta => 'ETA';
+
+  @override
+  String get routeListSortWeight => 'Estimated weight';
+
+  @override
+  String get routeListSortDistance => 'Distance from me';
+
+  @override
+  String get routeListDistanceUnavailable =>
+      'Could not read your location. Showing route order.';
+
+  @override
+  String get routeListFilterSheetTitle => 'Filter stops';
+
+  @override
+  String get routeListFilterAll => 'All stops';
+
+  @override
+  String get routeListFilterActive => 'Filtered';
+
+  @override
+  String get routeListFilterEmpty => 'No stops match this filter.';
 }

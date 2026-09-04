@@ -13,6 +13,8 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     on<RouteStopArrived>(_onArrived);
     on<RouteStopCompleted>(_onCompleted);
     on<RouteStopFailed>(_onFailed);
+    on<RouteStopSkipped>(_onSkipped);
+    on<RouteStopIncluded>(_onIncluded);
   }
 
   final RouteRepository _repository;
@@ -75,6 +77,22 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     Emitter<RouteState> emit,
   ) async {
     await _repository.markFailed(event.stopId, reason: event.reason);
+    add(RouteLoadRequested());
+  }
+
+  Future<void> _onSkipped(
+    RouteStopSkipped event,
+    Emitter<RouteState> emit,
+  ) async {
+    await _repository.markSkipped(event.stopId);
+    add(RouteLoadRequested());
+  }
+
+  Future<void> _onIncluded(
+    RouteStopIncluded event,
+    Emitter<RouteState> emit,
+  ) async {
+    await _repository.markIncluded(event.stopId);
     add(RouteLoadRequested());
   }
 }
