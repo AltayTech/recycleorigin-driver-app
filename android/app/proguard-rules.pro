@@ -1,3 +1,6 @@
+# Geolocator foreground location service (Play FGS location).
+-keep class com.baseflow.geolocator.** { *; }
+
 # Flutter
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.** { *; }

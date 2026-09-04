@@ -2163,6 +2163,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable'**
   String get routeLocationPermissionAction;
+
+  /// No description provided for @routeLocationSharingBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is being shared with dispatch. A persistent notification stays on while this route is active.'**
+  String get routeLocationSharingBanner;
+
+  /// No description provided for @routeLocationNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On route — location sharing'**
+  String get routeLocationNotificationTitle;
+
+  /// No description provided for @routeLocationNotificationText.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatch can see your location while you complete today\'s pickups.'**
+  String get routeLocationNotificationText;
+
+  /// No description provided for @routeLocationNotificationChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'On-route location sharing'**
+  String get routeLocationNotificationChannel;
 }
 
 class _AppLocalizationsDelegate

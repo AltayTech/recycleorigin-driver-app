@@ -449,5 +449,9 @@
   "routeCompletedButton": "Completed",
   "routeFailedButton": "Failed",
   "routeLocationPermissionBanner": "Location access is needed so dispatch can see you on route.",
-  "routeLocationPermissionAction": "Enable"
+  "routeLocationPermissionAction": "Enable",
+  "routeLocationSharingBanner": "Your location is being shared with dispatch. A persistent notification stays on while this route is active.",
+  "routeLocationNotificationTitle": "On route — location sharing",
+  "routeLocationNotificationText": "Dispatch can see your location while you complete today's pickups.",
+  "routeLocationNotificationChannel": "On-route location sharing"
 }

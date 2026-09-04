@@ -430,6 +430,10 @@
   "routeCompletedButton": "Tamamlandı",
   "routeFailedButton": "Başarısız",
   "routeLocationPermissionBanner": "Seferdeyken konumunuzun paylaşılması için konum izni gerekir.",
-  "routeLocationPermissionAction": "Etkinleştir"
+  "routeLocationPermissionAction": "Etkinleştir",
+  "routeLocationSharingBanner": "Konumunuz sevkiyat ile paylaşılıyor. Bu rota aktifken kalıcı bildirim açık kalır.",
+  "routeLocationNotificationTitle": "Rotada — konum paylaşımı",
+  "routeLocationNotificationText": "Bugünkü toplamalar bitene kadar sevkiyat konumunuzu görebilir.",
+  "routeLocationNotificationChannel": "Rota konum paylaşımı"
 }
 

@@ -43,6 +43,7 @@ class _RouteTodayView extends StatefulWidget {
 class _RouteTodayViewState extends State<_RouteTodayView> {
   late final RouteTrackingCoordinator _trackingCoordinator;
   bool _locationDenied = false;
+  bool _sharingLocation = false;
 
   @override
   void initState() {
@@ -59,19 +60,22 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
   }
 
   Future<void> _syncTracking(RouteState state) async {
-    _trackingCoordinator.onRouteState(state);
-    if (!shouldTrackDriverRoute(state)) {
-      if (_locationDenied && mounted) {
-        setState(() => _locationDenied = false);
-      }
+    final l10n = context.l10n;
+    await _trackingCoordinator.onRouteState(
+      state,
+      notificationTitle: l10n.routeLocationNotificationTitle,
+      notificationText: l10n.routeLocationNotificationText,
+      notificationChannelName: l10n.routeLocationNotificationChannel,
+    );
+    if (!mounted) {
       return;
     }
-    final allowed = await LocationTrackingService.instance.ensurePermission();
-    if (!allowed && mounted) {
-      setState(() => _locationDenied = true);
-    } else if (_locationDenied && mounted) {
-      setState(() => _locationDenied = false);
-    }
+    final shouldTrack = shouldTrackDriverRoute(state);
+    final sharing = LocationTrackingService.instance.isTracking;
+    setState(() {
+      _sharingLocation = sharing;
+      _locationDenied = shouldTrack && !sharing;
+    });
   }
 
   @override
@@ -118,11 +122,41 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                 content: Text(l10n.routeLocationPermissionBanner),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () =>
-                        LocationTrackingService.instance.ensurePermission(),
+                    onPressed: () async {
+                      await _syncTracking(context.read<RouteBloc>().state);
+                    },
                     child: Text(l10n.routeLocationPermissionAction),
                   ),
                 ],
+              ),
+            if (_sharingLocation)
+              Material(
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.share_location,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.routeLocationSharingBanner,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryContainer,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             Expanded(
               child: BlocBuilder<RouteBloc, RouteState>(
@@ -136,14 +170,14 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                       title: l10n.routeLoadErrorTitle,
                       body: state.message ?? l10n.routeUnknownError,
                       action: FilledButton(
-                        onPressed: () => context.read<RouteBloc>().add(
-                          RouteLoadRequested(),
-                        ),
+                        onPressed: () =>
+                            context.read<RouteBloc>().add(RouteLoadRequested()),
                         child: Text(l10n.retryLabel),
                       ),
                     );
                   }
-                  if (state.status == RouteStatus.empty || state.route == null) {
+                  if (state.status == RouteStatus.empty ||
+                      state.route == null) {
                     return _MessagePanel(
                       icon: Icons.route_outlined,
                       title: l10n.routeEmptyTitle,

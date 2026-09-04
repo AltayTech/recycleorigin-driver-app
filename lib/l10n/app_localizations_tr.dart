@@ -1112,4 +1112,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get routeLocationPermissionAction => 'Etkinleştir';
+
+  @override
+  String get routeLocationSharingBanner =>
+      'Konumunuz sevkiyat ile paylaşılıyor. Bu rota aktifken kalıcı bildirim açık kalır.';
+
+  @override
+  String get routeLocationNotificationTitle => 'Rotada — konum paylaşımı';
+
+  @override
+  String get routeLocationNotificationText =>
+      'Bugünkü toplamalar bitene kadar sevkiyat konumunuzu görebilir.';
+
+  @override
+  String get routeLocationNotificationChannel => 'Rota konum paylaşımı';
 }

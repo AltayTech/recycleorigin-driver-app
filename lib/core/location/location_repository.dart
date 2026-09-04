@@ -24,7 +24,8 @@ class LocationRepository {
         if (accuracy != null) 'accuracy': accuracy,
         if (speed != null) 'speed': speed,
         if (heading != null) 'heading': heading,
-        if (recordedAt != null) 'recorded_at': recordedAt.toUtc().toIso8601String(),
+        if (recordedAt != null)
+          'recorded_at': recordedAt.toUtc().toIso8601String(),
       },
       parser: (_) {},
     );

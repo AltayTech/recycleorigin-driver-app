@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
 import 'package:recycleorigindriver/core/app_theme_controller.dart';
+import 'package:recycleorigindriver/core/location/driver_location_session.dart';
 import 'package:recycleorigindriver/core/navigation/app_navigator.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -120,7 +121,9 @@ class MyApp extends StatelessWidget {
                     textDirection: locale.languageCode == 'ar'
                         ? TextDirection.rtl
                         : TextDirection.ltr,
-                    child: child ?? const SizedBox.shrink(),
+                    child: DriverLocationSession(
+                      child: child ?? const SizedBox.shrink(),
+                    ),
                   ),
 
                   locale: locale,

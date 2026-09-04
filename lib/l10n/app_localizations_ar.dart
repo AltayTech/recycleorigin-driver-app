@@ -1106,4 +1106,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get routeLocationPermissionAction => 'تفعيل';
+
+  @override
+  String get routeLocationSharingBanner =>
+      'يتم مشاركة موقعك مع فريق التوزيع. يبقى إشعار دائم ظاهرًا أثناء هذا المسار.';
+
+  @override
+  String get routeLocationNotificationTitle => 'في المسار — مشاركة الموقع';
+
+  @override
+  String get routeLocationNotificationText =>
+      'يمكن لفريق التوزيع رؤية موقعك أثناء إكمال عمليات الجمع اليوم.';
+
+  @override
+  String get routeLocationNotificationChannel => 'مشاركة الموقع أثناء المسار';
 }

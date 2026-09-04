@@ -15,3 +15,21 @@ bool hasActiveRouteStops(DriverRoute route) {
     (stop) => stop.status != 'completed' && stop.status != 'failed',
   );
 }
+
+/// Whether an already-running tracker should stop after a route refresh.
+///
+/// A failed fetch must not stop sharing (transient network errors).
+/// Sharing is never started here; that stays user-initiated.
+bool shouldStopTrackingAfterRouteFetch({
+  required bool isTracking,
+  required bool fetchFailed,
+  required DriverRoute? route,
+}) {
+  if (!isTracking || fetchFailed) {
+    return false;
+  }
+  if (route == null) {
+    return true;
+  }
+  return !hasActiveRouteStops(route);
+}

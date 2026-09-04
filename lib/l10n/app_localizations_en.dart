@@ -1109,4 +1109,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routeLocationPermissionAction => 'Enable';
+
+  @override
+  String get routeLocationSharingBanner =>
+      'Your location is being shared with dispatch. A persistent notification stays on while this route is active.';
+
+  @override
+  String get routeLocationNotificationTitle => 'On route — location sharing';
+
+  @override
+  String get routeLocationNotificationText =>
+      'Dispatch can see your location while you complete today\'s pickups.';
+
+  @override
+  String get routeLocationNotificationChannel => 'On-route location sharing';
 }

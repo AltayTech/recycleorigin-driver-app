@@ -378,5 +378,9 @@
   "routeCompletedButton": "مكتمل",
   "routeFailedButton": "فشل",
   "routeLocationPermissionBanner": "يلزم الوصول إلى الموقع لمشاركة موقعك أثناء المسار.",
-  "routeLocationPermissionAction": "تفعيل"
+  "routeLocationPermissionAction": "تفعيل",
+  "routeLocationSharingBanner": "يتم مشاركة موقعك مع فريق التوزيع. يبقى إشعار دائم ظاهرًا أثناء هذا المسار.",
+  "routeLocationNotificationTitle": "في المسار — مشاركة الموقع",
+  "routeLocationNotificationText": "يمكن لفريق التوزيع رؤية موقعك أثناء إكمال عمليات الجمع اليوم.",
+  "routeLocationNotificationChannel": "مشاركة الموقع أثناء المسار"
 }
