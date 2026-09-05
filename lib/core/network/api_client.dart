@@ -47,6 +47,10 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          final base = options.baseUrl.isEmpty
+              ? AppConfig.apiBaseUrl
+              : options.baseUrl;
+          options.path = stripApiBasePrefix(options.path, base);
           if (_isAuthExempt(options.path)) {
             handler.next(options);
             return;
@@ -55,10 +59,7 @@ class ApiClient {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-          developer.log(
-            '${options.method} ${options.baseUrl}${options.path}',
-            name: 'driver.api',
-          );
+          developer.log('${options.method} ${options.uri}', name: 'driver.api');
           handler.next(options);
         },
         onResponse: (response, handler) {
