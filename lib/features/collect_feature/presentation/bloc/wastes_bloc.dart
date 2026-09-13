@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
+import 'package:recycleorigindriver/core/network/auth_http.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_event.dart';
 import 'package:recycleorigindriver/features/collect_feature/presentation/bloc/wastes_state.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';

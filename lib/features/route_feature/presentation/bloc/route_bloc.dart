@@ -34,6 +34,8 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
               route: null,
               hint: payload.emptyMessage,
               clearHint: false,
+              clearBusy: true,
+              clearActionError: true,
             ),
           );
         } else {
@@ -42,6 +44,8 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
               status: RouteStatus.loaded,
               route: payload.route,
               clearHint: true,
+              clearBusy: true,
+              clearActionError: true,
             ),
           );
         }
@@ -51,6 +55,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
             status: RouteStatus.failure,
             message: msg,
             clearHint: true,
+            clearBusy: true,
           ),
         );
     }
@@ -60,39 +65,59 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     RouteStopArrived event,
     Emitter<RouteState> emit,
   ) async {
-    await _repository.markArrived(event.stopId);
-    add(RouteLoadRequested());
+    await _mutateStop(event.stopId, emit, () {
+      return _repository.markArrived(event.stopId);
+    });
   }
 
   Future<void> _onCompleted(
     RouteStopCompleted event,
     Emitter<RouteState> emit,
   ) async {
-    await _repository.markCompleted(event.stopId);
-    add(RouteLoadRequested());
+    await _mutateStop(event.stopId, emit, () {
+      return _repository.markCompleted(event.stopId);
+    });
   }
 
   Future<void> _onFailed(
     RouteStopFailed event,
     Emitter<RouteState> emit,
   ) async {
-    await _repository.markFailed(event.stopId, reason: event.reason);
-    add(RouteLoadRequested());
+    await _mutateStop(event.stopId, emit, () {
+      return _repository.markFailed(event.stopId, reason: event.reason);
+    });
   }
 
   Future<void> _onSkipped(
     RouteStopSkipped event,
     Emitter<RouteState> emit,
   ) async {
-    await _repository.markSkipped(event.stopId);
-    add(RouteLoadRequested());
+    await _mutateStop(event.stopId, emit, () {
+      return _repository.markSkipped(event.stopId);
+    });
   }
 
   Future<void> _onIncluded(
     RouteStopIncluded event,
     Emitter<RouteState> emit,
   ) async {
-    await _repository.markIncluded(event.stopId);
-    add(RouteLoadRequested());
+    await _mutateStop(event.stopId, emit, () {
+      return _repository.markIncluded(event.stopId);
+    });
+  }
+
+  Future<void> _mutateStop(
+    int stopId,
+    Emitter<RouteState> emit,
+    Future<Result<void>> Function() run,
+  ) async {
+    emit(state.copyWith(busyStopId: stopId, clearActionError: true));
+    final result = await run();
+    switch (result) {
+      case Failure(message: final msg):
+        emit(state.copyWith(clearBusy: true, actionError: msg));
+      case Success():
+        add(RouteLoadRequested());
+    }
   }
 }

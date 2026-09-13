@@ -49,6 +49,13 @@ class _FakeRouteRepository extends RouteRepository {
   }
 }
 
+class _FailCompleteRepository extends _FakeRouteRepository {
+  @override
+  Future<Result<void>> markCompleted(int stopId) async {
+    return const Failure('network down');
+  }
+}
+
 void main() {
   blocTest<RouteBloc, RouteState>(
     'skip reloads today route as skipped',
@@ -58,6 +65,20 @@ void main() {
     verify: (bloc) {
       expect(bloc.state.status, RouteStatus.loaded);
       expect(bloc.state.route?.stops.single.status, 'skipped');
+    },
+  );
+
+  blocTest<RouteBloc, RouteState>(
+    'complete failure keeps route and surfaces actionError',
+    build: () => RouteBloc(_FailCompleteRepository()),
+    seed: () =>
+        RouteState(status: RouteStatus.loaded, route: _route('pending')),
+    act: (bloc) => bloc.add(RouteStopCompleted(1)),
+    wait: const Duration(milliseconds: 20),
+    verify: (bloc) {
+      expect(bloc.state.actionError, 'network down');
+      expect(bloc.state.busyStopId, isNull);
+      expect(bloc.state.route?.stops.single.status, 'pending');
     },
   );
 

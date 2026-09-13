@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
+import 'package:recycleorigindriver/core/network/auth_http.dart' as http;
 import 'package:recycleorigindriver/features/auth_feature/data/firebase_auth_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_event.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_state.dart';

@@ -25,12 +25,15 @@ class StopStatusChip extends StatelessWidget {
       ),
       _ => (Colors.blueGrey, Icons.schedule, l10n.routeStopStatusPending),
     };
-    return Chip(
-      visualDensity: VisualDensity.compact,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      avatar: Icon(icon, size: 16, color: color),
-      label: Text(label),
-      side: BorderSide(color: color.withValues(alpha: 0.5)),
+    return Semantics(
+      label: label,
+      child: Chip(
+        visualDensity: VisualDensity.compact,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        avatar: Icon(icon, size: 16, color: color),
+        label: Text(label),
+        side: BorderSide(color: color.withValues(alpha: 0.5)),
+      ),
     );
   }
 }

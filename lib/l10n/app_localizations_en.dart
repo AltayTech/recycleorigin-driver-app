@@ -1095,13 +1095,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String get routeNavigateButton => 'Navigate';
 
   @override
-  String get routeArrivedButton => 'Arrived';
+  String get routeArrivedButton => 'I\'ve arrived';
 
   @override
-  String get routeCompletedButton => 'Completed';
+  String get routeCompletedButton => 'Mark complete';
 
   @override
-  String get routeFailedButton => 'Failed';
+  String get routeFailedButton => 'Couldn\'t complete';
+
+  @override
+  String get routeConfirmCompleteTitle => 'Mark this stop complete?';
+
+  @override
+  String get routeConfirmCompleteMessage =>
+      'Dispatch will see this stop as done. Confirm pickup weights on the Collection tab if you have not already.';
+
+  @override
+  String get routeConfirmFailTitle => 'Couldn\'t complete this stop?';
+
+  @override
+  String get routeConfirmFailMessage =>
+      'Dispatch will see this stop as unsuccessful. You can add a short reason.';
+
+  @override
+  String get routeFailReasonLabel => 'Reason (optional)';
+
+  @override
+  String get routeConfirmSkipTitle => 'Skip this stop?';
+
+  @override
+  String get routeConfirmSkipMessage =>
+      'It stays on your list as skipped. You can add it back later today.';
+
+  @override
+  String get routeCustomerLabel => 'Customer';
+
+  @override
+  String get routeScheduleLabel => 'Schedule';
+
+  @override
+  String get routeDemandLabel => 'Load';
+
+  @override
+  String routeWeightKg(String weight) {
+    return '$weight kg';
+  }
+
+  @override
+  String get routeNoSchedule => 'No planned arrival time';
+
+  @override
+  String get routeCallCustomer => 'Call';
+
+  @override
+  String get routeCallFailed => 'Could not start a phone call.';
+
+  @override
+  String get routeStopDoneBanner => 'This stop is complete.';
+
+  @override
+  String get routeStopFailedBanner => 'This stop was marked unsuccessful.';
+
+  @override
+  String get routeStopSkippedBanner =>
+      'This stop is skipped. Add it back if you will visit it today.';
+
+  @override
+  String get routeCompleteHint =>
+      'Confirm pickup on Collection, then mark this stop complete.';
+
+  @override
+  String get routeItemsLabel => 'Items';
 
   @override
   String get routeLocationPermissionBanner =>

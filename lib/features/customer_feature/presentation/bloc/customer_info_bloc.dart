@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
+import 'package:recycleorigindriver/core/network/auth_http.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_event.dart';
 import 'package:recycleorigindriver/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigindriver/core/models/city.dart';
@@ -172,8 +172,9 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
         },
       );
       if (response.statusCode == 401) {
-        await SecureStorage.deleteToken();
-        await SecureStorage.saveLoginStatus(false);
+        // A 401 here means the token refresh already failed inside
+        // `auth_http`, which cleared storage and notified the auth layer.
+        // Only reset local state; never delete tokens from this bloc.
         emit(state.copyWith(driver: driverZero, token: ''));
         event.completer?.complete();
         return;

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:recycleorigindriver/core/network/auth_http.dart' as http;
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/features/support_tickets/data/driver_support_ticket_models.dart';

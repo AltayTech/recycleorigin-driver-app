@@ -1101,10 +1101,74 @@ class AppLocalizationsTr extends AppLocalizations {
   String get routeArrivedButton => 'Vardım';
 
   @override
-  String get routeCompletedButton => 'Tamamlandı';
+  String get routeCompletedButton => 'Durağı tamamla';
 
   @override
-  String get routeFailedButton => 'Başarısız';
+  String get routeFailedButton => 'Tamamlanamadı';
+
+  @override
+  String get routeConfirmCompleteTitle => 'Bu durak tamamlansın mı?';
+
+  @override
+  String get routeConfirmCompleteMessage =>
+      'Sevk bu durağı bitti olarak görür. Ağırlıkları henüz girmediyseniz Koleksiyon sekmesinde onaylayın.';
+
+  @override
+  String get routeConfirmFailTitle => 'Durak tamamlanamadı mı?';
+
+  @override
+  String get routeConfirmFailMessage =>
+      'Sevk bu durağı başarısız görür. İsterseniz kısa bir neden yazın.';
+
+  @override
+  String get routeFailReasonLabel => 'Neden (isteğe bağlı)';
+
+  @override
+  String get routeConfirmSkipTitle => 'Bu durak atılsın mı?';
+
+  @override
+  String get routeConfirmSkipMessage =>
+      'Listede atlandı olarak kalır. Bugün yeniden ekleyebilirsiniz.';
+
+  @override
+  String get routeCustomerLabel => 'Müşteri';
+
+  @override
+  String get routeScheduleLabel => 'Plan';
+
+  @override
+  String get routeDemandLabel => 'Yük';
+
+  @override
+  String routeWeightKg(String weight) {
+    return '$weight kg';
+  }
+
+  @override
+  String get routeNoSchedule => 'Planlanan varış yok';
+
+  @override
+  String get routeCallCustomer => 'Ara';
+
+  @override
+  String get routeCallFailed => 'Telefon araması başlatılamadı.';
+
+  @override
+  String get routeStopDoneBanner => 'Bu durak tamamlandı.';
+
+  @override
+  String get routeStopFailedBanner => 'Bu durak başarısız işaretlendi.';
+
+  @override
+  String get routeStopSkippedBanner =>
+      'Bu durak atlandı. Bugün gidecekseniz yeniden ekleyin.';
+
+  @override
+  String get routeCompleteHint =>
+      'Koleksiyon sekmesinde teslim almayı onaylayın, sonra durağı tamamlayın.';
+
+  @override
+  String get routeItemsLabel => 'Kalemler';
 
   @override
   String get routeLocationPermissionBanner =>

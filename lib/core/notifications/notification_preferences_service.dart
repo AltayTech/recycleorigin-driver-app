@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:recycleorigindriver/core/network/auth_http.dart' as http;
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 
@@ -24,11 +24,11 @@ class NotificationPreferenceItem {
 }
 
 /// Loads and persists driver notification preferences via the API.
+///
+/// Uses the token-refreshing `auth_http` helpers so calls survive access
+/// token expiry.
 class NotificationPreferencesService {
-  NotificationPreferencesService({http.Client? client})
-    : _client = client ?? http.Client();
-
-  final http.Client _client;
+  NotificationPreferencesService();
 
   Future<Map<String, String>> _headers() async {
     final token = await SecureStorage.getToken() ?? '';
@@ -48,7 +48,7 @@ class NotificationPreferencesService {
 
   Future<Map<String, Map<String, bool>>> fetch() async {
     final uri = Uri.parse('${Urls.rootUrl}/notifications/preferences');
-    final res = await _client.get(uri, headers: await _headers());
+    final res = await http.get(uri, headers: await _headers());
     if (res.statusCode != 200) {
       throw Exception('HTTP ${res.statusCode}');
     }
@@ -78,7 +78,7 @@ class NotificationPreferencesService {
       });
     });
     final uri = Uri.parse('${Urls.rootUrl}/notifications/preferences');
-    final res = await _client.put(
+    final res = await http.put(
       uri,
       headers: await _headers(),
       body: jsonEncode(<String, dynamic>{

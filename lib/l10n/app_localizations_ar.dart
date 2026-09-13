@@ -1095,10 +1095,74 @@ class AppLocalizationsAr extends AppLocalizations {
   String get routeArrivedButton => 'وصلت';
 
   @override
-  String get routeCompletedButton => 'مكتمل';
+  String get routeCompletedButton => 'تأكيد الإكمال';
 
   @override
-  String get routeFailedButton => 'فشل';
+  String get routeFailedButton => 'تعذر الإكمال';
+
+  @override
+  String get routeConfirmCompleteTitle => 'هل تريد إكمال هذه المحطة؟';
+
+  @override
+  String get routeConfirmCompleteMessage =>
+      'سيظهر لفريق التوزيع أن المحطة انتهت. أكّد الأوزان في تبويب التجميع إن لم تفعل ذلك بعد.';
+
+  @override
+  String get routeConfirmFailTitle => 'تعذر إكمال هذه المحطة؟';
+
+  @override
+  String get routeConfirmFailMessage =>
+      'سيظهر لفريق التوزيع أن المحطة لم تنجح. يمكنك إضافة سبب مختصر.';
+
+  @override
+  String get routeFailReasonLabel => 'السبب (اختياري)';
+
+  @override
+  String get routeConfirmSkipTitle => 'تخطي هذه المحطة؟';
+
+  @override
+  String get routeConfirmSkipMessage =>
+      'تبقى في قائمتك كمتخطاة. يمكنك إعادتها لاحقًا اليوم.';
+
+  @override
+  String get routeCustomerLabel => 'العميل';
+
+  @override
+  String get routeScheduleLabel => 'الجدول';
+
+  @override
+  String get routeDemandLabel => 'الحمولة';
+
+  @override
+  String routeWeightKg(String weight) {
+    return '$weight كغ';
+  }
+
+  @override
+  String get routeNoSchedule => 'لا يوجد وقت وصول مخطط';
+
+  @override
+  String get routeCallCustomer => 'اتصال';
+
+  @override
+  String get routeCallFailed => 'تعذر بدء مكالمة هاتفية.';
+
+  @override
+  String get routeStopDoneBanner => 'هذه المحطة مكتملة.';
+
+  @override
+  String get routeStopFailedBanner => 'تم تعليم هذه المحطة كغير ناجحة.';
+
+  @override
+  String get routeStopSkippedBanner =>
+      'تم تخطي هذه المحطة. أعدها إذا كنت ستزورها اليوم.';
+
+  @override
+  String get routeCompleteHint =>
+      'أكّد الاستلام في التجميع، ثم علّم المحطة مكتملة.';
+
+  @override
+  String get routeItemsLabel => 'العناصر';
 
   @override
   String get routeLocationPermissionBanner =>

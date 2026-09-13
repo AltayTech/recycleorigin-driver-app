@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 
 import 'package:dio/dio.dart';
 import 'package:recycleorigindriver/core/config/app_config.dart';
+import 'package:recycleorigindriver/core/network/token_refresher.dart';
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 import 'package:recycleorigindriver/core/utils/result.dart';
@@ -13,12 +14,15 @@ import 'package:recycleorigindriver/core/utils/result.dart';
 /// - shared base options and timeouts,
 /// - automatic bearer-token injection from secure storage,
 /// - transparent access-token rotation: when the backend returns 401 the
-///   client posts the stored refresh token to `/auth/refresh` once, persists
-///   the new pair, and replays the original request,
+///   client refreshes the token pair once through [TokenRefresher] and
+///   replays the original request,
 /// - request/response/error logging via `dart:developer`, and
 /// - unified mapping of transport failures into `Result<T>`.
+///
+/// Session expiry (refresh token rejected) is handled by [TokenRefresher],
+/// which clears storage and fires its `onSessionExpired` callback.
 class ApiClient {
-  ApiClient({this.onUnauthorized}) {
+  ApiClient() {
     _dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.apiBaseUrl,
@@ -34,12 +38,6 @@ class ApiClient {
   }
 
   late final Dio _dio;
-
-  /// Fired when refresh fails — the bloc layer should clear state and route
-  /// to the login screen.
-  final void Function()? onUnauthorized;
-
-  Future<void>? _refreshFuture;
 
   Dio get raw => _dio;
 
@@ -66,9 +64,13 @@ class ApiClient {
           handler.next(response);
         },
         onError: (error, handler) async {
-          if (await _shouldAttemptRefresh(error)) {
+          if (_shouldAttemptRefresh(error)) {
             try {
-              await _ensureRefreshed();
+              final refreshed = await TokenRefresher.instance.refreshSession();
+              if (!refreshed) {
+                handler.next(error);
+                return;
+              }
               final retry = await _retryRequest(error.requestOptions);
               handler.resolve(retry);
               return;
@@ -80,7 +82,6 @@ class ApiClient {
                 stackTrace: stackTrace,
                 level: 900,
               );
-              await _clearSessionAndNotify();
               handler.next(error);
               return;
             }
@@ -97,56 +98,14 @@ class ApiClient {
         path.contains(Urls.refreshTokenPath);
   }
 
-  Future<bool> _shouldAttemptRefresh(DioException error) async {
+  bool _shouldAttemptRefresh(DioException error) {
     if (error.response?.statusCode != 401) {
       return false;
     }
     final path = error.requestOptions.path;
-    if (path.contains(Urls.refreshTokenPath) ||
-        path.contains(Urls.firebaseExchangePath) ||
-        path.contains(Urls.loginPath)) {
-      return false;
-    }
-    final refresh = await SecureStorage.getRefreshToken();
-    return refresh != null && refresh.isNotEmpty;
-  }
-
-  Future<void> _ensureRefreshed() {
-    final inflight = _refreshFuture;
-    if (inflight != null) {
-      return inflight;
-    }
-    final future = _refreshTokens()..whenComplete(() => _refreshFuture = null);
-    _refreshFuture = future;
-    return future;
-  }
-
-  Future<void> _refreshTokens() async {
-    final refresh = await SecureStorage.getRefreshToken();
-    if (refresh == null || refresh.isEmpty) {
-      throw StateError('no refresh token');
-    }
-    final response = await _dio.post<Map<String, dynamic>>(
-      Urls.refreshTokenPath,
-      data: {'refresh_token': refresh},
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      ),
-    );
-    final data = response.data;
-    if (data == null) {
-      throw StateError('refresh response empty');
-    }
-    final newAccess = (data['access_token'] ?? data['token']) as String? ?? '';
-    final newRefresh = data['refresh_token'] as String? ?? '';
-    if (newAccess.isEmpty || newRefresh.isEmpty) {
-      throw StateError('refresh response missing tokens');
-    }
-    await SecureStorage.saveAccessToken(newAccess);
-    await SecureStorage.saveRefreshToken(newRefresh);
+    return !path.contains(Urls.refreshTokenPath) &&
+        !path.contains(Urls.firebaseExchangePath) &&
+        !path.contains(Urls.loginPath);
   }
 
   Future<Response<dynamic>> _retryRequest(RequestOptions options) async {
@@ -154,12 +113,6 @@ class ApiClient {
     final headers = Map<String, dynamic>.from(options.headers)
       ..['Authorization'] = 'Bearer ${newAccess ?? ''}';
     return _dio.fetch<dynamic>(options.copyWith(headers: headers));
-  }
-
-  Future<void> _clearSessionAndNotify() async {
-    await SecureStorage.deleteToken();
-    await SecureStorage.saveLoginStatus(false);
-    onUnauthorized?.call();
   }
 
   Future<Result<T>> get<T>(

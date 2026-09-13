@@ -2137,20 +2137,134 @@ abstract class AppLocalizations {
   /// No description provided for @routeArrivedButton.
   ///
   /// In en, this message translates to:
-  /// **'Arrived'**
+  /// **'I\'ve arrived'**
   String get routeArrivedButton;
 
   /// No description provided for @routeCompletedButton.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
+  /// **'Mark complete'**
   String get routeCompletedButton;
 
   /// No description provided for @routeFailedButton.
   ///
   /// In en, this message translates to:
-  /// **'Failed'**
+  /// **'Couldn\'t complete'**
   String get routeFailedButton;
+
+  /// No description provided for @routeConfirmCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this stop complete?'**
+  String get routeConfirmCompleteTitle;
+
+  /// No description provided for @routeConfirmCompleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatch will see this stop as done. Confirm pickup weights on the Collection tab if you have not already.'**
+  String get routeConfirmCompleteMessage;
+
+  /// No description provided for @routeConfirmFailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t complete this stop?'**
+  String get routeConfirmFailTitle;
+
+  /// No description provided for @routeConfirmFailMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatch will see this stop as unsuccessful. You can add a short reason.'**
+  String get routeConfirmFailMessage;
+
+  /// No description provided for @routeFailReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (optional)'**
+  String get routeFailReasonLabel;
+
+  /// No description provided for @routeConfirmSkipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip this stop?'**
+  String get routeConfirmSkipTitle;
+
+  /// No description provided for @routeConfirmSkipMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'It stays on your list as skipped. You can add it back later today.'**
+  String get routeConfirmSkipMessage;
+
+  /// No description provided for @routeCustomerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get routeCustomerLabel;
+
+  /// No description provided for @routeScheduleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get routeScheduleLabel;
+
+  /// No description provided for @routeDemandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Load'**
+  String get routeDemandLabel;
+
+  /// No description provided for @routeWeightKg.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} kg'**
+  String routeWeightKg(String weight);
+
+  /// No description provided for @routeNoSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'No planned arrival time'**
+  String get routeNoSchedule;
+
+  /// No description provided for @routeCallCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get routeCallCustomer;
+
+  /// No description provided for @routeCallFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start a phone call.'**
+  String get routeCallFailed;
+
+  /// No description provided for @routeStopDoneBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This stop is complete.'**
+  String get routeStopDoneBanner;
+
+  /// No description provided for @routeStopFailedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This stop was marked unsuccessful.'**
+  String get routeStopFailedBanner;
+
+  /// No description provided for @routeStopSkippedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This stop is skipped. Add it back if you will visit it today.'**
+  String get routeStopSkippedBanner;
+
+  /// No description provided for @routeCompleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm pickup on Collection, then mark this stop complete.'**
+  String get routeCompleteHint;
+
+  /// No description provided for @routeItemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get routeItemsLabel;
 
   /// No description provided for @routeLocationPermissionBanner.
   ///

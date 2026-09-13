@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:recycleorigindriver/core/network/auth_http.dart' as http;
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/notifications/notification_deep_link.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
