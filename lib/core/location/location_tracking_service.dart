@@ -11,6 +11,9 @@ import 'package:recycleorigindriver/core/network/api_provider.dart';
 /// Starts and stops live GPS upload for an active driver route.
 abstract interface class DriverLocationTracker {
   /// Begins the location stream and Android foreground notification.
+  ///
+  /// Does not show the OS permission prompt. Call [requestPermission]
+  /// after the in-app disclosure if [hasPermission] is false.
   Future<void> start({
     String notificationTitle = LocationTrackingService.defaultNotificationTitle,
     String notificationText = LocationTrackingService.defaultNotificationText,
@@ -23,6 +26,13 @@ abstract interface class DriverLocationTracker {
 
   /// Whether a location stream is currently running.
   bool get isTracking;
+
+  /// True when location services are on and while-in-use (or always)
+  /// is already granted. Does not show a system prompt.
+  Future<bool> hasPermission();
+
+  /// Shows the OS location prompt (and Android notification if needed).
+  Future<bool> requestPermission();
 }
 
 /// Streams GPS fixes while the driver is on an active route and uploads them.
@@ -51,20 +61,34 @@ class LocationTrackingService implements DriverLocationTracker {
   @override
   bool get isTracking => _tracking;
 
-  /// Requests location (and on Android, notification) permission.
-  Future<bool> ensurePermission() async {
+  @override
+  Future<bool> hasPermission() async {
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      return false;
+    }
+    return _isGranted(await Geolocator.checkPermission());
+  }
+
+  @override
+  Future<bool> requestPermission() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
       return false;
     }
     var permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+    if (!_isGranted(permission)) {
       permission = await Geolocator.requestPermission();
     }
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
+    if (!_isGranted(permission)) {
       return false;
     }
     await _ensureNotificationPermission();
+    return true;
+  }
+
+  bool _isGranted(LocationPermission permission) {
     return permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse;
   }
@@ -89,11 +113,11 @@ class LocationTrackingService implements DriverLocationTracker {
     if (_tracking) {
       return;
     }
-    final allowed = await ensurePermission();
-    if (!allowed) {
+    if (!await hasPermission()) {
       developer.log('Location permission denied; tracking skipped');
       return;
     }
+    await _ensureNotificationPermission();
 
     _repository ??= LocationRepository(ApiProvider.client);
     _throttle.reset();

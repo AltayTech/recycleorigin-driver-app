@@ -1169,14 +1169,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routeLocationPermissionBanner =>
-      'Location access is needed so dispatch can see you on route.';
+      'Precise location is needed so dispatch can see you on route, including when the app is not in use. A notification stays on while sharing.';
 
   @override
   String get routeLocationPermissionAction => 'Enable';
 
   @override
   String get routeLocationSharingBanner =>
-      'Your location is being shared with dispatch. A persistent notification stays on while this route is active.';
+      'Your precise location is being shared with dispatch, including when the app is not in use. A persistent notification stays on until this route is finished.';
+
+  @override
+  String get locationDisclosureTitle => 'Location sharing';
+
+  @override
+  String get locationDisclosureBody =>
+      'RecycleOrigin Driver collects precise location data to enable live sharing of your vehicle with dispatch while you complete today\'s pickups, even when the app is not in use (for example while you navigate or the phone is in your pocket). Sharing starts only after you open My route with remaining stops. A persistent notification stays on while sharing is active. Sharing stops when the route is finished or you sign out. Location is also used in the app to center the map and sort stops by distance. Location is not used for ads.';
+
+  @override
+  String get locationDisclosureContinue => 'Continue';
+
+  @override
+  String get locationDisclosureNotNow => 'Not now';
+
+  @override
+  String get locationHelpSectionTitle => 'Location';
 
   @override
   String get routeLocationNotificationTitle => 'On route — location sharing';

@@ -113,6 +113,11 @@ Do **not** add `ACCESS_BACKGROUND_LOCATION`. While-using-the-app plus the
 foreground service is the correct Play path. "Allow all the time" is a
 different, stricter declaration.
 
+The app must show an **in-app prominent disclosure** (where and when
+precise location is used) **before** the Android permission sheet. Do not
+request location on map open; only after the driver taps Continue (or My
+location / sort by distance).
+
 ### 8.1 Play Console form
 
 After you upload the AAB:
@@ -128,11 +133,12 @@ After you upload the AAB:
 **Functionality description** (paste):
 
 > RecycleOrigin Driver shares the driver's live GPS with dispatch only after
-> the driver opens **My route** for a day that still has pickups. Sharing
-> continues while they navigate, collect, or leave the app so the operations
-> team can see the vehicle. An ongoing, non-dismissible status-bar
-> notification ("On route — location sharing") stays visible until every stop
-> is completed/failed or the driver signs out.
+> the driver opens **My route** for a day that still has pickups, accepts
+> the in-app location disclosure, and grants **While using the app**.
+> Sharing continues while they navigate, collect, or leave the app so the
+> operations team can see the vehicle. An ongoing, non-dismissible
+> status-bar notification ("On route — location sharing") stays visible
+> until every stop is completed/failed or the driver signs out.
 
 **User impact if the task is deferred or interrupted:**
 
@@ -140,24 +146,65 @@ After you upload the AAB:
 > customers cannot be given an accurate ETA. The driver must reopen My route
 > to resume sharing.
 
-### 8.2 Video to record (required)
+### 8.2 Location permissions declaration
+
+**Policy → App content → Sensitive app permissions → Location permissions**
+
+Declare **one** core feature: live GPS sharing with dispatch during an
+active pickup route.
+
+Paste:
+
+> RecycleOrigin Driver collects precise location so dispatch can see the
+> vehicle on the street while today's pickups are in progress. Approximate
+> location (about 1–3 km) cannot place a truck at a stop or support ETA.
+> Sharing starts only after the driver opens My route with remaining stops,
+> sees the in-app disclosure, and taps Continue, then grants While using
+> the app. Location continues when the app is not in use (Home / navigation)
+> while the persistent "On route — location sharing" notification is
+> visible. Sharing stops when the route is finished or the driver signs out.
+> Location is not used for ads. The same grant is also used in-app to center
+> the map and sort stops by distance.
+
+Do **not** declare `ACCESS_BACKGROUND_LOCATION`.
+
+### 8.3 Video to record (required)
 
 Use a physical Android phone, prod (or staging) build, with at least one
-assigned stop:
+assigned stop. The disclosure dialog **must** be readable in the video.
 
 1. Sign in as a driver.
-2. Open **My route**. Allow **While using the app** (not "all the time").
-   Allow notifications if Android asks.
-3. Show the in-app banner that location is being shared.
-4. Press **Home**. Pull down the shade and show the **ongoing** notification
+2. Open **My route**.
+3. Show the in-app **Location sharing** disclosure (precise location, when
+   the app is not in use, dispatch sharing, not used for ads).
+4. Tap **Continue**.
+5. Allow **While using the app** (not "all the time"). Allow notifications
+   if Android 13+ asks.
+6. Show the in-app banner that precise location is being shared.
+7. Press **Home**. Pull down the shade and show the **ongoing** notification
    that cannot be swiped away.
-5. Return to the app, complete or fail remaining stops (or sign out).
-6. Show that the notification is gone.
+8. Return to the app, complete or fail remaining stops (or sign out).
+9. Show that the notification is gone.
 
-### 8.3 Data safety
+### 8.4 Data safety
 
-In Data safety, declare that location is collected and shared with the
-backend (not sold) for app functionality (live dispatch).
+In Data safety, declare that **precise location** is collected and shared
+with the RecycleOrigin backend (not sold, not used for ads) for app
+functionality (live dispatch). Collected only during an active route after
+the driver consents.
+
+### 8.5 Privacy policy (Play listing + CMS)
+
+Paste into the store listing URL and shop CMS privacy HTML:
+
+> RecycleOrigin Driver collects precise location (GPS) to share the driver's
+> vehicle with dispatch while today's pickup route is active, including when
+> the app is not in use as long as the "On route — location sharing"
+> notification is visible. Sharing starts after the driver opens My route,
+> accepts the in-app disclosure, and grants location permission. It stops
+> when all stops are completed or failed, or when the driver signs out.
+> Location is also used in the app to center the map and sort stops by
+> distance. Location is not sold and is not used for advertising.
 
 ## 9) Config reference
 

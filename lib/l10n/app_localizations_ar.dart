@@ -1166,14 +1166,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get routeLocationPermissionBanner =>
-      'يلزم الوصول إلى الموقع لمشاركة موقعك أثناء المسار.';
+      'يلزم الموقع الدقيق ليتمكن فريق التوزيع من رؤيتك أثناء المسار، حتى عندما لا يكون التطبيق قيد الاستخدام. يبقى إشعار ظاهرًا أثناء المشاركة.';
 
   @override
   String get routeLocationPermissionAction => 'تفعيل';
 
   @override
   String get routeLocationSharingBanner =>
-      'يتم مشاركة موقعك مع فريق التوزيع. يبقى إشعار دائم ظاهرًا أثناء هذا المسار.';
+      'يتم مشاركة موقعك الدقيق مع فريق التوزيع، حتى عندما لا يكون التطبيق قيد الاستخدام. يبقى إشعار دائم ظاهرًا حتى انتهاء هذا المسار.';
+
+  @override
+  String get locationDisclosureTitle => 'مشاركة الموقع';
+
+  @override
+  String get locationDisclosureBody =>
+      'يجمع تطبيق RecycleOrigin Driver بيانات الموقع الدقيق لمشاركة مركبتك مباشرة مع فريق التوزيع أثناء إكمال عمليات الجمع اليوم، حتى عندما لا يكون التطبيق قيد الاستخدام (على سبيل المثال أثناء التنقل أو عندما يكون الهاتف في جيبك). تبدأ المشاركة فقط بعد فتح مسار اليوم مع محطات متبقية. يبقى إشعار دائم ظاهرًا أثناء المشاركة. تتوقف المشاركة عند انتهاء المسار أو تسجيل الخروج. يُستخدم الموقع أيضًا لتوسيط الخريطة وترتيب المحطات حسب المسافة. لا يُستخدم الموقع للإعلانات.';
+
+  @override
+  String get locationDisclosureContinue => 'متابعة';
+
+  @override
+  String get locationDisclosureNotNow => 'ليس الآن';
+
+  @override
+  String get locationHelpSectionTitle => 'الموقع';
 
   @override
   String get routeLocationNotificationTitle => 'في المسار — مشاركة الموقع';

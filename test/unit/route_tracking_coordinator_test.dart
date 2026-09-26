@@ -25,11 +25,17 @@ class _FakeTracker implements DriverLocationTracker {
     tracking = true;
   }
 
-  @override
+  @overridep
   Future<void> stop() async {
     stopCount++;
     tracking = false;
   }
+
+  @override
+  Future<bool> hasPermission() async => true;
+
+  @override
+  Future<bool> requestPermission() async => true;
 }
 
 DriverRoute _pendingRoute() {

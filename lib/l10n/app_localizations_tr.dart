@@ -1172,14 +1172,30 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get routeLocationPermissionBanner =>
-      'Seferdeyken konumunuzun paylaşılması için konum izni gerekir.';
+      'Seferdeyken, uygulama kullanımda değilken bile sevkiyatın sizi görebilmesi için kesin konum gerekir. Paylaşım açıkken bildirim kalır.';
 
   @override
   String get routeLocationPermissionAction => 'Etkinleştir';
 
   @override
   String get routeLocationSharingBanner =>
-      'Konumunuz sevkiyat ile paylaşılıyor. Bu rota aktifken kalıcı bildirim açık kalır.';
+      'Kesin konumunuz sevkiyat ile paylaşılıyor; uygulama kullanımda değilken de. Bu rota bitene kadar kalıcı bildirim açık kalır.';
+
+  @override
+  String get locationDisclosureTitle => 'Konum paylaşımı';
+
+  @override
+  String get locationDisclosureBody =>
+      'RecycleOrigin Driver, bugünkü toplamalarınızı tamamlarken aracınızı sevkiyatla canlı paylaşmak için kesin konum verisi toplar; uygulama kullanımda değilken de (örneğin navigasyon sırasında veya telefon cebinizdeyken). Paylaşım yalnızca kalan durakları olan Rotam ekranını açtıktan sonra başlar. Paylaşım açıkken kalıcı bildirim görünür. Rota bittiğinde veya çıkış yaptığınızda paylaşım durur. Konum, haritayı ortalamak ve durakları mesafeye göre sıralamak için de kullanılır. Konum reklam için kullanılmaz.';
+
+  @override
+  String get locationDisclosureContinue => 'Devam';
+
+  @override
+  String get locationDisclosureNotNow => 'Şimdi değil';
+
+  @override
+  String get locationHelpSectionTitle => 'Konum';
 
   @override
   String get routeLocationNotificationTitle => 'Rotada — konum paylaşımı';

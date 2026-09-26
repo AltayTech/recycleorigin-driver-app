@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:recycleorigindriver/core/location/location_prominent_disclosure.dart';
+import 'package:recycleorigindriver/core/location/location_tracking_service.dart';
 import 'package:recycleorigindriver/core/models/region.dart';
 import 'package:recycleorigindriver/core/models/request/address.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
@@ -22,7 +24,7 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
+class _MapScreenState extends State<MapScreen> {
   static final LatLng _defaultCenter = LatLng(38.074065, 46.312711);
 
   bool _isInit = true;
@@ -45,8 +47,6 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
   late FocusNode regionNode;
   late FocusNode addressNode;
 
-  bool _myLocationButtonVisible = false;
-
   @override
   void didChangeDependencies() async {
     if (_isInit) {
@@ -56,30 +56,12 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
     super.didChangeDependencies();
   }
 
-  Future<void> _refreshLocationPermission() async {
-    var allow = false;
-    try {
-      var perm = await Geolocator.checkPermission();
-      if (perm == LocationPermission.denied ||
-          perm == LocationPermission.unableToDetermine) {
-        perm = await Geolocator.requestPermission();
-      }
-      allow =
-          perm == LocationPermission.whileInUse ||
-          perm == LocationPermission.always;
-    } catch (e, st) {
-      debugPrint('_refreshLocationPermission: $e\n$st');
-      allow = false;
-    }
-    if (!mounted) {
-      return;
-    }
-    setState(() => _myLocationButtonVisible = allow);
-  }
-
   Future<void> _centerOnDeviceLocation() async {
-    await _refreshLocationPermission();
-    if (!_myLocationButtonVisible || !mounted) {
+    final granted = await confirmLocationAccess(
+      context: context,
+      tracker: LocationTrackingService.instance,
+    );
+    if (!granted || !mounted) {
       return;
     }
     try {
@@ -106,26 +88,9 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
     nameNode = FocusNode();
     regionNode = FocusNode();
     addressNode = FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future<void>.delayed(const Duration(milliseconds: 200), () {
-        if (mounted) {
-          _refreshLocationPermission();
-        }
-      });
-    });
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _refreshLocationPermission();
-    }
   }
 
   Future<void> saveAddress() async {
@@ -176,7 +141,6 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _mapController.dispose();
     nameController.dispose();
     addressController.dispose();
@@ -222,16 +186,6 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                         interactionOptions: const InteractionOptions(
                           flags: InteractiveFlag.all,
                         ),
-                        onMapReady: () {
-                          Future<void>.delayed(
-                            const Duration(milliseconds: 100),
-                            () {
-                              if (mounted) {
-                                _refreshLocationPermission();
-                              }
-                            },
-                          );
-                        },
                       ),
                       children: [
                         TileLayer(
@@ -269,24 +223,23 @@ class _MapScreenState extends State<MapScreen> with WidgetsBindingObserver {
                         ),
                       ],
                     ),
-                    if (_myLocationButtonVisible)
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Material(
-                          color: scheme.surface,
-                          elevation: 2,
-                          shape: const CircleBorder(),
-                          child: IconButton(
-                            tooltip: context.l10n.mapScreenMyLocation,
-                            icon: Icon(
-                              Icons.my_location_rounded,
-                              color: context.brandPrimary,
-                            ),
-                            onPressed: _centerOnDeviceLocation,
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Material(
+                        color: scheme.surface,
+                        elevation: 2,
+                        shape: const CircleBorder(),
+                        child: IconButton(
+                          tooltip: context.l10n.mapScreenMyLocation,
+                          icon: Icon(
+                            Icons.my_location_rounded,
+                            color: context.brandPrimary,
                           ),
+                          onPressed: _centerOnDeviceLocation,
                         ),
                       ),
+                    ),
                   ],
                 ),
               ),

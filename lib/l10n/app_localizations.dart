@@ -2269,7 +2269,7 @@ abstract class AppLocalizations {
   /// No description provided for @routeLocationPermissionBanner.
   ///
   /// In en, this message translates to:
-  /// **'Location access is needed so dispatch can see you on route.'**
+  /// **'Precise location is needed so dispatch can see you on route, including when the app is not in use. A notification stays on while sharing.'**
   String get routeLocationPermissionBanner;
 
   /// No description provided for @routeLocationPermissionAction.
@@ -2281,8 +2281,38 @@ abstract class AppLocalizations {
   /// No description provided for @routeLocationSharingBanner.
   ///
   /// In en, this message translates to:
-  /// **'Your location is being shared with dispatch. A persistent notification stays on while this route is active.'**
+  /// **'Your precise location is being shared with dispatch, including when the app is not in use. A persistent notification stays on until this route is finished.'**
   String get routeLocationSharingBanner;
+
+  /// No description provided for @locationDisclosureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location sharing'**
+  String get locationDisclosureTitle;
+
+  /// No description provided for @locationDisclosureBody.
+  ///
+  /// In en, this message translates to:
+  /// **'RecycleOrigin Driver collects precise location data to enable live sharing of your vehicle with dispatch while you complete today\'s pickups, even when the app is not in use (for example while you navigate or the phone is in your pocket). Sharing starts only after you open My route with remaining stops. A persistent notification stays on while sharing is active. Sharing stops when the route is finished or you sign out. Location is also used in the app to center the map and sort stops by distance. Location is not used for ads.'**
+  String get locationDisclosureBody;
+
+  /// No description provided for @locationDisclosureContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get locationDisclosureContinue;
+
+  /// No description provided for @locationDisclosureNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get locationDisclosureNotNow;
+
+  /// No description provided for @locationHelpSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get locationHelpSectionTitle;
 
   /// No description provided for @routeLocationNotificationTitle.
   ///

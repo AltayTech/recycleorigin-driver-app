@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:recycleorigindriver/core/config/app_config.dart';
+import 'package:recycleorigindriver/core/location/location_prominent_disclosure.dart';
 import 'package:recycleorigindriver/core/location/location_tracking_service.dart';
 import 'package:recycleorigindriver/core/network/api_provider.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
@@ -21,23 +22,33 @@ import 'package:recycleorigindriver/l10n/l10n.dart';
 
 /// Ordered list of today's route stops.
 class RouteTodayScreen extends StatelessWidget {
-  const RouteTodayScreen({super.key});
+  const RouteTodayScreen({super.key, this.tracking, this.repository});
 
   static const routeName = '/route/today';
+
+  /// Defaults to [LocationTrackingService.instance].
+  final DriverLocationTracker? tracking;
+
+  /// Defaults to GET /driver/route/today.
+  final RouteRepository? repository;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
-          RouteBloc(RouteRepository(ApiProvider.client))
+          RouteBloc(repository ?? RouteRepository(ApiProvider.client))
             ..add(RouteLoadRequested()),
-      child: const _RouteTodayView(),
+      child: _RouteTodayView(
+        tracking: tracking ?? LocationTrackingService.instance,
+      ),
     );
   }
 }
 
 class _RouteTodayView extends StatefulWidget {
-  const _RouteTodayView();
+  const _RouteTodayView({required this.tracking});
+
+  final DriverLocationTracker tracking;
 
   @override
   State<_RouteTodayView> createState() => _RouteTodayViewState();
@@ -47,16 +58,18 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
   late final RouteTrackingCoordinator _trackingCoordinator;
   bool _locationDenied = false;
   bool _sharingLocation = false;
+  bool _disclosureInFlight = false;
+  bool _declinedThisSession = false;
   RouteStopStatusFilter _filter = RouteStopStatusFilter.all;
   RouteStopSort _sort = RouteStopSort.sequence;
   GeoOrigin? _sortOrigin;
 
+  DriverLocationTracker get _tracker => widget.tracking;
+
   @override
   void initState() {
     super.initState();
-    _trackingCoordinator = RouteTrackingCoordinator(
-      LocationTrackingService.instance,
-    );
+    _trackingCoordinator = RouteTrackingCoordinator(_tracker);
   }
 
   @override
@@ -65,23 +78,96 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
     super.dispose();
   }
 
-  Future<void> _syncTracking(RouteState state) async {
+  Future<void> _applyCoordinator(RouteState state) {
     final l10n = context.l10n;
-    await _trackingCoordinator.onRouteState(
+    return _trackingCoordinator.onRouteState(
       state,
       notificationTitle: l10n.routeLocationNotificationTitle,
       notificationText: l10n.routeLocationNotificationText,
       notificationChannelName: l10n.routeLocationNotificationChannel,
     );
-    if (!mounted) {
+  }
+
+  void _setSharingFlags({required bool shouldTrack}) {
+    setState(() {
+      _sharingLocation = _tracker.isTracking;
+      _locationDenied = shouldTrack && !_tracker.isTracking;
+    });
+  }
+
+  Future<void> _syncTracking(RouteState state) async {
+    final shouldTrack = shouldTrackDriverRoute(state);
+    if (!shouldTrack) {
+      await _applyCoordinator(state);
+      if (!mounted) {
+        return;
+      }
+      _setSharingFlags(shouldTrack: false);
       return;
     }
-    final shouldTrack = shouldTrackDriverRoute(state);
-    final sharing = LocationTrackingService.instance.isTracking;
-    setState(() {
-      _sharingLocation = sharing;
-      _locationDenied = shouldTrack && !sharing;
-    });
+
+    if (await _tracker.hasPermission()) {
+      if (!mounted) {
+        return;
+      }
+      await _applyCoordinator(state);
+      if (!mounted) {
+        return;
+      }
+      _setSharingFlags(shouldTrack: true);
+      return;
+    }
+
+    if (_disclosureInFlight) {
+      return;
+    }
+    if (_declinedThisSession) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _sharingLocation = false;
+        _locationDenied = true;
+      });
+      return;
+    }
+
+    _disclosureInFlight = true;
+    try {
+      if (!mounted) {
+        return;
+      }
+      final granted = await confirmLocationAccess(
+        context: context,
+        tracker: _tracker,
+      );
+      if (!mounted) {
+        return;
+      }
+      if (!granted) {
+        _declinedThisSession = true;
+        setState(() {
+          _sharingLocation = false;
+          _locationDenied = true;
+        });
+        return;
+      }
+      await _applyCoordinator(state);
+      if (!mounted) {
+        return;
+      }
+      _setSharingFlags(shouldTrack: true);
+      if (!_tracker.isTracking) {
+        _declinedThisSession = true;
+      }
+    } finally {
+      _disclosureInFlight = false;
+    }
+  }
+
+  Future<void> _onEnableLocation() async {
+    _declinedThisSession = false;
+    await _syncTracking(context.read<RouteBloc>().state);
   }
 
   Future<void> _showSortSheet(AppLocalizations l10n) async {
@@ -153,6 +239,18 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
   }
 
   Future<GeoOrigin?> _currentOrigin() async {
+    final granted = await confirmLocationAccess(
+      context: context,
+      tracker: _tracker,
+    );
+    if (!granted) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.routeListDistanceUnavailable)),
+        );
+      }
+      return null;
+    }
     try {
       final pos = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
@@ -339,9 +437,7 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                 content: Text(l10n.routeLocationPermissionBanner),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () async {
-                      await _syncTracking(context.read<RouteBloc>().state);
-                    },
+                    onPressed: _onEnableLocation,
                     child: Text(l10n.routeLocationPermissionAction),
                   ),
                 ],

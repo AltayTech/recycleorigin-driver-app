@@ -46,9 +46,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We use your location to show where you are on the map and share your position while you are on a route.</string>
+	<string>We use precise location to show where you are on the map, sort nearby stops, and share your vehicle with dispatch while you complete today's route, including when the app is not in use.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We share your location with dispatch while you are on an active route, even when the app is in the background.</string>
+	<string>We share precise location with dispatch while you are on an active route, even when the app is not in use. Sharing stops when the route is finished or you sign out.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
