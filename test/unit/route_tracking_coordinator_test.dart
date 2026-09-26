@@ -25,7 +25,7 @@ class _FakeTracker implements DriverLocationTracker {
     tracking = true;
   }
 
-  @overridep
+  @override
   Future<void> stop() async {
     stopCount++;
     tracking = false;
