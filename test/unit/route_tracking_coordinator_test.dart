@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigindriver/core/location/location_tracking_service.dart';
 import 'package:recycleorigindriver/features/route_feature/data/models/driver_route.dart';
@@ -36,6 +37,12 @@ class _FakeTracker implements DriverLocationTracker {
 
   @override
   Future<bool> requestPermission() async => true;
+
+  @override
+  Future<bool> ensureLocationServices() async => true;
+
+  @override
+  final Listenable trackingUpdates = ChangeNotifier();
 }
 
 DriverRoute _pendingRoute() {
@@ -73,6 +80,21 @@ void main() {
     expect(tracker.stopCount, 0);
     expect(tracker.lastTitle, 'On route');
   });
+
+  test(
+    'does not stop sharing while a refresh still has active stops',
+    () async {
+      final tracker = _FakeTracker()..tracking = true;
+      final coordinator = RouteTrackingCoordinator(tracker);
+
+      await coordinator.onRouteState(
+        RouteState(status: RouteStatus.loading, route: _pendingRoute()),
+      );
+
+      expect(tracker.stopCount, 0);
+      expect(tracker.tracking, isTrue);
+    },
+  );
 
   test('stops sharing when the route is empty', () async {
     final tracker = _FakeTracker()..tracking = true;

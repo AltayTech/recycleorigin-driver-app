@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigindriver/core/location/location_tracking_service.dart';
@@ -78,6 +79,12 @@ class _FakeTracker implements DriverLocationTracker {
   Future<void> stop() async {
     tracking = false;
   }
+
+  @override
+  Future<bool> ensureLocationServices() async => true;
+
+  @override
+  final Listenable trackingUpdates = ChangeNotifier();
 }
 
 Future<void> _pumpRoute(

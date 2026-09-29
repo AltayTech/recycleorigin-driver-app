@@ -3,11 +3,22 @@ import 'package:recycleorigindriver/features/route_feature/presentation/bloc/rou
 import 'package:recycleorigindriver/features/route_feature/presentation/route_list_view_options.dart';
 
 /// Whether live GPS tracking should run for the current route state.
+///
+/// A refresh emits [RouteStatus.loading] (and a failed refresh emits
+/// [RouteStatus.failure]) while the previous route is still in memory.
+/// Stopping the Android foreground service for that gap, then starting it
+/// again, makes Geolocator report that location services are disabled.
 bool shouldTrackDriverRoute(RouteState state) {
-  if (state.status != RouteStatus.loaded || state.route == null) {
-    return false;
+  switch (state.status) {
+    case RouteStatus.loaded:
+    case RouteStatus.loading:
+    case RouteStatus.failure:
+      final route = state.route;
+      return route != null && hasActiveRouteStops(route);
+    case RouteStatus.initial:
+    case RouteStatus.empty:
+      return false;
   }
-  return hasActiveRouteStops(state.route!);
 }
 
 /// True when at least one stop is still in progress.

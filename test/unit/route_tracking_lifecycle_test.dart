@@ -42,11 +42,31 @@ void main() {
   });
 
   group('shouldTrackDriverRoute', () {
-    test('false until route is loaded', () {
+    test('false until a route with work exists', () {
       expect(shouldTrackDriverRoute(const RouteState()), isFalse);
       expect(
         shouldTrackDriverRoute(const RouteState(status: RouteStatus.loading)),
         isFalse,
+      );
+      expect(
+        shouldTrackDriverRoute(const RouteState(status: RouteStatus.empty)),
+        isFalse,
+      );
+    });
+
+    test('keeps sharing while a refresh is in flight', () {
+      final active = _routeWith('pending');
+      expect(
+        shouldTrackDriverRoute(
+          RouteState(status: RouteStatus.loading, route: active),
+        ),
+        isTrue,
+      );
+      expect(
+        shouldTrackDriverRoute(
+          RouteState(status: RouteStatus.failure, route: active),
+        ),
+        isTrue,
       );
     });
 

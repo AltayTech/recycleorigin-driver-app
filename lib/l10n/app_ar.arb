@@ -428,5 +428,11 @@
   "routeListFilterSheetTitle": "تصفية المحطات",
   "routeListFilterAll": "كل المحطات",
   "routeListFilterActive": "مُصفّاة",
-  "routeListFilterEmpty": "لا توجد محطات تطابق هذا التصفية."
+  "routeListFilterEmpty": "لا توجد محطات تطابق هذا التصفية.",
+  "routeMapTitle": "خريطة المسار",
+  "routeMapZoomIn": "تكبير",
+  "routeMapZoomOut": "تصغير",
+  "routeMapFitRoute": "عرض المسار بالكامل",
+  "routeMapDepotLabel": "المستودع",
+  "routeMapLocationUnavailable": "تعذر قراءة موقعك."
 }

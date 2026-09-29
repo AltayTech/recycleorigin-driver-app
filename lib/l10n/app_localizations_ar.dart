@@ -1252,4 +1252,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get routeListFilterEmpty => 'لا توجد محطات تطابق هذا التصفية.';
+
+  @override
+  String get routeMapTitle => 'خريطة المسار';
+
+  @override
+  String get routeMapZoomIn => 'تكبير';
+
+  @override
+  String get routeMapZoomOut => 'تصغير';
+
+  @override
+  String get routeMapFitRoute => 'عرض المسار بالكامل';
+
+  @override
+  String get routeMapDepotLabel => 'المستودع';
+
+  @override
+  String get routeMapLocationUnavailable => 'تعذر قراءة موقعك.';
 }

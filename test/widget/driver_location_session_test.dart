@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,12 @@ class _FakeTracker implements DriverLocationTracker {
 
   @override
   Future<bool> requestPermission() async => true;
+
+  @override
+  Future<bool> ensureLocationServices() async => true;
+
+  @override
+  final Listenable trackingUpdates = ChangeNotifier();
 }
 
 void main() {

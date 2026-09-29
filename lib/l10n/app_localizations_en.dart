@@ -1255,4 +1255,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routeListFilterEmpty => 'No stops match this filter.';
+
+  @override
+  String get routeMapTitle => 'Route map';
+
+  @override
+  String get routeMapZoomIn => 'Zoom in';
+
+  @override
+  String get routeMapZoomOut => 'Zoom out';
+
+  @override
+  String get routeMapFitRoute => 'Show whole route';
+
+  @override
+  String get routeMapDepotLabel => 'Depot';
+
+  @override
+  String get routeMapLocationUnavailable => 'Could not read your location.';
 }

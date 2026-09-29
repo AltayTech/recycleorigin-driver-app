@@ -70,12 +70,23 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
   void initState() {
     super.initState();
     _trackingCoordinator = RouteTrackingCoordinator(_tracker);
+    _tracker.trackingUpdates.addListener(_onTrackingChanged);
   }
 
   @override
   void dispose() {
+    _tracker.trackingUpdates.removeListener(_onTrackingChanged);
     _trackingCoordinator.dispose();
     super.dispose();
+  }
+
+  void _onTrackingChanged() {
+    if (!mounted) {
+      return;
+    }
+    _setSharingFlags(
+      shouldTrack: shouldTrackDriverRoute(context.read<RouteBloc>().state),
+    );
   }
 
   Future<void> _applyCoordinator(RouteState state) {

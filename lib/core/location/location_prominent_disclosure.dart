@@ -45,6 +45,15 @@ Future<bool> confirmLocationAccess({
   if (!context.mounted) {
     return false;
   }
+  if (!await tracker.ensureLocationServices()) {
+    return false;
+  }
+  if (!context.mounted) {
+    return false;
+  }
+  if (await tracker.hasPermission()) {
+    return true;
+  }
   final accepted = await showDriverLocationDisclosure(context);
   if (!accepted || !context.mounted) {
     return false;

@@ -480,6 +480,12 @@
   "routeListFilterSheetTitle": "Durakları filtrele",
   "routeListFilterAll": "Tüm duraklar",
   "routeListFilterActive": "Filtrelendi",
-  "routeListFilterEmpty": "Bu filtreye uyan durak yok."
+  "routeListFilterEmpty": "Bu filtreye uyan durak yok.",
+  "routeMapTitle": "Rota haritası",
+  "routeMapZoomIn": "Yakınlaştır",
+  "routeMapZoomOut": "Uzaklaştır",
+  "routeMapFitRoute": "Tüm rotayı göster",
+  "routeMapDepotLabel": "Depo",
+  "routeMapLocationUnavailable": "Konumunuz okunamadı."
 }
 

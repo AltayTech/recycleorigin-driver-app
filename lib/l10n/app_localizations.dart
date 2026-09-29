@@ -2433,6 +2433,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No stops match this filter.'**
   String get routeListFilterEmpty;
+
+  /// No description provided for @routeMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Route map'**
+  String get routeMapTitle;
+
+  /// No description provided for @routeMapZoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get routeMapZoomIn;
+
+  /// No description provided for @routeMapZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get routeMapZoomOut;
+
+  /// No description provided for @routeMapFitRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Show whole route'**
+  String get routeMapFitRoute;
+
+  /// No description provided for @routeMapDepotLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Depot'**
+  String get routeMapDepotLabel;
+
+  /// No description provided for @routeMapLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read your location.'**
+  String get routeMapLocationUnavailable;
 }
 
 class _AppLocalizationsDelegate

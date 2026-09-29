@@ -499,5 +499,11 @@
   "routeListFilterSheetTitle": "Filter stops",
   "routeListFilterAll": "All stops",
   "routeListFilterActive": "Filtered",
-  "routeListFilterEmpty": "No stops match this filter."
+  "routeListFilterEmpty": "No stops match this filter.",
+  "routeMapTitle": "Route map",
+  "routeMapZoomIn": "Zoom in",
+  "routeMapZoomOut": "Zoom out",
+  "routeMapFitRoute": "Show whole route",
+  "routeMapDepotLabel": "Depot",
+  "routeMapLocationUnavailable": "Could not read your location."
 }

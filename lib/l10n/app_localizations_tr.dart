@@ -1258,4 +1258,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get routeListFilterEmpty => 'Bu filtreye uyan durak yok.';
+
+  @override
+  String get routeMapTitle => 'Rota haritası';
+
+  @override
+  String get routeMapZoomIn => 'Yakınlaştır';
+
+  @override
+  String get routeMapZoomOut => 'Uzaklaştır';
+
+  @override
+  String get routeMapFitRoute => 'Tüm rotayı göster';
+
+  @override
+  String get routeMapDepotLabel => 'Depo';
+
+  @override
+  String get routeMapLocationUnavailable => 'Konumunuz okunamadı.';
 }
