@@ -285,9 +285,12 @@ class LocationTrackingService implements DriverLocationTracker {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return AppleSettings(
         accuracy: LocationAccuracy.high,
-        activityType: ActivityType.automotiveNavigation,
+        activityType: ActivityType.otherNavigation,
         distanceFilter: 50,
-        pauseLocationUpdatesAutomatically: true,
+        // iOS pauses updates when it thinks the device is stationary and may
+        // not resume them in the background; a driver parked at a stop would
+        // silently stop reporting.
+        pauseLocationUpdatesAutomatically: false,
         showBackgroundLocationIndicator: true,
       );
     }
@@ -297,7 +300,15 @@ class LocationTrackingService implements DriverLocationTracker {
     );
   }
 
+  /// True while a position POST is in flight. On a slow network a new fix
+  /// arrives every few seconds; without this guard uploads would pile up
+  /// because the throttle only advances after a successful upload.
+  bool _uploadInFlight = false;
+
   Future<void> _onPosition(Position position) async {
+    if (_uploadInFlight) {
+      return;
+    }
     final now = DateTime.now().toUtc();
     if (!_throttle.shouldUpload(now)) {
       return;
@@ -306,16 +317,21 @@ class LocationTrackingService implements DriverLocationTracker {
     if (repo == null) {
       return;
     }
-    final result = await repo.postPosition(
-      latitude: position.latitude,
-      longitude: position.longitude,
-      accuracy: position.accuracy,
-      speed: position.speed,
-      heading: position.heading,
-      recordedAt: position.timestamp,
-    );
-    if (result.isSuccess) {
-      _throttle.markUploaded(now);
+    _uploadInFlight = true;
+    try {
+      final result = await repo.postPosition(
+        latitude: position.latitude,
+        longitude: position.longitude,
+        accuracy: position.accuracy,
+        speed: position.speed,
+        heading: position.heading,
+        recordedAt: position.timestamp,
+      );
+      if (result.isSuccess) {
+        _throttle.markUploaded(now);
+      }
+    } finally {
+      _uploadInFlight = false;
     }
   }
 }

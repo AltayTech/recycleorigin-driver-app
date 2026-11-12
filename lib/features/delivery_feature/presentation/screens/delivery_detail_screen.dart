@@ -348,7 +348,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                                 ? EnArConvertor.localize(
                                                     context,
                                                     currencyFormat.format(
-                                                      _totalPriceAnimation.value,
+                                                      _totalPriceAnimation
+                                                          .value,
                                                     ),
                                                   )
                                                 : EnArConvertor.localize(

@@ -198,9 +198,7 @@ class _CollectDeliveryDetailItemState extends State<CollectDeliveryDetailItem>
                               widget.wasteItem.estimated_price.isNotEmpty
                                   ? EnArConvertor.localize(
                                       context,
-                                      currencyFormat.format(
-                                        _animation.value,
-                                      ),
+                                      currencyFormat.format(_animation.value),
                                     )
                                   : EnArConvertor.localize(context, '0'),
                               style: TextStyle(
