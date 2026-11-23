@@ -26,7 +26,9 @@ class Region with ChangeNotifier {
     );
   }
   Map<String, dynamic> toJson() {
-    List<Map> collectHour = collect_hour.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>> collectHour = collect_hour
+        .map((i) => i.toJson())
+        .toList();
 
     return {'term_id': term_id, 'name': name, 'collect_hour': collectHour};
   }

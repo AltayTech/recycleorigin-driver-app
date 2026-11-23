@@ -67,12 +67,14 @@ class DeliveryWasteItem with ChangeNotifier {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic>? status = this.status.toJson();
-    Map driver = this.driver.toJson();
-    Map totalPrice = total_collects_price.toJson();
-    Map totalWeight = total_collects_weight.toJson();
-    Map totalNumber = total_collects_number.toJson();
+    Map<dynamic, dynamic> driver = this.driver.toJson();
+    Map<dynamic, dynamic> totalPrice = total_collects_price.toJson();
+    Map<dynamic, dynamic> totalWeight = total_collects_weight.toJson();
+    Map<dynamic, dynamic> totalNumber = total_collects_number.toJson();
 
-    List<Map> collectList = collect_list.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>> collectList = collect_list
+        .map((i) => i.toJson())
+        .toList();
 
     return {
       'id': id,

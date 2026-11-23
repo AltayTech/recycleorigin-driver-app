@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
@@ -53,8 +54,12 @@ void main() async {
   const fromDefine = String.fromEnvironment('FLUTTER_ENV');
   // Debug/profile runs from IDE or `flutter run` use dev unless overridden.
   // Release builds default to prod (use `-t lib/main_prod.dart` for store).
+  // Then the build flavor (`--flavor prod`), then the build mode.
+  final flavor = appFlavor;
   final environment = fromDefine.isNotEmpty
       ? fromDefine
+      : (flavor != null && flavor.isNotEmpty)
+      ? flavor
       : (kDebugMode ? 'dev' : 'prod');
   await bootstrapDriverApp(_envFileFor(environment));
 }

@@ -104,6 +104,17 @@ android {
     }
 }
 
+// Fail fast instead of producing an unsigned/debug-signed release build.
+gradle.taskGraph.whenReady { graph ->
+    def building = graph.allTasks.any {
+        (it.name.startsWith('assemble') || it.name.startsWith('bundle') || it.name.startsWith('package')) &&
+            it.name.endsWith('Release')
+    }
+    if (building && !keystorePropertiesFile.exists()) {
+        throw new GradleException("Release build requires android/key.properties (see key.properties.example).")
+    }
+}
+
 flutter {
     source '../..'
 }
