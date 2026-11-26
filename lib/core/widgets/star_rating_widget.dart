@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Read-only stars (1–5), supports half-star from [value].
 class StarRatingDisplay extends StatelessWidget {

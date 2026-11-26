@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
@@ -79,9 +79,8 @@ class CustomDialogEnter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(
-                        context,
-                      ).popAndPushNamed(LoginScreen.routeName);
+                      Navigator.of(context)
+                          .popAndPushNamed(LoginScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,

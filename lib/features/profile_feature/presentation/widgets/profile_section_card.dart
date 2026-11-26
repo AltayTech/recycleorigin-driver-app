@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Section title + elevated card with optional dividers between children.
@@ -116,9 +116,8 @@ class ProfileTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.secondaryText,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall
+                        ?.copyWith(color: context.secondaryText),
                   ),
                 ),
                 const SizedBox(width: 4),

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/network/auth_http.dart' as http;
 import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/notifications/notification_deep_link.dart';
@@ -47,9 +47,8 @@ class _DriverNotificationScreenState extends State<DriverNotificationScreen> {
       _loading = true;
       _error = null;
     });
-    final uri = Uri.parse(
-      '${Urls.rootUrl}/notifications',
-    ).replace(queryParameters: <String, String>{'page': '1', 'limit': '50'});
+    final uri = Uri.parse('${Urls.rootUrl}/notifications')
+        .replace(queryParameters: <String, String>{'page': '1', 'limit': '50'});
     final res = await http.get(uri, headers: await _headers());
     if (!mounted) {
       return;

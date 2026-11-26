@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
@@ -86,9 +86,8 @@ class _DriverSupportTicketsListScreenState
       floatingActionButton: authState.isAuth
           ? FloatingActionButton(
               onPressed: () async {
-                await Navigator.of(
-                  context,
-                ).pushNamed(DriverSupportTicketCreateScreen.routeName);
+                await Navigator.of(context)
+                    .pushNamed(DriverSupportTicketCreateScreen.routeName);
                 _load();
               },
               backgroundColor: context.brandPrimary,
@@ -108,9 +107,9 @@ class _DriverSupportTicketsListScreenState
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
-                      onPressed: () => Navigator.of(
-                        context,
-                      ).pushNamed(LoginScreen.routeName),
+                      onPressed: () =>
+                          Navigator.of(context)
+                              .pushNamed(LoginScreen.routeName),
                       child: Text(l10n.loginLabel),
                     ),
                   ],

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -205,9 +205,8 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                 children: [
                   Text(
                     l10n.routeListSortSheetTitle,
-                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(ctx).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
                   RadioListTile<RouteStopSort>(
@@ -303,9 +302,8 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                 children: [
                   Text(
                     l10n.routeListFilterSheetTitle,
-                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(ctx).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
                   RadioListTile<RouteStopStatusFilter>(
@@ -462,9 +460,9 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                     children: <Widget>[
                       Icon(
                         Icons.share_location,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSecondaryContainer,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSecondaryContainer,
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -472,9 +470,9 @@ class _RouteTodayViewState extends State<_RouteTodayView> {
                           l10n.routeLocationSharingBanner,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSecondaryContainer,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer,
                               ),
                         ),
                       ),

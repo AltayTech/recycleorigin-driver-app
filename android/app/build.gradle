@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    // Kotlin comes from AGP 9's built-in Kotlin (android.builtInKotlin=true);
+    // the Kotlin version is the one declared in settings.gradle.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -45,9 +46,6 @@ android {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = '17'
     }
     buildFeatures {
         resValues true
@@ -101,6 +99,12 @@ android {
                 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

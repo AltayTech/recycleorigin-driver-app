@@ -13,7 +13,8 @@ import 'package:recycleorigindriver/core/network/urls.dart';
 import 'package:recycleorigindriver/core/notifications/notification_deep_link.dart';
 import 'package:recycleorigindriver/core/storage/secure_storage.dart';
 
-/// Registers FCM token with backend using `http` + [SecureStorage].
+/// Registers this installation for push (Firebase Installation ID) with the
+/// backend using `http` + [SecureStorage].
 class DriverPushNotificationController {
   DriverPushNotificationController._();
   static final DriverPushNotificationController instance =
@@ -22,7 +23,8 @@ class DriverPushNotificationController {
   final FlutterLocalNotificationsPlugin _local =
       FlutterLocalNotificationsPlugin();
   FirebaseMessaging? _messaging;
-  String? _lastToken;
+  String? _lastFid;
+  bool _loggedIn = false;
   bool _listenersAttached = false;
 
   static const AndroidNotificationChannel _transactional =
@@ -57,43 +59,12 @@ class DriverPushNotificationController {
         }
       }
       await _ensureLocal();
-      final token = await _messaging!.getToken();
-      if (token == null || token.isEmpty) {
-        return;
-      }
-      if (token == _lastToken) {
-        return;
-      }
-      final pkg = await PackageInfo.fromPlatform();
-      final loc = AppLocaleController.instance.localeNotifier.value;
-      final uri = Uri.parse('${Urls.rootUrl}/devices');
-      final body = jsonEncode(<String, dynamic>{
-        'token': token,
-        'platform': Platform.isIOS ? 'ios' : 'android',
-        'app': 'driver',
-        'locale': loc.languageCode,
-        'app_version': pkg.version,
-      });
-      final res = await http.post(uri, headers: await _headers(), body: body);
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        _lastToken = token;
-      }
       if (!_listenersAttached) {
         _listenersAttached = true;
-        _messaging!.onTokenRefresh.listen((t) async {
-          _lastToken = null;
-          final locNow = AppLocaleController.instance.localeNotifier.value;
-          final pkgNow = await PackageInfo.fromPlatform();
-          final b = jsonEncode(<String, dynamic>{
-            'token': t,
-            'platform': Platform.isIOS ? 'ios' : 'android',
-            'app': 'driver',
-            'locale': locNow.languageCode,
-            'app_version': pkgNow.version,
-          });
-          await http.post(uri, headers: await _headers(), body: b);
-          _lastToken = t;
-        });
+        // Subscribe before register() so the first FID is not missed. The
+        // stream fires after every completed registration, including when
+        // Firebase rotates the installation ID.
+        _messaging!.onRegistered.listen(_onFidRegistered);
         FirebaseMessaging.onMessage.listen(_showLocal);
         FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage m) {
           NotificationDeepLink.openFromData(
@@ -109,19 +80,54 @@ class DriverPushNotificationController {
           });
         }
       }
+      _loggedIn = true;
+      await _messaging!.register();
+    } catch (_) {}
+  }
+
+  /// Sends the Firebase Installation ID (FID) from
+  /// [FirebaseMessaging.onRegistered] to the backend as this device's push
+  /// target.
+  Future<void> _onFidRegistered(String fid) async {
+    if (!_loggedIn || fid.isEmpty || fid == _lastFid) {
+      return;
+    }
+    try {
+      final pkg = await PackageInfo.fromPlatform();
+      final loc = AppLocaleController.instance.localeNotifier.value;
+      final res = await http.post(
+        Uri.parse('${Urls.rootUrl}/devices'),
+        headers: await _headers(),
+        body: jsonEncode(<String, dynamic>{
+          'token': fid,
+          'kind': 'fid',
+          'platform': Platform.isIOS ? 'ios' : 'android',
+          'app': 'driver',
+          'locale': loc.languageCode,
+          'app_version': pkg.version,
+        }),
+      );
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        _lastFid = fid;
+      }
     } catch (_) {}
   }
 
   Future<void> onLogout() async {
-    final token = _lastToken;
-    _lastToken = null;
-    if (token == null || token.isEmpty) {
+    final fid = _lastFid;
+    _lastFid = null;
+    _loggedIn = false;
+    if (fid == null || fid.isEmpty) {
       return;
     }
-    final uri = Uri.parse(
-      '${Urls.rootUrl}/devices',
-    ).replace(queryParameters: <String, String>{'token': token});
+    final uri = Uri.parse('${Urls.rootUrl}/devices')
+        .replace(queryParameters: <String, String>{'token': fid});
     await http.delete(uri, headers: await _headers());
+    try {
+      // Stop FCM delivering to this installation until the next login calls
+      // register() again.
+      await _messaging?.unregister();
+    } catch (_) {}
   }
 
   Future<void> _ensureLocal() async {

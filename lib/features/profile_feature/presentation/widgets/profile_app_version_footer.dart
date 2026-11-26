@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/core/utils/app_info_service.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -51,17 +51,15 @@ class _ProfileAppVersionFooterState extends State<ProfileAppVersionFooter> {
         if (_version.isNotEmpty)
           Text(
             l10n.appVersionLabel(_version),
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: context.secondaryText),
+            style: Theme.of(context).textTheme.bodySmall
+                ?.copyWith(color: context.secondaryText),
           ),
         const SizedBox(height: 4),
         Text(
           l10n.profileCopyrightLabel(year, l10n.appTitle),
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: context.secondaryText.withValues(alpha: 0.85),
-          ),
+          style: Theme.of(context).textTheme.labelSmall
+              ?.copyWith(color: context.secondaryText.withValues(alpha: 0.85)),
         ),
       ],
     );

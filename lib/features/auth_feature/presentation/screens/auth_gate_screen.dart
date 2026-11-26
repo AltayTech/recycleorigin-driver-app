@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
@@ -37,14 +37,12 @@ class _AuthGateScreenState extends State<AuthGateScreen> {
       return;
     }
     if (!auth.state.emailVerified) {
-      Navigator.of(
-        context,
-      ).pushReplacementNamed(EmailVerificationScreen.routeName);
+      Navigator.of(context)
+          .pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   @override

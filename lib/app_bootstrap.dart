@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/app_locale_controller.dart';
 import 'package:recycleorigindriver/core/app_theme_controller.dart';
 import 'package:recycleorigindriver/core/config/app_config.dart';

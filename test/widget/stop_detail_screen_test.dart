@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigindriver/core/l10n/app_localizations_delegates.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigindriver/core/network/api_client.dart';
@@ -47,7 +48,7 @@ Future<void> _pumpStop(WidgetTester tester, {required RouteStop stop}) async {
   await tester.pumpWidget(
     MaterialApp(
       locale: const Locale('en'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: appLocalizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: BlocProvider<RouteBloc>.value(
         value: bloc,

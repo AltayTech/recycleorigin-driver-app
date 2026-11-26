@@ -55,7 +55,7 @@ flutter run --release --flavor prod -t lib/main_prod.dart
 
 ## 4) Production artifacts
 
-> Use Flutter **3.47.5** (pinned in CI and `Dockerfile.ci`). Always pass `--flavor`:
+> Use Flutter **3.50.1** (pinned in CI and `Dockerfile.ci`). Always pass `--flavor`:
 > each flavor bundles only its own `assets/env/.env.<flavor>` (see `pubspec.yaml`).
 > Release builds fail fast if `android/key.properties` is missing.
 

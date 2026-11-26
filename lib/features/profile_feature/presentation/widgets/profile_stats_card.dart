@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -98,9 +98,8 @@ class _HeroStatChip extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
-          style: Theme.of(
-            context,
-          ).textTheme.labelSmall?.copyWith(color: context.secondaryText),
+          style: Theme.of(context).textTheme.labelSmall
+              ?.copyWith(color: context.secondaryText),
         ),
       ],
     );

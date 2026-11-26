@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -359,15 +359,13 @@ class _StoreCollectListScreenState extends State<StoreCollectListScreen>
                           ),
                         );
                         if (loadedProducts.isEmpty) {
-                          ScaffoldMessenger.of(
-                            context,
-                          ).showSnackBar(addToCartSnackBar);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(addToCartSnackBar);
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(SendDeliveryScreen.routeName);
+                          Navigator.of(context)
+                              .pushNamed(SendDeliveryScreen.routeName);
                         }
                       },
                       child: ButtonBottom(

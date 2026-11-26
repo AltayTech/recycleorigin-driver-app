@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -540,9 +540,8 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen>
                                 ),
                               );
                               if (loadedCollect.isEmpty) {
-                                ScaffoldMessenger.of(
-                                  context,
-                                ).showSnackBar(addToCartSnackBar);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(addToCartSnackBar);
                               } else if (!isLogin) {
                                 _showLogindialog();
                               } else {

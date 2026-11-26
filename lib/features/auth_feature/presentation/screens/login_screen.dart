@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigindriver/core/widgets/drawer_or_back_leading.dart';
@@ -240,14 +240,12 @@ class _AuthCardState extends State<_AuthCard> {
 
   void _routePostLogin(bool emailVerified) {
     if (!emailVerified) {
-      Navigator.of(
-        context,
-      ).pushReplacementNamed(EmailVerificationScreen.routeName);
+      Navigator.of(context)
+          .pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   String _mapAuthError(AuthException error, AppLocalizations l10n) {
@@ -421,9 +419,9 @@ class _AuthCardState extends State<_AuthCard> {
                   child: TextButton(
                     onPressed: _isLoading
                         ? null
-                        : () => Navigator.of(
-                            context,
-                          ).pushNamed(ForgotPasswordScreen.routeName),
+                        : () =>
+                              Navigator.of(context)
+                                  .pushNamed(ForgotPasswordScreen.routeName),
                     child: Text(l10n.authForgotPasswordLink),
                   ),
                 ),
@@ -503,9 +501,9 @@ class _AuthCardState extends State<_AuthCard> {
                 TextButton(
                   onPressed: _isLoading
                       ? null
-                      : () => Navigator.of(
-                          context,
-                        ).pushNamed(RegisterScreen.routeName),
+                      : () =>
+                            Navigator.of(context)
+                                .pushNamed(RegisterScreen.routeName),
                   child: Text(
                     l10n.authNotRegisteredPrompt,
                     style: textTheme.bodyMedium?.copyWith(

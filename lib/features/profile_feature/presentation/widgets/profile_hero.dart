@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/models/driver.dart';
 import 'package:recycleorigindriver/core/ui/top_bar.dart';
 import 'package:recycleorigindriver/core/widgets/star_rating_widget.dart';

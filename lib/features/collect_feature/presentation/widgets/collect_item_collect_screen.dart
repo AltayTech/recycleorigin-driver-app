@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:recycleorigindriver/l10n/l10n.dart';
 import 'package:recycleorigindriver/core/models/request/request_waste_item.dart';
@@ -30,9 +30,9 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(14),
-      onTap: () => Navigator.of(
-        context,
-      ).pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
+      onTap: () =>
+          Navigator.of(context)
+              .pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
       child: ThemedSurfaceCard(
         borderRadius: 14,
         padding: const EdgeInsets.all(14),

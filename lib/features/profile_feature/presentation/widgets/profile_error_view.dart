@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
 
@@ -30,9 +30,8 @@ class ProfileErrorView extends StatelessWidget {
               Text(
                 l10n.profileLoadErrorMessage,
                 textAlign: TextAlign.center,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: context.primaryText),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(color: context.primaryText),
               ),
               const SizedBox(height: 20),
               FilledButton.icon(

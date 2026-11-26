@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../featured_image.dart';
 import 'price_weight.dart';
 

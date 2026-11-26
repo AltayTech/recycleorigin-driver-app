@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Loading placeholder for the profile tab.

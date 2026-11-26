@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/features/auth_feature/data/firebase_auth_service.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -62,9 +62,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return;
       }
       if (ok) {
-        Navigator.of(
-          context,
-        ).pushReplacementNamed(EmailVerificationScreen.routeName);
+        Navigator.of(context)
+            .pushReplacementNamed(EmailVerificationScreen.routeName);
       } else {
         _showErrorDialog(context.l10n.authGenericError);
       }

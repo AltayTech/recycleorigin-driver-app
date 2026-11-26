@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -333,9 +333,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 children: [
                   Text(
                     l10n.collectListSortSheetTitle,
-                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(ctx).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
                   RadioListTile<_CollectListSort>(
@@ -391,9 +390,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 children: [
                   Text(
                     l10n.collectListFilterSheetTitle,
-                    style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(ctx).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
                   RadioListTile<String>(
@@ -624,9 +622,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
           const SizedBox(height: 16),
           Text(
             l10n.notLoggedInLabel,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
+            style: Theme.of(context).textTheme.bodyLarge
+                ?.copyWith(color: context.secondaryText),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -659,9 +656,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
             const SizedBox(height: 16),
             Text(
               l10n.noRequestAvailable,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
+              style: Theme.of(context).textTheme.bodyLarge
+                  ?.copyWith(color: context.secondaryText),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
@@ -727,9 +723,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
               const SizedBox(height: 16),
               Text(
                 context.l10n.noRequestAvailable,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(color: context.secondaryText),
               ),
             ],
           ),

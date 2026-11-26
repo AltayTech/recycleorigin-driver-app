@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:recycleorigindriver/core/models/personal_data.dart';
+
 import 'status.dart';
 
 class Customer with ChangeNotifier {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 
 /// Material 3 text field used on profile edit screens.
@@ -46,9 +46,8 @@ class ProfileFormField extends StatelessWidget {
           }
         },
         validator: validator,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(color: context.primaryText),
+        style: Theme.of(context).textTheme.bodyLarge
+            ?.copyWith(color: context.primaryText),
         decoration: InputDecoration(
           labelText: label,
           helperText: helperText,

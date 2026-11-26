@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -310,16 +310,14 @@ class _WalletScreenState extends State<WalletScreen> {
         children: [
           Text(
             'Transaction History',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           if (_transactions.isNotEmpty)
             Text(
               '${_transactions.length} items',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: context.secondaryText),
+              style: Theme.of(context).textTheme.bodyMedium
+                  ?.copyWith(color: context.secondaryText),
             ),
         ],
       ),
@@ -340,9 +338,8 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 16),
           Text(
             context.l10n.noTransactionAvailable,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: context.secondaryText),
+            style: Theme.of(context).textTheme.bodyLarge
+                ?.copyWith(color: context.secondaryText),
           ),
         ],
       ),
@@ -362,9 +359,8 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 24),
           Text(
             context.l10n.notLoggedInLabel,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: context.secondaryText),
+            style: Theme.of(context).textTheme.titleMedium
+                ?.copyWith(color: context.secondaryText),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -440,9 +436,8 @@ class _WalletTxItem extends StatelessWidget {
         ),
         title: Text(
           tx.typeLabel,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.titleSmall
+              ?.copyWith(fontWeight: FontWeight.w600),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,9 +452,8 @@ class _WalletTxItem extends StatelessWidget {
             if (tx.createdAt.isNotEmpty)
               Text(
                 _formatDate(tx.createdAt),
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+                style: Theme.of(context).textTheme.labelSmall
+                    ?.copyWith(color: scheme.onSurfaceVariant),
               ),
           ],
         ),

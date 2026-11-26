@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigindriver/core/theme/theme_context.dart';
 import 'package:recycleorigindriver/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
@@ -40,10 +40,8 @@ class ProfileLoggedOutView extends StatelessWidget {
                 Text(
                   l10n.loginRequiredDescription,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: context.secondaryText,
-                    height: 1.4,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: context.secondaryText, height: 1.4),
                 ),
                 const SizedBox(height: 28),
                 FilledButton.icon(

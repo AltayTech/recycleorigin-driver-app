@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:recycleorigindriver/core/app_theme_controller.dart';
 import 'package:recycleorigindriver/core/notifications/notification_preferences_controller.dart';
@@ -38,10 +38,8 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 Text(
                   l10n.settingsScreenIntro,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: context.secondaryText,
-                    height: 1.45,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: context.secondaryText, height: 1.45),
                 ),
                 const SizedBox(height: 20),
                 ValueListenableBuilder<ThemeMode>(
@@ -271,9 +269,8 @@ class _ThemeModeOptionTile extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
@@ -326,9 +323,8 @@ class _LanguageOptionTile extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
@@ -414,10 +410,8 @@ class _NotificationPreferencesSectionState
               const SizedBox(height: 8),
               Text(
                 l10n.notificationsSectionDescription,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.secondaryText,
-                  height: 1.45,
-                ),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: context.secondaryText, height: 1.45),
               ),
               if (_controller.loading)
                 const Padding(
@@ -456,9 +450,8 @@ class _NotificationPreferencesSectionState
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       l10n.notificationPrefsSavingLabel,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: context.secondaryText,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall
+                          ?.copyWith(color: context.secondaryText),
                     ),
                   ),
                 for (final cat in _controller.prefs.keys) ...<Widget>[
@@ -513,9 +506,8 @@ class _AppMetaBlock extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           versionLine,
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall?.copyWith(color: context.secondaryText),
+          style: Theme.of(context).textTheme.bodySmall
+              ?.copyWith(color: context.secondaryText),
         ),
       ],
     );

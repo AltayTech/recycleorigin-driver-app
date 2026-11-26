@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -175,9 +175,8 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(
-                                  context,
-                                ).pushNamed(LoginScreen.routeName);
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -633,9 +632,8 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 );
                                 if (shabaController.text == 'IR') {
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(addToCartSnackBar);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(addToCartSnackBar);
                                 } else {
                                   await context
                                       .read<CustomerInfoBloc>()

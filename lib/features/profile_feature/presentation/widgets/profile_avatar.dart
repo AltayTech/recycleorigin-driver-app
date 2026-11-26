@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Circular avatar with network image or initials fallback.
 class ProfileAvatar extends StatelessWidget {

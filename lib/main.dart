@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigindriver/core/l10n/app_localizations_delegates.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigindriver/app_bootstrap.dart';
@@ -44,6 +45,7 @@ import 'package:recycleorigindriver/features/statistics_feature/presentation/scr
 import 'package:recycleorigindriver/features/wallet_feature/presentation/wallet_screen.dart';
 import 'package:recycleorigindriver/l10n/app_localizations.dart';
 import 'package:recycleorigindriver/l10n/l10n.dart';
+
 import 'core/screens/settings_screen.dart';
 
 /// Entry point for the driver app.
@@ -102,9 +104,8 @@ class MyApp extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listenWhen: (prev, curr) => prev.isLoggedIn && !curr.isLoggedIn,
         listener: (context, state) {
-          Navigator.of(
-            context,
-          ).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
         },
         child: ValueListenableBuilder<ThemeMode>(
           valueListenable: AppThemeController.instance.themeModeNotifier,
@@ -132,8 +133,7 @@ class MyApp extends StatelessWidget {
                   ),
 
                   locale: locale,
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
+                  localizationsDelegates: appLocalizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
                   home: const AuthGateScreen(),
                   routes: {
